@@ -1,10 +1,10 @@
 'use strict';
 
 class Player {
-    constructor(name, socket) {
+    constructor(name, io) {
         this.name = name;
         this.socket = socket;
-        this.lobby = null;
+        this.gameRoom = null;
     }
 
     joinLobby (value) {
@@ -17,10 +17,9 @@ class Player {
     }
 
     sendMessage (msg) {
-        this.lobby.updateChat(msg);
+        this.gameRoom.playerSendsMessage(id,msg);
     }
 
 }
 
-module.exports = Player
-;
+module.exports = Player;

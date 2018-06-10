@@ -1,27 +1,18 @@
 'use strict';
 
 class Game {
-    constructor(name) {
+    constructor(name, io) {
         this.name = name;
+        this.io = io;
         this.players = [];
         this.currentWord;
         this.currentPlayer;
         this.scores = [];
     }
 
-    start() {
-
+    playerSendsMessage(id, msg) {
+        io.to(name).emit(msg);
     }
-
-    cleanBoard() {
-        
-    }
-
-    updateChat(msg) {
-
-    }
-
-    
 }
 
 module.exports = Game;
