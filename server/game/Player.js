@@ -1,25 +1,41 @@
 'use strict';
 
 class Player {
-    constructor(name, io) {
+    constructor(name, socket) {
         this.name = name;
         this.socket = socket;
-        this.gameRoom = null;
+        this.gameroom = null;
     }
 
-    joinLobby (value) {
-        this.lobby = this.value;
-        this.socket.join(this.lobby);
+    /**
+     * 
+     * @param {*} gameroom 
+     */
+    joinGameRoom(gameroom) {
+        const id = this.socket.id;
+        this.gameroom = gameroom;
+
+        this.socket.join(this.gameroom.name);
+        this.gameroom.informsPlayerJoined(id, this.name);
     }
 
-    leaveLobby () {
-        this.socket.leave(this.lobby);
+    /**
+     * 
+     */
+    leaveGameRoom() {
+        const id = this.socket.id;
+
+        this.socket.leave(this.gameroom);
+        this.gameroom.informsPlayerLeft(id);
     }
 
-    sendMessage (msg) {
-        this.gameRoom.playerSendsMessage(id,msg);
+    /**
+     * 
+     * @param {*} msg 
+     */
+    sendMessage(msg) {
+        this.gameroom.playerSendsMessage(this.name, msg);
     }
-
 }
 
 module.exports = Player;

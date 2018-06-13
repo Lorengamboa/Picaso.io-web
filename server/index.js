@@ -1,6 +1,5 @@
 'use strict';
 
-const socketio = require('socket.io');
 const startServer = require("./server");
 const startSockets = require("./socket");
 

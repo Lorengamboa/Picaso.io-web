@@ -7,20 +7,27 @@ const gamesController = (socket) => {
     const io = socket;
     return {
         //
-        lobbies: [],
+        games: [],
         // Creates new lobby
-        createNewGame: () => {
+        createNewGame: function () {
             const roomName = createRandomString();
             const game = new Game(roomName, io);
 
-            this.lobbies.push(game);
+            this.games.push(game);
         },
         // Player joins a random lobby
-        playerJoinRandomGame: (player) => { // TODO: MAKE A PROMISE FUNCTION
-            if (lobbies.length < 1) this.createNewLobby();
+        playerJoinRandomGame: function (player) {
+            return new Promise( (resolve, reject) => {
+                try {
+                    if (this.games.length < 1) this.createNewGame();
+                    const gameRoom = rndValueArray(this.games);
+                    player.joinGameRoom(gameRoom);
 
-            var lobby = rndValueArray(lobbies);
-            this.playerJoinLobby(player, lobby);
+                    resolve();
+                } catch (err) {
+                    reject(err);
+                }
+            });
         }
     }
 }

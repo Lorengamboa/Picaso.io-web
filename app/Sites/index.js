@@ -1,6 +1,6 @@
 'use strict';
 
 import HomePage from './Home';
-import LobbyPage from './Lobby';
+import PlayPage from './Play';
 
-export  { HomePage, LobbyPage };
+export  { HomePage, PlayPage };

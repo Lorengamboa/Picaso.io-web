@@ -12,4 +12,9 @@ app.get('/', function(request, response) {
   response.sendFile(__dirname + '/public/index.html');
 });
 
-module.exports.app = app;
+//
+app.get('/play', function(request, response) {
+  response.redirect('/');
+});
+
+module.exports = app;
