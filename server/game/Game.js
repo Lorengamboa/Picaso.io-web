@@ -3,6 +3,9 @@
 const _ = require('lodash');
 const { SOCKET_EVENTS } = require('.././socket/events');
 
+/**
+ * Class Game
+ */
 class Game {
     constructor(name, io) {
         this.name = name;
@@ -14,18 +17,26 @@ class Game {
     }
 
     /**
-     * 
-     * @param {*} username 
-     * @param {*} msg 
+     * Updates all the room's players canvas
+     * @param {*} data 
+     */
+    updateCanvas(data) {
+        this.io.to(this.name).emit('updateCanvas', data);
+    }
+
+    /**
+     * Shows the message the player sent to the whole room
+     * @param {String} username 
+     * @param {String} msg 
      */
     playerSendsMessage(username, msg) {
         this.io.to(this.name).emit('newMessage', `${username}: ${msg}`);
     }
 
     /**
-     * 
-     * @param {*} id 
-     * @param {*} username 
+     * Informs the chatlist that a new player joinned the room
+     * @param {Number} id 
+     * @param {String} username 
      */
     informsPlayerJoined(id, username) {
         this.players.push({ id, username });
@@ -34,8 +45,8 @@ class Game {
     }
 
     /**
-     * 
-     * @param {*} id 
+     * Informs the chatlist that a new player left the room
+     * @param {Number} id 
      */
     informsPlayerLeft(id) {
         const playerToRemove = this.players.find(player => {
@@ -52,7 +63,7 @@ class Game {
     }
 
     /**
-     * 
+     * Updates all the room's players their userlist
      */
     updateChatlist() {
         this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_USER_LIST, this.players);

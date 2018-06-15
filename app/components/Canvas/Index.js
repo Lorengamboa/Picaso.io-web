@@ -11,8 +11,10 @@ class Canvas extends Component {
 
     render() {
         return (
-            <canvas  
-                style={{border:"1px solid #000000", width:"100%" }}>
+            <canvas
+                style={{ border: "1px solid #000000", width: "100%" }}
+                onMouseMove={this.props.onMouseMove}
+                onMouseDown={this.props.onMouseDown}>
             </canvas>
         )
     }

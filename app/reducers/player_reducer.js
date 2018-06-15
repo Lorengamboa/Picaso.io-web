@@ -1,9 +1,10 @@
 'use strict';
 
-import { CHANGE_USERNAME } from '../actions/player_action';
+import { CHANGE_USERNAME, SOCKET_CONNECTION } from '../actions/player_action';
 
 const initialState = {
   username: '',
+  socket: null
 };
 
 export default function PlayerReducer(state = initialState, action) {
@@ -11,6 +12,10 @@ export default function PlayerReducer(state = initialState, action) {
     case CHANGE_USERNAME:
       return Object.assign({}, state, {
         username: action.payload
+      });
+      case SOCKET_CONNECTION:
+      return Object.assign({}, state, {
+        socket: action.payload
       });
     default:
       return state;

@@ -6,7 +6,7 @@ const { createRandomString, rndValueArray } = require("../utils");
 const gamesController = (socket) => {
     const io = socket;
     return {
-        //
+        // All games available
         games: [],
         // Creates new lobby
         createNewGame: function () {
@@ -17,7 +17,7 @@ const gamesController = (socket) => {
         },
         // Player joins a random lobby
         playerJoinRandomGame: function (player) {
-            return new Promise( (resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 try {
                     if (this.games.length < 1) this.createNewGame();
                     const gameRoom = rndValueArray(this.games);

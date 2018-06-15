@@ -1,6 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import chatListStyles from './styles';
 import { Message } from '../common';
 
@@ -16,7 +17,9 @@ class ChatList extends Component {
     // Event Listeners
     this.onSubmit = this.onSubmit.bind(this);
     this.updateText = this.updateText.bind(this);
-
+  }
+  
+  componentDidMount() {
     // Receives a message from gameroom update
     this.props.socket.on('newMessage', msg => {
       let newMessage = <Message message={msg} />;
@@ -25,7 +28,6 @@ class ChatList extends Component {
         text: ''
       });
     });
-
   }
 
   onSubmit(e) {
@@ -50,8 +52,9 @@ class ChatList extends Component {
   }
 }
 
-const NewMessage = ({ message }) => (
-  <div className="chatMessage">{message}</div>
-);
+function mapStateToProps(state) {
+  return { socket: state.PlayerReducer.socket };
+}
 
-export default ChatList;
+export default connect(mapStateToProps, {})(ChatList);
+

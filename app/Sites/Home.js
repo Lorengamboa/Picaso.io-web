@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setUsername } from '../actions/player_action';
+import { setUsername, openPlayerSocketConnection } from '../actions/player_action';
 import { InputText, PrimaryButton } from '../components/common';
 
 class HomePage extends Component {
@@ -15,6 +15,7 @@ class HomePage extends Component {
             "buttonTxt": "Play Now!"
         }
 
+        // Events listeners
         this.onInputChange = this.onInputChange.bind(this);
         this.onPlayButtonClick = this.onPlayButtonClick.bind(this);
     }
@@ -35,6 +36,7 @@ class HomePage extends Component {
      */
     onPlayButtonClick() {
         this.props.setUsername(this.state.username);
+        this.props.openPlayerSocketConnection();
         this.props.history.push('/play')
     }
 
@@ -62,5 +64,5 @@ function mapStateToProps(state) {
     return { username: state.PlayerReducer.username };
 }
 
-export default connect(mapStateToProps, { setUsername })(HomePage);
+export default connect(mapStateToProps, { setUsername, openPlayerSocketConnection })(HomePage);
 

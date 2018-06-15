@@ -11,7 +11,7 @@ const startSockets = http => {
     const io = socketio(http);
     const game_ctrl = gamesController(io);
 
-    io.on('connection', socket => {
+    io.on(SOCKET_EVENTS.CONNECT, socket => {
 
         let player;
 
@@ -27,7 +27,6 @@ const startSockets = http => {
                     console.log("❌ Socket connection failed", err);
                 });
         });
-
 
         // Player leaves gameroom
         socket.on(SOCKET_EVENTS.PLAYER_LEAVE_LOBBY, () => {

@@ -1,4 +1,7 @@
+'use strict';
+
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import userListStyles from './styles';
 
 const SOCKET_EVENTS = {
@@ -18,7 +21,7 @@ class UserList extends Component {
     render() {
         return (
             <div style={userListStyles.block}>
-                <ul>{this.state.playerList.map(({username}) => (
+                <ul>{this.state.playerList.map(({ username }) => (
                     <li key={username}>
                         {username}
                     </li>
@@ -28,4 +31,9 @@ class UserList extends Component {
     }
 }
 
-export default UserList;
+function mapStateToProps(state) {
+    return { socket: state.PlayerReducer.socket };
+}
+
+export default connect(mapStateToProps, {})(UserList);
+
