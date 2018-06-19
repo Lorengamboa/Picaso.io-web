@@ -1,6 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
+const Chat = require('./chat');
 const { SOCKET_EVENTS } = require('.././socket/events');
 
 /**
@@ -14,6 +15,7 @@ class Game {
         this.currentWord;
         this.currentPlayer;
         this.scores = [];
+        this.chatRoom = new Chat(this.io, this.name);
     }
 
     /**
@@ -30,7 +32,7 @@ class Game {
      * @param {String} msg 
      */
     playerSendsMessage(username, msg) {
-        this.io.to(this.name).emit('newMessage', `${username}: ${msg}`);
+        this.chatRoom.sendMessageToAll(username, msg);
     }
 
     /**
@@ -41,7 +43,8 @@ class Game {
     informsPlayerJoined(id, username) {
         this.players.push({ id, username });
         this.updateChatlist();
-        this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_CHAT_NEW_MESSAGE, `${username} has joined`);
+
+        this.chatRoom.informPlayerJoined(username);
     }
 
     /**
@@ -59,7 +62,7 @@ class Game {
 
         this.updateChatlist();
 
-        this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_CHAT_NEW_MESSAGE, `${playerToRemove.username} has left`);
+        this.chatRoom.informPlayerLeft(playerToRemove.username);
     }
 
     /**

@@ -1,6 +1,24 @@
-  .btn-primary {
-	border: 1px solid;
-	overflow: hidden;
-	position: relative;
+	html, body {
+		width: 100%;
+	}
+
+	body {
+		background-image: url('https://thumbs.dreamstime.com/b/hand-draw-vector-school-element-doodles-white-backgrounds-74944812.jpg')
+	}
+	.btn-primary {
+		border: 1px solid;
+		overflow: hidden;
+		position: relative;
   }
  
+	.txtfield{
+    width: 20em;
+    margin: auto;
+		display: block;
+    max-width: 100%;
+    height: 50px;
+    border: 1px solid rgba(112, 128, 144, 0.5);
+    border-radius: 3px;
+    padding: 0 0.6em;
+	}
+	

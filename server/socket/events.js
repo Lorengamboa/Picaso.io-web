@@ -8,5 +8,6 @@ module.exports.SOCKET_EVENTS = {
     PLAYER_DRAWING: 'drawing',
     DISCONNECT: 'disconnect',
     UPDATE_CHAT_NEW_MESSAGE: 'newMessage',
+    UPDATE_CHAT_INFORM_MESSAGE: 'informMessage',
     UPDATE_USER_LIST: 'updateUserList'
 };

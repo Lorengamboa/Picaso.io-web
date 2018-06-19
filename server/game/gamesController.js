@@ -1,6 +1,7 @@
 'use strict';
 
 const Game = require("./Game");
+const Player = require("../game/Player");
 const { createRandomString, rndValueArray } = require("../utils");
 
 const gamesController = (socket) => {
@@ -16,14 +17,18 @@ const gamesController = (socket) => {
             this.games.push(game);
         },
         // Player joins a random lobby
-        playerJoinRandomGame: function (player) {
+        playerJoinRandomGame: function (username, socket) {
             return new Promise((resolve, reject) => {
                 try {
+                    if(username === "") reject("Username cant be blank");
+
+                    const player = new Player(username, socket);
+
                     if (this.games.length < 1) this.createNewGame();
                     const gameRoom = rndValueArray(this.games);
                     player.joinGameRoom(gameRoom);
 
-                    resolve();
+                    resolve(player);
                 } catch (err) {
                     reject(err);
                 }

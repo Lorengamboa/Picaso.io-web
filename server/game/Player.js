@@ -13,6 +13,7 @@ class Player {
 
         /*
          * SOCKET PLAYER EVENTS
+         * Drawing, leaveroom
          */
 
         // Player is drawing now!

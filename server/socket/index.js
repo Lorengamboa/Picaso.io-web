@@ -3,7 +3,6 @@
 const socketio = require('socket.io');
 const chalk = require('chalk');
 const gamesController = require('../game/gamesController');
-const Player = require("../game/Player");
 const { SOCKET_EVENTS } = require('./events');
 
 const startSockets = http => {
@@ -17,14 +16,14 @@ const startSockets = http => {
 
         // Player joins random game room
         socket.on(SOCKET_EVENTS.PLAYER_JOIN_RANDOM_GAMEROOM, username => {
-            player = new Player(username, socket)
-            game_ctrl.playerJoinRandomGame(player)
-                .then(() => {
+            game_ctrl.playerJoinRandomGame(username, socket)
+                .then((nplayer) => {
+                    player = nplayer;
                     console.log(chalk.green("✅  Socket connection openned"));
                 })
                 .catch(err => {
                     socket.disconnect();
-                    console.log("❌ Socket connection failed", err);
+                    console.log("❌ Socket connection failed: ", err);
                 });
         });
 
