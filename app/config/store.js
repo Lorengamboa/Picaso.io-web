@@ -1,14 +1,10 @@
 'use strict';
 
-import { createStore, combineReducers } from 'redux';
-import PlayerReducer from '../reducers/player_reducer';
+import { createStore } from 'redux';
+import rootReducer from '../reducers';
 //import thunk from 'redux-thunk';
 
-const reducer = combineReducers({
-    PlayerReducer
-});
-
 const store = createStore(
-    reducer
+    rootReducer
 )
 export default store;

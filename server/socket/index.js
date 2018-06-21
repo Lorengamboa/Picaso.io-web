@@ -17,7 +17,7 @@ const startSockets = http => {
         // Player joins random game room
         socket.on(SOCKET_EVENTS.PLAYER_JOIN_RANDOM_GAMEROOM, username => {
             game_ctrl.playerJoinRandomGame(username, socket)
-                .then((nplayer) => {
+                .then(nplayer => {
                     player = nplayer;
                     console.log(chalk.green("✅  Socket connection openned"));
                 })

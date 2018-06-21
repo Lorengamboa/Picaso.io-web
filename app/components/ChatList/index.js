@@ -2,8 +2,9 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import EmojiPicker from 'emoji-picker-react';
 import chatListStyles from './styles';
-import { Message } from '../common';
+import { Message, InfoMessage, EmojiList } from '../common';
 
 class ChatList extends Component {
   constructor(props) {
@@ -17,12 +18,22 @@ class ChatList extends Component {
     // Event Listeners
     this.onSubmit = this.onSubmit.bind(this);
     this.updateText = this.updateText.bind(this);
+    this.onEmojiClick = this.onEmojiClick.bind(this);
   }
-  
+
   componentDidMount() {
     // Receives a message from gameroom update
-    this.props.socket.on('newMessage', msg => {
-      let newMessage = <Message message={msg} />;
+    this.props.socket.on('newMessage', ({ msg, userColor }) => {
+      let newMessage = <Message message={msg} userColor={userColor} />;
+      this.setState({
+        messages: [...this.state.messages, newMessage],
+        text: ''
+      });
+    });
+
+    // Receives a message from gameroom update
+    this.props.socket.on('informMessage', ({ data, color }) => {
+      let newMessage = <InfoMessage message={data} color={color} />;
       this.setState({
         messages: [...this.state.messages, newMessage],
         text: ''
@@ -30,9 +41,14 @@ class ChatList extends Component {
     });
   }
 
+  onEmojiClick(code, emoji) {
+    let emojiPic = jsme
+  }
+
   onSubmit(e) {
-    e.preventDefault();
-    this.props.socket.emit('sendMessage', this.state.text);
+    if (e.key === 'Enter') {
+      this.props.socket.emit('sendMessage', this.state.text);
+    }
   }
 
   updateText(e) {
@@ -45,8 +61,13 @@ class ChatList extends Component {
     return (
       <div style={chatListStyles.container}>
         <div style={chatListStyles.messagesBlock}>{this.state.messages}</div>
-        <textarea style={chatListStyles.inputMessage} placeholder="Write your message" onChange={this.updateText} value={this.state.text}></textarea>
-        <button onClick={this.onSubmit}>Send</button>
+        <textarea
+          style={chatListStyles.inputMessage}
+          placeholder="Write your message"
+          onChange={this.updateText}
+          value={this.state.text}
+          onKeyPress={this.onSubmit}>
+        </textarea>
       </div>
     );
   }

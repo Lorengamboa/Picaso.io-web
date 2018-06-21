@@ -7,18 +7,20 @@ const chatListStyles = {
     inputMessage: {
         display: "block",
         width: "inherit",
-        border: "black solid 1px"
+        resize: "none"
     },
     messagesBlock: {
         display: "block",
-        minHeight: "60vh",
+        marginBottom: "8px",
+        boxShadow: "0 2px 3px 0 rgba(0,0,0,0.2)",
+        backgroundColor: "#ededed",
+        height: "60vh",
         padding: "10px",
         fontSize: "14px",
         boxSizing: "border-box",
         resize: "none",
         outline: "none",
-        borderBottom: "1px solid #DCDEE3",
-        border: "black solid 1px"
+        overflowY: "scroll"
     }
 };
 

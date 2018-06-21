@@ -19,14 +19,35 @@ const gamesController = (socket) => {
         // Player joins a random lobby
         playerJoinRandomGame: function (username, socket) {
             return new Promise((resolve, reject) => {
+                if(username === "") return reject("Username cant be blank");
+                
                 try {
-                    if(username === "") reject("Username cant be blank");
-
                     const player = new Player(username, socket);
 
                     if (this.games.length < 1) this.createNewGame();
                     const gameRoom = rndValueArray(this.games);
-                    player.joinGameRoom(gameRoom);
+
+                    player.joinGameRoom(gameRoom)
+                        .then(() => {
+                            resolve(player);
+                        })
+                        .catch(err => {
+                            reject(err);
+                        })
+                    
+                } catch (err) {
+                    reject(err);
+                }
+            });
+        },
+        //player join a specific game
+        playerJoinGame: function(username, socket, game) {
+            return new Promise((resolve, reject) => {
+                try {
+                    if(username === "") reject("Username cant be blank");
+
+                    const player = new Player(username, socket);
+                    player.joinGameRoom(game);
 
                     resolve(player);
                 } catch (err) {

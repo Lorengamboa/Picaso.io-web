@@ -3,6 +3,7 @@
 const _ = require('lodash');
 const Chat = require('./chat');
 const { SOCKET_EVENTS } = require('.././socket/events');
+const { getRandomColor } = require('../utils');
 
 /**
  * Class Game
@@ -16,11 +17,40 @@ class Game {
         this.currentPlayer;
         this.scores = [];
         this.chatRoom = new Chat(this.io, this.name);
+        this.timer = null;
+    }
+
+    /**
+     * 
+     * @param {*} player 
+     */
+    requestJoin(player) {
+        return new Promise((resolve, reject) => {
+            if (this.players.length == process.env.MAX_PLAYERS_PER_ROOM) return reject("5 PLAYER MAX PER ROOM");
+
+            player.socket.join(this.name);
+
+            const userColor = getRandomColor();
+            player.color = userColor;
+
+            this.players.push(player);
+
+            this.updatePlayerJoined(player.name);
+            
+            /*
+            if (this.players.length == process.env.MAX_PLAYERS_PER_ROOM)
+                this.timer = setInterval(function (t) {
+                    console.log("timer");
+                }, 1000);
+            */
+            resolve();
+        });
+
     }
 
     /**
      * Updates all the room's players canvas
-     * @param {*} data 
+     * @param {Array} data 
      */
     updateCanvas(data) {
         this.io.to(this.name).emit('updateCanvas', data);
@@ -31,8 +61,14 @@ class Game {
      * @param {String} username 
      * @param {String} msg 
      */
-    playerSendsMessage(username, msg) {
-        this.chatRoom.sendMessageToAll(username, msg);
+    playerSendsMessage(id, msg) {
+        const player = _.find(this.players, { id });
+        const filterPlayer = {
+            name: player.name,
+            color: player.color
+        };
+
+        this.chatRoom.sendMessageToAll(filterPlayer, msg);
     }
 
     /**
@@ -40,10 +76,8 @@ class Game {
      * @param {Number} id 
      * @param {String} username 
      */
-    informsPlayerJoined(id, username) {
-        this.players.push({ id, username });
+    updatePlayerJoined(username) {
         this.updateChatlist();
-
         this.chatRoom.informPlayerJoined(username);
     }
 
@@ -52,9 +86,7 @@ class Game {
      * @param {Number} id 
      */
     informsPlayerLeft(id) {
-        const playerToRemove = this.players.find(player => {
-            return player.id == id;
-        });
+        const playerToRemove = _.find(this.players, { id });
 
         if (!playerToRemove) return;
 
@@ -62,14 +94,22 @@ class Game {
 
         this.updateChatlist();
 
-        this.chatRoom.informPlayerLeft(playerToRemove.username);
+        this.chatRoom.informPlayerLeft(playerToRemove.name);
     }
 
     /**
      * Updates all the room's players their userlist
      */
     updateChatlist() {
-        this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_USER_LIST, this.players);
+        const playerList = _.map(this.players, _.partialRight(_.pick, ['name']));
+        this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_USER_LIST, playerList);
+    }
+
+    /**
+     * 
+     */
+    timerFunction() {
+
     }
 }
 

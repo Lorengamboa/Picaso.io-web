@@ -3,8 +3,8 @@
 /**
  * Generates a random string 7 characters long
  */
-function createRandomString () {
-   return Math.random().toString(36).substring(7);
+function createRandomString() {
+    return Math.random().toString(36).substring(7);
 }
 
 /**
@@ -12,8 +12,21 @@ function createRandomString () {
  * array
  * @param {Array} arr 
  */
-function rndValueArray (arr) {
+function rndValueArray(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
 }
 
-module.exports = { createRandomString, rndValueArray };
+/**
+ * Generates a random hex color
+ */
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+
+module.exports = { createRandomString, rndValueArray, getRandomColor };

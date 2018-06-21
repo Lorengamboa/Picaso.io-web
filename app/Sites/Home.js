@@ -12,7 +12,8 @@ class HomePage extends Component {
             "title": "Home",
             "placeholder": "Introduce a nickname",
             "username": this.props.username,
-            "buttonTxt": "Play Now!"
+            "buttonTxt": "Play Now!",
+            "privateTxt": "Create Private room"
         }
 
         // Events listeners
@@ -43,18 +44,22 @@ class HomePage extends Component {
     render() {
         return (
             <div className="container">
-                <h1>Home</h1>
-                <InputText
-                    placeholder={this.state.placeholder}
-                    onInputChange={this.onInputChange}
-                    username={this.state.username}
-                />
-
-                <PrimaryButton
-                    class="button-primary"
-                    value={this.state.buttonTxt}
-                    onClick={this.onPlayButtonClick}
-                />
+                <div className="home-menu">
+                    <InputText
+                        placeholder={this.state.placeholder}
+                        onInputChange={this.onInputChange}
+                        username={this.state.username}
+                    />
+                    <br />
+                    <PrimaryButton
+                        class="button-primary"
+                        value={this.state.buttonTxt}
+                        onClick={this.onPlayButtonClick}
+                    />
+                    <PrimaryButton
+                        value={this.state.privateTxt}
+                    />
+                </div>
             </div>
         )
     }

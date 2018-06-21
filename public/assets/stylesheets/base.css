@@ -2,9 +2,79 @@
 		width: 100%;
 	}
 
-	body {
-		background-image: url('https://thumbs.dreamstime.com/b/hand-draw-vector-school-element-doodles-white-backgrounds-74944812.jpg')
+  .home-menu {
+    width: 50%;
+    margin: 220px auto;
+  }
+
+  .home-menu > input {
+    width: 100%;
+  }
+  
+	#play-site {
+		margin-top: 20px;
+		padding: 0 20px;
 	}
+
+
+/* PALETTE */
+.colors {
+  text-align: center;
+  padding-top: 20px;
+}
+
+.colors > li {
+  list-style: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 15px;
+  border-bottom: 5px solid rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  margin: 0 10px;
+  cursor: pointer;
+  transition-duration: .2s;
+  box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+.colors > li:hover {
+  -webkit-transform: scale(1.2);
+  transform: scale(1.2);
+}
+.colors > li.active-color {
+  -webkit-transform: scale(1.2) translateY(-10px);
+  transform: scale(1.2) translateY(-10px);
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+  border-bottom: 20px solid rgba(0, 0, 0, 0.15);
+}
+.colors > li:nth-child(1) {
+  background-color: #E74C3C;
+}
+.colors > li:nth-child(2) {
+  background-color: #3498DB;
+}
+.colors > li:nth-child(3) {
+  background-color: #58D68D;
+}
+.colors > li:nth-child(4) {
+  background-color: #F7DC6F;
+}
+.colors > li:nth-child(5) {
+  background-color: #E67E22;
+}
+.colors > li:nth-child(6) {
+  background-color: #CACFD2;
+}
+.colors > li:nth-child(7) {
+  background-color: #000;
+}
+
+#show-emoji-yes {
+  font-size: 25px;
+  opacity: 0.9;
+  position: fixed;
+  bottom: 2%;
+  margin-left: 53%;
+}
+
 	.btn-primary {
 		border: 1px solid;
 		overflow: hidden;

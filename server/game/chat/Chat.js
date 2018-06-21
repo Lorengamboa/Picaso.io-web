@@ -19,9 +19,12 @@ class Chat {
      * @param {*} username 
      * @param {*} msg 
      */
-    sendMessageToAll(username, msg) {
-        const filterMessage = filter.clean(msg); //FOR FUCK SAKE NO SWEARING HERE BOY!
-        this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_CHAT_NEW_MESSAGE, `${username}: ${filterMessage}`);
+    sendMessageToAll(player, msg) {
+        const filterMessage = filter.clean(msg);
+        this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_CHAT_NEW_MESSAGE, {
+            msg: `${player.name}: ${filterMessage}`,
+            userColor: player.color
+        });
     }
 
     /**
@@ -30,9 +33,9 @@ class Chat {
      * @param {String} username 
      */
     informPlayerJoined(username) {
-        this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_CHAT_INFORM_MESSAGE,  {
+        this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_CHAT_INFORM_MESSAGE, {
             data: `${username} has joined`,
-            color: 'green'
+            color: '#28de46'
         });
     }
 
@@ -48,4 +51,4 @@ class Chat {
     }
 }
 
- module.exports = Chat;
+module.exports = Chat;

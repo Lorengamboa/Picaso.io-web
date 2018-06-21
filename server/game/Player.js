@@ -10,7 +10,8 @@ class Player {
         this.name = name;
         this.socket = socket;
         this.gameroom = null;
-
+        this.color = null;
+        this.id = this.socket.id;
         /*
          * SOCKET PLAYER EVENTS
          * Drawing, leaveroom
@@ -22,7 +23,7 @@ class Player {
         });
 
         // Player leaves room!
-        this.socket.on(SOCKET_EVENTS.PLAYER_LEAVE_GAMEROOM, data => {
+        this.socket.on(SOCKET_EVENTS.PLAYER_LEAVE_GAMEROOM, () => {
             leaveGameRoom();
         });
 
@@ -33,21 +34,16 @@ class Player {
      * @param {Object} gameroom 
      */
     joinGameRoom(gameroom) {
-        const id = this.socket.id;
         this.gameroom = gameroom;
-
-        this.socket.join(this.gameroom.name);
-        this.gameroom.informsPlayerJoined(id, this.name);
+        return gameroom.requestJoin(this);
     }
 
     /**
      * Leaves room that was once joined
      */
     leaveGameRoom() {
-        const id = this.socket.id;
-
         this.socket.leave(this.gameroom);
-        this.gameroom.informsPlayerLeft(id);
+        this.gameroom.informsPlayerLeft(this.id);
     }
 
     /**
@@ -55,7 +51,7 @@ class Player {
      * @param {String} msg 
      */
     sendMessage(msg) {
-        this.gameroom.playerSendsMessage(this.name, msg);
+        this.gameroom.playerSendsMessage(this.id, msg);
     }
 }
 

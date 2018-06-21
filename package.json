@@ -7,6 +7,8 @@
     "bad-words": "^1.6.1",
     "chalk": "^2.4.1",
     "dotenv": "^6.0.0",
+    "emoji-mart": "^2.6.1",
+    "emoji-picker-react": "^2.0.4",
     "express": "^4.16.3",
     "lodash": "^4.17.10",
     "react": "^0.14.7",
@@ -26,11 +28,15 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "css-loader": "^0.28.11",
     "html-webpack-plugin": "^3.2.0",
+    "json-loader": "^0.5.7",
+    "nodemon": "^1.17.5",
+    "style-loader": "^0.21.0",
     "webpack": "^1.12.13"
   },
   "scripts": {
-    "start": "node .",
+    "start": "nodemon .",
     "build": "./node_modules/.bin/webpack -p --config webpack.config.js"
   },
   "keywords": [],

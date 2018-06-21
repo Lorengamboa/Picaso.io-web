@@ -15,15 +15,17 @@ class UserList extends Component {
     }
 
     componentDidMount() {
-        this.props.socket.on(SOCKET_EVENTS.UPDATE_USER_LIST, playerList => this.setState({ playerList }));
+        this.props.socket.on(SOCKET_EVENTS.UPDATE_USER_LIST, playerList => {
+            this.setState({ playerList });
+        });
     }
 
     render() {
         return (
             <div style={userListStyles.block}>
-                <ul>{this.state.playerList.map(({ username }) => (
-                    <li key={username}>
-                        {username}
+                <ul style={userListStyles.ul}>{this.state.playerList.map((player, key) => (
+                    <li key={key}>
+                        {player.name}
                     </li>
                 ))}</ul>
             </div>
