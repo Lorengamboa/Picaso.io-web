@@ -1,12 +1,14 @@
 'use strict';
 
 const _ = require('lodash');
-const Chat = require('./chat');
-const { SOCKET_EVENTS } = require('.././socket/events');
-const { getRandomColor } = require('../utils');
+const Chat = require('../chat');
+const { SOCKET_EVENTS } = require('../../socket/events');
+const Timer = require('./Timer');
+const { getRandomColor } = require('../../utils');
 
 /**
  * Class Game
+ * Contains all the logic to make a game start
  */
 class Game {
     constructor(name, io) {
@@ -21,8 +23,8 @@ class Game {
     }
 
     /**
-     * 
-     * @param {*} player 
+     * Takes player requests and proccess either to accept or cancel it
+     * @param {Object} player - Player class
      */
     requestJoin(player) {
         return new Promise((resolve, reject) => {
@@ -36,13 +38,11 @@ class Game {
             this.players.push(player);
 
             this.updatePlayerJoined(player.name);
-            
-            /*
-            if (this.players.length == process.env.MAX_PLAYERS_PER_ROOM)
-                this.timer = setInterval(function (t) {
-                    console.log("timer");
-                }, 1000);
-            */
+
+
+            // start game 10s
+            if (this.players.length == process.env.MAX_PLAYERS_PER_ROOM) Timer.startCountdown(10);
+
             resolve();
         });
 
@@ -52,8 +52,8 @@ class Game {
      * Updates all the room's players canvas
      * @param {Array} data 
      */
-    updateCanvas(data) {
-        this.io.to(this.name).emit('updateCanvas', data);
+    updateCanvas(drawing, color) {
+        this.io.to(this.name).emit('updateCanvas', { drawing, color });
     }
 
     /**
@@ -101,15 +101,8 @@ class Game {
      * Updates all the room's players their userlist
      */
     updateChatlist() {
-        const playerList = _.map(this.players, _.partialRight(_.pick, ['name']));
+        const playerList = _.map(this.players, _.partialRight(_.pick, ['name', 'color']));
         this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_USER_LIST, playerList);
-    }
-
-    /**
-     * 
-     */
-    timerFunction() {
-
     }
 }
 

@@ -1,17 +1,21 @@
 'use strict';
 
 import React, { Component } from 'react';
-import Palette from './Palette';
+import Palete from './Palete';
 
+/**
+ * @class ToolPaint
+ * @desc
+ */
 class ToolPaint extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
-        return(
+        return (
             <div className="palette">
-                <Palette />
+                <Palete />
             </div>
         )
     }

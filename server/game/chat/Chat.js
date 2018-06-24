@@ -7,6 +7,7 @@ const filter = new Filter();
 
 /**
  * Chat class
+ * Class in charge of managing the messages flow
  */
 class Chat {
     constructor(io, name) {
@@ -16,8 +17,8 @@ class Chat {
 
     /**
      * SenDs a message to the whole chatroom
-     * @param {*} username 
-     * @param {*} msg 
+     * @param {String} player 
+     * @param {String} msg 
      */
     sendMessageToAll(player, msg) {
         const filterMessage = filter.clean(msg);
@@ -29,7 +30,6 @@ class Chat {
 
     /**
      * Informs the chatlist that a new player joinned the room
-     * @param {Number} id 
      * @param {String} username 
      */
     informPlayerJoined(username) {
@@ -41,7 +41,7 @@ class Chat {
 
     /**
      * Informs the chatlist that a new player left the room
-     * @param {Number} id 
+     * @param {String} username 
      */
     informPlayerLeft(username) {
         this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_CHAT_INFORM_MESSAGE, {

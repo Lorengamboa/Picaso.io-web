@@ -1,15 +1,14 @@
 'use strict';
 
 import React from 'react';
+import infoMessageStyles from './styles';
 
+/**
+ * InfoMessage component
+ */
 const InfoMessage = ({ message, color }) => (
     <div className="chatMessage"
-        style={{
-            color,
-            display: "flex",
-            alignItems: "center",
-            marginBottom: "10px"
-        }}>
+        style={infoMessageStyles.container(color)}>
         {message}
     </div>
 );

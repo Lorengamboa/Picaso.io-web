@@ -12,21 +12,21 @@ class Player {
         this.gameroom = null;
         this.color = null;
         this.id = this.socket.id;
+
         /*
          * SOCKET PLAYER EVENTS
          * Drawing, leaveroom
          */
 
         // Player is drawing now!
-        this.socket.on(SOCKET_EVENTS.PLAYER_DRAWING, data => {
-            this.gameroom.updateCanvas(data);
+        this.socket.on(SOCKET_EVENTS.PLAYER_DRAWING, (drawing, color) => {
+            this.gameroom.updateCanvas(drawing, color);
         });
 
-        // Player leaves room!
-        this.socket.on(SOCKET_EVENTS.PLAYER_LEAVE_GAMEROOM, () => {
-            leaveGameRoom();
+        // Player sends a msg to the entire chatroom
+        socket.on(SOCKET_EVENTS.PLAYER_SEND_MESSAGE, msg => {
+            this.gameroom.playerSendsMessage(this.id, msg);
         });
-
     }
 
     /**
@@ -44,14 +44,6 @@ class Player {
     leaveGameRoom() {
         this.socket.leave(this.gameroom);
         this.gameroom.informsPlayerLeft(this.id);
-    }
-
-    /**
-     * Player sends a message to the entire room
-     * @param {String} msg 
-     */
-    sendMessage(msg) {
-        this.gameroom.playerSendsMessage(this.id, msg);
     }
 }
 

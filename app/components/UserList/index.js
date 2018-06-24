@@ -8,6 +8,10 @@ const SOCKET_EVENTS = {
     UPDATE_USER_LIST: 'updateUserList'
 };
 
+/**
+ * @class UserList
+ * @desc
+ */
 class UserList extends Component {
     constructor(props) {
         super(props);
@@ -15,6 +19,7 @@ class UserList extends Component {
     }
 
     componentDidMount() {
+        // Automaticly updates our chatlist anytime a user enters/Leave or score changes
         this.props.socket.on(SOCKET_EVENTS.UPDATE_USER_LIST, playerList => {
             this.setState({ playerList });
         });
@@ -22,17 +27,25 @@ class UserList extends Component {
 
     render() {
         return (
-            <div style={userListStyles.block}>
-                <ul style={userListStyles.ul}>{this.state.playerList.map((player, key) => (
-                    <li key={key}>
-                        {player.name}
-                    </li>
-                ))}</ul>
+            <div className="chatlist">
+                <ul>
+                    {this.state.playerList.map((player, key) => (
+                        <li key={key}
+                            style={userListStyles.li(player.color)}
+                        >
+                            {player.name}
+                        </li>
+                    ))}
+                </ul>
             </div>
         )
     }
 }
 
+/**
+ * 
+ * @param {*} state 
+ */
 function mapStateToProps(state) {
     return { socket: state.PlayerReducer.socket };
 }

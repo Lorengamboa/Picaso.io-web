@@ -1,9 +1,13 @@
 'use strict';
 
-const Game = require("./Game");
-const Player = require("../game/Player");
-const { createRandomString, rndValueArray } = require("../utils");
+const Game = require("./room/Game");
+const Player = require("./Player");
+const { createRandomString, rndValueArray, valiteNickname } = require("../utils");
 
+/**
+ * Object controller in charge of managing the player join/leave flow 
+ * @param {Object} socket 
+ */
 const gamesController = (socket) => {
     const io = socket;
     return {
@@ -19,8 +23,8 @@ const gamesController = (socket) => {
         // Player joins a random lobby
         playerJoinRandomGame: function (username, socket) {
             return new Promise((resolve, reject) => {
-                if(username === "") return reject("Username cant be blank");
-                
+                if (!valiteNickname(username)) return reject("Invalid username", username);
+
                 try {
                     const player = new Player(username, socket);
 
@@ -34,17 +38,17 @@ const gamesController = (socket) => {
                         .catch(err => {
                             reject(err);
                         })
-                    
+
                 } catch (err) {
                     reject(err);
                 }
             });
         },
         //player join a specific game
-        playerJoinGame: function(username, socket, game) {
+        playerJoinGame: function (username, socket, game) {
             return new Promise((resolve, reject) => {
                 try {
-                    if(username === "") reject("Username cant be blank");
+                    if (username === "") reject("Username cant be blank");
 
                     const player = new Player(username, socket);
                     player.joinGameRoom(game);

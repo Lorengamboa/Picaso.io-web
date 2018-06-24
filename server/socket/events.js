@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * SOCKET POSSIBLE EVENTS
+ */
 module.exports.SOCKET_EVENTS = {
     CONNECT: 'connection',
     PLAYER_JOIN_RANDOM_GAMEROOM: 'joinRandomRoom',

@@ -28,5 +28,21 @@ function getRandomColor() {
     return color;
 }
 
+/**
+ * 
+ * @param {*} msg 
+ */
+function validateMessage(msg) {
 
-module.exports = { createRandomString, rndValueArray, getRandomColor };
+}
+
+/**
+ * 
+ * @param {*} nickname 
+ */
+function valiteNickname(nickname) {
+    if (nickname === "" || nickname.length > 8) return false;
+    return true;
+}
+
+module.exports = { createRandomString, rndValueArray, getRandomColor, valiteNickname };

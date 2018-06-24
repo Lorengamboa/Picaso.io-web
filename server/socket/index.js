@@ -2,9 +2,13 @@
 
 const socketio = require('socket.io');
 const chalk = require('chalk');
-const gamesController = require('../game/gamesController');
+const gamesController = require('../game/gameController');
 const { SOCKET_EVENTS } = require('./events');
 
+/**
+ * Starts the socket module
+ * @param {} http 
+ */
 const startSockets = http => {
 
     const io = socketio(http);
@@ -25,18 +29,6 @@ const startSockets = http => {
                     socket.disconnect();
                     console.log("❌ Socket connection failed: ", err);
                 });
-        });
-
-        // Player leaves gameroom
-        socket.on(SOCKET_EVENTS.PLAYER_LEAVE_LOBBY, () => {
-            if (!player) return;
-            player.leaveLobby();
-        });
-
-        // Player sends a msg to the entire chatroom
-        socket.on(SOCKET_EVENTS.PLAYER_SEND_MESSAGE, msg => {
-            if (!player) return;
-            player.sendMessage(msg);
         });
 
         // Player disconnects from socket

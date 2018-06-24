@@ -10,22 +10,23 @@ import { AdBlock } from '../components/common';
 
 const SOCKET_EVENTS = {
     PLAYER_JOIN_RANDOM_GAMEROOM: 'joinRandomRoom',
-    UPDATE_CANVAS: 'updateCanvas'
+    UPDATE_CANVAS: 'updateCanvas',
+    PLAYER_DISCONNECT: 'disconnect'
 };
 
+/**
+ * PLAYPAGE COMPONENT VIEW
+ */
 class PlayPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             title: "Play Game!",
             username: this.props.username,
-            userlist: [],
             isPenDown: false,
-            drawPostion: {
-                mouseX: null,
-                mouseY: null,
-                prevX: null,
-                prevY: null,
+            currentPosition: {
+                x: null,
+                y: null,
             },
             drawData: null
         }
@@ -37,62 +38,69 @@ class PlayPage extends Component {
     }
 
     componentDidMount() {
+        //
         this.props.socket.emit(SOCKET_EVENTS.PLAYER_JOIN_RANDOM_GAMEROOM, this.state.username);
-        this.props.socket.on(SOCKET_EVENTS.UPDATE_CANVAS, data => {
+        //
+        this.props.socket.on(SOCKET_EVENTS.UPDATE_CANVAS, (drawing, colorPicked) => {
             this.setState({
-                drawData: data
+                drawData: { drawing, colorPicked }
             });
         });
+        //
+        this.props.socket.on(SOCKET_EVENTS.PLAYER_DISCONNECT, (msg) => {
+            this.props.history.push('/');
+        }, this);
     }
 
     /**
-     * 
-     * @param {*} e 
+     * Keeps track of the mouse moving over the canvas
+     * @param {Object} e 
      */
     handleDisplayMouseMove(e) {
         if (!this.state.isPenDown) return;
+        const mycanvas = document.getElementById("mycanvas");
 
+        const { offsetLeft, offsetTop } = mycanvas;
 
-        const { width, height } = this.props.myCanvas
+        const drawPositon = Object.assign({}, this.state.currentPosition, {
+            currentX: e.clientX - offsetLeft,
+            currentY: e.clientY - offsetTop
+        })
+
+        this.props.socket.emit('drawing', drawPositon, this.props.colorPicked);
 
         this.setState({
-            drawPostion: Object.assign({}, this.state.drawPostion, {
-                mouseX: e.clientX / width,
-                mouseY: e.clientY / height
+            currentPosition: Object.assign({}, this.state.currentPosition, {
+                x: e.clientX - offsetLeft,
+                y: e.clientY - offsetTop
             })
-        });
-
-        console.log(this.state.drawPostion)
-        this.props.socket.emit('drawing', {
-            lineCoordinates: [
-                this.state.drawPostion.prevX,
-                this.state.drawPostion.prevY,
-                this.state.drawPostion.mouseX,
-                this.state.drawPostion.mouseY
-            ]
         });
     }
 
     /**
-     * 
-     * @param {*} e 
+     * The mouse has been pressed down on the canvas
+     * @param {Object} e 
      */
     handleDisplayMouseDown(e) {
-        window.addEventListener("mouseup", this.handleDisplayMouseUp)
+        window.addEventListener("mouseup", this.handleDisplayMouseUp);
 
-        const { width, height } = this.props.myCanvas
+        const mycanvas = document.getElementById("mycanvas");
+
+        const { offsetLeft, offsetTop } = mycanvas;
 
         this.setState({
             isPenDown: true,
-            drawPostion: Object.assign({}, this.state.drawPostion, {
-                prevX: e.clientX / width,
-                prevY: e.clientY / height
+            currentPosition: Object.assign({}, this.state.currentPosition, {
+                x: e.clientX - offsetLeft,
+                y: e.clientY - offsetTop
             })
         });
+
+        this.props.socket.emit('drawing', this.state.currentPosition, this.props.colorPicked);
     }
 
     /**
-     * 
+     * The mouse has been stopped from being pressed
      * @param {*} e 
      */
     handleDisplayMouseUp(e) {
@@ -100,21 +108,16 @@ class PlayPage extends Component {
         this.setState({ isPenDown: false });
     }
 
-    /**
-     * 
-     * @param {*} e 
-     */
-    handleBrushResize(e) {
-        this.setState({ brushSize: e.target.value })
-    }
-
     render() {
         return (
             <div id="play-site">
                 <div className="row">
+                    <div className="two columns">
+                        <AdBlock />
+                    </div>
                     <div className="ten columns">
                         <div className="row">
-                            <div className="eight columns">
+                            <div className="nine columns">
                                 <Canvas
                                     onMouseMove={this.handleDisplayMouseMove}
                                     onMouseDown={this.handleDisplayMouseDown}
@@ -122,14 +125,11 @@ class PlayPage extends Component {
                                 />
                                 <ToolPaint />
                             </div>
-                            <div className="four columns">
-                                <UserList userlist={this.state.userlist} />
+                            <div className="three columns">
+                                <UserList />
                                 <ChatList />
                             </div>
                         </div>
-                    </div>
-                    <div className="two columns">
-                        <AdBlock />
                     </div>
                 </div>
             </div>
@@ -137,11 +137,15 @@ class PlayPage extends Component {
     }
 }
 
+/**
+ * 
+ * @param {*} param0 
+ */
 function mapStateToProps({ PlayerReducer, GameReducer }) {
     const { username, socket } = PlayerReducer;
-    const { myCanvas } = GameReducer;
+    const { myCanvas, colorPicked } = GameReducer;
 
-    return { username, socket, myCanvas };
+    return { username, socket, myCanvas, colorPicked };
 }
 
 export default connect(mapStateToProps, null)(PlayPage);
