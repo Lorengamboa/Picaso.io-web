@@ -22,7 +22,8 @@ export function setUsername(username) {
  * @param {Object} socket 
  */
 export function openPlayerSocketConnection() {
-  const socket = openSocket('http://localhost:8080');
+  var host = window.location.protocol + "//" + window.location.host;
+  const socket = openSocket(host);
 
   return {
     type: SOCKET_CONNECTION,
