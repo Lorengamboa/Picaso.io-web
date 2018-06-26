@@ -6,24 +6,39 @@ const app = express();
 
 const API = require('./server/API/router');
 
-// STATIC SERVE FILES
+// SERVE STATIC FILES
 app.use(express.static(path.join(__dirname, 'public')));
 
 /*
  * SERVER HTTP ENDPOINTS
  */
 
- // HOME SITE
+ // HOME PICASIO.IO HOME SITE
 app.get('/', function(request, response) {
   response.sendFile(__dirname + '/public/index.html');
+});
+
+// JOIN A CERTAIN GAME ALREADY CREATED
+app.get('/game/:id', function(request, response) {
+  response.sendFile(__dirname + '/public/index.html');
+});
+
+//
+app.get('/play', function(request, response) {
+  response.redirect('/');
+});
+
+//
+app.get('/admin', function(request, response) {
+  response.sendFile(__dirname + '/public/admin/starter.html');
 });
 
 // API SERVICE
 app.use('/api', API);
 
-// Page not found 404, then take him to home page
-app.use('*', function(request, response) {
-  response.redirect('/');
+// NOT FOUND
+app.get('*', function(request, response) {
+  response.sendStatus("404");
 });
 
 module.exports = app;

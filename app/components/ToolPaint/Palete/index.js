@@ -16,10 +16,9 @@ class Palete extends Component {
         this.state = {
             colorPicked: this.props.colorPicked
         }
-    
-    // Events listeners
-    this.drawColors = this.drawColors.bind(this);
-    this._onColorClick = this._onColorClick.bind(this);
+
+        // Events listeners
+        this.drawColors = this.drawColors.bind(this);
     }
 
     componentDidMount() {
@@ -31,20 +30,8 @@ class Palete extends Component {
      */
     drawColors() {
         return colors.map((color, key) => {
-            return (<li key={key} data-color={color} onClick={this._onColorClick} style={{ backgroundColor: color }}></li>)
+            return (<li key={key} data-color={color} onClick={this.props.onClick} style={{ backgroundColor: color }}></li>)
         }, this);
-    }
-
-    /**
-     * If a color from the palette has been click, it will set as the color seleted
-     * @param {NodeElement} element 
-     */
-    _onColorClick(element) {
-        document.querySelector(`[data-color="${this.props.colorPicked}"]`).classList.remove("active-color");
-
-        const color = element.target.dataset.color;
-        element.target.className = "active-color";
-        this.props.setColorPicked(color);
     }
 
     render() {
@@ -62,10 +49,10 @@ class Palete extends Component {
  * 
  * @param {*} param0 
  */
-function mapStateToProps({  GameReducer }) {
+function mapStateToProps({ GameReducer }) {
     const { colorPicked } = GameReducer;
 
     return { colorPicked };
 }
 
-export default connect(mapStateToProps, {setColorPicked})(Palete);
+export default connect(mapStateToProps, { setColorPicked })(Palete);

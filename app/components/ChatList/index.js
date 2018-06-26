@@ -7,7 +7,8 @@ import chatListStyles from './styles';
 
 const SOCKET_EVENTS = {
   RECEIVE_NEW_MESSAGE: 'newMessage',
-  RECEIVE_GENERAL_MESSAGE: 'informMessage'
+  RECEIVE_GENERAL_MESSAGE: 'informMessage',
+  SEND_MESSAGE: 'sendMessage'
 }
 
 /**
@@ -43,8 +44,7 @@ class ChatList extends Component {
     this.props.socket.on(SOCKET_EVENTS.RECEIVE_GENERAL_MESSAGE, ({ data, color }) => {
       let newMessage = <InfoMessage message={data} color={color} />;
       this.setState({
-        messages: [...this.state.messages, newMessage],
-        text: ''
+        messages: [...this.state.messages, newMessage]
       });
     });
   }
@@ -54,7 +54,7 @@ class ChatList extends Component {
    */
   onSubmit(e) {
     if (e.key === 'Enter') {
-      this.props.socket.emit('sendMessage', this.state.text);
+      this.props.socket.emit(SEND_MESSAGE, this.state.text);
     }
   }
 

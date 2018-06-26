@@ -14,7 +14,7 @@ export const router = (
         <Route exact path="/" component={HomePage} />
         <Route path="/play" component={PlayPage} />
         <Route path="/create" component={CreatePage} />
-        <Route path="/:idgame" component={PlayPage} />
+        <Route path="/game/:idgame" component={PlayPage} />
       </Switch>
     </Router>
   </Provider>);

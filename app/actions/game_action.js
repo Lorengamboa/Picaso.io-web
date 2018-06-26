@@ -2,6 +2,8 @@
 
 export const UPDATE_CANVAS = 'updateCanvas';
 export const CHANGE_COLOR_PICKED = 'changeColorPicker';
+export const SELECT_TOOL_PICKED = 'selectTool';
+
 /**
  * 
  * @param {*} data 
@@ -24,3 +26,13 @@ export function setColorPicked(color) {
   }
 }
 
+/**
+ * 
+ * @param {*} data 
+ */
+export function selectTool(tool) {
+  return {
+    type: SELECT_TOOL_PICKED,
+    payload: tool
+  }
+}

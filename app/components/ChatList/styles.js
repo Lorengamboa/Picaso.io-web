@@ -13,7 +13,7 @@ const chatListStyles = {
         display: "block",
         marginBottom: "8px",
         boxShadow: "0 2px 3px 0 rgba(0,0,0,0.2)",
-        backgroundColor: "#ededed",
+        backgroundColor: "white",
         height: "60vh",
         padding: "10px",
         fontSize: "14px",

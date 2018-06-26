@@ -6,6 +6,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  background-color: #edf3ff;
 }
 
 .home-menu {
@@ -36,19 +37,19 @@ html, body {
   display: block;
   padding: 5px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  background-color: #ededed;
+  background-color: white;
 }
 
 .chatlist > ul {
   list-style-type: none;
 }
 
-/* PALETTE */
-.colors {
+.toolpaint {
   text-align: center;
   padding-top: 20px;
 }
 
+/* PALETTE */
 .colors > li {
   list-style: none;
   border-radius: 50%;
@@ -103,4 +104,5 @@ margin-left: 53%;
 canvas {
   height: 100%;
   border: 1px solid #000000;
+  cursor: url(/assets/img/tools/pencil.png) 0 30, auto;
 }

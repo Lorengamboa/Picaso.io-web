@@ -6,7 +6,6 @@ import Canvas from '../components/Canvas';
 import ChatList from '../components/ChatList';
 import UserList from '../components/UserList';
 import ToolPaint from '../components/ToolPaint';
-import { AdBlock } from '../components/common';
 
 const SOCKET_EVENTS = {
     PLAYER_JOIN_RANDOM_GAMEROOM: 'joinRandomRoom',
@@ -112,24 +111,17 @@ class PlayPage extends Component {
         return (
             <div id="play-site">
                 <div className="row">
-                    <div className="two columns">
-                        <AdBlock />
+                    <div className="nine columns">
+                        <Canvas
+                            onMouseMove={this.handleDisplayMouseMove}
+                            onMouseDown={this.handleDisplayMouseDown}
+                            data={this.state.drawData}
+                        />
+                        <ToolPaint />
                     </div>
-                    <div className="ten columns">
-                        <div className="row">
-                            <div className="nine columns">
-                                <Canvas
-                                    onMouseMove={this.handleDisplayMouseMove}
-                                    onMouseDown={this.handleDisplayMouseDown}
-                                    data={this.state.drawData}
-                                />
-                                <ToolPaint />
-                            </div>
-                            <div className="three columns">
-                                <UserList />
-                                <ChatList />
-                            </div>
-                        </div>
+                    <div className="three columns">
+                        <UserList />
+                        <ChatList />
                     </div>
                 </div>
             </div>
@@ -143,9 +135,9 @@ class PlayPage extends Component {
  */
 function mapStateToProps({ PlayerReducer, GameReducer }) {
     const { username, socket } = PlayerReducer;
-    const { myCanvas, colorPicked } = GameReducer;
+    const { colorPicked } = GameReducer;
 
-    return { username, socket, myCanvas, colorPicked };
+    return { username, socket, colorPicked };
 }
 
 export default connect(mapStateToProps, null)(PlayPage);
