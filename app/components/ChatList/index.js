@@ -54,7 +54,7 @@ class ChatList extends Component {
    */
   onSubmit(e) {
     if (e.key === 'Enter') {
-      this.props.socket.emit(SEND_MESSAGE, this.state.text);
+      this.props.socket.emit(SOCKET_EVENTS.SEND_MESSAGE, this.state.text);
     }
   }
 

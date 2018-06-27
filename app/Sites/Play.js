@@ -111,7 +111,10 @@ class PlayPage extends Component {
         return (
             <div id="play-site">
                 <div className="row">
-                    <div className="nine columns">
+                    <div className="three columns">
+                        <ChatList />
+                    </div>
+                    <div className="seven columns">
                         <Canvas
                             onMouseMove={this.handleDisplayMouseMove}
                             onMouseDown={this.handleDisplayMouseDown}
@@ -119,10 +122,10 @@ class PlayPage extends Component {
                         />
                         <ToolPaint />
                     </div>
-                    <div className="three columns">
+                    <div className="two columns">
                         <UserList />
-                        <ChatList />
                     </div>
+
                 </div>
             </div>
         )

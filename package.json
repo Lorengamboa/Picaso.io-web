@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "auth0-js": "^9.6.1",
     "bad-words": "^1.6.1",
+    "canvas": "^1.6.11",
     "chalk": "^2.4.1",
     "dotenv": "^6.0.0",
     "emoji-mart": "^2.6.1",

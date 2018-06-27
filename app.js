@@ -4,39 +4,42 @@ const path = require("path");
 const express = require("express");
 const app = express();
 
-const API = require('./server/API/router');
+const { API_DICTIONARY_v1, API_SOCKET_v1 } = require('./server/API');
 
 // SERVE STATIC FILES
 app.use(express.static(path.join(__dirname, 'public')));
 
 /*
- * SERVER HTTP ENDPOINTS
+ * Picaso.io Endpoints
  */
 
- // HOME PICASIO.IO HOME SITE
+ // HOME Site
 app.get('/', function(request, response) {
   response.sendFile(__dirname + '/public/index.html');
 });
 
-// JOIN A CERTAIN GAME ALREADY CREATED
+//  Join a created game Site
 app.get('/game/:id', function(request, response) {
   response.sendFile(__dirname + '/public/index.html');
 });
 
-//
+// Play Site
 app.get('/play', function(request, response) {
   response.redirect('/');
 });
 
-//
+// Admin Site
 app.get('/admin', function(request, response) {
   response.sendFile(__dirname + '/public/admin/starter.html');
 });
 
-// API SERVICE
-app.use('/api', API);
+/*
+ * API Endpoints
+ */
+app.use('/api/dictionary', API_DICTIONARY_v1);
+app.use('/api/socket', API_SOCKET_v1);
 
-// NOT FOUND
+// 404 - NOT FOUND
 app.get('*', function(request, response) {
   response.sendStatus("404");
 });
