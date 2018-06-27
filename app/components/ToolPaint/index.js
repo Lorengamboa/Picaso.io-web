@@ -47,7 +47,6 @@ class ToolPaint extends Component {
             <div className="toolpaint">
                 <Palete onClick={this.onPaleteClick}/>
                 <Tool onClick={this.onEraserClick} src='/assets/img/tools/eraser.png'/>
-                <Tool onClick={this.onEraserClick} src='/assets/img/tools/bucket.png'/>
             </div>
         )
     }
