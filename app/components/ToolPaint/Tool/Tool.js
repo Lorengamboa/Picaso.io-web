@@ -8,7 +8,7 @@ import React from 'react';
  */
 const Tool = (props) => {
     return (
-            <img onClick={props.onClick} src={props.src} />
+        <img id={props.type} onClick={props.onClick} src={props.src} />
     )
 }
 

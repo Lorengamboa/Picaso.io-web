@@ -4,11 +4,11 @@ const messageStyles = {
     container: color => {
         return {
             color,
-            display: "flex",
-            alignItems: "center",
             marginBottom: "10px",
             backgroundColor: "#f6f6f6",
-            borderRadius: "12px"
+            borderRadius: "12px",
+            wordWrap: "break-word",
+            padding: ".5rem 2rem"
         }
     },
     userIcon: userColor => {
@@ -19,8 +19,18 @@ const messageStyles = {
             backgroundColor: userColor
         }
     },
+    username: color => {
+        return {
+            color,
+            border: "none",
+            background: "none",
+            borderRadius: "0",
+            padding: "0"
+        }
+    },
     message: {
-        marginLeft: "5px"
+        marginLeft: "5px",
+        width: "100%"
     }
 };
 

@@ -40,9 +40,9 @@ class PlayPage extends Component {
         //
         this.props.socket.emit(SOCKET_EVENTS.PLAYER_JOIN_RANDOM_GAMEROOM, this.state.username);
         //
-        this.props.socket.on(SOCKET_EVENTS.UPDATE_CANVAS, (drawing, colorPicked) => {
+        this.props.socket.on(SOCKET_EVENTS.UPDATE_CANVAS, (drawingInfo) => {
             this.setState({
-                drawData: { drawing, colorPicked }
+                drawData: drawingInfo
             });
         });
         //
@@ -61,12 +61,12 @@ class PlayPage extends Component {
 
         const { offsetLeft, offsetTop } = mycanvas;
 
-        const drawPositon = Object.assign({}, this.state.currentPosition, {
+        const drawPosition = Object.assign({}, this.state.currentPosition, {
             currentX: e.clientX - offsetLeft,
             currentY: e.clientY - offsetTop
-        })
+        });
 
-        this.props.socket.emit('drawing', drawPositon, this.props.colorPicked);
+        this.props.socket.emit('drawing', { drawPosition, colorPicked: this.props.colorPicked, toolPicked: this.props.toolPicked });
 
         this.setState({
             currentPosition: Object.assign({}, this.state.currentPosition, {
@@ -94,8 +94,6 @@ class PlayPage extends Component {
                 y: e.clientY - offsetTop
             })
         });
-
-        this.props.socket.emit('drawing', this.state.currentPosition, this.props.colorPicked);
     }
 
     /**
@@ -138,9 +136,9 @@ class PlayPage extends Component {
  */
 function mapStateToProps({ PlayerReducer, GameReducer }) {
     const { username, socket } = PlayerReducer;
-    const { colorPicked } = GameReducer;
+    const { colorPicked, toolPicked } = GameReducer;
 
-    return { username, socket, colorPicked };
+    return { username, socket, colorPicked, toolPicked };
 }
 
 export default connect(mapStateToProps, null)(PlayPage);

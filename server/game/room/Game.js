@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 const Chat = require('../chat');
-const { SOCKET_EVENTS } = require('../../socket/events');
+const { SOCKET_EVENTS } = require('../../events');
 const Timer = require('./Timer');
 const { getRandomColor } = require('../../utils');
 
@@ -52,8 +52,8 @@ class Game {
      * Updates all the room's players canvas
      * @param {Array} data 
      */
-    updateCanvas(drawing, color) {
-        this.io.to(this.name).emit('updateCanvas', { drawing, color });
+    updateCanvas(drawingInfo) {
+        this.io.to(this.name).emit('updateCanvas', drawingInfo);
     }
 
     /**

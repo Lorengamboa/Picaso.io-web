@@ -1,6 +1,6 @@
 'use strict';
 
-const { SOCKET_EVENTS } = require("../socket/events");
+const { SOCKET_EVENTS } = require("../events");
 
 /**
  * Class Player
@@ -19,8 +19,8 @@ class Player {
          */
 
         // Player is drawing now!
-        this.socket.on(SOCKET_EVENTS.PLAYER_DRAWING, (drawing, color) => {
-            this.gameroom.updateCanvas(drawing, color);
+        this.socket.on(SOCKET_EVENTS.PLAYER_DRAWING, drawingInfo => {
+            this.gameroom.updateCanvas(drawingInfo);
         });
 
         // Player sends a msg to the entire chatroom

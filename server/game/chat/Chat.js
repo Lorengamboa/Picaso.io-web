@@ -1,7 +1,7 @@
 'use strict';
 
 var Filter = require('bad-words');
-const { SOCKET_EVENTS } = require('../../socket/events');
+const { SOCKET_EVENTS } = require('../../events');
 
 const filter = new Filter();
 
@@ -23,7 +23,8 @@ class Chat {
     sendMessageToAll(player, msg) {
         const filterMessage = filter.clean(msg);
         this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_CHAT_NEW_MESSAGE, {
-            msg: `${player.name}: ${filterMessage}`,
+            username: player.name,
+            message: filterMessage,
             userColor: player.color
         });
     }

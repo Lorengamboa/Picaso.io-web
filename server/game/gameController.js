@@ -30,7 +30,6 @@ const gamesController = (socket) => {
 
                     if (this.games.length < 1) this.createNewGame();
                     const gameRoom = rndValueArray(this.games);
-
                     player.joinGameRoom(gameRoom)
                         .then(() => {
                             resolve(player);

@@ -27,13 +27,16 @@ class UserList extends Component {
 
     render() {
         return (
-            <div className="chatlist">
-                <ul>
+            <div>
+                <ul className="chatlist">
                     {this.state.playerList.map((player, key) => (
-                        <li key={key}
-                            style={userListStyles.li(player.color)}
-                        >
-                            {player.name}
+                        <li key={key}>
+                            <a className="thumbnail" style={{backgroundColor: player.color}}>
+                            </a>
+                            <div className="content">
+                                <p>{player.name}</p>
+                                <span>0 points</span>
+                            </div>
                         </li>
                     ))}
                 </ul>
