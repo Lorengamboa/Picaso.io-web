@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1530448260612" clover="3.2.0">
+  <project timestamp="1530448260612" name="All files">
+    <metrics statements="16" coveredstatements="13" conditionals="5" coveredconditionals="1" methods="6" coveredmethods="6" elements="27" coveredelements="20" complexity="0" loc="16" ncloc="16" packages="3" files="4" classes="4">
+      <package name="actions">
+        <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
+        <file name="game_action.js" path="/Users/lorenzogamboagarcia/Personal Projects/Picaso.io/app/actions/game_action.js">
+          <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
+          <line num="3" count="2" type="stmt"/>
+          <line num="4" count="2" type="stmt"/>
+          <line num="5" count="2" type="stmt"/>
+          <line num="6" count="2" type="stmt"/>
+          <line num="13" count="1" type="stmt"/>
+          <line num="24" count="1" type="stmt"/>
+          <line num="35" count="1" type="stmt"/>
+          <line num="46" count="1" type="stmt"/>
+        </file>
+      </package>
+      <package name="components.ToolPaint.Tool">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <file name="Tool.js" path="/Users/lorenzogamboagarcia/Personal Projects/Picaso.io/app/components/ToolPaint/Tool/Tool.js">
+          <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+          <line num="9" count="1" type="stmt"/>
+          <line num="10" count="1" type="stmt"/>
+        </file>
+        <file name="index.js" path="/Users/lorenzogamboagarcia/Personal Projects/Picaso.io/app/components/ToolPaint/Tool/index.js">
+          <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        </file>
+      </package>
+      <package name="reducers">
+        <metrics statements="6" coveredstatements="3" conditionals="5" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <file name="game_reducer.js" path="/Users/lorenzogamboagarcia/Personal Projects/Picaso.io/app/reducers/game_reducer.js">
+          <metrics statements="6" coveredstatements="3" conditionals="5" coveredconditionals="1" methods="1" coveredmethods="1"/>
+          <line num="5" count="1" type="stmt"/>
+          <line num="12" count="1" type="cond" truecount="1" falsecount="3"/>
+          <line num="14" count="1" type="stmt"/>
+          <line num="18" count="0" type="stmt"/>
+          <line num="22" count="0" type="stmt"/>
+          <line num="26" count="0" type="stmt"/>
+        </file>
+      </package>
+    </metrics>
+  </project>
+</coverage>

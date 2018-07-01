@@ -22,7 +22,10 @@ class Player {
         this.socket.on(SOCKET_EVENTS.PLAYER_DRAWING, drawingInfo => {
             this.gameroom.updateCanvas(drawingInfo);
         });
-
+        //
+        this.socket.on('clearCanvas', () => {
+            this.gameroom.clearCanvas();
+        });
         // Player sends a msg to the entire chatroom
         socket.on(SOCKET_EVENTS.PLAYER_SEND_MESSAGE, msg => {
             this.gameroom.playerSendsMessage(this.id, msg);

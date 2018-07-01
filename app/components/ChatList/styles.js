@@ -7,13 +7,15 @@ const chatListStyles = {
     inputMessage: {
         display: "block",
         width: "inherit",
-        resize: "none"
+        resize: "none",
+        minHeight: "0"
     },
     messagesBlock: {
         display: "block",
         marginBottom: "8px",
         boxShadow: "0 2px 3px 0 rgba(0,0,0,0.2)",
         backgroundColor: "white",
+        borderRadius: "4px",
         height: "60vh",
         padding: "10px",
         fontSize: "14px",

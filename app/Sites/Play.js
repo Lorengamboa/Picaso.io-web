@@ -10,7 +10,8 @@ import ToolPaint from '../components/ToolPaint';
 const SOCKET_EVENTS = {
     PLAYER_JOIN_RANDOM_GAMEROOM: 'joinRandomRoom',
     UPDATE_CANVAS: 'updateCanvas',
-    PLAYER_DISCONNECT: 'disconnect'
+    PLAYER_DISCONNECT: 'disconnect',
+    CLEAR_CANVAS: 'clearCanvas'
 };
 
 /**
@@ -44,6 +45,14 @@ class PlayPage extends Component {
             this.setState({
                 drawData: drawingInfo
             });
+        });
+        //
+        this.props.socket.on(SOCKET_EVENTS.CLEAR_CANVAS, () => {
+            const mycanvas = document.getElementById("mycanvas");
+            const { width, height } = mycanvas;
+            const context = mycanvas.getContext('2d');
+
+            context.clearRect(0, 0, width, height);
         });
         //
         this.props.socket.on(SOCKET_EVENTS.PLAYER_DISCONNECT, (msg) => {

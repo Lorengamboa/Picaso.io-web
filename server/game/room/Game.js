@@ -2,6 +2,7 @@
 
 const _ = require('lodash');
 const Chat = require('../chat');
+const Canvas = require('../canvas');
 const { SOCKET_EVENTS } = require('../../events');
 const Timer = require('./Timer');
 const { getRandomColor } = require('../../utils');
@@ -20,6 +21,7 @@ class Game {
         this.scores = [];
         this.chatRoom = new Chat(this.io, this.name);
         this.timer = null;
+        this.canvas = new Canvas();
     }
 
     /**
@@ -53,7 +55,15 @@ class Game {
      * @param {Array} data 
      */
     updateCanvas(drawingInfo) {
+        this.canvas.drawLine(drawingInfo);
         this.io.to(this.name).emit('updateCanvas', drawingInfo);
+    }
+
+    /**
+     * 
+     */
+    clearCanvas() {
+        this.io.to(this.name).emit('clearCanvas');
     }
 
     /**

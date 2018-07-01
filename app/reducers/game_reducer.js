@@ -8,7 +8,7 @@ const initialState = {
   penWidth: "1px"
 };
 
-export default function GameReducer(state = initialState, action) {
+export default function GameReducer(state=initialState, action) {
   switch (action.type) {
     case CHANGE_COLOR_PICKED:
     return Object.assign({}, state, {

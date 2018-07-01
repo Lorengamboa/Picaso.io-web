@@ -15,7 +15,7 @@ const SOCKET_EVENTS = {
  * @class ChatList
  * @desc
  */
-class ChatList extends Component {
+export class ChatList extends Component {
   constructor(props) {
     super(props);
 
@@ -35,8 +35,7 @@ class ChatList extends Component {
     this.props.socket.on(SOCKET_EVENTS.RECEIVE_NEW_MESSAGE, ({ message, userColor, username }) => {
       let newMessage = <Message message={message} username={username} userColor={userColor} />;
       this.setState({
-        messages: [...this.state.messages, newMessage],
-        text: ''
+        messages: [...this.state.messages, newMessage]
       });
     });
 
@@ -55,6 +54,9 @@ class ChatList extends Component {
   onSubmit(e) {
     if (e.key === 'Enter') {
       this.props.socket.emit(SOCKET_EVENTS.SEND_MESSAGE, this.state.text);
+      this.setState({
+        text: ''
+      });
     }
   }
 

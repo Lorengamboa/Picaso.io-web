@@ -10,7 +10,7 @@ const colors = ["#E74C3C", "#3498DB", "#58D68D", "#F7DC6F", "#E67E22", "#CACFD2"
  * @class Palete
  * @desc
  */
-class Palete extends Component {
+export class Palete extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -36,11 +36,9 @@ class Palete extends Component {
 
     render() {
         return (
-            <div>
-                <ul className="colors">
-                    {this.drawColors()}
-                </ul>
-            </div>
+            <ul className="colors">
+                {this.drawColors()}
+            </ul>
         )
     }
 }

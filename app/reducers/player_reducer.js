@@ -13,7 +13,7 @@ export default function PlayerReducer(state = initialState, action) {
       return Object.assign({}, state, {
         username: action.payload
       });
-      case SOCKET_CONNECTION:
+    case SOCKET_CONNECTION:
       return Object.assign({}, state, {
         socket: action.payload
       });
