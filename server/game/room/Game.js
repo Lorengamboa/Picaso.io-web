@@ -41,9 +41,10 @@ class Game {
 
             this.updatePlayerJoined(player.name);
 
-
             // start game 10s
-            if (this.players.length == process.env.MAX_PLAYERS_PER_ROOM) Timer.startCountdown(10);
+            if (this.players.length === 2) {
+                Timer.startCountdown.call(this, 30);
+            };
 
             resolve();
         });

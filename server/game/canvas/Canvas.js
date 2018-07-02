@@ -11,22 +11,33 @@ class Canvas {
         this.ctx = this.canvas.getContext('2d')
     }
 
+    /**
+     * 
+     * @param {*} data 
+     */
     drawLine(data) {
         const { drawPosition, colorPicked, toolPicked } = data;
 
         const { currentX, currentY, x, y } = drawPosition;
         this.ctx.beginPath();
-        this.ctx.moveTo(x, y);   
+        this.ctx.moveTo(x, y);
         this.ctx.lineTo(currentX, currentY);
-        if(toolPicked === 'eraser') {
+        if (toolPicked === 'eraser') {
             this.ctx.strokeStyle = "white";
             this.ctx.lineWidth = 5;
         } else {
             this.ctx.strokeStyle = colorPicked;
-            this.ctx.lineWidth = 2;   
+            this.ctx.lineWidth = 2;
         }
         this.ctx.stroke();
         this.ctx.closePath();
+    }
+
+    /**
+     * 
+     */
+    getImageData() {
+        return this.canvas.toDataURL();
     }
 }
 

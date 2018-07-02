@@ -2,9 +2,12 @@
   box-sizing: border-box;
 }
 
-html, body, #root {
- width: 100%;
- height: 100%;
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  background-color: #1a1f21;
 }
 
 .home-menu {
@@ -21,7 +24,8 @@ html, body, #root {
   margin: 220px auto;
 }
 
-.create-menu input,select {
+.create-menu input,
+select {
   width: 100%;
 }
 
@@ -35,8 +39,9 @@ html, body, #root {
 .chatlist {
   list-style-type: none;
   display: block;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   background-color: white;
+  border-radius: 4px;
 }
 
 .chatlist li {
@@ -46,7 +51,8 @@ html, body, #root {
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
-  border-bottom: solid 1px;
+  border-bottom: solid 0.5px;
+  border-radius: 4px;
 }
 
 .chatlist li .thumbnail {
@@ -65,13 +71,13 @@ html, body, #root {
 }
 
 .chatlist li .content {
-display: inline-block;
-margin-left: 6px;
-vertical-align: top;
-line-height: 1;
+  display: inline-block;
+  margin-left: 6px;
+  vertical-align: top;
+  line-height: 1;
 }
 
-.chatlist li .content p{
+.chatlist li .content p {
   margin-bottom: 0;
 }
 .toolpaint {
@@ -89,9 +95,9 @@ line-height: 1;
   display: inline-block;
   margin: 0 10px;
   cursor: pointer;
-  transition-duration: .2s;
+  transition-duration: 0.2s;
   box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2);
-  transition: .1s;
+  transition: 0.1s;
 }
 
 .colors > li:hover {
@@ -107,11 +113,11 @@ line-height: 1;
 }
 
 #show-emoji-yes {
-font-size: 25px;
-opacity: 0.9;
-position: fixed;
-bottom: 2%;
-margin-left: 53%;
+  font-size: 25px;
+  opacity: 0.9;
+  position: fixed;
+  bottom: 2%;
+  margin-left: 53%;
 }
 
 .btn-primary {
@@ -120,7 +126,7 @@ margin-left: 53%;
   position: relative;
 }
 
-.txtfield{
+.txtfield {
   width: 20em;
   margin: auto;
   display: block;

@@ -18,12 +18,12 @@ class Player {
          * Drawing, leaveroom
          */
 
-        // Player is drawing now!
+        // Player is drawing now
         this.socket.on(SOCKET_EVENTS.PLAYER_DRAWING, drawingInfo => {
             this.gameroom.updateCanvas(drawingInfo);
         });
-        //
-        this.socket.on('clearCanvas', () => {
+        // Clears canvas
+        this.socket.on(SOCKET_EVENTS.CLEAR_CANVAS, () => {
             this.gameroom.clearCanvas();
         });
         // Player sends a msg to the entire chatroom

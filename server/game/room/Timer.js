@@ -1,15 +1,19 @@
 'use strict';
 
+/**
+ * Timer helper function
+ */
 const Timer = {
     countdown: 0,
     startCountdown: function (seconds) {
         var that = this;
         this.countdown = seconds;
-        this.timer = setInterval(function (t) {
-            that.countdown--;
+        this.timer = setInterval((t) => {
             if (that.countdown === 0) clearInterval(that.timer);
-        }, seconds * 100);
+            this.io.emit('updateTimer', that.countdown);
+            that.countdown--;
+        }, 1000);
     }
-}
+};
 
 module.exports = Timer;
