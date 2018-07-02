@@ -2,55 +2,57 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setColorPicked } from '../../../actions/game_action';
-
-const colors = ["#E74C3C", "#3498DB", "#58D68D", "#F7DC6F", "#E67E22", "#CACFD2", "#000", "#ffffff"];
+import { setColorPicked } from '../../../actions/game';
+import { colors } from './colors';
 
 /**
  * @class Palete
- * @desc
+ * @desc Set of drawing tools to make your life easier!
  */
 export class Palete extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            colorPicked: this.props.colorPicked
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+      colorPicked: this.props.colorPicked
+    };
 
-        // Events listeners
-        this.drawColors = this.drawColors.bind(this);
-    }
+    // Events listeners
+    this._drawColors = this._drawColors.bind(this);
+  }
 
-    componentDidMount() {
-        document.querySelector(`[data-color="${this.state.colorPicked}"]`).className = "active-color";
-    }
+  /**
+   * Renders the list of colors on the palette
+   */
+  _drawColors() {
+    return colors.map((color, key) => {
+      return (
+        <li
+          key={key}
+          data-color={color}
+          onClick={this.props.onClick}
+          style={{ backgroundColor: color }}
+        />
+      );
+    }, this);
+  }
 
-    /**
-     * Renders the list of colors on the palette
-     */
-    drawColors() {
-        return colors.map((color, key) => {
-            return (<li key={key} data-color={color} onClick={this.props.onClick} style={{ backgroundColor: color }}></li>)
-        }, this);
-    }
+  componentDidMount() {
+    document.querySelector(`[data-color='${this.state.colorPicked}']`).className = 'active-color';
+  }
 
-    render() {
-        return (
-            <ul className="colors">
-                {this.drawColors()}
-            </ul>
-        )
-    }
+  render() {
+    return <ul className='colors'>{this._drawColors()}</ul>;
+  }
 }
 
 /**
- * 
- * @param {*} param0 
+ * The component will subscribe to Redux store updates.
+ * @param {store}
  */
 function mapStateToProps({ GameReducer }) {
-    const { colorPicked } = GameReducer;
+  const { colorPicked } = GameReducer;
 
-    return { colorPicked };
+  return { colorPicked };
 }
 
-export default connect(mapStateToProps, { setColorPicked })(Palete);
+export default connect(mapStateToProps,{ setColorPicked })(Palete);

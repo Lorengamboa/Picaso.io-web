@@ -1,50 +1,52 @@
 'use strict';
 
-export const UPDATE_CANVAS = 'updateCanvas';
-export const CHANGE_COLOR_PICKED = 'selectColor';
-export const SELECT_TOOL_PICKED = 'selectTool';
-export const SELECT_PEN_WIDTH = 'setPenWidth';
+import {
+  UPDATE_CANVAS,
+  CHANGE_COLOR_PICKED,
+  SELECT_TOOL_PICKED,
+  SELECT_PEN_WIDTH
+} from './actions';
 
 /**
- * 
- * @param {*} data 
+ * Updates the canvas
+ * @param {*} data
  */
 export function updateCanvas(data) {
   return {
     type: UPDATE_CANVAS,
     payload: data
-  }
+  };
 }
 
 /**
- * 
- * @param {*} data 
+ * Sets the color tool pencil
+ * @param {*} data
  */
 export function setColorPicked(color) {
   return {
     type: CHANGE_COLOR_PICKED,
     payload: color
-  }
+  };
 }
 
 /**
- * 
- * @param {*} data 
+ * Selects a tool
+ * @param {string} data
  */
 export function selectTool(tool) {
   return {
     type: SELECT_TOOL_PICKED,
     payload: tool
-  }
+  };
 }
 
 /**
- * 
- * @param {*} data 
+ * Selects a pen width from a width range
+ * @param {Number} data
  */
 export function setPenWidth(width) {
   return {
     type: SELECT_PEN_WIDTH,
     payload: width
-  }
+  };
 }

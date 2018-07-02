@@ -2,77 +2,83 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { selectTool, setColorPicked } from '../../actions/game_action';
+import { selectTool, setColorPicked } from '../../actions/game';
 import Palete from './Palete';
 import Tool from './Tool';
+import { EVENTS } from './events';
 
-const EVENTS = {
-    CLEAR_CANVAS: 'clearCanvas'
-}
 /**
  * @class ToolPaint
  * @desc
  */
 class ToolPaint extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        // Event listeners
-        this.onEraserClick = this.onEraserClick.bind(this);
-        this.onPaleteClick = this.onPaleteClick.bind(this);
-        this.onBinClick = this.onBinClick.bind(this);
-    }
-    
-    /**
-     * 
-     */
-    onEraserClick(e) {
-        document.getElementById("mycanvas").style.cursor = "url('/assets/img/tools/eraser.png') 0 30, auto";
-        this.props.selectTool('eraser');
-    }
+    // Event listeners
+    this._onEraserClick = this._onEraserClick.bind(this);
+    this._onPaleteClick = this._onPaleteClick.bind(this);
+    this._onBinClick = this._onBinClick.bind(this);
+  }
 
-    /**
-     * If a color from the palette has been click, it will set as the color seleted
-     * @param {NodeElement} element 
-     */
-    onPaleteClick(element) {
-        document.getElementById("mycanvas").style.cursor = "url('/assets/img/tools/pencil.png') 0 30, auto";
-        document.querySelector(`[data-color="${this.props.colorPicked}"]`).classList.remove("active-color");
+  /**
+   *
+   */
+  _onEraserClick() {
+    document.getElementById('mycanvas').style.cursor = "url('/assets/img/tools/eraser.png') 0 30, auto";
+    this.props.selectTool('eraser');
+  }
 
-        const color = element.target.dataset.color;
-        element.target.className = "active-color";
-        this.props.setColorPicked(color);
-        this.props.selectTool('pencil');
-    }
+  /**
+   * If a color from the palette has been click, it will set as the color seleted
+   * @param {NodeElement} element
+   */
+  _onPaleteClick(element) {
+    document.getElementById('mycanvas').style.cursor = "url('/assets/img/tools/pencil.png') 0 30, auto";
+    document.querySelector(`[data-color='${this.props.colorPicked}']`).classList.remove('active-color');
 
-    /**
-     * 
-     * @param {*} e 
-     */
-    onBinClick(e) {
-        this.props.socket.emit(EVENTS.CLEAR_CANVAS, null);
-    }
+    const color = element.target.dataset.color;
+    element.target.className = 'active-color';
+    this.props.setColorPicked(color);
+    this.props.selectTool('pencil');
+  }
 
-    render() {
-        return (
-            <div className="toolpaint">
-                <Palete onClick={this.onPaleteClick}/>
-                <Tool type="eraser" onClick={this.onEraserClick} src='/assets/img/tools/eraser.png'/>
-                <Tool type="bin" onClick={this.onBinClick} src='/assets/img/tools/bin.png'/>
-            </div>
-        )
-    }
+  /**
+   *
+   * @param {*} e
+   */
+  _onBinClick() {
+    this.props.socket.emit(EVENTS.CLEAR_CANVAS, null);
+  }
+
+  render() {
+    return (
+      <div className='toolpaint'>
+        <Palete onClick={this._onPaleteClick} />
+        <Tool
+          type='eraser'
+          onClick={this._onEraserClick}
+          src='/assets/img/tools/eraser.png'
+        />
+        <Tool
+          type='bin'
+          onClick={this._onBinClick}
+          src='/assets/img/tools/bin.png'
+        />
+      </div>
+    );
+  }
 }
 
 /**
- * 
- * @param {*} param0 
+ * The component will subscribe to Redux store updates.
+ * @param {store}
  */
 function mapStateToProps({ GameReducer, PlayerReducer }) {
-    const { colorPicked, myCanvas } = GameReducer;
-    const { socket } = PlayerReducer;
+  const { colorPicked, myCanvas } = GameReducer;
+  const { socket } = PlayerReducer;
 
-    return { colorPicked, myCanvas, socket };
+  return { colorPicked, myCanvas, socket };
 }
 
-export default connect(mapStateToProps, { selectTool, setColorPicked })(ToolPaint);
+export default connect(mapStateToProps,{ selectTool, setColorPicked })(ToolPaint);

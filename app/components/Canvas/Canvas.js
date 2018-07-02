@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateCanvas } from '../../actions/game_action';
+import { updateCanvas } from '../../actions/game';
 
 /**
  * @class Canvas

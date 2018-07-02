@@ -1,10 +1,7 @@
 'use strict';
 
 import openSocket from 'socket.io-client';
-
-export const CHANGE_USERNAME = 'setPlayerUsername';
-export const SOCKET_CONNECTION = 'openSocketConnection';
-
+import { CHANGE_USERNAME, SOCKET_CONNECTION } from './actions';
 
 /**
  * Sets the username value

@@ -2,8 +2,10 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setUsername, openPlayerSocketConnection } from '../actions/player_action';
+import { setUsername, openPlayerSocketConnection } from '../actions/player';
 import { InputText, PrimaryButton } from '../components/common';
+
+let x;
 
 /**
  * HOMEPAGE COMPONENT VIEW
@@ -17,7 +19,8 @@ class HomePage extends Component {
             placeholder: "Introduce a nickname",
             username: this.props.username,
             buttonTxt: "Play as a Guest",
-            privateTxt: "Create Private room"
+            privateTxt: "Create Private room",
+            optionTxt: "Options"
         }
 
         // Events listeners
@@ -43,8 +46,8 @@ class HomePage extends Component {
      * to a random room to play!
      */
     onPlayButtonClick() {
-        if(!this.state.username) return false;
-        
+        if (!this.state.username) return false;
+
         this.props.setUsername(this.state.username);
         this.props.openPlayerSocketConnection();
         this.props.history.push('/play');
@@ -54,7 +57,7 @@ class HomePage extends Component {
      * 
      */
     onCreateButtonClick() {
-        if(!this.state.username) return false;
+        if (!this.state.username) return false;
 
         this.props.setUsername(this.state.username);
         this.props.openPlayerSocketConnection();
@@ -73,25 +76,26 @@ class HomePage extends Component {
 
     render() {
         return (
-            <div className="container">
-                <div className="home-menu">
-                    <InputText
-                        placeholder={this.state.placeholder}
-                        onInputChange={this.onInputChange}
-                        username={this.state.username}
-                        onKeyPress={this.onSubmit}
-                    />
-                    <br />
-                    <PrimaryButton
-                        class="button-primary"
-                        value={this.state.buttonTxt}
-                        onClick={this.onPlayButtonClick}
-                    />
-                    <PrimaryButton
-                        value={this.state.privateTxt}
-                        onClick={this.onCreateButtonClick}
-                    />
-                </div>
+            <div className="home-menu">
+                <InputText
+                    placeholder={this.state.placeholder}
+                    onInputChange={this.onInputChange}
+                    username={this.state.username}
+                    onKeyPress={this.onSubmit}
+                />
+                <br />
+                <PrimaryButton
+                    class="button-primary"
+                    value={this.state.buttonTxt}
+                    onClick={this.onPlayButtonClick}
+                />
+                <PrimaryButton
+                    value={this.state.privateTxt}
+                    onClick={this.onCreateButtonClick}
+                />
+                <PrimaryButton
+                    value={this.state.optionTxt}
+                />
             </div>
         )
     }

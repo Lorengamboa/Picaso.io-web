@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setUsername, openPlayerSocketConnection } from '../actions/player_action';
+import { setUsername, openPlayerSocketConnection } from '../actions/player';
 import { InputText, PrimaryButton } from '../components/common';
 
 /**

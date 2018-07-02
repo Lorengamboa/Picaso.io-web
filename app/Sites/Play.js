@@ -6,12 +6,14 @@ import Canvas from '../components/Canvas';
 import ChatList from '../components/ChatList';
 import UserList from '../components/UserList';
 import ToolPaint from '../components/ToolPaint';
+import Timer from '../components/Timer';
 
 const SOCKET_EVENTS = {
     PLAYER_JOIN_RANDOM_GAMEROOM: 'joinRandomRoom',
     UPDATE_CANVAS: 'updateCanvas',
     PLAYER_DISCONNECT: 'disconnect',
-    CLEAR_CANVAS: 'clearCanvas'
+    CLEAR_CANVAS: 'clearCanvas',
+    TIMER_UPDATE: 'updateTimer'
 };
 
 /**
@@ -28,7 +30,8 @@ class PlayPage extends Component {
                 x: null,
                 y: null,
             },
-            drawData: null
+            drawData: null,
+            countDown: 0
         }
 
         // Events
@@ -55,9 +58,16 @@ class PlayPage extends Component {
             context.clearRect(0, 0, width, height);
         });
         //
-        this.props.socket.on(SOCKET_EVENTS.PLAYER_DISCONNECT, (msg) => {
+        this.props.socket.on(SOCKET_EVENTS.PLAYER_DISCONNECT, msg => {
             this.props.history.push('/');
         }, this);
+        //
+        this.props.socket.on(SOCKET_EVENTS.TIMER_UPDATE, time => {
+            this.setState({
+                countDown: time
+            })
+        });
+
     }
 
     /**
@@ -130,6 +140,7 @@ class PlayPage extends Component {
                         <ToolPaint />
                     </div>
                     <div className="two columns">
+                        <Timer time={this.state.countDown}/>
                         <UserList />
                     </div>
 
