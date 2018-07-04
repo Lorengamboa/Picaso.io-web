@@ -1,6 +1,6 @@
 'use strict';
 
-import { CHANGE_USERNAME, SOCKET_CONNECTION }from '../actions/player/actions';
+import { CHANGE_USERNAME, SOCKET_CONNECTION } from '../../actions/player/actions';
 
 const initialState = {
   username: '',

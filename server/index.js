@@ -1,13 +1,13 @@
 'use strict';
 
 const startServer = require("./server");
-const { socketController } = require("./socket");
+const socketManager = require("./socket");
 
 /**
  * Sets up the server
  */
 const createServer = http => {
-    socketController.init(http)
+    socketManager.init(http)
     startServer(http);
 }
 

@@ -1,6 +1,6 @@
 'use strict';
 
-import openSocket from 'socket.io-client';
+import io from 'socket.io-client';
 import { CHANGE_USERNAME, SOCKET_CONNECTION } from './actions';
 
 /**
@@ -11,7 +11,7 @@ export function setUsername(username) {
   return {
     type: CHANGE_USERNAME,
     payload: username
-  }
+  };
 }
 
 /**
@@ -20,12 +20,12 @@ export function setUsername(username) {
  */
 export function openPlayerSocketConnection() {
   var host = window.location.protocol + "//" + window.location.host;
-  const socket = openSocket(host);
+  const socket = io(host);
 
   return {
     type: SOCKET_CONNECTION,
     payload: socket
-  }
+  };
 }
 
 

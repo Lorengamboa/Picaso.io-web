@@ -1,6 +1,6 @@
 'use strict';
 
-import { CHANGE_COLOR_PICKED, SELECT_TOOL_PICKED, SELECT_PEN_WIDTH } from '../actions/game/actions';
+import { CHANGE_COLOR_PICKED, SELECT_TOOL_PICKED, SELECT_PEN_WIDTH } from '../../actions/game/actions';
 
 const initialState = {
   toolPicked: 'pencil',

@@ -1,13 +1,14 @@
-import openSocket from 'socket.io-client';
 import { openPlayerSocketConnection, setUsername } from './player_action';
 
 describe('game actions', () => {
-    /*
+    
     it('opens a socket connection', () => {
         const socketConnection = openPlayerSocketConnection({});
-        const connectionMock = jest.fn();
-        expect(socketConnection).toEqual({ type: 'openSocketConnection', payload: connectionMock });
-    });*/
+        const mockConnection;
+        jest.mock('socket.io-client', () => mockConnection);
+        console.log(mockConnection)
+        expect(socketConnection).toEqual({ type: 'openSocketConnection', payload: mockConnection });
+    });
 
     it('sets the username', () => {
         const username = setUsername('Lorenzo');

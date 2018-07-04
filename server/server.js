@@ -5,7 +5,7 @@ const chalk = require('chalk');
 
 const startServer = http => {
     http.listen(PORT, () => {
-        console.log(chalk.green(`Picaso.io App listening on port ${PORT}`));
+        console.log(chalk.green(`${process.env.NODE_ENV}, Picaso.io App listening on port ${PORT}`));
     });
 }
 

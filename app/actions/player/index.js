@@ -1,5 +1,3 @@
 'use strict';
 
-import { openPlayerSocketConnection, setUsername } from './player_action';
-
-export { openPlayerSocketConnection, setUsername };
+export * from './player_action';

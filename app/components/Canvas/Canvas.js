@@ -50,8 +50,8 @@ class Canvas extends Component {
 }
 
 /**
- * 
- * @param {*} param0 
+ * The component will subscribe to Redux store updates.
+ * @param {store}
  */
 function mapStateToProps({ GameReducer }) {
     const { myCanvas } = GameReducer;
