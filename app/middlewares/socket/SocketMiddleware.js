@@ -11,14 +11,21 @@ const SocketMiddleware = socket => store => {
         store.dispatch(captureMessage(message));
     }); */
   return next => action => {
-    if(!socket && action.type !== 'openSocketConnection') next(action);
-    
-    console.log("Hey",store.getState().PlayerReducer.username)
+    if (!socket && action.type !== "openSocketConnection") next(action);
+    console.log("PANA1");
+
     // When dispatching a redux action.
     switch (action.type) {
-      case 'xaxaaxa':
-        socket = io(host);
-        socket.emit("joinRandomRoom", action.payload);
+      case "xa":
+        try {
+          console.log("PANA 3");
+
+          socket = io(host);
+          socket.emit("joinRandomRoom", store.getState().PlayerReducer.username);
+          //next(action);
+        } catch (error) {
+          next(action);
+        }
       default:
         next(action);
     }

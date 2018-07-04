@@ -2,6 +2,7 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Header } from "../components/common";
 import Canvas from "../components/Canvas";
 import ChatList from "../components/ChatList";
 import UserList from "../components/UserList";
@@ -137,6 +138,7 @@ class PlayPage extends Component {
   render() {
     return (
       <div id="play-site">
+      <Header />
         <div className="row">
           <div className="three columns">
             <ChatList />

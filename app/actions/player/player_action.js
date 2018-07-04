@@ -21,7 +21,7 @@ export function setUsername(username) {
 export function openPlayerSocketConnection() {
   var host = window.location.protocol + "//" + window.location.host;
   const socket = io(host);
-
+ console.log("PANA 2");
   return {
     type: SOCKET_CONNECTION,
     payload: socket

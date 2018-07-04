@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { setUsername, openPlayerSocketConnection } from "../actions/player";
-import { InputText, PrimaryButton } from "../components/common";
+import { InputText, PrimaryButton, Header } from "../components/common";
 
 /**
  * HOMEPAGE COMPONENT VIEW
@@ -73,24 +73,27 @@ class HomePage extends Component {
 
   render() {
     return (
-      <div className="home-menu">
-        <InputText
-          placeholder={this.state.placeholder}
-          onInputChange={this.onInputChange}
-          username={this.state.username}
-          onKeyPress={this.onSubmit}
-        />
-        <br />
-        <PrimaryButton
-          class="button-primary"
-          value={this.state.buttonTxt}
-          onClick={this.onPlayButtonClick}
-        />
-        <PrimaryButton
-          value={this.state.privateTxt}
-          onClick={this.onCreateButtonClick}
-        />
-        <PrimaryButton value={this.state.optionTxt} />
+      <div>
+        <Header />
+        <div className="home-menu">
+          <InputText
+            placeholder={this.state.placeholder}
+            onInputChange={this.onInputChange}
+            username={this.state.username}
+            onKeyPress={this.onSubmit}
+          />
+          <br />
+          <PrimaryButton
+            class="button-primary"
+            value={this.state.buttonTxt}
+            onClick={this.onPlayButtonClick}
+          />
+          <PrimaryButton
+            value={this.state.privateTxt}
+            onClick={this.onCreateButtonClick}
+          />
+          <PrimaryButton value={this.state.optionTxt} />
+        </div>
       </div>
     );
   }
