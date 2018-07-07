@@ -7,9 +7,14 @@ body,
 #root {
   width: 100%;
   height: 100%;
-  background-color: #1a1f21;
+  background-image: url('/assets/img/veggie-background.png');
+  background-repeat:repeat;
 }
 
+.img-responsive {
+  width: 100%;
+  height: auto;
+}
 .header {
   overflow: hidden;
 }
@@ -30,6 +35,27 @@ body,
   width: 100%;
 }
 
+.home-menu > input[type=text] {
+  height: 34px;
+  border: solid 1px;
+}
+
+.home-menu > .play-btn {
+  font-size: 50px;
+  background-color: green;
+  margin: 10px 0;
+  font-weight: bold;
+  border: solid 1px;
+}
+
+.home-menu > .create-btn {
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #bfbebe;
+  padding: 4px 0;
+  border: solid 1px;
+}
+
 .create-menu {
   width: 50%;
   margin: 220px auto;
@@ -43,7 +69,6 @@ select {
 #play-site {
   height: 100%;
   padding: 10px 20px;
-  background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
 }
 
 /* CHATLIST */

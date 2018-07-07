@@ -1,16 +1,5 @@
 'use strict';
 
-import React from 'react';
-
-const PrimaryButton = props => {
-    return (
-        <input 
-            type="button" 
-            className={props.class}
-            onClick={props.onClick}
-            value={props.value}
-        />
-    )
-}
+import PrimaryButton from './PrimaryButton';
 
 export default PrimaryButton;
