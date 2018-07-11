@@ -3,36 +3,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateCanvas } from '../../actions/game';
+import { PencilTool, EraserTool } from './drawTools';
 
 /**
  * @class Canvas
- * @desc 
+ * @desc Canvas HTML5 element where all the magic happens! 🎨
  */
 class Canvas extends Component {
     constructor(props) {
         super(props);
     }
 
-    componentWillReceiveProps(props) {
-        const { drawPosition, colorPicked, toolPicked } = props.data;
-        if (!drawPosition) return;
+    componentDidUpdate() {
+        if (!this.props.lastDraw) return;
         const ctx = this.refs.canvas.getContext("2d");
 
-        const { currentX, currentY, x, y } = drawPosition;
-
-        ctx.beginPath();
-        ctx.moveTo(x, y);   
-        ctx.lineTo(currentX, currentY);
-        if(toolPicked === 'eraser') {
-            ctx.strokeStyle = "white";
-            ctx.lineWidth = 5;
-        } else {
-            ctx.strokeStyle = colorPicked;
-            ctx.lineWidth = 2;   
-        }
-   
-        ctx.stroke();
-        ctx.closePath();
+        const tool = this.props.lastDraw.toolPicked;
+        if (tool === 'pencil')
+            PencilTool.classic(this.props.lastDraw, ctx);
+        else if (tool === 'eraser')
+            EraserTool(this.props.lastDraw, ctx);
     }
 
     render() {
@@ -53,10 +43,10 @@ class Canvas extends Component {
  * The component will subscribe to Redux store updates.
  * @param {store}
  */
-function mapStateToProps({ GameReducer }) {
-    const { myCanvas } = GameReducer;
+function mapStateToProps(store) {
+    const { lastDraw } = store.GameReducer;
 
-    return { myCanvas };
+    return { lastDraw };
 }
 
 

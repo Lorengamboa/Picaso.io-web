@@ -5,9 +5,9 @@ import rootReducer from '../reducers';
 import { logger } from '../middlewares/logger';
 import SocketMiddleware from '../middlewares/socket';
 
-const socket = null;
-
-const socketMiddleware = SocketMiddleware(socket);
+//
+const host = window.location.protocol + "//" + window.location.host;
+const socketMiddleware = SocketMiddleware(host);
 
 const store = createStore(
     rootReducer,

@@ -4,7 +4,7 @@ import { CHANGE_USERNAME, SOCKET_CONNECTION } from '../../actions/player/actions
 
 const initialState = {
   username: '',
-  socket: null
+  connection: false
 };
 
 export default function PlayerReducer(state = initialState, action) {
@@ -15,7 +15,7 @@ export default function PlayerReducer(state = initialState, action) {
       });
     case SOCKET_CONNECTION:
       return Object.assign({}, state, {
-        socket: action.payload
+        connection: action.payload
       });
     default:
       return state;

@@ -6,7 +6,7 @@ import React from "react";
  * Header Component
  */
 const Header = () => (
-  <div class="header">
+  <div className="header">
     <a href="#default" className="logo">
       <img src="/assets/img/logo.png" />
     </a>

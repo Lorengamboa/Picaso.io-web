@@ -39,10 +39,10 @@ class CreatePage extends Component {
               <InputText value="SDADASDXASXASD" />
             </div>
             <div className="four columns">
-              <PrimaryButton class="button-primary" value="COPY" />
+              <PrimaryButton className="button-primary" value="COPY" />
             </div>
           </div>
-          <PrimaryButton class="button-primary" value="create" />
+          <PrimaryButton className="button-primary" value="create" />
         </div>
       </div>
     );

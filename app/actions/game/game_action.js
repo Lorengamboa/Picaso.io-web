@@ -4,7 +4,11 @@ import {
   UPDATE_CANVAS,
   CHANGE_COLOR_PICKED,
   SELECT_TOOL_PICKED,
-  SELECT_PEN_WIDTH
+  SELECT_PEN_WIDTH,
+  UPDATE_USERLIST,
+  ADD_NEW_CHAT_MESSAGE,
+  PLAYER_SEND_MESSAGE,
+  PLAYER_DRAW_CANVAS
 } from './actions';
 
 /**
@@ -14,7 +18,7 @@ import {
 export function updateCanvas(data) {
   return {
     type: UPDATE_CANVAS,
-    payload: data
+    payload: data,
   };
 }
 
@@ -25,7 +29,7 @@ export function updateCanvas(data) {
 export function setColorPicked(color) {
   return {
     type: CHANGE_COLOR_PICKED,
-    payload: color
+    payload: color,
   };
 }
 
@@ -36,7 +40,7 @@ export function setColorPicked(color) {
 export function selectTool(tool) {
   return {
     type: SELECT_TOOL_PICKED,
-    payload: tool
+    payload: tool,
   };
 }
 
@@ -47,6 +51,49 @@ export function selectTool(tool) {
 export function setPenWidth(width) {
   return {
     type: SELECT_PEN_WIDTH,
-    payload: width
+    payload: width,
+  };
+}
+
+/**
+ * 
+ */
+export function updatePlayerList(playerList) {
+  return {
+    type: UPDATE_USERLIST,
+    payload: playerList,
+  };
+}
+
+/**
+ * 
+ * @param {*} message 
+ */
+export function addMessageToChat(message) {
+  return {
+    type: ADD_NEW_CHAT_MESSAGE,
+    payload: message,
+  };
+}
+
+/**
+ * 
+ * @param {*} message 
+ */
+export function playerSendMessage(message) {
+  return {
+    type: PLAYER_SEND_MESSAGE,
+    payload: message,
+  };
+}
+
+/**
+ * 
+ * @param {*} message 
+ */
+export function playerDrawCanvas(data) {
+  return {
+    type: PLAYER_DRAW_CANVAS,
+    payload: data,
   };
 }

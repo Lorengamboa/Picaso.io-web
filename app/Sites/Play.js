@@ -9,13 +9,7 @@ import UserList from "../components/UserList";
 import ToolPaint from "../components/ToolPaint";
 import Timer from "../components/Timer";
 
-const SOCKET_EVENTS = {
-  PLAYER_JOIN_RANDOM_GAMEROOM: "joinRandomRoom",
-  UPDATE_CANVAS: "updateCanvas",
-  PLAYER_DISCONNECT: "disconnect",
-  CLEAR_CANVAS: "clearCanvas",
-  TIMER_UPDATE: "updateTimer"
-};
+import { playerDrawCanvas } from '../actions/game';
 
 /**
  * PLAYPAGE COMPONENT VIEW
@@ -42,12 +36,7 @@ class PlayPage extends Component {
   }
 
   componentDidMount() {
-    //
-    this.props.socket.emit(
-      SOCKET_EVENTS.PLAYER_JOIN_RANDOM_GAMEROOM,
-      this.state.username
-    );
-    //
+    /*
     this.props.socket.on(SOCKET_EVENTS.UPDATE_CANVAS, drawingInfo => {
       this.setState({
         drawData: drawingInfo
@@ -60,21 +49,7 @@ class PlayPage extends Component {
       const context = mycanvas.getContext("2d");
 
       context.clearRect(0, 0, width, height);
-    });
-    //
-    this.props.socket.on(
-      SOCKET_EVENTS.PLAYER_DISCONNECT,
-      msg => {
-        this.props.history.push("/");
-      },
-      this
-    );
-    //
-    this.props.socket.on(SOCKET_EVENTS.TIMER_UPDATE, time => {
-      this.setState({
-        countDown: time
-      });
-    });
+    }); */
   }
 
   /**
@@ -92,7 +67,8 @@ class PlayPage extends Component {
       currentY: e.clientY - offsetTop
     });
 
-    this.props.socket.emit("drawing", {
+    //
+    this.props.playerDrawCanvas({
       drawPosition,
       colorPicked: this.props.colorPicked,
       toolPicked: this.props.toolPicked
@@ -147,7 +123,6 @@ class PlayPage extends Component {
             <Canvas
               onMouseMove={this.handleDisplayMouseMove}
               onMouseDown={this.handleDisplayMouseDown}
-              data={this.state.drawData}
             />
             <ToolPaint />
           </div>
@@ -174,5 +149,5 @@ function mapStateToProps({ PlayerReducer, GameReducer }) {
 
 export default connect(
   mapStateToProps,
-  null
+  {playerDrawCanvas}
 )(PlayPage);

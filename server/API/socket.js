@@ -6,7 +6,7 @@ var router = express.Router();
 const general_dictionary = require('../dictionary/general_en');
 const { rndValueArray } = require('../utils');
 
-/**
+/*
  * API ROUTES
  * game API routes related to game dicitonary
  */

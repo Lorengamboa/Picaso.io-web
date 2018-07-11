@@ -1,31 +1,29 @@
-"use strict";
+'use strict';
 
 import io from "socket.io-client";
-//import { SOCKET_CONNECTION } from "../actions/player/actions";
+import SocketManager from './socketManager';
 
-const SocketMiddleware = socket => store => {
-  const host = window.location.protocol + "//" + window.location.host;
-  /*
-    socket.on(DISPLAY_CHAT_MESSAGE, message => {
-        console.log('From server', message);
-        store.dispatch(captureMessage(message));
-    }); */
+import { SOCKET_CONNECTION } from "../../actions/player/actions";
+import { PLAYER_SEND_MESSAGE, PLAYER_DRAW_CANVAS } from "../../actions/game/actions";
+
+const SocketMiddleware = url => store => {
+  let sm; // socketManager instance
+  let ws; // websocket instance
+
   return next => action => {
-    if (!socket && action.type !== "openSocketConnection") next(action);
-    console.log("PANA1");
-
     // When dispatching a redux action.
+   
     switch (action.type) {
-      case "xa":
-        try {
-          console.log("PANA 3");
-
-          socket = io(host);
-          socket.emit("joinRandomRoom", store.getState().PlayerReducer.username);
-          //next(action);
-        } catch (error) {
-          next(action);
-        }
+      case SOCKET_CONNECTION:
+          ws = io(url);
+          sm = new SocketManager(ws, store);
+          sm.joinRandomRoom(store.getState().PlayerReducer.username);
+          break;
+      case PLAYER_SEND_MESSAGE:
+        sm.sendMessage(action.payload);
+        break;
+      case PLAYER_DRAW_CANVAS:
+         sm.drawCanvas(action.payload);
       default:
         next(action);
     }

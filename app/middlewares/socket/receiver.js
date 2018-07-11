@@ -1,16 +1,26 @@
-"use strict";
+'use strict';
 
-import { addMessage } from '../../actions/game/game_action';
+import { updatePlayerList, addMessageToChat, updateCanvas } from '../../actions/game/game_action';
+import SOCKET_EVENTS from './events';
 
-/**
- *
- * @param {*} socket
- */
-const socketReceiver = function (socket, store) {
-  socket.on("informMessage", data => {
-    store.dispatch(addMessage(data));
+const Receiver = (socket, store) => {
+
+  socket.on(SOCKET_EVENTS.UPDATE_CHAT_INFORM_MESSAGE, data => {
+    store.dispatch(addMessageToChat(data));
   });
-  
+
+  socket.on(SOCKET_EVENTS.UPDATE_CHAT_PLAYER_MESSAGE, data => {
+    store.dispatch(addMessageToChat(data));
+  });
+
+  socket.on(SOCKET_EVENTS.UPDATE_USER_LIST, function (playerList) {
+    store.dispatch(updatePlayerList(playerList));
+  });
+
+  socket.on(SOCKET_EVENTS.UPDATE_CANVAS, data => {
+    store.dispatch(updateCanvas(data));
+  });
+
 };
 
-export default socketReceiver;
+export default Receiver;

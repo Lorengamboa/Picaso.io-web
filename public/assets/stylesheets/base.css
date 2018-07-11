@@ -7,10 +7,12 @@ body,
 #root {
   width: 100%;
   height: 100%;
-  background-image: url('/assets/img/veggie-background.png');
-  background-repeat:repeat;
 }
 
+body {
+  background-image: url("/assets/img/veggie-background.png");
+  background-repeat: repeat;
+}
 .img-responsive {
   width: 100%;
   height: auto;
@@ -35,7 +37,7 @@ body,
   width: 100%;
 }
 
-.home-menu > input[type=text] {
+.home-menu > input[type="text"] {
   height: 34px;
   border: solid 1px;
 }
@@ -89,6 +91,7 @@ select {
   box-sizing: border-box;
   border-bottom: solid 0.5px;
   border-radius: 4px;
+
 }
 
 .chatlist li .thumbnail {
@@ -99,11 +102,6 @@ select {
   line-height: 50px;
   text-align: center;
   text-decoration: none;
-  -webkit-transition: background 0.3s linear 0s;
-  -moz-transition: background 0.3s linear 0s;
-  -ms-transition: background 0.3s linear 0s;
-  -o-transition: background 0.3s linear 0s;
-  transition: background 0.3s linear 0s;
 }
 
 .chatlist li .content {

@@ -3,13 +3,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Message, InfoMessage } from "../common";
+import { playerSendMessage } from '../../actions/game';
 import chatListStyles from "./styles";
 
-const SOCKET_EVENTS = {
-  RECEIVE_NEW_MESSAGE: "newMessage",
-  RECEIVE_GENERAL_MESSAGE: "informMessage",
-  SEND_MESSAGE: "sendMessage"
-};
 
 /**
  * @class ChatList
@@ -21,7 +17,6 @@ export class ChatList extends Component {
 
     this.state = {
       text: "",
-      messages: [],
       placeholder: "write your message"
     };
 
@@ -30,34 +25,21 @@ export class ChatList extends Component {
     this.updateText = this.updateText.bind(this);
   }
 
-  componentDidMount() {
-    // Receives a message from gameroom update
-    this.props.socket.on(
-      SOCKET_EVENTS.RECEIVE_NEW_MESSAGE,
-      ({ message, userColor, username }) => {
-        let newMessage = (
-          <Message
-            message={message}
-            username={username}
-            userColor={userColor}
-          />
+  renderMessages() {
+    return this.props.messages.map(message => {
+      // Receives message from player
+      if (message.type === "player") {
+        const { msg, userColor, username } = message;
+        return (
+          <Message message={message.message} username={username} userColor={userColor} />
         );
-        this.setState({
-          messages: [...this.state.messages, newMessage]
-        });
       }
-    );
-
-    // Receives a message from gameroom update
-    this.props.socket.on(
-      SOCKET_EVENTS.RECEIVE_GENERAL_MESSAGE,
-      ({ data, color }) => {
-        let newMessage = <InfoMessage message={data} color={color} />;
-        this.setState({
-          messages: [...this.state.messages, newMessage]
-        });
+      // Receives message from general chat
+      else if (message.type === "general") {
+        const { data, color } = message;
+        return <InfoMessage message={data} color={color} />;
       }
-    );
+    });
   }
 
   /**
@@ -65,7 +47,7 @@ export class ChatList extends Component {
    */
   onSubmit(e) {
     if (e.key === "Enter") {
-      this.props.socket.emit(SOCKET_EVENTS.SEND_MESSAGE, this.state.text);
+      this.props.playerSendMessage(this.state.text);
       this.setState({
         text: ""
       });
@@ -85,7 +67,7 @@ export class ChatList extends Component {
   render() {
     return (
       <div style={chatListStyles.container}>
-        <div style={chatListStyles.messagesBlock}>{this.state.messages}</div>
+        <div style={chatListStyles.messagesBlock}>{this.renderMessages()}</div>
         <textarea
           style={chatListStyles.inputMessage}
           placeholder={this.state.placeholder}
@@ -103,7 +85,10 @@ export class ChatList extends Component {
  * @param {store}
  */
 function mapStateToProps(state) {
-  return { socket: state.PlayerReducer.socket };
+  return { messages: state.GameReducer.messages };
 }
 
-export default connect(mapStateToProps, null)(ChatList);
+export default connect(
+  mapStateToProps,
+  { playerSendMessage }
+)(ChatList);
