@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 import {
   CHANGE_COLOR_PICKED,
@@ -6,16 +6,22 @@ import {
   SELECT_PEN_WIDTH,
   UPDATE_USERLIST,
   ADD_NEW_CHAT_MESSAGE,
-  UPDATE_CANVAS
-} from '../../actions/game/actions';
+  UPDATE_CANVAS,
+  UPDATE_TIMER,
+  UPDATE_GAME_STATE,
+  DISPLAY_PLAYERS_DRAW
+} from "../../actions/game/actions";
 
 const initialState = {
-  toolPicked: 'pencil',
-  colorPicked: '#000',
-  penWidth: '1px',
+  toolPicked: "pencil",
+  colorPicked: "#000",
+  penWidth: "1px",
   playerList: [],
   messages: [],
-  lastDraw: null
+  lastDraw: null,
+  countDown: 301,
+  gamePlay: "waiting",
+  playersDraw: []
 };
 
 export default function GameReducer(state = initialState, action) {
@@ -41,9 +47,21 @@ export default function GameReducer(state = initialState, action) {
         messages: [...state.messages, action.payload]
       });
     case UPDATE_CANVAS:
-    return Object.assign({}, state, {
-      lastDraw: action.payload
-    });
+      return Object.assign({}, state, {
+        lastDraw: action.payload
+      });
+    case UPDATE_TIMER:
+      return Object.assign({}, state, {
+        countDown: action.payload
+      });
+    case UPDATE_GAME_STATE:
+      return Object.assign({}, state, {
+        gamePlay: action.payload
+      });
+    case DISPLAY_PLAYERS_DRAW:
+      return Object.assign({}, state, {
+        playersDraw: action.payload
+      });
     default:
       return state;
   }

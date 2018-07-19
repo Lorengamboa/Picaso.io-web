@@ -9,7 +9,10 @@ const SOCKET_EVENTS = {
     UPDATE_CHAT_INFORM_MESSAGE: 'generalMessage',
     UPDATE_USER_LIST: 'updateUserList',
     CLEAR_CANVAS: 'clearCanvas',
-    UPDATE_CANVAS: 'updateCanvas'
+    UPDATE_CANVAS: 'updateCanvas',
+    UPDATE_TIMER: 'updateTimer',
+    UPDATE_GAME_STATE: 'updateGameState',
+    DISPLAY_PLAYERS_DRAW: 'playerDraws',
 };
 
 export default SOCKET_EVENTS;

@@ -1,5 +1,5 @@
-'use strict';
+'use strict'
 
-const socketManager = require('./socketManager');
+const socketManager = require('./socketManager')
 
-module.exports = socketManager;
+module.exports = socketManager

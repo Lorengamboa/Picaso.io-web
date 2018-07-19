@@ -1,10 +1,9 @@
 'use strict';
 
-import { updatePlayerList, addMessageToChat, updateCanvas } from '../../actions/game/game_action';
 import SOCKET_EVENTS from './events';
+import { updatePlayerList, addMessageToChat, updateCanvas, updateTimer, updateGameState, fetchPlayersDraw } from '../../actions/game/game_action';
 
 const Receiver = (socket, store) => {
-
   socket.on(SOCKET_EVENTS.UPDATE_CHAT_INFORM_MESSAGE, data => {
     store.dispatch(addMessageToChat(data));
   });
@@ -13,7 +12,7 @@ const Receiver = (socket, store) => {
     store.dispatch(addMessageToChat(data));
   });
 
-  socket.on(SOCKET_EVENTS.UPDATE_USER_LIST, function (playerList) {
+  socket.on(SOCKET_EVENTS.UPDATE_USER_LIST, playerList => {
     store.dispatch(updatePlayerList(playerList));
   });
 
@@ -21,6 +20,17 @@ const Receiver = (socket, store) => {
     store.dispatch(updateCanvas(data));
   });
 
+  socket.on(SOCKET_EVENTS.UPDATE_TIMER, data => {
+    store.dispatch(updateTimer(data));
+  });
+  
+  socket.on(SOCKET_EVENTS.UPDATE_GAME_STATE, data => {
+    store.dispatch(updateGameState(data));
+  }); 
+
+  socket.on(SOCKET_EVENTS.DISPLAY_PLAYERS_DRAW, data => {
+    store.dispatch(fetchPlayersDraw(data));
+  }); 
 };
 
 export default Receiver;

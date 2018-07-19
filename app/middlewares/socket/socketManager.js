@@ -30,6 +30,13 @@ class SocketManager {
   drawCanvas(data) {
     this.socket.emit(SOCKET_EVENTS.PLAYER_DRAWING, data);
   }
+
+  /**
+   * 
+   */
+  clearCanvas() {
+    this.socket.emit(SOCKET_EVENTS.CLEAR_CANVAS);
+  }
 }
 
 export default SocketManager;

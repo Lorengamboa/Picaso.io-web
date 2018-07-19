@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateCanvas } from '../../actions/game';
-import { PencilTool, EraserTool } from './drawTools';
+import { PencilTool, EraserTool, BinRecycler } from './drawTools';
 
 /**
  * @class Canvas
@@ -16,15 +16,19 @@ class Canvas extends Component {
 
     componentDidUpdate() {
         if (!this.props.lastDraw) return;
-        const ctx = this.refs.canvas.getContext("2d");
+        const canvas = this.refs.canvas;
+        const ctx = canvas.getContext("2d");
 
         const tool = this.props.lastDraw.toolPicked;
+
         if (tool === 'pencil')
             PencilTool.classic(this.props.lastDraw, ctx);
         else if (tool === 'eraser')
             EraserTool(this.props.lastDraw, ctx);
+        else if (tool === 'bin')
+            BinRecycler(canvas);
     }
-
+    
     render() {
         return (
             <canvas

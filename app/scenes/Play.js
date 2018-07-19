@@ -2,14 +2,14 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Header } from "../components/common";
+import { Header, DrawThumbnail } from "../components/common";
 import Canvas from "../components/Canvas";
 import ChatList from "../components/ChatList";
 import UserList from "../components/UserList";
 import ToolPaint from "../components/ToolPaint";
 import Timer from "../components/Timer";
 
-import { playerDrawCanvas } from '../actions/game';
+import { playerDrawCanvas } from "../actions/game";
 
 /**
  * PLAYPAGE COMPONENT VIEW
@@ -25,31 +25,13 @@ class PlayPage extends Component {
         x: null,
         y: null
       },
-      drawData: null,
-      countDown: 0
+      drawData: null
     };
 
     // Events
     this.handleDisplayMouseMove = this.handleDisplayMouseMove.bind(this);
     this.handleDisplayMouseUp = this.handleDisplayMouseUp.bind(this);
     this.handleDisplayMouseDown = this.handleDisplayMouseDown.bind(this);
-  }
-
-  componentDidMount() {
-    /*
-    this.props.socket.on(SOCKET_EVENTS.UPDATE_CANVAS, drawingInfo => {
-      this.setState({
-        drawData: drawingInfo
-      });
-    });
-    //
-    this.props.socket.on(SOCKET_EVENTS.CLEAR_CANVAS, () => {
-      const mycanvas = document.getElementById("mycanvas");
-      const { width, height } = mycanvas;
-      const context = mycanvas.getContext("2d");
-
-      context.clearRect(0, 0, width, height);
-    }); */
   }
 
   /**
@@ -111,23 +93,42 @@ class PlayPage extends Component {
     this.setState({ isPenDown: false });
   }
 
+  renderPlayerDraws() {
+   return this.props.playersDraw.map(base64 => {
+      return <DrawThumbnail src={base64} />
+    });
+  }
+
   render() {
     return (
       <div id="play-site">
-      <Header />
+        <Header />
         <div className="row">
           <div className="three columns">
             <ChatList />
           </div>
           <div className="seven columns">
-            <Canvas
-              onMouseMove={this.handleDisplayMouseMove}
-              onMouseDown={this.handleDisplayMouseDown}
-            />
+            {(this.props.gamePlay === "starting" ||
+            this.props.gamePlay === "voting")
+             ? this.renderPlayerDraws()
+             : (
+              <Canvas
+                onMouseMove={this.handleDisplayMouseMove}
+                onMouseDown={this.handleDisplayMouseDown}
+              />
+            )}
+
             <ToolPaint />
           </div>
           <div className="two columns">
-            <Timer time={this.state.countDown} />
+            <div className="score">
+              {this.props.gamePlay}
+              {this.props.gamePlay === "waiting" ? (
+                "Not enough players to start"
+              ) : (
+                <Timer time={this.props.countDown} />
+              )}
+            </div>
             <UserList />
           </div>
         </div>
@@ -142,12 +143,12 @@ class PlayPage extends Component {
  */
 function mapStateToProps({ PlayerReducer, GameReducer }) {
   const { username, socket } = PlayerReducer;
-  const { colorPicked, toolPicked } = GameReducer;
-
-  return { username, socket, colorPicked, toolPicked };
+  const { colorPicked, toolPicked, countDown, gamePlay, playersDraw } = GameReducer;
+  
+  return { username, socket, colorPicked, toolPicked, countDown, gamePlay, playersDraw };
 }
 
 export default connect(
   mapStateToProps,
-  {playerDrawCanvas}
+  { playerDrawCanvas }
 )(PlayPage);

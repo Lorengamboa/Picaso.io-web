@@ -8,7 +8,11 @@ import {
   UPDATE_USERLIST,
   ADD_NEW_CHAT_MESSAGE,
   PLAYER_SEND_MESSAGE,
-  PLAYER_DRAW_CANVAS
+  PLAYER_DRAW_CANVAS,
+  PLAYER_CLEAR_CANVAS,
+  UPDATE_TIMER,
+  UPDATE_GAME_STATE,
+  DISPLAY_PLAYERS_DRAW
 } from './actions';
 
 /**
@@ -20,6 +24,39 @@ export function updateCanvas(data) {
     type: UPDATE_CANVAS,
     payload: data,
   };
+}
+
+/**
+ * 
+ * @param {*} data 
+ */
+export function updateTimer(data) {
+  return {
+    type: UPDATE_TIMER,
+    payload: data
+  }
+}
+
+/**
+ * 
+ * @param {*} data 
+ */
+export function updateGameState(data) {
+  return {
+    type: UPDATE_GAME_STATE,
+    payload: data
+  }
+}
+
+/**
+ * 
+ * @param {*} data 
+ */
+export function fetchPlayersDraw(data) {
+  return {
+    type: DISPLAY_PLAYERS_DRAW,
+    payload: data
+  }
 }
 
 /**
@@ -57,6 +94,7 @@ export function setPenWidth(width) {
 
 /**
  * 
+ * @param {*} playerList 
  */
 export function updatePlayerList(playerList) {
   return {
@@ -97,3 +135,14 @@ export function playerDrawCanvas(data) {
     payload: data,
   };
 }
+
+/**
+ * 
+ * @param {*} message 
+ */
+export function clearCanvas() {
+  return {
+    type: PLAYER_CLEAR_CANVAS,
+  };
+}
+

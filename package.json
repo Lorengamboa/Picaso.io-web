@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "axios": "^0.16.2",
     "bad-words": "^1.6.1",
     "canvas": "^2.0.0-alpha.12",
     "chalk": "^2.4.1",
@@ -36,6 +37,7 @@
     "jest": "^23.2.0",
     "json-loader": "^0.5.7",
     "nodemon": "^1.17.5",
+    "prettier": "1.13.7",
     "react-admin": "^2.0.3",
     "react-test-renderer": "^16.4.1",
     "style-loader": "^0.21.0",
@@ -48,7 +50,8 @@
     "start": "nodemon .",
     "build": "./node_modules/.bin/webpack -p --config webpack.config.js",
     "test": "jest app/ — coverage",
-    "test:watch": "jest app/ --watch"
+    "test:watch": "jest app/ --watch",
+    "pretty:server": "prettier --print-width 80 --no-semi --single-quote --trailing-comma es5 --write server/*.js"
   },
   "keywords": [],
   "author": "",

@@ -42,19 +42,19 @@ body {
   border: solid 1px;
 }
 
-::-webkit-input-placeholder {
+.home-menu > input[type="text"]::-webkit-input-placeholder {
   text-align: center;
 }
 
-:-moz-placeholder { /* Firefox 18- */
+.home-menu > input[type="text"]:-moz-placeholder { /* Firefox 18- */
   text-align: center;  
 }
 
-::-moz-placeholder {  /* Firefox 19+ */
+.home-menu > input[type="text"]::-moz-placeholder {  /* Firefox 19+ */
   text-align: center;  
 }
 
-:-ms-input-placeholder {  
+.home-menu > input[type="text"]:-ms-input-placeholder {  
   text-align: center; 
 }
 
@@ -84,9 +84,26 @@ select {
   width: 100%;
 }
 
+/**
+ * Play site view
+ */
+ 
 #play-site {
   height: 100%;
   padding: 10px 20px;
+}
+
+.drawThumbnail {
+  width: 50%;
+  height: 50%;
+  background: white;
+}
+
+.score {
+  display: block;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background-color: white;
+  margin-bottom: 2px;
 }
 
 /* CHATLIST */
@@ -127,15 +144,27 @@ select {
   line-height: 1;
 }
 
+.txtfield {
+  width: 20em;
+  margin: auto;
+  display: block;
+  max-width: 100%;
+  height: 50px;
+  border: 1px solid rgba(112, 128, 144, 0.5);
+  border-radius: 3px;
+  padding: 0 0.6em;
+}
+
+/* Tools */
 .chatlist li .content p {
   margin-bottom: 0;
 }
+
 .toolpaint {
   text-align: center;
   padding-top: 20px;
 }
 
-/* PALETTE */
 .colors > li {
   list-style: none;
   border-radius: 50%;
@@ -162,30 +191,6 @@ select {
   border-bottom: 20px solid rgba(0, 0, 0, 0.15);
 }
 
-#show-emoji-yes {
-  font-size: 25px;
-  opacity: 0.9;
-  position: fixed;
-  bottom: 2%;
-  margin-left: 53%;
-}
-
-.btn-primary {
-  border: 1px solid;
-  overflow: hidden;
-  position: relative;
-}
-
-.txtfield {
-  width: 20em;
-  margin: auto;
-  display: block;
-  max-width: 100%;
-  height: 50px;
-  border: 1px solid rgba(112, 128, 144, 0.5);
-  border-radius: 3px;
-  padding: 0 0.6em;
-}
 
 canvas {
   background: #fff;
@@ -193,4 +198,12 @@ canvas {
   width: 100%;
   border: 1px solid #000000;
   cursor: url(/assets/img/tools/pencil.png) 7 30, auto;
+}
+
+/*****************************************************************/
+
+.btn-primary {
+  border: 1px solid;
+  overflow: hidden;
+  position: relative;
 }

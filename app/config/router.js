@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import store from '../config/store';
-import { HomePage, PlayPage, CreatePage } from '../Sites';
+import { HomePage, PlayPage, CreatePage } from '../scenes';
 
 export const router = (
   <Provider store={store}>

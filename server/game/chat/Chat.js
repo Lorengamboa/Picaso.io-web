@@ -1,6 +1,6 @@
 'use strict';
 
-var Filter = require('bad-words');
+var Filter = require('bad-words/lib/badwords');
 const { SOCKET_EVENTS } = require('../../events');
 
 const filter = new Filter();

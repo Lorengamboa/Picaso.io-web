@@ -2,5 +2,6 @@
 
 import PencilTool from './Pencil';
 import EraserTool from './Eraser';
+import BinRecycler from './BinRecycler';
 
-export { PencilTool, EraserTool };
+export { PencilTool, EraserTool, BinRecycler };

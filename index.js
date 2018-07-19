@@ -3,10 +3,12 @@
 //load of env conf
 require('dotenv').config();
 
+const http = require('http');
+
 const server = require("./server");
-const app = require("./app");
+const expressApp = require("./app");
 
-const http = require('http').Server(app);
+const app = http.Server(expressApp)
 
-server(http);
+server(app);
 

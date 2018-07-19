@@ -4,7 +4,7 @@ const path = require("path");
 const express = require("express");
 const app = express();
 
-const { API_DICTIONARY_v1, API_SOCKET_v1 } = require('./server/API');
+const { API_DICTIONARY_v1 } = require('./server/API');
 
 // SERVE STATIC FILES
 app.use(express.static(path.join(__dirname, 'public')));
@@ -37,7 +37,6 @@ app.get('/admin', function(request, response) {
  * API Endpoints
  */
 app.use('/api/dictionary', API_DICTIONARY_v1);
-app.use('/api/socket', API_SOCKET_v1);
 
 // 404 - NOT FOUND
 app.get('*', function(request, response) {

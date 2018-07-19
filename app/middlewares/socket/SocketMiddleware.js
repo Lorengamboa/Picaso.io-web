@@ -4,7 +4,7 @@ import io from "socket.io-client";
 import SocketManager from './socketManager';
 
 import { SOCKET_CONNECTION } from "../../actions/player/actions";
-import { PLAYER_SEND_MESSAGE, PLAYER_DRAW_CANVAS } from "../../actions/game/actions";
+import { PLAYER_SEND_MESSAGE, PLAYER_DRAW_CANVAS, PLAYER_CLEAR_CANVAS } from "../../actions/game/actions";
 
 const SocketMiddleware = url => store => {
   let sm; // socketManager instance
@@ -24,6 +24,10 @@ const SocketMiddleware = url => store => {
         break;
       case PLAYER_DRAW_CANVAS:
          sm.drawCanvas(action.payload);
+         break;
+      case PLAYER_CLEAR_CANVAS:
+         sm.clearCanvas();
+         break;
       default:
         next(action);
     }

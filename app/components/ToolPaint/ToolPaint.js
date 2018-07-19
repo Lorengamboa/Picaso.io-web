@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { selectTool, setColorPicked } from '../../actions/game';
+import { selectTool, setColorPicked, clearCanvas } from '../../actions/game';
 import Palete from './Palete';
 import Tool from './Tool';
 import { EVENTS } from './events';
@@ -48,7 +48,7 @@ class ToolPaint extends Component {
    * @param {*} e
    */
   _onBinClick() {
-    this.props.socket.emit(EVENTS.CLEAR_CANVAS, null);
+    this.props.clearCanvas();
   }
 
   render() {
@@ -81,4 +81,4 @@ function mapStateToProps({ GameReducer, PlayerReducer }) {
   return { colorPicked, myCanvas, socket };
 }
 
-export default connect(mapStateToProps,{ selectTool, setColorPicked })(ToolPaint);
+export default connect(mapStateToProps,{ selectTool, setColorPicked, clearCanvas })(ToolPaint);

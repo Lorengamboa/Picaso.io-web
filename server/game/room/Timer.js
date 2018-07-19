@@ -5,12 +5,15 @@
  */
 const Timer = {
     countdown: 0,
-    startCountdown: function (seconds) {
+    startCountdown: function (seconds, gameModeFnc) {
         var that = this;
         this.countdown = seconds;
         this.timer = setInterval((t) => {
-            if (that.countdown === 0) clearInterval(that.timer);
             this.io.emit('updateTimer', that.countdown);
+            if (that.countdown === 0) {
+                clearInterval(that.timer);
+                gameModeFnc.call(this);
+            }
             that.countdown--;
         }, 1000);
     }
