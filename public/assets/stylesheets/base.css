@@ -46,16 +46,18 @@ body {
   text-align: center;
 }
 
-.home-menu > input[type="text"]:-moz-placeholder { /* Firefox 18- */
-  text-align: center;  
+.home-menu > input[type="text"]:-moz-placeholder {
+  /* Firefox 18- */
+  text-align: center;
 }
 
-.home-menu > input[type="text"]::-moz-placeholder {  /* Firefox 19+ */
-  text-align: center;  
+.home-menu > input[type="text"]::-moz-placeholder {
+  /* Firefox 19+ */
+  text-align: center;
 }
 
-.home-menu > input[type="text"]:-ms-input-placeholder {  
-  text-align: center; 
+.home-menu > input[type="text"]:-ms-input-placeholder {
+  text-align: center;
 }
 
 .home-menu > .play-btn {
@@ -87,15 +89,15 @@ select {
 /**
  * Play site view
  */
- 
+
 #play-site {
   height: 100%;
   padding: 10px 20px;
 }
 
 .drawThumbnail {
-  width: 50%;
-  height: 50%;
+  width: 100%;
+  border: solid 1px black;
   background: white;
 }
 
@@ -124,7 +126,6 @@ select {
   box-sizing: border-box;
   border-bottom: solid 0.5px;
   border-radius: 4px;
-
 }
 
 .chatlist li .thumbnail {
@@ -190,7 +191,6 @@ select {
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
   border-bottom: 20px solid rgba(0, 0, 0, 0.15);
 }
-
 
 canvas {
   background: #fff;

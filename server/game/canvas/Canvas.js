@@ -17,6 +17,12 @@ class Canvas {
      */
     drawLine(data) {
         const { drawPosition, colorPicked, toolPicked } = data;
+        const { width, height } = this.canvas;
+
+        if (toolPicked === 'bin') {
+            this.ctx.clearRect(0, 0, width, height);
+            return;
+        }
 
         const { currentX, currentY, x, y } = drawPosition;
         this.ctx.beginPath();

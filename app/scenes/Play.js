@@ -93,9 +93,16 @@ class PlayPage extends Component {
     this.setState({ isPenDown: false });
   }
 
+  /**
+   *
+   */
   renderPlayerDraws() {
-   return this.props.playersDraw.map(base64 => {
-      return <DrawThumbnail src={base64} />
+    return this.props.playersDraw.map(base64 => {
+      return (
+        <div className="six columns">
+          <DrawThumbnail src={base64} />
+        </div>
+      );
     });
   }
 
@@ -108,11 +115,10 @@ class PlayPage extends Component {
             <ChatList />
           </div>
           <div className="seven columns">
-            {(this.props.gamePlay === "starting" ||
-            this.props.gamePlay === "voting")
-             ? this.renderPlayerDraws()
-             : (
-              <Canvas
+            {this.props.gamePlay === "starting" ||
+            this.props.gamePlay === "voting" 
+            ?( <div className="row">{this.renderPlayerDraws()}</div>) 
+            :( <Canvas
                 onMouseMove={this.handleDisplayMouseMove}
                 onMouseDown={this.handleDisplayMouseDown}
               />
@@ -143,9 +149,23 @@ class PlayPage extends Component {
  */
 function mapStateToProps({ PlayerReducer, GameReducer }) {
   const { username, socket } = PlayerReducer;
-  const { colorPicked, toolPicked, countDown, gamePlay, playersDraw } = GameReducer;
-  
-  return { username, socket, colorPicked, toolPicked, countDown, gamePlay, playersDraw };
+  const {
+    colorPicked,
+    toolPicked,
+    countDown,
+    gamePlay,
+    playersDraw
+  } = GameReducer;
+
+  return {
+    username,
+    socket,
+    colorPicked,
+    toolPicked,
+    countDown,
+    gamePlay,
+    playersDraw
+  };
 }
 
 export default connect(
