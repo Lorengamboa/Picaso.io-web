@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
 import ReactDOM from "react-dom";
-import { router } from './config/router';
+import { App } from "./App";
 
-ReactDOM.render(router, document.getElementById("root"));
+ReactDOM.render(App, document.getElementById("root"));

@@ -2,8 +2,9 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
+
 import { setUsername, openPlayerSocketConnection } from "../actions/player";
-import { InputText, PrimaryButton, Header } from "../components/common";
+import { InputText, PrimaryButton } from "../components/common";
 
 /**
  * HOMEPAGE COMPONENT VIEW
@@ -74,7 +75,7 @@ class HomePage extends Component {
     return (
       <div>
         <div className="home-menu">
-          <img className="img-responsive"src="/assets/img/logo.png" />
+          <img className="img-responsive" src="/assets/img/logo.png" />
           <InputText
             class="input"
             placeholder={this.state.placeholder}
