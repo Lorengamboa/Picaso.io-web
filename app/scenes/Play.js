@@ -42,11 +42,11 @@ class PlayPage extends Component {
     if (!this.state.isPenDown) return;
     const mycanvas = document.getElementById("mycanvas");
 
-    const { offsetLeft, offsetTop } = mycanvas;
+    const { top, left }  = mycanvas.getBoundingClientRect();
 
     const drawPosition = Object.assign({}, this.state.currentPosition, {
-      currentX: e.clientX - offsetLeft,
-      currentY: e.clientY - offsetTop
+      currentX: e.clientX - left,
+      currentY: e.clientY - top
     });
 
     //
@@ -58,8 +58,8 @@ class PlayPage extends Component {
 
     this.setState({
       currentPosition: Object.assign({}, this.state.currentPosition, {
-        x: e.clientX - offsetLeft,
-        y: e.clientY - offsetTop
+        x: e.clientX - left,
+        y: e.clientY - top
       })
     });
   }
@@ -73,13 +73,13 @@ class PlayPage extends Component {
 
     const mycanvas = document.getElementById("mycanvas");
 
-    const { offsetLeft, offsetTop } = mycanvas;
+    const { top, left }  = mycanvas.getBoundingClientRect();
 
     this.setState({
       isPenDown: true,
       currentPosition: Object.assign({}, this.state.currentPosition, {
-        x: e.clientX - offsetLeft,
-        y: e.clientY - offsetTop
+        x: e.clientX - left,
+        y: e.clientY - top
       })
     });
   }
