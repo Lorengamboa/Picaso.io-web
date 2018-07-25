@@ -7,8 +7,8 @@ import React from "react";
  */
 const Header = () => (
   <div className="header">
-    <a href="#default" className="logo">
-      <img src="/assets/img/logo.png" />
+    <a href="/">
+      <img className="logo" src="/assets/img/logo.png" />
     </a>
   </div>
 );

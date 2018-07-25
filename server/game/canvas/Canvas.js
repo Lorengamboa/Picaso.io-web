@@ -1,14 +1,22 @@
 'use strict';
 
-const { createCanvas, loadImage } = require('canvas');
+const { createCanvas } = require('canvas');
+
+const CANVAS_CONFIG = require('../config/canvas');
 
 /**
  * Class Canvas
  */
 class Canvas {
     constructor() {
-        this.canvas = createCanvas(800, 600)
-        this.ctx = this.canvas.getContext('2d')
+        this.canvas = createCanvas(CANVAS_CONFIG.WIDTH, CANVAS_CONFIG.HEIGHT);
+    }
+
+    /**
+     * 
+     */
+    getContext() {
+        return this.canvas.getContext('2d');
     }
 
     /**
@@ -17,26 +25,29 @@ class Canvas {
      */
     drawLine(data) {
         const { drawPosition, colorPicked, toolPicked } = data;
+        const ctx = this.getContext();
+
         const { width, height } = this.canvas;
 
         if (toolPicked === 'bin') {
-            this.ctx.clearRect(0, 0, width, height);
+            ctx.clearRect(0, 0, width, height);
             return;
         }
 
         const { currentX, currentY, x, y } = drawPosition;
-        this.ctx.beginPath();
-        this.ctx.moveTo(x, y);
-        this.ctx.lineTo(currentX, currentY);
+
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(currentX, currentY);
         if (toolPicked === 'eraser') {
-            this.ctx.strokeStyle = "white";
-            this.ctx.lineWidth = 5;
+            ctx.strokeStyle = "white";
+            ctx.lineWidth = 5;
         } else {
-            this.ctx.strokeStyle = colorPicked;
-            this.ctx.lineWidth = 2;
+            ctx.strokeStyle = colorPicked;
+            ctx.lineWidth = 2;
         }
-        this.ctx.stroke();
-        this.ctx.closePath();
+        ctx.stroke();
+        ctx.closePath();
     }
 
     /**

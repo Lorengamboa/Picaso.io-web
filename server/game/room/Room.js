@@ -6,8 +6,8 @@ const Chat = require("../chat");
 const { changeGamePlay, createNewCanvas } = require("./services");
 const { SOCKET_EVENTS } = require("../../events");
 const { GAME_STATE } = require("../config/constants");
-const GAME_CONFIG  = require("../config/room");
 const { getRandomColor } = require("../../utils");
+const GAME_CONFIG  = require("../config/room");
 
 /**
  * Class Game 🎮
@@ -143,6 +143,7 @@ class Room {
     if (!playerToRemove) return;
 
     _.remove(this.players, player => player.id == playerToRemove.id);
+    _.remove(this.draws, draw => draw.id == playerToRemove.id);
 
     this.updateChatlist();
 
