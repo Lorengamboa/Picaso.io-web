@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { setUsername, openPlayerSocketConnection } from "../actions/player";
-import { InputText, PrimaryButton, Header } from "../components/common";
+import { InputText, PrimaryButton } from "../components/common";
 
 /**
  * HOMEPAGE COMPONENT VIEW

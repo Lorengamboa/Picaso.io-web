@@ -1,6 +1,6 @@
 "use strict";
 
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Header, DrawThumbnail } from "../components/common";
 import Canvas from "../components/Canvas";
@@ -42,7 +42,7 @@ class PlayPage extends Component {
     if (!this.state.isPenDown) return;
     const mycanvas = document.getElementById("mycanvas");
 
-    const { top, left }  = mycanvas.getBoundingClientRect();
+    const { top, left } = mycanvas.getBoundingClientRect();
 
     const drawPosition = Object.assign({}, this.state.currentPosition, {
       currentX: e.clientX - left,
@@ -73,7 +73,7 @@ class PlayPage extends Component {
 
     const mycanvas = document.getElementById("mycanvas");
 
-    const { top, left }  = mycanvas.getBoundingClientRect();
+    const { top, left } = mycanvas.getBoundingClientRect();
 
     this.setState({
       isPenDown: true,
@@ -116,9 +116,10 @@ class PlayPage extends Component {
           </div>
           <div className="seven columns">
             {this.props.gamePlay === "starting" ||
-            this.props.gamePlay === "voting" 
-            ?( <div className="row">{this.renderPlayerDraws()}</div>) 
-            :( <Canvas
+            this.props.gamePlay === "voting" ? (
+              <div className="row">{this.renderPlayerDraws()}</div>
+            ) : (
+              <Canvas
                 onMouseMove={this.handleDisplayMouseMove}
                 onMouseDown={this.handleDisplayMouseDown}
               />
@@ -128,12 +129,14 @@ class PlayPage extends Component {
           </div>
           <div className="two columns">
             <div className="score">
-              {this.props.gamePlay}
-              {this.props.gamePlay === "waiting" ? (
-                "Not enough players to start"
-              ) : (
-                <Timer time={this.props.countDown} />
+              {this.props.gamePlay === "waiting" 
+              ? "Not enough players to start"
+              : (<Fragment>
+                {this.props.currentWord}
+                  <Timer time={this.props.countDown} />
+                </Fragment>
               )}
+              
             </div>
             <UserList />
           </div>
@@ -154,7 +157,8 @@ function mapStateToProps({ PlayerReducer, GameReducer }) {
     toolPicked,
     countDown,
     gamePlay,
-    playersDraw
+    playersDraw,
+    currentWord
   } = GameReducer;
 
   return {
@@ -164,7 +168,8 @@ function mapStateToProps({ PlayerReducer, GameReducer }) {
     toolPicked,
     countDown,
     gamePlay,
-    playersDraw
+    playersDraw,
+    currentWord
   };
 }
 

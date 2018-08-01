@@ -9,7 +9,8 @@ import {
   UPDATE_CANVAS,
   UPDATE_TIMER,
   UPDATE_GAME_STATE,
-  DISPLAY_PLAYERS_DRAW
+  DISPLAY_PLAYERS_DRAW,
+  DISPLAY_CURRENT_WORD
 } from "../../actions/game/actions";
 
 const initialState = {
@@ -21,7 +22,8 @@ const initialState = {
   lastDraw: null,
   countDown: 301,
   gamePlay: "waiting",
-  playersDraw: []
+  playersDraw: [],
+  currentWord: null
 };
 
 export default function GameReducer(state = initialState, action) {
@@ -61,6 +63,10 @@ export default function GameReducer(state = initialState, action) {
     case DISPLAY_PLAYERS_DRAW:
       return Object.assign({}, state, {
         playersDraw: action.payload
+      });
+    case DISPLAY_CURRENT_WORD:
+      return Object.assign({}, state, {
+        currentWord: action.payload
       });
     default:
       return state;

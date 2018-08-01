@@ -12,7 +12,8 @@ import {
   PLAYER_CLEAR_CANVAS,
   UPDATE_TIMER,
   UPDATE_GAME_STATE,
-  DISPLAY_PLAYERS_DRAW
+  DISPLAY_PLAYERS_DRAW,
+  DISPLAY_CURRENT_WORD
 } from './actions';
 
 /**
@@ -44,6 +45,16 @@ export function updateTimer(data) {
 export function updateGameState(data) {
   return {
     type: UPDATE_GAME_STATE,
+    payload: data
+  }
+}
+
+/**
+ * 
+ */
+export function displayCurrentWord(data) {
+  return {
+    type: DISPLAY_CURRENT_WORD,
     payload: data
   }
 }
