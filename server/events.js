@@ -13,5 +13,6 @@ module.exports.SOCKET_EVENTS = {
   CLEAR_CANVAS: 'clearCanvas',
   UPDATE_CANVAS: 'updateCanvas',
   UPDATE_GAME_STATE: 'updateGameState',
-  DISPLAY_ALL_DRAWS: 'playerDraws'
+  DISPLAY_ALL_DRAWS: 'playerDraws',
+  CURRENT_WORD: 'currentWord'
 }

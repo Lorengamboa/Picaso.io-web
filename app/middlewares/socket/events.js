@@ -13,6 +13,7 @@ const SOCKET_EVENTS = {
     UPDATE_TIMER: 'updateTimer',
     UPDATE_GAME_STATE: 'updateGameState',
     DISPLAY_PLAYERS_DRAW: 'playerDraws',
+    DISPLAY_CURRENT_WORD: 'currentWord',
 };
 
 export default SOCKET_EVENTS;

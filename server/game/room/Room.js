@@ -3,14 +3,15 @@
 const _ = require("lodash");
 
 const Chat = require("../chat");
-const { changeGamePlay, createNewCanvas } = require("./services");
+const { changeGamePlay, createNewCanvas, requestRandomWord } = require("./services");
 const { SOCKET_EVENTS } = require("../../events");
 const { GAME_STATE } = require("../config/constants");
 const { getRandomColor } = require("../../utils");
+
 const GAME_CONFIG  = require("../config/room");
 
 /**
- * Class Game 🎮
+ * Class Game 
  * Contains all the logic to make a game start
  */
 class Room {
@@ -28,14 +29,16 @@ class Room {
   }
 
   /**
-   * 
+   * PLAYING TIME - 
    */
   start() {
+    this.currentWord = requestRandomWord();
+    this.io.emit(SOCKET_EVENTS.CURRENT_WORD, this.currentWord);
     changeGamePlay.call(this, GAME_STATE.PLAYING, GAME_CONFIG.TIME_PLAYING_COUNTDOWN, this.vote);
   }
 
   /**
-   * 
+   * VOTE TIME - 
    */
   vote() {
     const drawsBase64 = this.draws.map(draw => {
@@ -86,7 +89,7 @@ class Room {
 
     if(socket && this.gamePlay === GAME_STATE.PLAYING) {
 
-      canvas.drawLine(drawingInfo);
+      canvas.draw(drawingInfo);
       return socket.emit(SOCKET_EVENTS.UPDATE_CANVAS, drawingInfo);
 
     }
@@ -104,7 +107,7 @@ class Room {
   /**
    * Clears player's canvas
    */
-  clearCanvas(socket) {
+  clearPlayerCanvas(socket) {
     this.updateCanvas(socket, { toolPicked: "bin" });
   }
 
