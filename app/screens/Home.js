@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { setUsername, openPlayerSocketConnection } from "../actions/player";
 import { InputText, PrimaryButton } from "../components/common";
+import ModalManager from '../components/common/ModalManager';
 
 /**
  * HOMEPAGE COMPONENT VIEW
@@ -75,6 +76,8 @@ class HomePage extends Component {
       <div>
         <div className="home-menu">
           <img className="img-responsive"src="/assets/img/logo.png" />
+
+          <ModalManager />
           <InputText
             class="input"
             placeholder={this.state.placeholder}

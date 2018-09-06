@@ -15,7 +15,8 @@ const GAME_CONFIG  = require("../config/room");
  * Contains all the logic to make a game start
  */
 class Room {
-  constructor(name, io) {
+  constructor(name, io, type) {
+    this.type = type || 'public';
     this.name = name;
     this.io = io;
     this.players = [];

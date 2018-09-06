@@ -13,4 +13,4 @@ const startServer = http => {
   })
 }
 
-module.exports = startServer
+module.exports = startServer;

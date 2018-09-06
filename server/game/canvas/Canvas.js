@@ -14,14 +14,14 @@ class Canvas {
   }
 
   /**
-   *
+   * Returns the canvas's context
    */
   getContext() {
     return this.canvas.getContext("2d");
   }
 
   /**
-   *
+   * Clears the whole canvas
    */
   cleanCanvas() {
     const { width, height } = this.canvas;
@@ -31,7 +31,7 @@ class Canvas {
   }
 
   /**
-   *
+   * Makes draw action over the canvas
    * @param {*} data
    */
   draw(data) {
@@ -42,14 +42,16 @@ class Canvas {
       PencilTool.classic(data, ctx);
     else if (toolPicked === "eraser")
       EraserTool(data, ctx);
-    else if (toolPicked === "bin") BinRecycler(canvas);
+    else if (toolPicked === "bin") BinRecycler(this.canvas);
   }
 
   /**
-   *
+   * Returns the canvas image data in base64 format
    */
   getImageData() {
-    return this.canvas.toDataURL();
+    const dataURL = this.canvas.toDataURL();
+
+    return dataURL;
   }
 }
 

@@ -1,11 +1,7 @@
 'use strict';
 
-import { CHANGE_USERNAME, SOCKET_CONNECTION } from '../../actions/player/actions';
-
-const initialState = {
-  username: '',
-  connection: false
-};
+import { CHANGE_USERNAME, SOCKET_CONNECTION, CONNECT_PRIVATE_ROOM } from '../../actions/player/actions';
+import { initialState } from './initialState';
 
 export default function PlayerReducer(state = initialState, action) {
   switch (action.type) {
@@ -14,6 +10,10 @@ export default function PlayerReducer(state = initialState, action) {
         username: action.payload
       });
     case SOCKET_CONNECTION:
+      return Object.assign({}, state, {
+        connection: action.payload
+      });
+    case CONNECT_PRIVATE_ROOM:
       return Object.assign({}, state, {
         connection: action.payload
       });

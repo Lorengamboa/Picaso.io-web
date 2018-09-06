@@ -36,8 +36,8 @@ class Player {
    * @param {Object} gameroom
    */
   joinGameRoom(gameroom) {
-    this.gameroom = gameroom
-    return gameroom.requestJoin(this)
+    this.gameroom = gameroom;
+    return gameroom.requestJoin(this);
   }
 
   /**

@@ -1,70 +1,47 @@
 "use strict";
 
-import {
-  CHANGE_COLOR_PICKED,
-  SELECT_TOOL_PICKED,
-  SELECT_PEN_WIDTH,
-  UPDATE_USERLIST,
-  ADD_NEW_CHAT_MESSAGE,
-  UPDATE_CANVAS,
-  UPDATE_TIMER,
-  UPDATE_GAME_STATE,
-  DISPLAY_PLAYERS_DRAW,
-  DISPLAY_CURRENT_WORD
-} from "../../actions/game/actions";
-
-const initialState = {
-  toolPicked: "pencil",
-  colorPicked: "#000",
-  penWidth: "1px",
-  playerList: [],
-  messages: [],
-  lastDraw: null,
-  countDown: 301,
-  gamePlay: "waiting",
-  playersDraw: [],
-  currentWord: null
-};
+import * as ACTIONS from "../../actions/game/actions";
+import { initialState } from "./initialState";
 
 export default function GameReducer(state = initialState, action) {
   switch (action.type) {
-    case CHANGE_COLOR_PICKED:
+    case ACTIONS.CHANGE_COLOR_PICKED:
       return Object.assign({}, state, {
         colorPicked: action.payload
       });
-    case SELECT_TOOL_PICKED:
+    case ACTIONS.SELECT_TOOL_PICKED:
       return Object.assign({}, state, {
         toolPicked: action.payload
       });
-    case SELECT_PEN_WIDTH:
+    case ACTIONS.SELECT_PEN_WIDTH:
       return Object.assign({}, state, {
         penWidth: action.payload
       });
-    case UPDATE_USERLIST:
+    case ACTIONS.UPDATE_USERLIST:
       return Object.assign({}, state, {
         playerList: action.payload
       });
-    case ADD_NEW_CHAT_MESSAGE:
+    case ACTIONS.ADD_NEW_CHAT_MESSAGE:
       return Object.assign({}, state, {
         messages: [...state.messages, action.payload]
       });
-    case UPDATE_CANVAS:
+    case ACTIONS.UPDATE_CANVAS:
       return Object.assign({}, state, {
         lastDraw: action.payload
       });
-    case UPDATE_TIMER:
+    case ACTIONS.UPDATE_TIMER:
       return Object.assign({}, state, {
         countDown: action.payload
       });
-    case UPDATE_GAME_STATE:
+    case ACTIONS.UPDATE_GAME_STATE:
       return Object.assign({}, state, {
         gamePlay: action.payload
       });
-    case DISPLAY_PLAYERS_DRAW:
+    case ACTIONS.DISPLAY_PLAYERS_DRAW:
       return Object.assign({}, state, {
         playersDraw: action.payload
       });
-    case DISPLAY_CURRENT_WORD:
+    case ACTIONS.DISPLAY_CURRENT_WORD:
       return Object.assign({}, state, {
         currentWord: action.payload
       });

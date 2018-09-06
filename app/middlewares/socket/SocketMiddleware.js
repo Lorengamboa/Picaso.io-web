@@ -3,7 +3,7 @@
 import io from "socket.io-client";
 import SocketManager from './socketManager';
 
-import { SOCKET_CONNECTION } from "../../actions/player/actions";
+import { SOCKET_CONNECTION, CONNECT_PRIVATE_ROOM } from "../../actions/player/actions";
 import { PLAYER_SEND_MESSAGE, PLAYER_DRAW_CANVAS, PLAYER_CLEAR_CANVAS } from "../../actions/game/actions";
 
 const SocketMiddleware = url => store => {
@@ -12,22 +12,27 @@ const SocketMiddleware = url => store => {
 
   return next => action => {
     // When dispatching a redux action.
-   
+
     switch (action.type) {
       case SOCKET_CONNECTION:
-          ws = io(url);
-          sm = new SocketManager(ws, store);
-          sm.joinRandomRoom(store.getState().PlayerReducer.username);
-          break;
+        ws = io(url);
+        sm = new SocketManager(ws, store);
+        sm.joinRandomRoom(store.getState().PlayerReducer.username);
+        break;
+      case CONNECT_PRIVATE_ROOM:
+        ws = io(url);
+        sm = new SocketManager(ws, store);
+        sm.joinPrivateRoom(store.getState().PlayerReducer.username, action.payload);
+        break;
       case PLAYER_SEND_MESSAGE:
         sm.sendMessage(action.payload);
         break;
       case PLAYER_DRAW_CANVAS:
-         sm.drawCanvas(action.payload);
-         break;
+        sm.drawCanvas(action.payload);
+        break;
       case PLAYER_CLEAR_CANVAS:
-         sm.clearCanvas();
-         break;
+        sm.clearCanvas();
+        break;
       default:
         next(action);
     }

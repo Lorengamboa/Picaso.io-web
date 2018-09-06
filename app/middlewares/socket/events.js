@@ -2,6 +2,7 @@
 
 const SOCKET_EVENTS = {
     PLAYER_JOIN_RANDOM_GAMEROOM: 'joinRandomRoom',
+    PLAYER_JOIN_PRIVATE_GAMEROOM: 'joinPrivateRoom',
     PLAYER_LEAVE_GAMEROOM: 'leaveGameRoom',
     PLAYER_SEND_MESSAGE: 'sendMessage',
     PLAYER_DRAWING: 'drawing',
@@ -14,6 +15,7 @@ const SOCKET_EVENTS = {
     UPDATE_GAME_STATE: 'updateGameState',
     DISPLAY_PLAYERS_DRAW: 'playerDraws',
     DISPLAY_CURRENT_WORD: 'currentWord',
+    PLAYER_DISCONNECT: 'disconnect',
 };
 
 export default SOCKET_EVENTS;

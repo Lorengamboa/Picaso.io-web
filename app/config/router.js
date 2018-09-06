@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import store from '../config/store';
-import { HomePage, PlayPage, CreatePage } from '../scenes';
+import { HomePage, PlayPage, CreatePage, PrivateGame } from '../screens';
 
 export const router = (
   <Provider store={store}>
@@ -14,7 +14,7 @@ export const router = (
         <Route exact path="/" component={HomePage} />
         <Route path="/play" component={PlayPage} />
         <Route path="/create" component={CreatePage} />
-        <Route path="/game/:idgame" component={PlayPage} />
+        <Route path="/game/:roomId" component={PrivateGame} />
       </Switch>
     </Router>
   </Provider>);

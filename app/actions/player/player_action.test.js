@@ -6,7 +6,6 @@ describe('game actions', () => {
         const socketConnection = openPlayerSocketConnection({});
         const mockConnection;
         jest.mock('socket.io-client', () => mockConnection);
-        console.log(mockConnection)
         expect(socketConnection).toEqual({ type: 'openSocketConnection', payload: mockConnection });
     });
 
