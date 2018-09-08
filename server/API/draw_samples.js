@@ -20,7 +20,7 @@ router.get('/draws', function (req, res) {
         let samples = [];
         fs.readdirSync(DRAW_SAMPLE_FOLDER).forEach(file => {
             if(file.indexOf(".jpg") === -1) return;
-            const samepleImageEncoded = base64_encode(`${__dirname}/../../${DRAW_SAMPLE_FOLDER}${file}`);
+            const samepleImageEncoded = base64_encode(`${__dirname}/../../draws/${file}`);
             samples.push(samepleImageEncoded);
         });
 
