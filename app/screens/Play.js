@@ -2,6 +2,8 @@
 
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
+import { Card } from 'semantic-ui-react'
+
 import { Header, DrawThumbnail } from "../components/common";
 import Canvas from "../components/Canvas";
 import ChatList from "../components/ChatList";
@@ -94,7 +96,7 @@ class PlayPage extends Component {
   }
 
   /**
-   *
+   * Display random draw samples
    */
   renderPlayerDraws() {
     return this.props.playersDraw.map(base64 => {
@@ -112,32 +114,36 @@ class PlayPage extends Component {
         <Header />
         <div className="row">
           <div className="three columns">
+            <Card
+              link
+              header='Score'
+              meta='1/6'
+              color='purple'
+              description={
+                this.props.gamePlay === "waiting"
+                  ? "Not enough players to start"
+                  : (<Fragment>
+                    {this.props.currentWord}
+                    <Timer time={this.props.countDown} />
+                  </Fragment>
+                  )}
+            />
             <ChatList />
           </div>
           <div className="seven columns">
             {this.props.gamePlay === "starting" ||
-            this.props.gamePlay === "voting" ? (
-              <div className="row">{this.renderPlayerDraws()}</div>
-            ) : (
-              <Canvas
-                onMouseMove={this.handleDisplayMouseMove}
-                onMouseDown={this.handleDisplayMouseDown}
-              />
-            )}
+              this.props.gamePlay === "voting" ? (
+                <div className="row">{this.renderPlayerDraws()}</div>
+              ) : (
+                <Canvas
+                  onMouseMove={this.handleDisplayMouseMove}
+                  onMouseDown={this.handleDisplayMouseDown}
+                />
+              )}
 
             <ToolPaint />
           </div>
           <div className="two columns">
-            <div className="score">
-              {this.props.gamePlay === "waiting" 
-              ? "Not enough players to start"
-              : (<Fragment>
-                {this.props.currentWord}
-                  <Timer time={this.props.countDown} />
-                </Fragment>
-              )}
-              
-            </div>
             <UserList />
           </div>
         </div>

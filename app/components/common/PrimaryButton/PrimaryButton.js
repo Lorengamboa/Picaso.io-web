@@ -1,14 +1,17 @@
 'use strict';
 
 import React from 'react';
+import { Button } from 'semantic-ui-react';
 
 const PrimaryButton = props => {
     return (
-        <input 
-            type="button" 
-            className={props.class}
+        <Button 
+            basic
+            color={props.color}
             onClick={props.onClick}
-            value={props.value}
+            content={props.value}
+            size='massive'
+            fluid
         />
     )
 }

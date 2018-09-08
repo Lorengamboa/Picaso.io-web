@@ -2,9 +2,14 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Divider, Loader, Image } from 'semantic-ui-react'
+import axios from 'axios';
+
 import { setUsername, openPlayerSocketConnection } from "../actions/player";
-import { InputText, PrimaryButton } from "../components/common";
-import ModalManager from '../components/common/ModalManager';
+import { InputText, PrimaryButton, Header } from "../components/common";
+
+
+const SAMPLE_DRAWS_ENDPOINT = "/api/sample/draws";
 
 /**
  * HOMEPAGE COMPONENT VIEW
@@ -17,8 +22,10 @@ class HomePage extends Component {
       title: "Home",
       placeholder: "Introduce a nickname",
       username: this.props.username,
-      buttonTxt: "Play!",
-      privateTxt: "Create Private room"
+      buttonTxt: "Play now!",
+      privateTxt: "Create Private room",
+      samples: [],
+      loadingSamples: true
     };
 
     // Events listeners
@@ -27,6 +34,25 @@ class HomePage extends Component {
     this.onCreateButtonClick = this.onCreateButtonClick.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+
+  /**
+   * 
+   */
+  componentWillMount() {
+    axios.get(SAMPLE_DRAWS_ENDPOINT)
+      .then(res => {
+        const imageSamples = res.data;
+        this.setState({
+          samples: imageSamples,
+          loadingSamples: false
+        });
+      })
+      .catch(err => {
+        this.setState({
+          loadingSamples: false
+        });
+      });
+  };
 
   /**
    * Detecs user input changes
@@ -44,7 +70,7 @@ class HomePage extends Component {
    * to a random room to play!
    */
   onPlayButtonClick() {
-    if (!this.state.username) return false;
+    // if (!this.state.username) return false;
 
     this.props.setUsername(this.state.username);
     this.props.openPlayerSocketConnection();
@@ -72,12 +98,25 @@ class HomePage extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <div className="home-menu">
-          <img className="img-responsive"src="/assets/img/logo.png" />
+    let renderSamples;
 
-          <ModalManager />
+    if (this.state.loadingSamples) {
+      renderSamples = <Loader active inline='centered' />;
+    }
+    else {
+      renderSamples = this.state.samples.map(draw => {
+        return (
+          <div className="sample four columns">
+            <Image src={`data:image/png;base64, ${draw}`} size='medium' bordered />
+          </div>
+        );
+      });
+    }
+
+    return (
+      <div id="home-site">
+        <Header />
+        <div className="home-menu">
           <InputText
             class="input"
             placeholder={this.state.placeholder}
@@ -87,15 +126,24 @@ class HomePage extends Component {
           />
           <br />
           <PrimaryButton
-            class="play-btn"
+            color="red"
             value={this.state.buttonTxt}
             onClick={this.onPlayButtonClick}
           />
           <PrimaryButton
+            color="yellow"
             class="create-btn"
             value={this.state.privateTxt}
             onClick={this.onCreateButtonClick}
           />
+          <Divider className="divide" horizontal>
+            Last draws
+          </Divider>
+        </div>
+        <div className="sample-content">
+          <div class="row">
+            {renderSamples}
+          </div>
         </div>
       </div>
     );

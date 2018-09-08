@@ -1,10 +1,10 @@
 'use strict'
 
-var express = require('express')
-var router = express.Router()
+var express = require('express');
+var router = express.Router();
 
-const general_dictionary = require('../dictionary/general_en')
-const { rndValueArray } = require('../utils')
+const general_dictionary = require('../dictionary/general_en');
+const { rndValueArray } = require('../utils');
 
 /**
  * @endpoint: /rnword
@@ -12,9 +12,9 @@ const { rndValueArray } = require('../utils')
  * @desc: returns a random word from the dictionary
  */
 router.get('/rndword', function(req, res) {
-  const randomWord = rndValueArray(general_dictionary.nouns)
+  const randomWord = rndValueArray(general_dictionary.nouns);
 
-  res.send(randomWord)
+  res.send(randomWord);
 })
 
-module.exports = router
+module.exports = router;

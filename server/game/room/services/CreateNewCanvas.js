@@ -2,7 +2,6 @@
 
 const Canvas = require("../../canvas");
 
-
 const createNewCanvas =  function (id) {
     const newCanvas = new Canvas();
     return {

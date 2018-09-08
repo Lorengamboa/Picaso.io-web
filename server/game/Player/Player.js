@@ -1,21 +1,17 @@
-'use strict'
+'use strict';
 
-const { SOCKET_EVENTS } = require('../events')
+const { SOCKET_EVENTS } = require('../../events');
 
 /**
  * Class Player
  */
 class Player {
   constructor(name, socket) {
-    this.name = name
-    this.socket = socket
-    this.gameroom = null
-    this.color = null
-    this.id = this.socket.id
-
-   /*
-    * SOCKET PLAYER EVENTS
-    */
+    this.name = name;
+    this.socket = socket;
+    this.gameroom = null;
+    this.color = null;
+    this.id = this.socket.id;
 
     // Player is drawing now
     this.socket.on(SOCKET_EVENTS.PLAYER_DRAWING, drawingInfo => {
@@ -27,7 +23,7 @@ class Player {
     })
     // Player sends a msg to the entire chatroom
     this.socket.on(SOCKET_EVENTS.PLAYER_SEND_MESSAGE, msg => {
-      this.gameroom.playerSendsMessage(this.id, msg)
+      this.gameroom.playerSendsMessage(this.id, msg);
     })
   }
 
@@ -44,9 +40,9 @@ class Player {
    * Leaves room that was once joined
    */
   leaveGameRoom() {
-    this.socket.leave(this.gameroom)
-    this.gameroom.informsPlayerLeft(this.id)
+    this.socket.leave(this.gameroom);
+    this.gameroom.informsPlayerLeft(this.id);
   }
 }
 
-module.exports = Player
+module.exports = Player;

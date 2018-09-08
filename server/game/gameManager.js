@@ -5,8 +5,9 @@ const { createPublicGame, createPrivateGame } = require('./createNewGame');
 const Player = require("./Player");
 const {
   rndValueArray,
-  valiteNickname
+  valiteNickname,
 } = require("../utils");
+const list_names = require('./config/names');
 
 /**
  * Object controller in charge of managing the player join/leave flow
@@ -26,9 +27,12 @@ const gameManager = socket => {
      * @param {*} socket 
      */
     playerJoinRandomGame: function (username, socket) {
+      let usr = username;
+      if(!usr) usr = rndValueArray(list_names);
+
       return new Promise((resolve, reject) => {
-        if (!valiteNickname(username))
-          return reject("Invalid username", username);
+        if (!valiteNickname(usr))
+          return reject("Invalid username", usr);
         if (!socket)
           return reject("Missing socket object");
 
@@ -38,7 +42,7 @@ const gameManager = socket => {
           // from all the rooms created, selects one
           const gameRoom = rndValueArray(this.games.public);
           // creates new user (Player)
-          const player = new Player(username, socket);
+          const player = new Player(usr, socket);
 
           // player joins the room created ...
           player

@@ -4,10 +4,18 @@ const path = require("path");
 const express = require("express");
 const app = express();
 
-const { API_DICTIONARY_v1 } = require('./server/API');
+const { API_DICTIONARY_v1, API_DRAW_SAMPLES } = require('./server/API');
 
 // SERVE STATIC FILES
 app.use(express.static(path.join(__dirname, 'public')));
+
+/**********************************************************************/
+/*                    PICASO.IO API                                   */
+/**********************************************************************/
+
+app.use('/api/dictionary', API_DICTIONARY_v1);
+
+app.use('/api/sample', API_DRAW_SAMPLES);
 
 /**********************************************************************/
 /*                  PICASO.IO ENDPOINTS                               */
@@ -22,12 +30,6 @@ app.get('/admin', function (request, response) {
 app.get('*', function (request, response) {
   response.sendFile(__dirname + '/public/index.html');
 });
-
-/**********************************************************************/
-/*                    PICASO.IO API                                   */
-/**********************************************************************/
-
-app.use('/api/dictionary', API_DICTIONARY_v1);
 
 
 module.exports = app;

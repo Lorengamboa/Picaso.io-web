@@ -25,4 +25,4 @@ const createPrivateGame = function(roomId, io) {
     this.games.private.push(game);
 };
 
-module.exports = { createPublicGame, createPrivateGame }
+module.exports = { createPublicGame, createPrivateGame };

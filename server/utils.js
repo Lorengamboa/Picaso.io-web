@@ -1,5 +1,18 @@
 'use strict'
 
+const fs = require('fs');
+
+/**
+ * 
+ * @param {*} file 
+ */
+function base64_encode(file) {
+  // read binary data
+  var bitmap = fs.readFileSync(file);
+  // convert binary data to base64 encoded string
+  return new Buffer(bitmap).toString('base64');
+}
+
 /**
  * Generates a random string 7 characters long
  */
@@ -31,18 +44,22 @@ function getRandomColor() {
 }
 
 /**
- *
- * @param {*} msg
+ * 
+ * @param {s} msg 
  */
-function validateMessage(msg) {}
+function validateMessage(msg) {
+  if(!msg || msg.length === 0 || msg.length > 30) return false;
+
+  return true;
+}
 
 /**
  *
  * @param {*} nickname
  */
 function valiteNickname(nickname) {
-  if (nickname === '' || nickname.length > 8) return false
-  return true
+  if (nickname === '' || nickname.length > 8) return false;
+  return true;
 }
 
 module.exports = {
@@ -50,4 +67,6 @@ module.exports = {
   rndValueArray,
   getRandomColor,
   valiteNickname,
+  validateMessage,
+  base64_encode,
 }

@@ -3,10 +3,10 @@
 const _ = require("lodash");
 
 const Chat = require("../chat");
-const { changeGamePlay, createNewCanvas, requestRandomWord } = require("./services");
+const { changeGamePlay, createNewCanvas, requestRandomWord, persistDrawToDisk } = require("./services");
 const { SOCKET_EVENTS } = require("../../events");
 const { GAME_STATE } = require("../config/constants");
-const { getRandomColor } = require("../../utils");
+const { getRandomColor, validateMessage } = require("../../utils");
 
 const GAME_CONFIG  = require("../config/room");
 
@@ -43,6 +43,7 @@ class Room {
    */
   vote() {
     const drawsBase64 = this.draws.map(draw => {
+      //persistDrawToDisk(draw.canvas.getImageData());
       return draw.canvas.getImageData();
     });
 
@@ -118,6 +119,8 @@ class Room {
    * @param {String} msg
    */
   playerSendsMessage(id, msg) {
+    if(!validateMessage(msg) || !id) return;
+
     const player = _.find(this.players, { id });
     const filterPlayer = {
       name: player.name,

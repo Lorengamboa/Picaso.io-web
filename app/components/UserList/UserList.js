@@ -2,6 +2,8 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Label } from 'semantic-ui-react'
+
 
 /**
  * @class UserList
@@ -18,11 +20,9 @@ class UserList extends Component {
   drawPlayerList() {
     return this.props.playerList.map((player, key) => (
       <li key={key}>
-        <a className="thumbnail" style={{ backgroundColor: player.color }} />
-        <div className="content">
-          <p>{player.name}</p>
-          <span>0 points</span>
-        </div>
+        <a class={`ui ${player.color} big image label`}>
+          <img src='https://react.semantic-ui.com/images/avatar/small/veronika.jpg' />{player.name}<div class='detail'>Guest</div>
+        </a>
       </li>
     ));
   }

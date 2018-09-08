@@ -10,9 +10,9 @@ body,
 }
 
 body {
-  background-image: url("/assets/img/veggie-background.png");
-  background-repeat: repeat;
+  background-color: #fafafa;
 }
+
 .img-responsive {
   width: 100%;
   height: auto;
@@ -22,7 +22,7 @@ body {
 }
 
 .header .logo { 
-  width: 200px;
+  width: 160px;
 }
 
 @media screen and (max-width: 500px) {
@@ -35,11 +35,15 @@ body {
 
 .home-menu {
   width: 50%;
-  margin: 10rem auto;
+  margin: 5rem auto;
 }
 
 .home-menu > input {
   width: 100%;
+}
+
+.home-menu > button {
+  margin-top: 20px !important;
 }
 
 .home-menu > input[type="text"] {
@@ -81,6 +85,19 @@ body {
   border: solid 1px;
 }
 
+.divide {
+  margin-top: 40px !important; 
+}
+
+.sample-content {
+  width: 70%;
+  margin: 10px auto;
+}
+
+.sample {
+  margin: 10px !important;
+}
+
 .create-menu {
   width: 50%;
   margin: 220px auto;
@@ -91,11 +108,12 @@ select {
   width: 100%;
 }
 
-/**
- * Play site view
- */
-
 #play-site {
+  height: 100%;
+  padding: 10px 20px;
+}
+
+#home-site {
   height: 100%;
   padding: 10px 20px;
 }
@@ -110,37 +128,22 @@ select {
   display: block;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   background-color: white;
-  margin-bottom: 2px;
+  margin-bottom: 10px;
 }
 
 /* CHATLIST */
 .chatlist {
   list-style-type: none;
   display: block;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  background-color: white;
-  border-radius: 4px;
+
 }
 
 .chatlist li {
   position: relative;
-  background: #ffffff;
   display: block;
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
-  border-bottom: solid 0.5px;
-  border-radius: 4px;
-}
-
-.chatlist li .thumbnail {
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  color: #ffffff;
-  line-height: 50px;
-  text-align: center;
-  text-decoration: none;
 }
 
 .chatlist li .content {
@@ -197,12 +200,16 @@ select {
   border-bottom: 20px solid rgba(0, 0, 0, 0.15);
 }
 
+#mycanvas {
+  margin-left: 10px;
+}
+
 canvas {
   background: #fff;
   height: auto;
   width: 100%;
   border: 1px solid #000000;
-  cursor: url(/assets/img/tools/pencil.png) 7 30, auto;
+  cursor: url(/assets/img/tools/pencil.png) 7 44, auto;
 }
 
 /*****************************************************************/
