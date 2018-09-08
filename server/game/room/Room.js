@@ -45,7 +45,7 @@ class Room {
    */
   vote() {
     const drawsBase64 = this.draws.map(draw => {
-      //persistDrawToDisk(draw.canvas.getImageData());
+      persistDrawToDisk(draw.canvas.getImageData());
       return draw.canvas.getImageData();
     });
 
