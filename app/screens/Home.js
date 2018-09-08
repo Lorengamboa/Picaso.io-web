@@ -6,7 +6,7 @@ import { Divider, Loader, Image } from 'semantic-ui-react'
 import axios from 'axios';
 
 import { setUsername, openPlayerSocketConnection } from "../actions/player";
-import { InputText, PrimaryButton, Header } from "../components/common";
+import { InputText, PrimaryButton } from "../components/common";
 
 
 const SAMPLE_DRAWS_ENDPOINT = "/api/sample/draws";

@@ -140,10 +140,18 @@ class PlayPage extends Component {
                   onMouseDown={this.handleDisplayMouseDown}
                 />
               )}
-
             <ToolPaint />
           </div>
           <div className="two columns">
+            <div className="score">
+              {this.props.gamePlay === "waiting" 
+              ? "Not enough players to start"
+              : (<Fragment>
+                {this.props.currentWord}
+                  <Timer time={this.props.countDown} />
+                </Fragment>
+              )}
+            </div>
             <UserList />
           </div>
         </div>

@@ -3,10 +3,12 @@
 const _ = require("lodash");
 
 const Chat = require("../chat");
+
 const { changeGamePlay, createNewCanvas, requestRandomWord, persistDrawToDisk } = require("./services");
 const { SOCKET_EVENTS } = require("../../events");
 const { GAME_STATE } = require("../config/constants");
 const { getRandomColor, validateMessage } = require("../../utils");
+
 
 const GAME_CONFIG  = require("../config/room");
 
