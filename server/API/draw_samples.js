@@ -4,8 +4,7 @@ const fs = require('fs');
 var express = require('express');
 var router = express.Router();
 
-const general_dictionary = require('../dictionary/general_en');
-const { rndValueArray, base64_encode } = require('../utils');
+const { base64_encode } = require('../utils');
 
 const DRAW_SAMPLE_FOLDER = 'draws/';
 
@@ -15,12 +14,11 @@ const DRAW_SAMPLE_FOLDER = 'draws/';
  * @desc:
  */
 router.get('/draws', function (req, res) {
-    console.log(__dirname)
     try {
         let samples = [];
-        fs.readdirSync(`${__dirname}/../../draws/`).forEach(file => {
+        fs.readdirSync(DRAW_SAMPLE_FOLDER).forEach(file => {
             if(file.indexOf(".jpg") === -1) return;
-            const samepleImageEncoded = base64_encode(`${__dirname}/../../draws/${file}`);
+            const samepleImageEncoded = base64_encode(`${DRAW_SAMPLE_FOLDER}${file}`);
             samples.push(samepleImageEncoded);
         });
 

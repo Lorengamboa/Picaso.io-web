@@ -42,7 +42,7 @@ class HomePage extends Component {
       .then(res => {
         const imageSamples = res.data;
         this.setState({
-          samples: imageSamples,
+          samples: imageSamples || this.state.samples,
           loadingSamples: false
         });
       })

@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateCanvas } from '../../actions/game';
-import { PencilTool, EraserTool, BinRecycler } from './drawTools';
+import { PencilTool, EraserTool, BinRecycler } from './tools';
 
 /**
  * @class Canvas
