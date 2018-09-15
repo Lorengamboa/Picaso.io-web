@@ -7,8 +7,8 @@ export const initialState = {
   playerList: [],
   messages: [],
   lastDraw: null,
-  countDown: 301,
-  gamePlay: "waiting",
+  countDown: undefined,
+  gamePlay: "waitting",
   playersDraw: [],
-  currentWord: null
+  currentWord: "Waitting round to start"
 };

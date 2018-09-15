@@ -109,8 +109,8 @@ select {
 }
 
 #play-site {
-  height: 100%;
-  padding: 10px 20px;
+  width:100%;
+  padding:0 2%;
 }
 
 #home-site {
@@ -200,16 +200,14 @@ select {
   border-bottom: 20px solid rgba(0, 0, 0, 0.15);
 }
 
-#mycanvas {
-  margin-left: 10px;
-}
-
 canvas {
   background: #fff;
-  height: auto;
-  width: 100%;
   border: 1px solid #000000;
   cursor: url(/assets/img/tools/pencil.png) 7 44, auto;
+}
+
+.icon-tool {
+  width: 35px;
 }
 
 /*****************************************************************/

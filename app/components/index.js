@@ -7,5 +7,6 @@ import InfoMessage from './InfoMessage';
 import AdBlock from './AdBlock';
 import Header from './Header';
 import DrawThumbnail from './DrawThumbnail';
+import Timer from './Timer';
 
-export  { PrimaryButton, InputText, Message, InfoMessage, AdBlock, Header, DrawThumbnail };
+export  { PrimaryButton, InputText, Message, InfoMessage, AdBlock, Header, DrawThumbnail, Timer };

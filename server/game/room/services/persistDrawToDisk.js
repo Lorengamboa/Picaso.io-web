@@ -10,7 +10,7 @@ const uuidv1 = require('uuid/v1');
 const persistDrawToDisk = (base64) => {
     var base64Data = base64.replace(/^data:image\/png;base64,/, "");
     const uuid = uuidv1(); // time-based
-    const pathName = `/draws/test_${uuid}.jpg`;
+    const pathName = `draws/test_${uuid}.jpg`;
 
     //save to disk file
     fs.writeFile(pathName, base64Data, 'base64', function (err) {

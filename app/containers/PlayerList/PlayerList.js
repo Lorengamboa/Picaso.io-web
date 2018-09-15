@@ -2,14 +2,12 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Label } from 'semantic-ui-react'
-
 
 /**
  * @class UserList
  * @desc List of players that is currently playing in a specific game
  */
-class UserList extends Component {
+class PlayerList extends Component {
   constructor(props) {
     super(props);
   }
@@ -26,7 +24,7 @@ class UserList extends Component {
       </li>
     ));
   }
-
+  //
   render() {
     return (
       <div className="chatlist">
@@ -47,4 +45,4 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   null
-)(UserList);
+)(PlayerList);

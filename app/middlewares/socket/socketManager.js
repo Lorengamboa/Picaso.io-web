@@ -31,6 +31,7 @@ class SocketManager {
   sendMessage(msg) {
     this.socket.emit(SOCKET_EVENTS.PLAYER_SEND_MESSAGE, msg);
   }
+  
   /**
    * Makes a draw action over the canvas
    * @param {*} data

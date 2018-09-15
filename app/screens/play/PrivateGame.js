@@ -3,10 +3,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import PlayView from './Play';
-import { setUsername, openPlayerSocketConnection, joinPrivateGame } from "../actions/player";
-import { InputText, PrimaryButton } from "../components/common";
-import ModalManager from '../components/common/ModalManager';
+import PlayView from './PublicGame';
+import { setUsername, openPlayerSocketConnection, joinPrivateGame } from "../../actions/player";
+import { InputText, PrimaryButton, ModalManager } from "../../components";
 
 /**
  * HOMEPAGE COMPONENT VIEW
@@ -107,6 +106,10 @@ function mapStateToProps(state) {
   return { username: state.PlayerReducer.username };
 }
 
+/**
+ * 
+ * @param {*} dispatch 
+ */
 const mapDispatchToProps = (dispatch) => {
   return {
     setUsername: (username) => {
@@ -123,5 +126,5 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(
   mapStateToProps,
-  { setUsername, openPlayerSocketConnection, joinPrivateGame }
+  mapDispatchToProps
 )(PrivateGame);

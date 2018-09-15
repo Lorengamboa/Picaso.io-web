@@ -6,8 +6,9 @@ const Chat = require("../chat");
 
 const { changeGamePlay, createNewCanvas, requestRandomWord, persistDrawToDisk } = require("./services");
 const { SOCKET_EVENTS } = require("../../events");
+const CHAT_CONF = require("../config/chat_conf");
 const { GAME_STATE } = require("../config/constants");
-const { getRandomColor, validateMessage } = require("../../utils");
+const { getRandomColor, isBlank } = require("../../utils");
 
 
 const GAME_CONFIG  = require("../config/room");
@@ -121,7 +122,7 @@ class Room {
    * @param {String} msg
    */
   playerSendsMessage(id, msg) {
-    if(!validateMessage(msg) || !id) return;
+    if(isBlank(msg) || msg.length > CHAT_CONF.MAX_MESSAGE_LENGTH || !id) return;
 
     const player = _.find(this.players, { id });
     const filterPlayer = {

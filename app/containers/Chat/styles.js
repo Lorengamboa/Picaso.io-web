@@ -2,7 +2,9 @@
 
 const chatListStyles = {
     container: {
-        width: "100%"
+        width: "100%",
+        height: "100%",
+        marginLeft: "10px"
     },
     inputMessage: {
         display: "block",
@@ -16,7 +18,7 @@ const chatListStyles = {
         boxShadow: "0 2px 3px 0 rgba(0,0,0,0.2)",
         backgroundColor: "white",
         borderRadius: "4px",
-        height: "60vh",
+        height: "65vh",
         padding: "10px",
         fontSize: "14px",
         boxSizing: "border-box",

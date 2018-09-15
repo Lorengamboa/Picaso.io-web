@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { selectTool, setColorPicked, clearCanvas } from '../../actions/game';
 import Palete from './Palete';
 import Tool from './Tool';
-import { EVENTS } from './events';
 
 /**
  * @class ToolPaint
@@ -81,4 +80,22 @@ function mapStateToProps({ GameReducer, PlayerReducer }) {
   return { colorPicked, myCanvas, socket };
 }
 
-export default connect(mapStateToProps,{ selectTool, setColorPicked, clearCanvas })(ToolPaint);
+/**
+ * 
+ * @param {*} dispatch 
+ */
+const mapDispatchToProps = (dispatch) => {
+  return {
+    selectTool: (tool) => {
+      dispatch(selectTool(tool));
+    },
+    setColorPicked: (color) => {
+      dispatch(setColorPicked(color));
+    },
+    clearCanvas: () => {
+      dispatch(clearCanvas());
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ToolPaint);

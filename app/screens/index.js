@@ -1,8 +1,7 @@
 'use strict';
 
 import HomePage from './Home';
-import PlayPage from './Play';
+import { PublicGame, PrivateGame } from './play';
 import CreatePage from './Create';
-import PrivateGame from './PrivateGame';
 
-export  { HomePage, PlayPage, CreatePage, PrivateGame };
+export  { HomePage, PublicGame, CreatePage, PrivateGame };

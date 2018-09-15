@@ -47,18 +47,19 @@ function getRandomColor() {
  * 
  * @param {s} msg 
  */
-function validateMessage(msg) {
-  if(!msg || msg.length === 0 || msg.length > 30) return false;
+function isBlank(msg) {
+  if(!msg || /^\s*$/.test(msg)) return true;
 
-  return true;
+  return false;
 }
+
 
 /**
  *
  * @param {*} nickname
  */
 function valiteNickname(nickname) {
-  if (nickname === '' || nickname.length > 8) return false;
+  if (nickname === '' || nickname.length > 12) return false;
   return true;
 }
 
@@ -67,6 +68,6 @@ module.exports = {
   rndValueArray,
   getRandomColor,
   valiteNickname,
-  validateMessage,
+  isBlank,
   base64_encode,
 }

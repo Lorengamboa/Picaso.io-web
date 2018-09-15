@@ -5,16 +5,17 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import store from '../config/store';
-import { HomePage, PlayPage, CreatePage, PrivateGame } from '../screens';
+import { HomePage, PublicGame, CreatePage, PrivateGame } from '../screens';
+import routes from './routes';
 
 export const router = (
   <Provider store={store}>
     <Router>
       <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route path="/play" component={PlayPage} />
-        <Route path="/create" component={CreatePage} />
-        <Route path="/game/:roomId" component={PrivateGame} />
+        <Route exact path={routes.HOME} component={HomePage} />
+        <Route path={routes.PLAY} component={PublicGame} />
+        <Route path={routes.CREATE} component={CreatePage} />
+        <Route path={routes.GAME} component={PrivateGame} />
       </Switch>
     </Router>
   </Provider>);

@@ -6,7 +6,7 @@ import { Divider, Loader, Image } from 'semantic-ui-react'
 import axios from 'axios';
 
 import { setUsername, openPlayerSocketConnection } from "../actions/player";
-import { InputText, PrimaryButton, Header } from "../components/common";
+import { InputText, PrimaryButton, Header } from "../components";
 
 const SAMPLE_DRAWS_ENDPOINT = "/api/sample/draws";
 
@@ -70,7 +70,6 @@ class HomePage extends Component {
    */
   onPlayButtonClick() {
     // if (!this.state.username) return false;
-
     this.props.setUsername(this.state.username);
     this.props.openPlayerSocketConnection();
     this.props.history.push("/play");
@@ -157,7 +156,21 @@ function mapStateToProps(state) {
   return { username: state.PlayerReducer.username };
 }
 
+/**
+ * 
+ * @param {*} dispatch 
+ */
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setUsername: (name) => {
+      dispatch(setUsername(name));
+    },
+    openPlayerSocketConnection: (data) => {
+      dispatch(openPlayerSocketConnection(data));
+    },
+  };
+};
+
 export default connect(
-  mapStateToProps,
-  { setUsername, openPlayerSocketConnection }
+  mapStateToProps, mapDispatchToProps
 )(HomePage);

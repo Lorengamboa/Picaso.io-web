@@ -1,14 +1,18 @@
 "use strict";
 
+const PencilModel = {
+
+};
+
 const Pencil = {
   classic: (data, ctx) => {
     const { drawPosition, colorPicked } = data;
     if (!drawPosition) return;
 
-    const { currentX, currentY, x, y } = drawPosition;
+    const { currentX, currentY, prevX, prevY } = drawPosition;
 
     ctx.beginPath();
-    ctx.moveTo(x, y);
+    ctx.moveTo(prevX, prevY);
     ctx.lineTo(currentX, currentY);
     ctx.strokeStyle = colorPicked;
     ctx.lineWidth = 2;

@@ -18,11 +18,15 @@ const SocketMiddleware = url => store => {
         ws = io(url);
         sm = new SocketManager(ws, store);
         sm.joinRandomRoom(store.getState().PlayerReducer.username);
+        action.payload = true;
+        next(action);
         break;
       case CONNECT_PRIVATE_ROOM:
         ws = io(url);
         sm = new SocketManager(ws, store);
         sm.joinPrivateRoom(store.getState().PlayerReducer.username, action.payload);
+        action.payload = true;
+        next(action);
         break;
       case PLAYER_SEND_MESSAGE:
         sm.sendMessage(action.payload);

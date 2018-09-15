@@ -13,6 +13,7 @@ module.exports.SOCKET_EVENTS = {
   UPDATE_USER_LIST: 'updateUserList',
   CLEAR_CANVAS: 'clearCanvas',
   UPDATE_CANVAS: 'updateCanvas',
+  UPDATE_TIMER: 'updateTimer',
   UPDATE_GAME_STATE: 'updateGameState',
   DISPLAY_ALL_DRAWS: 'playerDraws',
   CURRENT_WORD: 'currentWord'

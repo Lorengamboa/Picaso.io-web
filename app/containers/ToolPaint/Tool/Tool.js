@@ -7,7 +7,7 @@ import React from 'react';
  * @desc Drawing Tool
  */
 const Tool = props => {
-  return <img id={props.type} onClick={props.onClick} src={props.src} />;
+  return <img id={props.type} className="icon-tool" onClick={props.onClick} src={props.src} />;
 };
 
 export default Tool;

@@ -1,6 +1,8 @@
 'use strict';
 
 var Filter = require('bad-words/lib/badwords');
+
+const MESSAGE_CONF = require('../config/chat_conf');
 const { SOCKET_EVENTS } = require('../../events');
 
 const filter = new Filter();

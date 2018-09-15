@@ -2,16 +2,16 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Message, InfoMessage } from "../common";
+import { Message, InfoMessage } from "../../components";
 import { playerSendMessage } from '../../actions/game';
 import chatListStyles from "./styles";
 
 
 /**
- * @class ChatList
+ * @class Chart
  * @desc
  */
-export class ChatList extends Component {
+export class Chat extends Component {
   constructor(props) {
     super(props);
 
@@ -21,7 +21,7 @@ export class ChatList extends Component {
     };
 
     // Event Listeners
-    this.onSubmit = this.onSubmit.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
     this.updateText = this.updateText.bind(this);
   }
 
@@ -45,12 +45,26 @@ export class ChatList extends Component {
   /**
    * Submit message if enter key is pressed
    */
-  onSubmit(e) {
+  sendMessage(e) {
+    // if enter key is pressed
     if (e.key === "Enter") {
-      this.props.playerSendMessage(this.state.text);
+      // the msg is not blank at all
+      if (!/^\s*$/.test(this.state.text)) this.props.playerSendMessage(this.state.text);
+      
+      scrollChatToBot.call(this);
+
       this.setState({
-        text: ""
+        text: "",
       });
+    }
+
+    // pushes the scroll to the end of the div container
+    function scrollChatToBot() {
+      const messages = this.refs.messagesRef;
+      setTimeout(function() {
+        messages.scrollTop = messages.scrollHeight;
+      }, 500);
+      
     }
   }
 
@@ -67,13 +81,13 @@ export class ChatList extends Component {
   render() {
     return (
       <div style={chatListStyles.container}>
-        <div style={chatListStyles.messagesBlock}>{this.renderMessages()}</div>
+        <div ref="messagesRef" style={chatListStyles.messagesBlock}>{this.renderMessages()}</div>
         <textarea
           style={chatListStyles.inputMessage}
           placeholder={this.state.placeholder}
           onChange={this.updateText}
           value={this.state.text}
-          onKeyPress={this.onSubmit}
+          onKeyUp={this.sendMessage}
         />
       </div>
     );
@@ -88,7 +102,18 @@ function mapStateToProps(state) {
   return { messages: state.GameReducer.messages };
 }
 
+/**
+ * 
+ * @param {*} dispatch 
+ */
+const mapDispatchToProps = (dispatch) => {
+  return {
+    playerSendMessage: (message) => {
+      dispatch(playerSendMessage(message));
+    }
+  };
+};
+
 export default connect(
-  mapStateToProps,
-  { playerSendMessage }
-)(ChatList);
+  mapStateToProps, mapDispatchToProps
+)(Chat);
