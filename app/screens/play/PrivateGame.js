@@ -27,6 +27,7 @@ class PrivateGame extends Component {
     this.onInputChange = this.onInputChange.bind(this);
     this.onPlayButtonClick = this.onPlayButtonClick.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.renderContent = this.renderContent.bind(this);
   }
 
   /**
@@ -65,34 +66,39 @@ class PrivateGame extends Component {
     if (e.key === "Enter") this.onPlayButtonClick();
   }
 
-  render() {
+  /**
+   * 
+   */
+  renderContent() {
     let content;
     if (this.state.displayCanvas) {
       content = <PlayView />;
     } else {
-      content = 
-      <div className="home-menu">
-        <img className="img-responsive" src="/assets/img/logo.png" />
-        <ModalManager />
-        <InputText
-          class="input"
-          placeholder={this.state.placeholder}
-          onInputChange={this.onInputChange}
-          username={this.state.username}
-          onKeyPress={this.onSubmit}
-        />
-        <br />
-        <PrimaryButton
-          class="play-btn"
-          value={this.state.buttonTxt}
-          onClick={this.onPlayButtonClick}
-        />
-      </div>
+      content =
+        (<div className="home-menu">
+          <img className="img-responsive" src="/assets/img/logo.png" />
+          <InputText
+            class="input"
+            placeholder={this.state.placeholder}
+            onInputChange={this.onInputChange}
+            username={this.state.username}
+            onKeyPress={this.onSubmit}
+          />
+          <br />
+          <PrimaryButton
+            class="play-btn"
+            value={this.state.buttonTxt}
+            onClick={this.onPlayButtonClick}
+          />
+        </div>);
     }
-
+    return content;
+  }
+  
+  render() {
     return (
       <div>
-        {content}
+        {this.renderContent()}
       </div>
     );
   }

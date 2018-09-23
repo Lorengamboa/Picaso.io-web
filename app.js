@@ -3,33 +3,16 @@
 const path = require("path");
 const express = require("express");
 const app = express();
+const socketManager = require('./server/socket/index');
 
-const { API_DICTIONARY_v1, API_DRAW_SAMPLES } = require('./server/API');
-
-// SERVE STATIC FILES
 app.use(express.static(path.join(__dirname, 'public')));
 
-/**********************************************************************/
-/*                    PICASO.IO API                                   */
-/**********************************************************************/
+// starting http server
+const server = require('./server')(app);
 
-app.use('/api/dictionary', API_DICTIONARY_v1);
+var io = require('socket.io').listen(server, { log: false });
 
-app.use('/api/sample', API_DRAW_SAMPLES);
+const gmctrl = socketManager.init(io);
 
-/**********************************************************************/
-/*                  PICASO.IO ENDPOINTS                               */
-/**********************************************************************/
-
-// Admin Site
-app.get('/admin', function (request, response) {
-  response.sendFile(__dirname + '/public/admin/starter.html');
-});
-
-// HOME Site
-app.get('*', function (request, response) {
-  response.sendFile(__dirname + '/public/index.html');
-});
-
-
-module.exports = app;
+//routes
+require('./server/routes')(app, gmctrl);

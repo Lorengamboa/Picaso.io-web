@@ -23,6 +23,7 @@ class HomePage extends Component {
       username: this.props.username,
       buttonTxt: "Play now!",
       privateTxt: "Create Private room",
+      searchTxt: "Find game",
       samples: [],
       loadingSamples: true
     };
@@ -30,6 +31,7 @@ class HomePage extends Component {
     // Events listeners
     this.onInputChange = this.onInputChange.bind(this);
     this.onPlayButtonClick = this.onPlayButtonClick.bind(this);
+    this.onSearchButtonClick = this.onSearchButtonClick.bind(this);
     this.onCreateButtonClick = this.onCreateButtonClick.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -73,6 +75,11 @@ class HomePage extends Component {
     this.props.setUsername(this.state.username);
     this.props.openPlayerSocketConnection();
     this.props.history.push("/play");
+  }
+
+  onSearchButtonClick() {
+    // if (!this.state.username) return false;
+    this.props.history.push("/search");
   }
 
   /**
@@ -127,6 +134,11 @@ class HomePage extends Component {
             color="red"
             value={this.state.buttonTxt}
             onClick={this.onPlayButtonClick}
+          />
+          <PrimaryButton
+            color="green"
+            value={this.state.searchTxt}
+            onClick={this.onSearchButtonClick}
           />
           <PrimaryButton
             color="yellow"

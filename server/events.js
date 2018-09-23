@@ -16,5 +16,6 @@ module.exports.SOCKET_EVENTS = {
   UPDATE_TIMER: 'updateTimer',
   UPDATE_GAME_STATE: 'updateGameState',
   DISPLAY_ALL_DRAWS: 'playerDraws',
-  CURRENT_WORD: 'currentWord'
+  CURRENT_WORD: 'currentWord',
+  AVAILABLE_GAMES: 'availableGames'
 }

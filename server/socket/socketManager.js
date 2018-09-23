@@ -10,12 +10,10 @@ const { SOCKET_EVENTS } = require('../events')
  * @param {Object} http
  */
 module.exports = {
-  io: null,
-  init: http => {
-    this.io = socketio(http);
+  init: io => {
+    this.io = io;
     let game_ctrl = gameManager(this.io);
-
-    //
+    
     this.io.on(SOCKET_EVENTS.CONNECT, socket => {
       let player;
 
@@ -54,7 +52,9 @@ module.exports = {
         player.leaveGameRoom();
         player = null;
         console.log(chalk.red('❌  Socket connection closed'));
-      })
-    })
-  },
+      });
+    });
+
+    return game_ctrl;
+  }
 }

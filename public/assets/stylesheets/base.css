@@ -34,59 +34,44 @@ body {
 }
 
 .home-menu {
-  width: 50%;
+  width: 60%;
   margin: 5rem auto;
 }
 
-.home-menu > input {
+.home-menu input {
   width: 100%;
 }
 
-.home-menu > button {
+.home-menu button {
   margin-top: 20px !important;
 }
 
-.home-menu > input[type="text"] {
+.home-menu input[type="text"] {
   height: 34px;
   border: solid 1px;
 }
 
-.home-menu > input[type="text"]::-webkit-input-placeholder {
+.home-menu input[type="text"]::-webkit-input-placeholder {
   text-align: center;
 }
 
-.home-menu > input[type="text"]:-moz-placeholder {
+.home-menu input[type="text"]:-moz-placeholder {
   /* Firefox 18- */
   text-align: center;
 }
 
-.home-menu > input[type="text"]::-moz-placeholder {
+.home-menu input[type="text"]::-moz-placeholder {
   /* Firefox 19+ */
   text-align: center;
 }
 
-.home-menu > input[type="text"]:-ms-input-placeholder {
+.home-menu input[type="text"]:-ms-input-placeholder {
   text-align: center;
 }
 
-.home-menu > .play-btn {
-  font-size: 50px;
-  background-color: green;
-  margin: 10px 0;
-  font-weight: bold;
-  border: solid 1px;
-}
-
-.home-menu > .create-btn {
-  font-size: 20px;
-  font-weight: bold;
-  background-color: #bfbebe;
-  padding: 4px 0;
-  border: solid 1px;
-}
-
 .divide {
-  margin-top: 40px !important; 
+  margin: 60px auto !important; 
+  width: 50%;
 }
 
 .sample-content {
@@ -116,6 +101,17 @@ select {
 #home-site {
   height: 100%;
   padding: 10px 20px;
+}
+
+#find-site {
+  width: 100%;
+  height: 100%;
+  padding: 10px 20px;
+}
+
+.find-content {
+  width: 80% !important;
+  margin: 3em auto !important;
 }
 
 .drawThumbnail {
@@ -203,7 +199,7 @@ select {
 canvas {
   background: #fff;
   border: 1px solid #000000;
-  cursor: url(/assets/img/tools/pencil.png) 7 44, auto;
+  cursor: url(/assets/img/tools/pencil.png) 5 40, auto;
 }
 
 .icon-tool {

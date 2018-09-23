@@ -22,6 +22,30 @@ const gameManager = socket => {
       public: [],
     },
     /**
+     * 
+     */
+    getPublicGames: function() {
+      if(this.games.public.length === 0) return;
+
+      //const FILTER_KEYS = ['name', 'players'];
+      //console.log(this.games.public[0]);
+      const filteredRooms = this.games.public.map(game => {
+        const filteredRoom = {
+          name: game.name,
+          players: getPlayerNames(game.players)
+        };
+        return filteredRoom;
+      });
+
+      function getPlayerNames (players) {
+        return players.map(player => {
+          return player.name;
+        })
+      }
+
+      return filteredRooms;
+    },
+    /**
      * @description: Player joins a public(random) game room
      * @param {*} username 
      * @param {*} socket 
