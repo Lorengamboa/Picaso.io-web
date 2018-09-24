@@ -9,7 +9,7 @@ import Chat from "../../containers/Chat";
 import PlayerList from "../../containers/PlayerList";
 import ToolPaint from "../../containers/ToolPaint";
 
-import { Header, DrawThumbnail, Timer } from "../../components";
+import { Navbar, DrawThumbnail, Timer } from "../../components";
 
 import { playerDrawCanvas } from "../../actions/game";
 
@@ -115,7 +115,7 @@ class PublicGame extends Component {
   render() {
     return (
       <div id="play-site">
-        <Header />
+        <Navbar />
         <Grid>
           <Grid.Row>
             {/*Left column*/}
