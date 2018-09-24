@@ -5,8 +5,8 @@ import InputText from './InputText';
 import Message from './Message';
 import InfoMessage from './InfoMessage';
 import AdBlock from './AdBlock';
-import Header from './Header';
+import Navbar from './Navbar';
 import DrawThumbnail from './DrawThumbnail';
 import Timer from './Timer';
 
-export  { PrimaryButton, InputText, Message, InfoMessage, AdBlock, Header, DrawThumbnail, Timer };
+export  { PrimaryButton, InputText, Message, InfoMessage, AdBlock, Navbar, DrawThumbnail, Timer };

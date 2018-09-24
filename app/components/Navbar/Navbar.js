@@ -5,7 +5,7 @@ import React from "react";
 /**
  * Header Component
  */
-const Header = () => (
+const Navbar = () => (
   <div className="header">
     <a href="/">
       <img className="logo" src="/assets/img/logo.png" />
@@ -13,4 +13,4 @@ const Header = () => (
   </div>
 );
 
-export default Header;
+export default Navbar;

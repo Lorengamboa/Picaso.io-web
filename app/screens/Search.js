@@ -2,11 +2,11 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Loader, Image, Icon, Label, Menu, Table, Grid } from 'semantic-ui-react'
+import { Button, Icon, Menu, Table, Grid } from 'semantic-ui-react'
 import axios from 'axios';
 
 import { setUsername, openPlayerSocketConnection } from "../actions/player";
-import { InputText, PrimaryButton, Header } from "../components";
+import { Navbar } from "../components";
 
 const ROOMS_AVAILABLE_ENDPOINT = "/api/rooms_available";
 
@@ -75,6 +75,11 @@ class SearchPage extends Component {
         <Table.Row>
           <Table.Cell>{room.name}</Table.Cell>
           <Table.Cell>{room.players.length}</Table.Cell>
+          <Table.Cell>
+            <a href={'/game/' + room.name}>
+                Enter
+            </a>
+          </Table.Cell>
         </Table.Row>);
     });
   }
@@ -82,7 +87,7 @@ class SearchPage extends Component {
   render() {
     return (
       <div id="find-site">
-        <Header />
+        <Navbar />
         <Grid>
           <Grid.Row>
             <Grid.Column width={18}>
@@ -91,6 +96,7 @@ class SearchPage extends Component {
                   <Table.Row>
                     <Table.HeaderCell>Room Name</Table.HeaderCell>
                     <Table.HeaderCell>Number of Players</Table.HeaderCell>
+                    <Table.HeaderCell>Actions</Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>

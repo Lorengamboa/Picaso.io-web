@@ -2,11 +2,11 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Divider, Loader, Image } from 'semantic-ui-react'
+import { Divider, Loader, Image, Header, Icon } from 'semantic-ui-react'
 import axios from 'axios';
 
 import { setUsername, openPlayerSocketConnection } from "../actions/player";
-import { InputText, PrimaryButton, Header } from "../components";
+import { InputText, PrimaryButton, Navbar } from "../components";
 
 const SAMPLE_DRAWS_ENDPOINT = "/api/sample/draws";
 
@@ -109,18 +109,28 @@ class HomePage extends Component {
       renderSamples = <Loader active inline='centered' />;
     }
     else {
-      renderSamples = this.state.samples.map(draw => {
-        return (
-          <div className="sample four columns">
-            <Image src={`data:image/png;base64, ${draw}`} size='medium' bordered />
-          </div>
-        );
-      });
+      if (!this.state.samples.length) {
+        renderSamples = <div>
+          <Header as='h2' icon textAlign='center'>
+            <Icon name='images' circular />
+            <Header.Content>Not draws available!</Header.Content>
+          </Header>
+        </div>
+      }
+      else {
+        renderSamples = this.state.samples.map(draw => {
+          return (
+            <div className="sample four columns">
+              <Image src={`data:image/png;base64, ${draw}`} size='medium' bordered />
+            </div>
+          );
+        });
+      }
     }
 
     return (
       <div id="home-site">
-        <Header />
+        <Navbar />
         <div className="home-menu">
           <InputText
             class="input"
@@ -151,7 +161,7 @@ class HomePage extends Component {
           </Divider>
         </div>
         <div className="sample-content">
-          <div class="row">
+          <div className="row">
             {renderSamples}
           </div>
         </div>
