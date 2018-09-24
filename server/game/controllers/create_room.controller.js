@@ -1,9 +1,9 @@
 'use strict';
 
-const Room = require("./room/Room");
+const Room = require("../room/Room");
 const {
     createRandomString
-  } = require(".././utils");
+  } = require("../../utils");
 
 /**
  * 
