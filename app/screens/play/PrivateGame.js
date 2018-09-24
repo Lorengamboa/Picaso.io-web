@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import PlayView from './PublicGame';
 import { setUsername, openPlayerSocketConnection, joinPrivateGame } from "../../actions/player";
-import { InputText, PrimaryButton, ModalManager } from "../../components";
+import { InputText, PrimaryButton } from "../../components";
 
 /**
  * HOMEPAGE COMPONENT VIEW
