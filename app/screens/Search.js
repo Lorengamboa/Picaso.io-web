@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Button, Icon, Menu, Table, Grid } from 'semantic-ui-react'
+import { Icon, Menu, Table, Grid } from 'semantic-ui-react'
 import axios from 'axios';
 
 import { setUsername, openPlayerSocketConnection } from "../actions/player";

@@ -113,7 +113,7 @@ class PublicGame extends Component {
   }
 
   render() {
-    const roomUrl = 'http://www.localhost:8080/game/'+ this.props.gameInfo.roomTag;
+    const roomUrl = 'http://www.localhost:8080/game/' + this.props.gameInfo.roomTag;
 
     return (
       <div id="play-site">
@@ -135,7 +135,7 @@ class PublicGame extends Component {
                     </Fragment>)}
               />
               <Input
-                size='small'
+                size='mini'
                 action={{ color: 'teal', labelPosition: 'right', icon: 'copy', content: 'Copy' }}
                 value={roomUrl}
               />
@@ -158,9 +158,10 @@ class PublicGame extends Component {
             <Grid.Column width={4}>
               <Chat />
             </Grid.Column>
+
           </Grid.Row>
         </Grid>
-      </div>
+      </div >
     );
   }
 }

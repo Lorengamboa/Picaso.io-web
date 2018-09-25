@@ -86,10 +86,6 @@ class HomePage extends Component {
    *
    */
   onCreateButtonClick() {
-    if (!this.state.username) return false;
-
-    this.props.setUsername(this.state.username);
-    this.props.openPlayerSocketConnection();
     this.props.history.push("/create");
   }
 

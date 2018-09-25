@@ -2,8 +2,9 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { setUsername, openPlayerSocketConnection } from "../actions/player";
-import { InputText, PrimaryButton } from "../components";
+import { Input, Select, Grid, Checkbox } from 'semantic-ui-react'
+
+import { PrimaryButton, Navbar } from "../components";
 
 /**
  * CREATEPAGE COMPONENT VIEW
@@ -20,29 +21,29 @@ class CreatePage extends Component {
   }
   render() {
     return (
-      <div className="container">
+      <div id="create-site">
+        <Navbar />
         <div className="create-menu">
-          <InputText placeholder="Introduce a room name" />
-          <select>
-            <option value="volvo">1</option>
-            <option value="saab">2</option>
-            <option value="opel">3</option>
-            <option value="audi">4</option>
-          </select>
-          <select>
-            <option value="volvo">General</option>
-            <option value="saab">Pokemon</option>
-            <option value="opel">League of Legends</option>
-          </select>
-          <div className="row">
-            <div className="eight columns">
-              <InputText value="SDADASDXASXASD" />
-            </div>
-            <div className="four columns">
-              <PrimaryButton className="button-primary" value="COPY" />
-            </div>
-          </div>
-          <PrimaryButton className="button-primary" value="create" />
+          <Grid>
+            <Grid.Row>
+              <Grid.Column><Input fluid icon='user' iconPosition='left' placeholder='Introduce a nickname' /></Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column><Input fluid icon='users' iconPosition='left' placeholder='Room name...' /></Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column><Select fluid placeholder='Select number of rounnds' options={[1, 2, 3, 4, 5, 6]} /></Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column>
+                <Checkbox label='Check to make it private' readOnly />
+                {'\u00A0'}{'\u00A0'} <Input size='mini' icon='lock' iconPosition='left' placeholder='Search users...' />
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column><PrimaryButton className="button-primary" value="create" /></Grid.Column>
+            </Grid.Row>
+          </Grid>
         </div>
       </div>
     );
@@ -51,8 +52,8 @@ class CreatePage extends Component {
 
 /**
  * The component will subscribe to Redux store updates.
- * @param {store}
- */
+* @param {store}
+    */
 function mapStateToProps(state) {
   return { username: state.PlayerReducer.username };
 }
