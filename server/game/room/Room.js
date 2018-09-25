@@ -30,6 +30,17 @@ class Room {
     this.chatRoom = new Chat(this.io, this.name);
     this.timer = null;
     this.gamePlay = GAME_STATE.WAITING;
+
+    this.init();
+  }
+
+  /**
+   * 
+   */
+  init() {
+    this.io.emit(SOCKET_EVENTS.RETRIEVE_GAME_INFO, {
+      roomTag: this.name
+    });
   }
 
   /**
@@ -127,7 +138,8 @@ class Room {
     const player = _.find(this.players, { id });
     const filterPlayer = {
       name: player.name,
-      color: player.color
+      color: player.color,
+      avatar: player.avatar
     };
 
     this.chatRoom.sendMessageToAll(filterPlayer, msg);
@@ -166,7 +178,7 @@ class Room {
   updateChatlist() {
     const playerList = _.map(
       this.players,
-      _.partialRight(_.pick, ["name", "color"])
+      _.partialRight(_.pick, ["name", "color", "avatar"])
     );
     this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_USER_LIST, playerList);
   }

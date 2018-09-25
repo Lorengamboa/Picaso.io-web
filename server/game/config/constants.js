@@ -9,4 +9,6 @@ const GAME_STATE = {
   VOTING: 'voting'
 };
 
-module.exports = { DRAW_COLORS, GAME_STATE };
+const GAME_AVATARS = ['andorian', 'anonymous','avatar2','kawaii','morty-smith','ninja-head','old-head','rick-sanchez','user-avatar'];
+
+module.exports = { DRAW_COLORS, GAME_STATE, GAME_AVATARS };

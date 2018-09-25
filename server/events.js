@@ -1,6 +1,7 @@
 'use strict'
 
 module.exports.SOCKET_EVENTS = {
+  RETRIEVE_GAME_INFO: 'retrieveGameInfo',
   CONNECT: 'connection',
   PLAYER_JOIN_RANDOM_GAMEROOM: 'joinRandomRoom',
   PLAYER_JOIN_PRIVATE_GAMEROOM: 'joinPrivateRoom',

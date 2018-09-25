@@ -1,5 +1,6 @@
 'use strict';
 
+export const RETRIEVE_GAME_INFO = 'retrieveGameInfo';
 export const UPDATE_CANVAS = 'updateCanvas';
 export const UPDATE_TIMER = 'updateTimer';
 export const CHANGE_COLOR_PICKED = 'selectColor';

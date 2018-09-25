@@ -1,17 +1,21 @@
 'use strict';
 
 const { SOCKET_EVENTS } = require('../../events');
-
+const { GAME_AVATARS } = require('../config/constants');
+const { rndValueArray } = require('../../utils');
 /**
  * Class Player
  */
 class Player {
   constructor(name, socket) {
-    this.name = name;
+    // socket && id
     this.socket = socket;
+    this.id = this.socket.id;
+    //
+    this.name = name;
     this.gameroom = null;
     this.color = null;
-    this.id = this.socket.id;
+    this.avatar = rndValueArray(GAME_AVATARS);
 
     // Player is drawing now
     this.socket.on(SOCKET_EVENTS.PLAYER_DRAWING, drawingInfo => {

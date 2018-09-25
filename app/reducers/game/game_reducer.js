@@ -5,6 +5,10 @@ import { initialState } from "./initialState";
 
 export default function GameReducer(state = initialState, action) {
   switch (action.type) {
+    case ACTIONS.RETRIEVE_GAME_INFO:
+      return Object.assign({}, state, {
+        gameInfo: action.payload
+      });
     case ACTIONS.CHANGE_COLOR_PICKED:
       return Object.assign({}, state, {
         colorPicked: action.payload

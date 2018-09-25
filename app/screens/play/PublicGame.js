@@ -2,7 +2,7 @@
 
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { Card, Grid } from 'semantic-ui-react'
+import { Card, Grid, Input } from 'semantic-ui-react'
 
 import CanvasGame from "../../containers/CanvasGame";
 import Chat from "../../containers/Chat";
@@ -113,6 +113,8 @@ class PublicGame extends Component {
   }
 
   render() {
+    const roomUrl = 'http://www.localhost:8080/game/'+ this.props.gameInfo.roomTag;
+
     return (
       <div id="play-site">
         <Navbar />
@@ -131,6 +133,11 @@ class PublicGame extends Component {
                       <Timer time={this.props.countDown} />
                       <img src="/assets/img/tools/pencil2.png" style={{ marginBottom: "1.5em" }} />
                     </Fragment>)}
+              />
+              <Input
+                size='small'
+                action={{ color: 'teal', labelPosition: 'right', icon: 'copy', content: 'Copy' }}
+                value={roomUrl}
               />
               <PlayerList />
             </Grid.Column>
@@ -170,7 +177,8 @@ function mapStateToProps({ PlayerReducer, GameReducer }) {
     countDown,
     gamePlay,
     playersDraw,
-    currentWord
+    currentWord,
+    gameInfo
   } = GameReducer;
 
   return {
@@ -181,7 +189,8 @@ function mapStateToProps({ PlayerReducer, GameReducer }) {
     countDown,
     gamePlay,
     playersDraw,
-    currentWord
+    currentWord,
+    gameInfo
   };
 }
 
