@@ -1,7 +1,7 @@
 'use strict';
 
 import SOCKET_EVENTS from './events';
-import { updatePlayerList, addMessageToChat, updateCanvas, updateTimer, updateGameState, fetchPlayersDraw, displayCurrentWord } from '../../actions/game/game_action';
+import { retrieveGameInfo, updatePlayerList, addMessageToChat, updateCanvas, updateTimer, updateGameState, fetchPlayersDraw, displayCurrentWord } from '../../actions/game/game_action';
 
 /**
  * 
@@ -15,6 +15,9 @@ const Receiver = (socket, store) => {
       store.dispatch(action(data));
     });
   }
+
+  //
+  socketOn(SOCKET_EVENTS.RETRIEVE_GAME_INFO, retrieveGameInfo);
   //
   socketOn(SOCKET_EVENTS.UPDATE_CHAT_INFORM_MESSAGE, addMessageToChat);
   //

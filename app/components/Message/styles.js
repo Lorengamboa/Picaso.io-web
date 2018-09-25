@@ -8,7 +8,7 @@ const messageStyles = {
             backgroundColor: "#f6f6f6",
             borderRadius: "12px",
             wordWrap: "break-word",
-            padding: ".5rem 2rem"
+            padding: ".5rem .5rem"
         }
     },
     userIcon: userColor => {

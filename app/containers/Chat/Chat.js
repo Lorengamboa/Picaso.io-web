@@ -29,9 +29,9 @@ export class Chat extends Component {
     return this.props.messages.map(message => {
       // Receives message from player
       if (message.type === "player") {
-        const { msg, userColor, username } = message;
+        const { msg, userColor, username, avatar } = message;
         return (
-          <Message message={message.message} username={username} userColor={userColor} />
+          <Message avatar={avatar} message={msg} username={username} userColor={userColor} />
         );
       }
       // Receives message from general chat

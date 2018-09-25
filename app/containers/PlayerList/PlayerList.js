@@ -19,10 +19,10 @@ class PlayerList extends Component {
   drawPlayerList() {
     return this.props.playerList.map((player, key) => (
       <List.Item key={key}>
-        <Image avatar src='https://react.semantic-ui.com/images/avatar/small/tom.jpg' />
+        <Image avatar src={'/assets/img/avatars/'+ player.avatar + '.png'} />
         <List.Content>
           <List.Header>{player.name}</List.Header>
-          Guest
+          0 points
         </List.Content>
       </List.Item>
     ));

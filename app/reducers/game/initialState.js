@@ -1,6 +1,9 @@
 'use strict';
 
 export const initialState = {
+  gameInfo: {
+    roomTag: ''
+  },
   toolPicked: "pencil",
   colorPicked: "#000",
   penWidth: "1px",

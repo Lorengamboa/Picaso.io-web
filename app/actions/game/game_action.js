@@ -1,6 +1,7 @@
 'use strict';
 
 import {
+  RETRIEVE_GAME_INFO,
   UPDATE_CANVAS,
   CHANGE_COLOR_PICKED,
   SELECT_TOOL_PICKED,
@@ -15,6 +16,13 @@ import {
   DISPLAY_PLAYERS_DRAW,
   DISPLAY_CURRENT_WORD
 } from './actions';
+
+export function retrieveGameInfo(data) {
+  return {
+    type: RETRIEVE_GAME_INFO,
+    payload: data,
+  };
+}
 
 /**
  * Updates the canvas

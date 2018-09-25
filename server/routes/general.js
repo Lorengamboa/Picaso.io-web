@@ -1,5 +1,6 @@
 'use strict';
 
+const routes = require('../config/routes');
 const { API_DICTIONARY_v1, API_DRAW_SAMPLES } = require('../api');
 
 module.exports = function (app, gm_ctrl) {
@@ -8,11 +9,11 @@ module.exports = function (app, gm_ctrl) {
   /*                    PICASO.IO API                                   */
   /**********************************************************************/
 
-  app.use('/api/dictionary', API_DICTIONARY_v1);
+  app.use(routes.API_DICTIONARY, API_DICTIONARY_v1);
 
-  app.use('/api/sample', API_DRAW_SAMPLES);
+  app.use(routes.API_IMAGES, API_DRAW_SAMPLES);
 
-  app.use('/api/rooms_available', (req, res) => {
+  app.use(routes.API_ROOMS_AVAILABLE, (req, res) => {
     res.json(gm_ctrl.getPublicGames());
   })
 
@@ -21,12 +22,12 @@ module.exports = function (app, gm_ctrl) {
   /**********************************************************************/
 
   // Admin Site
-  app.get('/admin', function (request, response) {
+  app.get(routes.ADMIN, function (request, response) {
     response.sendFile("public/admin/starter.html", { "root": '.' });
   });
 
   // HOME Site
-  app.get('*', function (request, response) {
+  app.get(routes.WEB_APP, function (request, response) {
     response.sendFile("public/index.html", { "root": '.' });
   });
 

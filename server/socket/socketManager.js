@@ -35,21 +35,22 @@ module.exports = {
       // Player joins private game room
       socket.on(SOCKET_EVENTS.PLAYER_JOIN_PRIVATE_GAMEROOM, (username, roomId) => {
         game_ctrl
-          .playerJoinPrivateGame(username, socket, roomId)
+          .playerJoinGame(username, socket, roomId)
           .then(nplayer => {
             player = nplayer;
-            console.log(chalk.green('✅ 🔒  Socket connection openned'));
+            console.log(chalk.green('✅  Socket connection openned'));
           })
           .catch(err => {
             socket.disconnect();
-            console.log('❌ 🔒 Socket connection failed: ', err);
+            console.log('❌ Socket connection failed: ', err);
           })
       });
 
       // Player disconnects from socket
       socket.on(SOCKET_EVENTS.DISCONNECT, function () {
         if (!player) return;
-        player.leaveGameRoom();
+
+        game_ctrl.playerLeaveRoom(player);
         player = null;
         console.log(chalk.red('❌  Socket connection closed'));
       });

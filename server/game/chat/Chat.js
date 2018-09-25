@@ -27,8 +27,9 @@ class Chat {
         this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_CHAT_PLAYER_MESSAGE, {
             type: 'player',
             username: player.name,
-            message: msg,
-            userColor: player.color
+            msg,
+            userColor: player.color,
+            avatar: player.avatar
         });
     }
     
