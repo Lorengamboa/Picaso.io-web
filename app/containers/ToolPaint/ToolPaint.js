@@ -33,7 +33,7 @@ class ToolPaint extends Component {
    * @param {NodeElement} element
    */
   _onPaleteClick(element) {
-    document.getElementById('mycanvas').style.cursor = "url('/assets/img/tools/pencil.png') 0 30, auto";
+    document.getElementById('mycanvas').style.cursor = "url('/assets/img/tools/pencil.png') 5 40, auto";
     document.querySelector(`[data-color='${this.props.colorPicked}']`).classList.remove('active-color');
 
     const color = element.target.dataset.color;

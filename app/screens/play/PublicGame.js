@@ -3,6 +3,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Card, Grid, Input } from 'semantic-ui-react'
+import {Howl, Howler} from 'howler';
 
 import CanvasGame from "../../containers/CanvasGame";
 import Chat from "../../containers/Chat";
@@ -30,14 +31,23 @@ class PublicGame extends Component {
       drawData: null
     };
 
+    this.init();
+
     // Events
     this.handleDisplayMouseMove = this.handleDisplayMouseMove.bind(this);
     this.handleDisplayMouseUp = this.handleDisplayMouseUp.bind(this);
     this.handleDisplayMouseDown = this.handleDisplayMouseDown.bind(this);
   }
 
-  componentWillMount() {
-    if (!this.props.connection) this.props.history.push("/");
+  init() {
+    // no connection openned, then redirect to home page
+    if (!this.props.connection) return this.props.history.push("/");
+
+    var sound = new Howl({
+      src: ['/assets/music/entrance.mp3']
+    });
+    
+    sound.play();
   }
 
   /**
