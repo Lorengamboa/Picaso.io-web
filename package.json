@@ -53,7 +53,7 @@
     "collectCoverage": true
   },
   "scripts": {
-    "start": "nodemon .",
+    "start": "node .",
     "build": "./node_modules/.bin/webpack -p --config webpack.config.js",
     "test": "jest app/ — coverage",
     "test:watch": "jest app/ --watch",
