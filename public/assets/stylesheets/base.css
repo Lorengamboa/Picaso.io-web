@@ -7,6 +7,7 @@ body,
 #root {
   width: 100%;
   height: 100%;
+  background: linear-gradient(135deg, rgba(226,242,249,1) 0%, rgba(226,242,249,1) 26%, rgba(226,242,249,1) 40%, rgba(155,223,248,1) 78%, rgba(226,242,249,1) 100%);
 }
 
 body {
@@ -85,7 +86,7 @@ body {
 
 .create-menu {
   width: 50%;
-  margin: 100px auto;
+  margin: 70px auto;
 }
 
 #play-site {

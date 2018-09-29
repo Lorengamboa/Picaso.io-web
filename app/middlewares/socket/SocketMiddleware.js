@@ -3,7 +3,7 @@
 import io from "socket.io-client";
 import SocketManager from './socketManager';
 
-import { SOCKET_CONNECTION, CONNECT_PRIVATE_ROOM } from "../../actions/player/actions";
+import { SOCKET_CONNECTION, CONNECT_PRIVATE_ROOM, CREATE_ROOM } from "../../actions/player/actions";
 import { PLAYER_SEND_MESSAGE, PLAYER_DRAW_CANVAS, PLAYER_CLEAR_CANVAS } from "../../actions/game/actions";
 
 const SocketMiddleware = url => store => {
@@ -26,6 +26,12 @@ const SocketMiddleware = url => store => {
         sm = new SocketManager(ws, store);
         sm.joinPrivateRoom(store.getState().PlayerReducer.username, action.payload);
         action.payload = true;
+        next(action);
+        break;
+      case CREATE_ROOM:
+        ws = io(url);
+        sm = new SocketManager(ws, store);
+        sm.createRoom(action.payload);
         next(action);
         break;
       case PLAYER_SEND_MESSAGE:

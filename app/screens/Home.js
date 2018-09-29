@@ -71,14 +71,12 @@ class HomePage extends Component {
    * to a random room to play!
    */
   onPlayButtonClick() {
-    // if (!this.state.username) return false;
     this.props.setUsername(this.state.username);
     this.props.openPlayerSocketConnection();
     this.props.history.push("/play");
   }
 
   onSearchButtonClick() {
-    // if (!this.state.username) return false;
     this.props.history.push("/search");
   }
 

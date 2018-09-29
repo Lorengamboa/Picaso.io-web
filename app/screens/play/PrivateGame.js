@@ -46,11 +46,10 @@ class PrivateGame extends Component {
    * to a random room to play!
    */
   onPlayButtonClick() {
-    if (!this.state.username) return false;
+    this.props.setUsername(this.state.username);
 
     const { roomId } = this.props.match.params;
 
-    this.props.setUsername(this.state.username);
     this.props.joinPrivateGame(roomId);
     this.setState({
       displayCanvas: true

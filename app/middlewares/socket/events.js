@@ -4,6 +4,7 @@ const SOCKET_EVENTS = {
     RETRIEVE_GAME_INFO: 'retrieveGameInfo',
     PLAYER_JOIN_RANDOM_GAMEROOM: 'joinRandomRoom',
     PLAYER_JOIN_PRIVATE_GAMEROOM: 'joinPrivateRoom',
+    PLAYER_CREATES_GAME: 'playerCreatesGame',
     PLAYER_LEAVE_GAMEROOM: 'leaveGameRoom',
     PLAYER_SEND_MESSAGE: 'sendMessage',
     PLAYER_DRAWING: 'drawing',

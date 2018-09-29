@@ -13,7 +13,7 @@ module.exports = {
   init: io => {
     this.io = io;
     let game_ctrl = gameManager(this.io);
-    
+
     this.io.on(SOCKET_EVENTS.CONNECT, socket => {
       let player;
 
@@ -23,11 +23,11 @@ module.exports = {
           .playerJoinRandomGame(username, socket)
           .then(nplayer => {
             player = nplayer;
-            console.log(chalk.green('✅  Socket connection openned'));
+            console.log(chalk.green('👨 - ✅  Socket connection openned'));
           })
           .catch(err => {
             socket.disconnect();
-            console.log('❌ Socket connection failed: ', err);
+            console.log('👨 - ❌ Socket connection failed: ', err);
           })
       });
 
@@ -38,11 +38,25 @@ module.exports = {
           .playerJoinGame(username, socket, roomId)
           .then(nplayer => {
             player = nplayer;
-            console.log(chalk.green('✅  Socket connection openned'));
+            console.log(chalk.green('👨 - ✅  Socket connection openned'));
           })
           .catch(err => {
             socket.disconnect();
-            console.log('❌ Socket connection failed: ', err);
+            console.log('👨 - ❌ Socket connection failed: ', err);
+          })
+      });
+
+      // Player creates game room
+      socket.on(SOCKET_EVENTS.PLAYER_CREATES_GAME, settings => {
+        game_ctrl
+          .playerCreatesGame(settings, socket)
+          .then(nplayer => {
+            player = nplayer;
+            console.log(chalk.green('🎮 - ✅  Player creates game'));
+          })
+          .catch(err => {
+            socket.disconnect();
+            console.log('🎮 - ❌ Failed creating game: ', err);
           })
       });
 
@@ -52,7 +66,7 @@ module.exports = {
 
         game_ctrl.playerLeaveRoom(player);
         player = null;
-        console.log(chalk.red('❌  Socket connection closed'));
+        console.log(chalk.red('👨 - ❌  Socket connection closed'));
       });
     });
 

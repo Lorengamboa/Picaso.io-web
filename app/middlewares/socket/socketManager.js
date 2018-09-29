@@ -25,13 +25,20 @@ class SocketManager {
   }
 
   /**
+   * Player Creates room
+   */
+  createRoom(settings) {
+    this.socket.emit(SOCKET_EVENTS.PLAYER_CREATES_GAME, settings);
+  }
+
+  /**
    * Sends a message to the general chat
    * @param {*} msg
    */
   sendMessage(msg) {
     this.socket.emit(SOCKET_EVENTS.PLAYER_SEND_MESSAGE, msg);
   }
-  
+
   /**
    * Makes a draw action over the canvas
    * @param {*} data

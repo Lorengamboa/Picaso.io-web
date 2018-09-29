@@ -3,26 +3,43 @@
 const Room = require("../room/Room");
 const {
     createRandomString
-  } = require("../../utils");
+} = require("../../utils");
 
-/**
- * 
- * @param {*} io 
- */
-const createPublicGame = function(io) {
-    const roomName = createRandomString();
-    const game = new Room(roomName, io);
-    this.games.public.push(game);
-};
+class RoomCreator {
+    constructor(io) {
+        this.io = io;
+    }
 
-/**
- * 
- * @param {*} roomId 
- * @param {*} io 
- */
-const createPrivateGame = function(roomId, io) {
-    const game = new Room(roomId, io, 'private');
-    this.games.private.push(game);
-};
+    /**
+     * 
+     */
+    createPublicGame(gameInfo) {
+        try {
+            const roomName = createRandomString();
+            const game = new Room(roomName, this.io);
 
-module.exports = { createPublicGame, createPrivateGame };
+            return game;
+        }
+        catch (err) {
+            return err;
+        }
+    };
+
+    /**
+     * 
+     */
+    createPrivateGame(gameInfo) {
+        try {
+            const roomName = gameInfo.roomName;
+            const game = new Room(roomName, this.io, 'private');
+
+            return game;
+        }
+        catch (err) {
+            return err;
+        }
+
+    };
+}
+
+module.exports = RoomCreator;
