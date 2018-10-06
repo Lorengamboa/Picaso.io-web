@@ -54,6 +54,8 @@
   },
   "scripts": {
     "start": "node .",
+    "dev": "NODE_ENV=development nodemon .",
+    "pre-install": "scripts/install.sh && npm install",
     "build": "./node_modules/.bin/webpack -p --config webpack.config.js",
     "test": "jest app/ — coverage",
     "test:watch": "jest app/ --watch",

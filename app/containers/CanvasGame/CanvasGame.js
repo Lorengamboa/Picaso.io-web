@@ -2,35 +2,18 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { PencilTool, EraserTool, BinRecycler } from './tools';
+import { PencilTool, EraserTool, BinRecycler, Bucket } from './tools';
+import resizeCanvas from './resizer';
 
 /**
- * @class Canvas
- * @desc Canvas HTML5 element where all the magic happens! 🎨
+ * @class Canvas 🎨
+ * @desc Canvas HTML5 element where all the magic happens! 
  */
 class Canvas extends Component {
     constructor(props) {
         super(props);
 
-        this.resizeCanvas = this.resizeCanvas.bind(this);
         this.clearCanvas = this.clearCanvas.bind(this);
-    }
-
-    resizeCanvas() {
-        const canvas = this.refs.canvas;
-        var ctx = canvas.getContext("2d");
-
-        const dataURL = canvas.toDataURL();
-
-        const { offsetHeight, offsetWidth } = canvas.parentElement;
-        canvas.width = offsetWidth;
-        canvas.height = 500;
-
-        var image = new Image();
-        image.onload = function () {
-            ctx.drawImage(image, 0, 0);
-        };
-        image.src = dataURL;
     }
 
     clearCanvas() {
@@ -40,12 +23,12 @@ class Canvas extends Component {
     }
 
     componentDidMount() {
-        window.addEventListener('resize', this.resizeCanvas);
-        this.resizeCanvas();
+        window.addEventListener('resize', resizeCanvas.bind(this));
+        resizeCanvas.call(this);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this.resizeCanvas);
+        window.removeEventListener('resize', resizeCanvas.bind(this));
     }
 
     componentDidUpdate() {
@@ -60,18 +43,20 @@ class Canvas extends Component {
             PencilTool.classic(this.props.lastDraw, ctx);
         else if (tool === 'eraser')
             EraserTool(this.props.lastDraw, ctx);
+        else if (tool === 'bucket')
+            Bucket(this.props.lastDraw, ctx);
         else if (tool === 'bin')
             BinRecycler(canvas);
+
     }
 
     render() {
-        
         return (
             <canvas
                 id="mycanvas"
                 ref="canvas"
-                width="800"
-                height="600"
+                width="600"
+                height="400"
                 onMouseMove={this.props.onMouseMove}
                 onMouseDown={this.props.onMouseDown}>
             </canvas>

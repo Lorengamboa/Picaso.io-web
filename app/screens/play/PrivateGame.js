@@ -53,7 +53,7 @@ class PrivateGame extends Component {
     this.props.joinPrivateGame(roomId);
     this.setState({
       displayCanvas: true
-    })
+    });
   }
 
   /**

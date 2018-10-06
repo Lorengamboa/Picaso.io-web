@@ -18,6 +18,7 @@ class ToolPaint extends Component {
     this._onEraserClick = this._onEraserClick.bind(this);
     this._onPaleteClick = this._onPaleteClick.bind(this);
     this._onBinClick = this._onBinClick.bind(this);
+    this._onBucketClick = this._onBucketClick.bind(this);
   }
 
   /**
@@ -49,6 +50,14 @@ class ToolPaint extends Component {
   _onBinClick() {
     this.props.clearCanvas();
   }
+  
+  /**
+   * 
+   */
+  _onBucketClick() {
+    document.getElementById('mycanvas').style.cursor = "url('/assets/img/tools/bucket.png') 0 30, auto";
+    this.props.selectTool('bucket');
+  }
 
   render() {
     return (
@@ -63,6 +72,11 @@ class ToolPaint extends Component {
           type='bin'
           onClick={this._onBinClick}
           src='/assets/img/tools/bin.png'
+        />
+        <Tool
+          type='bucket'
+          onClick={this._onBucketClick}
+          src='/assets/img/tools/bucket.png'
         />
       </div>
     );

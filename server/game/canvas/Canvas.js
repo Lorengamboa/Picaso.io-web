@@ -1,7 +1,7 @@
 "use strict";
 
 const { createCanvas } = require("canvas");
-const { PencilTool, EraserTool, BinRecycler } = require("./tools");
+const { PencilTool, EraserTool, BinRecycler, Bucket } = require("./tools");
 
 const CANVAS_CONFIG = require("../config/canvas");
 
@@ -40,6 +40,8 @@ class Canvas {
 
     if (toolPicked === "pencil")
       PencilTool.classic(data, ctx);
+    if (toolPicked === "bucket")
+      Bucket(data, ctx);
     else if (toolPicked === "eraser")
       EraserTool(data, ctx);
     else if (toolPicked === "bin") BinRecycler(this.canvas);

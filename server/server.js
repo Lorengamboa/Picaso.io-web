@@ -3,6 +3,10 @@
 const PORT = process.env.PORT || 8080
 const chalk = require('chalk')
 
+/**
+ * 
+ * @param {*} http 
+ */
 const startServer = http => {
   return http.listen(PORT, () => {
     console.log(

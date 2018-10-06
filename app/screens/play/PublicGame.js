@@ -3,7 +3,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Card, Grid, Input } from 'semantic-ui-react'
-import {Howl, Howler} from 'howler';
+import { Howl } from 'howler';
 
 import CanvasGame from "../../containers/CanvasGame";
 import Chat from "../../containers/Chat";
@@ -15,7 +15,8 @@ import { Navbar, DrawThumbnail, Timer } from "../../components";
 import { playerDrawCanvas } from "../../actions/game";
 
 /**
- * PLAYPAGE COMPONENT VIEW
+ * @class PublicGame
+ * @desc
  */
 class PublicGame extends Component {
   constructor(props) {
@@ -71,7 +72,7 @@ class PublicGame extends Component {
       colorPicked: this.props.colorPicked,
       toolPicked: this.props.toolPicked
     });
-
+    //
     this.setState({
       currentPosition: Object.assign({}, this.state.currentPosition, {
         prevX: e.clientX - left,
@@ -141,10 +142,10 @@ class PublicGame extends Component {
                     ? "Not enough players to start"
                     : (<Fragment>
                       <Timer time={this.props.countDown} />
-                      <img src="/assets/img/tools/pencil2.png" style={{ marginBottom: "1.5em" }} />
                     </Fragment>)}
               />
               <Input
+                className="clipboard"
                 size='mini'
                 action={{ color: 'teal', labelPosition: 'right', icon: 'copy', content: 'Copy' }}
                 value={roomUrl}
