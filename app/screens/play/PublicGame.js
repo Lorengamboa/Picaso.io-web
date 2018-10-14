@@ -47,7 +47,7 @@ class PublicGame extends Component {
     var sound = new Howl({
       src: ['/assets/music/entrance.mp3']
     });
-    
+
     sound.play();
   }
 
@@ -130,6 +130,7 @@ class PublicGame extends Component {
       <div id="play-site">
         <Navbar />
         <Grid>
+          <PlayerList />
           <Grid.Row>
             {/*Left column*/}
             <Grid.Column width={3}>
@@ -150,7 +151,6 @@ class PublicGame extends Component {
                 action={{ color: 'teal', labelPosition: 'right', icon: 'copy', content: 'Copy' }}
                 value={roomUrl}
               />
-              <PlayerList />
             </Grid.Column>
             {/* Middle column */}
             <Grid.Column width={9}>
