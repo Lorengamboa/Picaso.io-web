@@ -1,7 +1,6 @@
 'use strict'
 
 const chalk = require('chalk')
-const socketio = require('socket.io')
 const gameManager = require('../game/gameManager')
 const { SOCKET_EVENTS } = require('../events')
 

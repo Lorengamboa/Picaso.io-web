@@ -1,6 +1,6 @@
 "use strict";
 
-const { createCanvas } = require("canvas");
+const Canvas = require("canvas");
 const { PencilTool, EraserTool, BinRecycler, Bucket } = require("./tools");
 
 const CANVAS_CONFIG = require("../config/canvas");
@@ -8,9 +8,9 @@ const CANVAS_CONFIG = require("../config/canvas");
 /**
  * Class Canvas
  */
-class Canvas {
+class CanvasArea {
   constructor() {
-    this.canvas = createCanvas(CANVAS_CONFIG.WIDTH, CANVAS_CONFIG.HEIGHT);
+    this.canvas = Canvas.createCanvas(CANVAS_CONFIG.WIDTH, CANVAS_CONFIG.HEIGHT);
   }
 
   /**
@@ -57,4 +57,4 @@ class Canvas {
   }
 }
 
-module.exports = Canvas;
+module.exports = CanvasArea;

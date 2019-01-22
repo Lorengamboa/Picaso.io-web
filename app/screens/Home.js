@@ -36,24 +36,7 @@ class HomePage extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  /**
-   * 
-   */
-  componentWillMount() {
-    axios.get(SAMPLE_DRAWS_ENDPOINT)
-      .then(res => {
-        const imageSamples = res.data;
-        this.setState({
-          samples: imageSamples || this.state.samples,
-          loadingSamples: false
-        });
-      })
-      .catch(err => {
-        this.setState({
-          loadingSamples: false
-        });
-      });
-  };
+ 
 
   /**
    * Detecs user input changes
@@ -103,7 +86,7 @@ class HomePage extends Component {
       renderSamples = <Loader active inline='centered' />;
     }
     else {
-      if (!this.state.samples.length) {
+      if (!this.state.samples.size) {
         renderSamples = <div>
           <Header as='h2' icon textAlign='center'>
             <Icon name='images' circular />

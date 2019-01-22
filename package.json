@@ -1,13 +1,13 @@
 {
-  "name": "Picaso.io",
+  "name": "picaso.io",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "aws-sdk": "^2.324.0",
+    "aws-sdk": "^2.384.0",
     "axios": "^0.16.2",
     "bad-words": "^1.6.1",
-    "canvas": "^1.6.13",
+    "canvas": "^2.0.1",
     "chalk": "^2.4.1",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
@@ -20,7 +20,7 @@
     "react-router": "^2.0.0",
     "react-router-dom": "^4.3.1",
     "redux": "^3.7.2",
-    "semantic-ui-react": "^0.82.3",
+    "semantic-ui-react": "^0.84.0",
     "socket.io": "^2.1.1",
     "socket.io-client": "^2.1.1",
     "uuid": "^3.3.2"
@@ -47,13 +47,14 @@
     "react-admin": "^2.0.3",
     "react-test-renderer": "^16.4.1",
     "style-loader": "^0.21.0",
-    "webpack": "^1.12.13"
+    "webpack": "^1.12.13",
+    "winston": "^3.1.0"
   },
   "jest": {
     "collectCoverage": true
   },
   "scripts": {
-    "start": "node .",
+    "start": "NODE_ENV=production node .",
     "dev": "NODE_ENV=development nodemon .",
     "pre-install": "scripts/install.sh && npm install",
     "build": "./node_modules/.bin/webpack -p --config webpack.config.js",
