@@ -1,6 +1,5 @@
 'use strict';
 
-const fs = require('fs');
 var S3 = require('aws-sdk/clients/s3');
 const uuidv1 = require('uuid/v1');
 
@@ -14,11 +13,6 @@ const persistDrawToDisk = (base64) => {
     var base64Data = base64.replace(/^data:image\/png;base64,/, "");
     const uuid = uuidv1(); // time-based
 
-    //save to disk file
-    // fs.writeFile(pathName, base64Data, 'base64', function (err) {
-    //     if (err) return console.log("Error", err);
-    // });
-    
     const buf = new Buffer(base64Data,'base64')
     var data = {
       Key: uuid, 
@@ -28,7 +22,6 @@ const persistDrawToDisk = (base64) => {
     };
 
     s3Bucket.putObject(data, function(err, data){
-
         if (err) {
             console.log(err)
         } else {

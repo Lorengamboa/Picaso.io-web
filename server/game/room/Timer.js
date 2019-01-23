@@ -11,11 +11,11 @@ const Timer = function () {
         startCountdown: function (seconds, gameModeFnc) {
             var that = this;
             this.countdown = seconds;
-            this.timer = setInterval((t) => {
-                this.io.emit(SOCKET_EVENTS.UPDATE_TIMER, that.countdown);
+            setInterval(function (t){
+                that.io.to(that.name).emit(SOCKET_EVENTS.UPDATE_TIMER, that.countdown);
                 if (that.countdown === 0) {
                     clearInterval(that.timer);
-                    gameModeFnc.call(this);
+                    gameModeFnc.call(that);
                 }
                 that.countdown--;
             }, 1000);

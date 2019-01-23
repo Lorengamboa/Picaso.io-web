@@ -1,12 +1,16 @@
 'use strict';
 
 const path = require('path');
+const webpack = require('webpack');
+var UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
+
+var ENVIROMENT = (process.env.NODE_ENV === 'production')
 
 module.exports = {
   entry: './app/index.js',
   output: {
     path: path.resolve(__dirname, "public"),
-    filename: 'main.js'
+    filename: ENVIROMENT ? 'bundle.min.js' : 'bundle.js'
   },
   module: {
     loaders: [
@@ -23,5 +27,10 @@ module.exports = {
       }
     ]
   },
-  watch: true
+  plugins: ENVIROMENT ? [
+    new webpack.optimize.UglifyJsPlugin({
+      compress: false
+    })
+  ] : [],
+  watch: ENVIROMENT ? false : true
 }

@@ -28,7 +28,7 @@ const Receiver = (socket, store) => {
   socketOn(SOCKET_EVENTS.UPDATE_CANVAS, updateCanvas);
   //
   socketOn(SOCKET_EVENTS.UPDATE_TIMER, updateTimer);
-  //x
+  //
   socketOn(SOCKET_EVENTS.UPDATE_GAME_STATE, updateGameState);
   //
   socketOn(SOCKET_EVENTS.DISPLAY_PLAYERS_DRAW, fetchPlayersDraw);

@@ -9,6 +9,7 @@ const { SOCKET_EVENTS } = require("../../events");
 const CHAT_CONF = require("../config/chat_conf");
 const { GAME_STATE } = require("../config/constants");
 const { getRandomColor, isBlank } = require("../../utils");
+const Timer = require("./Timer");
 
 
 const GAME_CONFIG  = require("../config/room");
@@ -28,7 +29,7 @@ class Room {
     this.currentPlayer;
     this.scores = [];
     this.chatRoom = new Chat(this.io, this.name);
-    this.timer = null;
+    this.timer = Timer();
     this.gamePlay = GAME_STATE.WAITING;
 
     this.init();
@@ -48,7 +49,7 @@ class Room {
    */
   start() {
     this.currentWord = requestRandomWord();
-    this.io.emit(SOCKET_EVENTS.CURRENT_WORD, this.currentWord);
+    this.io.to(this.name).emit(SOCKET_EVENTS.CURRENT_WORD, this.currentWord);
     changeGamePlay.call(this, GAME_STATE.PLAYING, GAME_CONFIG.TIME_PLAYING_COUNTDOWN, this.vote);
   }
 

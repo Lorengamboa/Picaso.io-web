@@ -1,7 +1,5 @@
 'use strict';
 
-const Timer = require("../Timer");
-
 /**
  * 
  * @param {*} gameState 
@@ -11,7 +9,7 @@ const Timer = require("../Timer");
 const changeGamePlay = function (gameState, time, gameStateFn) {
     this.gamePlay = gameState;
     this.updateGameState();
-    Timer().startCountdown.call(this, time, gameStateFn);
+    this.timer.startCountdown.call(this, time, gameStateFn);
 }
 
 module.exports = changeGamePlay;
