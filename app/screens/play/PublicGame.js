@@ -43,11 +43,9 @@ class PublicGame extends Component {
   init() {
     // no connection openned, then redirect to home page
     if (!this.props.connection) return this.props.history.push("/");
-
     var sound = new Howl({
       src: ['/assets/music/entrance.mp3']
     });
-
     sound.play();
   }
 

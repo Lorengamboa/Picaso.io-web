@@ -3,6 +3,7 @@
 module.exports.SOCKET_EVENTS = {
   RETRIEVE_GAME_INFO: 'retrieveGameInfo',
   CONNECT: 'connection',
+  CONNECTION_RESULT: "connectionResult",
   PLAYER_JOIN_RANDOM_GAMEROOM: 'joinRandomRoom',
   PLAYER_JOIN_PRIVATE_GAMEROOM: 'joinPrivateRoom',
   PLAYER_CREATES_GAME: 'playerCreatesGame',

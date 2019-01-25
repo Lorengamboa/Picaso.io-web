@@ -2,5 +2,5 @@
 
 export const initialState = {
   username: '',
-  connection: false
+  connection: null
 };

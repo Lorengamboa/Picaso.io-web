@@ -1,6 +1,8 @@
 'use strict';
 
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+
 import rootReducer from '../reducers';
 import { logger } from '../middlewares/logger';
 import SocketMiddleware from '../middlewares/socket';
@@ -12,6 +14,6 @@ const socketMiddleware = SocketMiddleware(host);
 const store = createStore(
     rootReducer,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-    applyMiddleware(logger, socketMiddleware)
+    applyMiddleware(thunk, logger, socketMiddleware)
 );
 export default store;

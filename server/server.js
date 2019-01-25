@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 8080;
  */
 const startServer = http => {
   return http.listen(PORT, () => {
-    logger.info(
+    logger.server.info(
       `${process.env.NODE_ENV}, Picaso.io App listening on port ${PORT}`
     );
   });

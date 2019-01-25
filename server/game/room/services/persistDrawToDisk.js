@@ -2,6 +2,7 @@
 
 var S3 = require('aws-sdk/clients/s3');
 const uuidv1 = require('uuid/v1');
+const logger = require('../../../../config/logger');
 
 var s3Bucket = new S3( { params: {Bucket: 'picasso.io-dev'} } );
 
@@ -11,7 +12,7 @@ var s3Bucket = new S3( { params: {Bucket: 'picasso.io-dev'} } );
  */
 const persistDrawToDisk = (base64) => {
     var base64Data = base64.replace(/^data:image\/png;base64,/, "");
-    const uuid = uuidv1(); // time-based
+    const uuid = uuidv1();
 
     const buf = new Buffer(base64Data,'base64')
     var data = {
@@ -23,7 +24,7 @@ const persistDrawToDisk = (base64) => {
 
     s3Bucket.putObject(data, function(err, data){
         if (err) {
-            console.log(err)
+            logger.error(err);
         } else {
             console.log("Successfully uploaded data to myBucket/myKey");
         }

@@ -1,5 +1,5 @@
 'use strict';
 
-import SocketMiddleware from './SocketMiddleware';
+import SocketMiddleware from './middleware';
 
 export default SocketMiddleware;

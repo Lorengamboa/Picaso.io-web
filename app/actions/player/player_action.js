@@ -1,10 +1,16 @@
-'use strict';
+"use strict";
 
-import { CREATE_ROOM, CHANGE_USERNAME, SOCKET_CONNECTION, CONNECT_PRIVATE_ROOM } from './actions';
+import {
+  CREATE_ROOM,
+  CHANGE_USERNAME,
+  SOCKET_CONNECTION,
+  CONNECT_PRIVATE_ROOM,
+  SET_CONNECTION
+} from "./actions";
 
 /**
  * Sets the username value
- * @param {String} username 
+ * @param {String} username
  */
 export function setUsername(username) {
   return {
@@ -14,8 +20,8 @@ export function setUsername(username) {
 }
 
 /**
- * 
- * @param {*} settings 
+ *
+ * @param {*} settings
  */
 export function createRoom(settings) {
   return {
@@ -36,7 +42,7 @@ export function openPlayerSocketConnection() {
 
 /**
  * Join private game
- * @param {*} id 
+ * @param {*} id
  */
 export function joinPrivateGame(id) {
   return {
@@ -45,4 +51,15 @@ export function joinPrivateGame(id) {
   };
 }
 
+/**
+ * 
+ * @param {*} result 
+ */
+export function setConnection(result) {
+  console.log("set connect",)
+  return {
+    type: SET_CONNECTION,
+    payload: result
+  };
+}
 

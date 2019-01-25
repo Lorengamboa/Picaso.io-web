@@ -3,7 +3,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Divider, Loader, Image, Header, Icon } from 'semantic-ui-react'
-import axios from 'axios';
 
 import { setUsername, openPlayerSocketConnection } from "../actions/player";
 import { InputText, PrimaryButton, Navbar } from "../components";

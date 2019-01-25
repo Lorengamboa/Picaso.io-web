@@ -1,8 +1,12 @@
 "use strict";
 
-import receiver from "./Receiver";
-import SOCKET_EVENTS from './events';
+import receiver from "./receiver";
+import S from "../../constants/socket";
 
+/**
+ * @class SocketManager
+ * @description
+ */
 class SocketManager {
   constructor(socket, store) {
     this.socket = socket;
@@ -14,21 +18,21 @@ class SocketManager {
    * Joins random room
    */
   joinRandomRoom(username) {
-    this.socket.emit(SOCKET_EVENTS.PLAYER_JOIN_RANDOM_GAMEROOM, username);
+    this.socket.emit(S.EMITTER.PLAYER_JOIN_RANDOM_GAMEROOM, username);
   }
 
   /**
    * Joins random room
    */
   joinPrivateRoom(username, roomId) {
-    this.socket.emit(SOCKET_EVENTS.PLAYER_JOIN_PRIVATE_GAMEROOM, username, roomId);
+    this.socket.emit(S.EMITTER.PLAYER_JOIN_PRIVATE_GAMEROOM, username, roomId)
   }
 
   /**
    * Player Creates room
    */
   createRoom(settings) {
-    this.socket.emit(SOCKET_EVENTS.PLAYER_CREATES_GAME, settings);
+    this.socket.emit(S.EMITTER.PLAYER_CREATES_GAME, settings);
   }
 
   /**
@@ -36,7 +40,7 @@ class SocketManager {
    * @param {*} msg
    */
   sendMessage(msg) {
-    this.socket.emit(SOCKET_EVENTS.PLAYER_SEND_MESSAGE, msg);
+    this.socket.emit(S.EMITTER.PLAYER_SEND_MESSAGE, msg);
   }
 
   /**
@@ -44,13 +48,14 @@ class SocketManager {
    * @param {*} data
    */
   drawCanvas(data) {
-    this.socket.emit(SOCKET_EVENTS.PLAYER_DRAWING, data);
+    this.socket.emit(S.EMITTER.PLAYER_DRAWING, data);
   }
+  
   /**
    * cleans whole canvas
    */
   clearCanvas() {
-    this.socket.emit(SOCKET_EVENTS.CLEAR_CANVAS);
+    this.socket.emit(S.EMITTER.CLEAR_CANVAS);
   }
 }
 

@@ -3,8 +3,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import PlayView from './PublicGame';
-import { setUsername, openPlayerSocketConnection, joinPrivateGame } from "../../actions/player";
+import PlayView from "./PublicGame";
+import {
+  setUsername,
+  openPlayerSocketConnection,
+  joinPrivateGame
+} from "../../actions/player";
 import { InputText, PrimaryButton } from "../../components";
 
 /**
@@ -19,8 +23,7 @@ class PrivateGame extends Component {
       placeholder: "Introduce a nickname",
       username: this.props.username,
       buttonTxt: "Play!",
-      privateTxt: "Create Private room",
-      displayCanvas: false
+      privateTxt: "Create Private room"
     };
 
     // Events listeners
@@ -46,14 +49,10 @@ class PrivateGame extends Component {
    * to a random room to play!
    */
   onPlayButtonClick() {
-    this.props.setUsername(this.state.username);
-
     const { roomId } = this.props.match.params;
 
+    this.props.setUsername(this.state.username);
     this.props.joinPrivateGame(roomId);
-    this.setState({
-      displayCanvas: true
-    });
   }
 
   /**
@@ -66,15 +65,17 @@ class PrivateGame extends Component {
   }
 
   /**
-   * 
+   *
    */
   renderContent() {
     let content;
-    if (this.state.displayCanvas) {
+    if (this.props.connection) {
       content = <PlayView />;
+    } else if (this.props.connection === false) {
+        return this.props.history.push("/");
     } else {
-      content =
-        (<div className="home-menu">
+      content = (
+        <div className="home-menu">
           <img className="img-responsive" src="/assets/img/logo.png" />
           <InputText
             class="input"
@@ -89,17 +90,14 @@ class PrivateGame extends Component {
             value={this.state.buttonTxt}
             onClick={this.onPlayButtonClick}
           />
-        </div>);
+        </div>
+      );
     }
     return content;
   }
-  
+
   render() {
-    return (
-      <div>
-        {this.renderContent()}
-      </div>
-    );
+    return <div>{this.renderContent()}</div>;
   }
 }
 
@@ -108,22 +106,25 @@ class PrivateGame extends Component {
  * @param {store}
  */
 function mapStateToProps(state) {
-  return { username: state.PlayerReducer.username };
+  return {
+    username: state.PlayerReducer.username,
+    connection: state.PlayerReducer.connection
+  };
 }
 
 /**
- * 
- * @param {*} dispatch 
+ *
+ * @param {*} dispatch
  */
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    setUsername: (username) => {
+    setUsername: username => {
       dispatch(setUsername(username));
     },
     openPlayerSocketConnection: () => {
       dispatch(openPlayerSocketConnection());
     },
-    joinPrivateGame: (roomId) => {
+    joinPrivateGame: roomId => {
       dispatch(joinPrivateGame(roomId));
     }
   };
