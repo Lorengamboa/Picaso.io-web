@@ -2,9 +2,18 @@
 
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { Card, Grid, Input } from 'semantic-ui-react'
-import { Howl } from 'howler';
+import {
+  Card,
+  Grid,
+  Input,
+  Modal,
+  Header,
+  Icon,
+  Button
+} from "semantic-ui-react";
+import { Howl } from "howler";
 
+import GeneralModal from "./GeneralModal";
 import CanvasGame from "../../containers/CanvasGame";
 import Chat from "../../containers/Chat";
 import PlayerList from "../../containers/PlayerList";
@@ -23,6 +32,7 @@ class PublicGame extends Component {
     super(props);
     this.state = {
       title: "Play Game!",
+      modalOpen: true,
       username: this.props.username,
       isPenDown: false,
       currentPosition: {
@@ -44,7 +54,7 @@ class PublicGame extends Component {
     // no connection openned, then redirect to home page
     if (!this.props.connection) return this.props.history.push("/");
     var sound = new Howl({
-      src: ['/assets/music/entrance.mp3']
+      src: ["/assets/music/entrance.mp3"]
     });
     sound.play();
   }
@@ -122,7 +132,8 @@ class PublicGame extends Component {
   }
 
   render() {
-    const roomUrl = 'http://www.localhost:8080/game/' + this.props.gameInfo.roomTag;
+    const roomUrl =
+      "http://www.localhost:8080/game/" + this.props.gameInfo.roomTag;
 
     return (
       <div id="play-site">
@@ -135,18 +146,26 @@ class PublicGame extends Component {
               <Card
                 link
                 header={this.props.currentWord}
-                color='purple'
+                color="purple"
                 description={
-                  this.props.gamePlay === "waiting"
-                    ? "Not enough players to start"
-                    : (<Fragment>
+                  this.props.gamePlay === "waiting" ? (
+                    "Not enough players to start"
+                  ) : (
+                    <Fragment>
                       <Timer time={this.props.countDown} />
-                    </Fragment>)}
+                    </Fragment>
+                  )
+                }
               />
               <Input
                 className="clipboard"
-                size='mini'
-                action={{ color: 'teal', labelPosition: 'right', icon: 'copy', content: 'Copy' }}
+                size="mini"
+                action={{
+                  color: "teal",
+                  labelPosition: "right",
+                  icon: "copy",
+                  content: "Copy"
+                }}
                 value={roomUrl}
               />
             </Grid.Column>
@@ -155,22 +174,24 @@ class PublicGame extends Component {
               {this.props.gamePlay === "voting" ? (
                 <div className="row">{this.renderPlayerDraws()}</div>
               ) : (
+                <div>
+                  <Timer className="timer" time={this.props.countDown} />
                   <CanvasGame
                     onMouseMove={this.handleDisplayMouseMove}
                     onMouseDown={this.handleDisplayMouseDown}
                   />
-                )}
+                </div>
+              )}
               <ToolPaint />
             </Grid.Column>
-
             {/* Right column */}
             <Grid.Column width={4}>
               <Chat />
             </Grid.Column>
-
           </Grid.Row>
         </Grid>
-      </div >
+        <GeneralModal visibility={this.props.modal} />
+      </div>
     );
   }
 }
@@ -188,7 +209,8 @@ function mapStateToProps({ PlayerReducer, GameReducer }) {
     gamePlay,
     playersDraw,
     currentWord,
-    gameInfo
+    gameInfo,
+    modal
   } = GameReducer;
 
   return {
@@ -200,22 +222,24 @@ function mapStateToProps({ PlayerReducer, GameReducer }) {
     gamePlay,
     playersDraw,
     currentWord,
-    gameInfo
+    gameInfo,
+    modal
   };
 }
 
 /**
- * 
- * @param {*} dispatch 
+ *
+ * @param {*} dispatch
  */
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    playerDrawCanvas: (data) => {
+    playerDrawCanvas: data => {
       dispatch(playerDrawCanvas(data));
     }
   };
 };
 
 export default connect(
-  mapStateToProps, mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(PublicGame);

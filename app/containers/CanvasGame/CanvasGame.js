@@ -1,67 +1,82 @@
-'use strict';
+"use strict";
 
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { PencilTool, EraserTool, BinRecycler, Bucket } from './tools';
-import resizeCanvas from './resizer';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { PencilTool, EraserTool, BinRecycler, Bucket } from "./tools";
+// import resizeCanvas from "./resizer";
 
 /**
  * @class Canvas 🎨
- * @desc Canvas HTML5 element where all the magic happens! 
+ * @desc Canvas HTML5 element where all the magic happens!
  */
 class Canvas extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
+    this.state = {
+      opts: {}
+    };
 
-        this.clearCanvas = this.clearCanvas.bind(this);
-    }
+    this.clearCanvas = this.clearCanvas.bind(this);
+  }
 
-    clearCanvas() {
-        const canvas = this.refs.canvas;
-        const context = canvas.getContext('2d');
-        context.clearRect(0, 0, canvas.width, canvas.height);
-    }
+  componentDidMount() {
+    this.state.opts.aspectRatio = 1;
+    this.state.opts.width = document.getElementById("mycanvas").clientWidth;
+    this.state.opts.height = this.state.opts.width * this.state.opts.aspectRatio;
+  }
 
-    componentDidMount() {
-        window.addEventListener('resize', resizeCanvas.bind(this));
-        resizeCanvas.call(this);
-    }
+  clearCanvas() {
+    const canvas = this.refs.canvas;
+    const context = canvas.getContext("2d");
+    context.clearRect(0, 0, canvas.width, canvas.height);
+  }
 
-    componentWillUnmount() {
-        window.removeEventListener('resize', resizeCanvas.bind(this));
-    }
+  getCanvasSize() {
+    const canvas = this.refs.canvas;
+    return {
+      width: canvas.width,
+      height: canvas.height
+    };
+  }
 
-    componentDidUpdate() {
-        if (!this.props.lastDraw) return;
+  componentDidMount() {
+    const canvas = this.refs.canvas;
+    // window.addEventListener(
+    //   "resize",
+    //   this.resize.bind(this, canvas.offsetWidth)
+    // );
+  }
 
-        const canvas = this.refs.canvas;
-        const ctx = canvas.getContext("2d");
+  componentWillUnmount() {
+    // window.removeEventListener("resize", this.resize.bind(this));
+  }
 
-        const tool = this.props.lastDraw.toolPicked;
+  componentDidUpdate() {
+    if (!this.props.lastDraw) return;
 
-        if (tool === 'pencil')
-            PencilTool.classic(this.props.lastDraw, ctx);
-        else if (tool === 'eraser')
-            EraserTool(this.props.lastDraw, ctx);
-        else if (tool === 'bucket')
-            Bucket(this.props.lastDraw, ctx);
-        else if (tool === 'bin')
-            BinRecycler(canvas);
+    const canvas = this.refs.canvas;
+    const ctx = canvas.getContext("2d");
 
-    }
+    const tool = this.props.lastDraw.toolPicked;
 
-    render() {
-        return (
-            <canvas
-                id="mycanvas"
-                ref="canvas"
-                width="600"
-                height="400"
-                onMouseMove={this.props.onMouseMove}
-                onMouseDown={this.props.onMouseDown}>
-            </canvas>
-        )
-    }
+    if (tool === "pencil") PencilTool.classic(this.props.lastDraw, ctx);
+    else if (tool === "eraser") EraserTool(this.props.lastDraw, ctx);
+    else if (tool === "bucket") Bucket(this.props.lastDraw, ctx);
+    else if (tool === "bin") BinRecycler(canvas);
+  }
+
+  render() {
+    return (
+      <canvas
+        id="mycanvas"
+        ref="canvas"
+        width="800"
+        height="600"
+        onMouseMove={this.props.onMouseMove}
+        onMouseDown={this.props.onMouseDown}
+      />
+    );
+  }
 }
 
 /**
@@ -69,9 +84,12 @@ class Canvas extends Component {
  * @param {store}
  */
 function mapStateToProps(store) {
-    const { lastDraw } = store.GameReducer;
+  const { lastDraw } = store.GameReducer;
 
-    return { lastDraw };
+  return { lastDraw };
 }
 
-export default connect(mapStateToProps, null)(Canvas);
+export default connect(
+  mapStateToProps,
+  null
+)(Canvas);

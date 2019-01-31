@@ -13,5 +13,6 @@ export const initialState = {
   countDown: undefined,
   gamePlay: "waitting",
   playersDraw: [],
-  currentWord: "Waitting round to start"
+  currentWord: "Waitting round to start",
+  modal: false
 };

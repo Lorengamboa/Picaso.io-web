@@ -9,6 +9,10 @@ const routes = {
     API_IMAGES: '/api/sample',
     API_ROOMS_AVAILABLE: '/api/rooms_available',
     ADMIN: '/admin',
+    REGISTER: '/register',
+    PROFILE: '/profile',
+    LOGIN: '/login',
+    LOGOUT: '/logout',
     WEB_APP: '*'
 }
 

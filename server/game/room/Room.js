@@ -4,7 +4,7 @@ const _ = require("lodash");
 
 const Chat = require("../chat");
 
-const { changeGamePlay, createNewCanvas, requestRandomWord, persistDrawToDisk } = require("./services");
+const { changeGamePlay, createNewCanvas, requestRandomWord, persistDraw } = require("./services");
 const { SOCKET_EVENTS } = require("../../events");
 const CHAT_CONF = require("../config/chat_conf");
 const { GAME_STATE } = require("../config/constants");
@@ -58,7 +58,7 @@ class Room {
    */
   vote() {
     const drawsBase64 = this.draws.map(draw => {
-      persistDrawToDisk(draw.canvas.getImageData());
+      persistDraw(draw.canvas.getImageData());
       return draw.canvas.getImageData();
     });
 

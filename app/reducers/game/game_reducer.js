@@ -49,6 +49,10 @@ export default function GameReducer(state = initialState, action) {
       return Object.assign({}, state, {
         currentWord: action.payload
       });
+    case ACTIONS.DISCONNECT_GAME_ROOM:
+      return Object.assign({}, state, {
+        modal: true
+      });
     default:
       return state;
   }

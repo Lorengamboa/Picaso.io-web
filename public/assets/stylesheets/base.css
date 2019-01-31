@@ -198,9 +198,22 @@ body {
 }
 
 canvas {
+  width: 100%;
+  height: auto;
+  display: block;
   background: #fff;
   box-shadow: 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12), 0 11px 15px -7px rgba(0,0,0,0.2); 
   cursor: url(/assets/img/tools/pencil.png) 5 40, auto;
+}
+
+.timer {
+  position: absolute;
+  top: -10px;
+  left:15px;
+}
+
+.timer .a {
+  font-size: 5px;
 }
 
 .icon-tool {

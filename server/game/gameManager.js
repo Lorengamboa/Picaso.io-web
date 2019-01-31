@@ -1,16 +1,10 @@
 "use strict";
-const _ = require('lodash');
+const _ = require("lodash");
 
-const RoomCreator = require('./controllers/create_room.controller');
-const { isRoomEmpty } = require('./controllers/read_room.controller');
-const deleteRoom = require('./controllers/delete_room.controller');
-
+const { RoomCreator, isRoomEmpty, deleteRoom} = require("./controllers/room.controller");
 const Player = require("./Player");
-const {
-  rndValueArray,
-  valiteNickname,
-} = require("../utils");
-const list_names = require('./config/names');
+const { rndValueArray, valiteNickname } = require("../utils");
+const list_names = require("./config/names");
 
 /**
  * Object controller in charge of managing the player join/leave flow
@@ -22,16 +16,14 @@ const gameManager = socket => {
     // All games available
     games: {
       private: [],
-      public: [],
+      public: []
     },
     roomCreator: new RoomCreator(io),
     /**
-     * 
+     *
      */
-    getPublicGames: function () {
+    getPublicGames: function() {
       if (this.games.public.length === 0) return;
-      //const FILTER_KEYS = ['name', 'players'];
-      //console.log(this.games.public[0]);
       const filteredRooms = this.games.public.map(game => {
         const filteredRoom = {
           name: game.name,
@@ -43,7 +35,7 @@ const gameManager = socket => {
       function getPlayerNames(players) {
         return players.map(player => {
           return player.name;
-        })
+        });
       }
 
       return filteredRooms;
@@ -52,33 +44,35 @@ const gameManager = socket => {
      * Players manually creates a room game
      * from our client interface
      */
-    playerCreatesGame: function (gameInfo, socket) {
+    playerCreatesGame: function(gameInfo, socket) {
       let gameRoom;
       if (gameInfo.private) {
-        gameRoom = this.roomCreator.createPrivateGame(gameInfo)
+        gameRoom = this.roomCreator.createPrivateGame(gameInfo);
         this.games.private.push(gameRoom);
-      }
-      else {
-        gameRoom = this.roomCreator.createPublicGame(gameInfo)
+      } else {
+        gameRoom = this.roomCreator.createPublicGame(gameInfo);
         this.games.public.push(gameRoom);
       }
 
-      return this.playerJoinGame(gameInfo.nickname, socket, gameRoom.name, gameInfo.private);
+      return this.playerJoinGame(
+        gameInfo.nickname,
+        socket,
+        gameRoom.name,
+        gameInfo.private
+      );
     },
     /**
      * @description: Player joins a public(random) game room
-     * @param {*} username 
-     * @param {*} socket 
+     * @param {*} username
+     * @param {*} socket
      */
-    playerJoinRandomGame: function (username, socket) {
+    playerJoinRandomGame: function(username, socket) {
       let usr = username;
       if (!usr) usr = rndValueArray(list_names);
 
       return new Promise((resolve, reject) => {
-        if (!valiteNickname(usr))
-          return reject("Invalid username", usr);
-        if (!socket)
-          return reject("Missing socket object");
+        if (!valiteNickname(usr)) return reject("Invalid username", usr);
+        if (!socket) return reject("Missing socket object");
 
         try {
           // if there are not rooms then it will create a new one
@@ -108,29 +102,31 @@ const gameManager = socket => {
     },
     /**
      * @description: player join a game room
-     * @param {*} username 
-     * @param {*} socket 
-     * @param {*} roomId 
+     * @param {*} username
+     * @param {*} socket
+     * @param {*} roomId
      */
-    playerJoinGame: function (username, socket, roomId, isRoomPrivate) {
+    playerJoinGame: function(username, socket, roomId, isRoomPrivate) {
       let usr = username;
       if (!usr) usr = rndValueArray(list_names);
 
       return new Promise((resolve, reject) => {
         try {
-          if (!valiteNickname(usr))
-            return reject("Invalid username", usr);
-          if (!socket)
-            return reject("Missing socket object");
+          if (!valiteNickname(usr)) return reject("Invalid username", usr);
+          if (!socket) return reject("Missing socket object");
 
           // if the room doesnt already exist, it will create one
           // then it will proceed to find the room class object
-          const gameRoom = _.find(isRoomPrivate ? this.games.private : this.games.public, { name: roomId });
-          if (!gameRoom) return reject('game doesnt exist dude');
+          const gameRoom = _.find(
+            isRoomPrivate ? this.games.private : this.games.public,
+            { name: roomId }
+          );
+          if (!gameRoom) return reject("game doesnt exist dude");
 
           // player joins the private room created ...
           const player = new Player(usr, socket);
-          player.joinGameRoom(gameRoom)
+          player
+            .joinGameRoom(gameRoom)
             .then(() => {
               resolve(player);
             })
@@ -145,9 +141,10 @@ const gameManager = socket => {
       });
     },
     /**
-     * 
+     * Player leaves room
+     * @param {Object} player 
      */
-    playerLeaveRoom: function (player) {
+    playerLeaveRoom: function(player) {
       const roomId = player.gameroom.name;
 
       player.leaveGameRoom();

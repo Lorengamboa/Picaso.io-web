@@ -1,12 +1,6 @@
 "use strict";
 
-import {
-  CREATE_ROOM,
-  CHANGE_USERNAME,
-  SOCKET_CONNECTION,
-  CONNECT_PRIVATE_ROOM,
-  SET_CONNECTION
-} from "./actions";
+import * as ACTIONS from "./actions";
 
 /**
  * Sets the username value
@@ -14,7 +8,7 @@ import {
  */
 export function setUsername(username) {
   return {
-    type: CHANGE_USERNAME,
+    type: ACTIONS.CHANGE_USERNAME,
     payload: username
   };
 }
@@ -25,7 +19,7 @@ export function setUsername(username) {
  */
 export function createRoom(settings) {
   return {
-    type: CREATE_ROOM,
+    type: ACTIONS.CREATE_ROOM,
     payload: settings
   };
 }
@@ -35,7 +29,7 @@ export function createRoom(settings) {
  */
 export function openPlayerSocketConnection() {
   return {
-    type: SOCKET_CONNECTION,
+    type: ACTIONS.SOCKET_CONNECTION,
     payload: false
   };
 }
@@ -46,7 +40,7 @@ export function openPlayerSocketConnection() {
  */
 export function joinPrivateGame(id) {
   return {
-    type: CONNECT_PRIVATE_ROOM,
+    type: ACTIONS.CONNECT_PRIVATE_ROOM,
     payload: id
   };
 }
@@ -56,9 +50,8 @@ export function joinPrivateGame(id) {
  * @param {*} result 
  */
 export function setConnection(result) {
-  console.log("set connect",)
   return {
-    type: SET_CONNECTION,
+    type: ACTIONS.SET_CONNECTION,
     payload: result
   };
 }

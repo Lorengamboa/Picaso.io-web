@@ -1,25 +1,10 @@
 'use strict';
 
-import {
-  RETRIEVE_GAME_INFO,
-  UPDATE_CANVAS,
-  CHANGE_COLOR_PICKED,
-  SELECT_TOOL_PICKED,
-  SELECT_PEN_WIDTH,
-  UPDATE_USERLIST,
-  ADD_NEW_CHAT_MESSAGE,
-  PLAYER_SEND_MESSAGE,
-  PLAYER_DRAW_CANVAS,
-  PLAYER_CLEAR_CANVAS,
-  UPDATE_TIMER,
-  UPDATE_GAME_STATE,
-  DISPLAY_PLAYERS_DRAW,
-  DISPLAY_CURRENT_WORD
-} from './actions';
+import * as ACTIONS from './actions';
 
 export function retrieveGameInfo(data) {
   return {
-    type: RETRIEVE_GAME_INFO,
+    type: ACTIONS.RETRIEVE_GAME_INFO,
     payload: data,
   };
 }
@@ -30,7 +15,7 @@ export function retrieveGameInfo(data) {
  */
 export function updateCanvas(data) {
   return {
-    type: UPDATE_CANVAS,
+    type: ACTIONS.UPDATE_CANVAS,
     payload: data,
   };
 }
@@ -41,7 +26,7 @@ export function updateCanvas(data) {
  */
 export function updateTimer(data) {
   return {
-    type: UPDATE_TIMER,
+    type: ACTIONS.UPDATE_TIMER,
     payload: data
   }
 }
@@ -52,7 +37,7 @@ export function updateTimer(data) {
  */
 export function updateGameState(data) {
   return {
-    type: UPDATE_GAME_STATE,
+    type: ACTIONS.UPDATE_GAME_STATE,
     payload: data
   }
 }
@@ -62,7 +47,7 @@ export function updateGameState(data) {
  */
 export function displayCurrentWord(data) {
   return {
-    type: DISPLAY_CURRENT_WORD,
+    type: ACTIONS.DISPLAY_CURRENT_WORD,
     payload: data
   }
 }
@@ -73,7 +58,7 @@ export function displayCurrentWord(data) {
  */
 export function fetchPlayersDraw(data) {
   return {
-    type: DISPLAY_PLAYERS_DRAW,
+    type: ACTIONS.DISPLAY_PLAYERS_DRAW,
     payload: data
   }
 }
@@ -84,7 +69,7 @@ export function fetchPlayersDraw(data) {
  */
 export function setColorPicked(color) {
   return {
-    type: CHANGE_COLOR_PICKED,
+    type: ACTIONS.CHANGE_COLOR_PICKED,
     payload: color,
   };
 }
@@ -95,7 +80,7 @@ export function setColorPicked(color) {
  */
 export function selectTool(tool) {
   return {
-    type: SELECT_TOOL_PICKED,
+    type: ACTIONS.SELECT_TOOL_PICKED,
     payload: tool,
   };
 }
@@ -106,7 +91,7 @@ export function selectTool(tool) {
  */
 export function setPenWidth(width) {
   return {
-    type: SELECT_PEN_WIDTH,
+    type: ACTIONS.SELECT_PEN_WIDTH,
     payload: width,
   };
 }
@@ -117,7 +102,7 @@ export function setPenWidth(width) {
  */
 export function updatePlayerList(playerList) {
   return {
-    type: UPDATE_USERLIST,
+    type: ACTIONS.UPDATE_USERLIST,
     payload: playerList,
   };
 }
@@ -128,7 +113,7 @@ export function updatePlayerList(playerList) {
  */
 export function addMessageToChat(message) {
   return {
-    type: ADD_NEW_CHAT_MESSAGE,
+    type: ACTIONS.ADD_NEW_CHAT_MESSAGE,
     payload: message,
   };
 }
@@ -139,7 +124,7 @@ export function addMessageToChat(message) {
  */
 export function playerSendMessage(message) {
   return {
-    type: PLAYER_SEND_MESSAGE,
+    type: ACTIONS.PLAYER_SEND_MESSAGE,
     payload: message,
   };
 }
@@ -150,7 +135,7 @@ export function playerSendMessage(message) {
  */
 export function playerDrawCanvas(data) {
   return {
-    type: PLAYER_DRAW_CANVAS,
+    type: ACTIONS.PLAYER_DRAW_CANVAS,
     payload: data,
   };
 }
@@ -161,7 +146,15 @@ export function playerDrawCanvas(data) {
  */
 export function clearCanvas() {
   return {
-    type: PLAYER_CLEAR_CANVAS,
+    type: ACTIONS.PLAYER_CLEAR_CANVAS,
   };
 }
 
+/**
+ * 
+ */
+export function disconnectGameRoom() {
+  return {
+    type: ACTIONS.DISCONNECT_GAME_ROOM,
+  };
+}

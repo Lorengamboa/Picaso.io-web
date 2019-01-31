@@ -8,13 +8,15 @@ import {
   updateTimer,
   updateGameState,
   fetchPlayersDraw,
-  displayCurrentWord
+  displayCurrentWord,
+  disconnectGameRoom
 } from "../actions/game/game_action";
 
 import { setConnection } from "../actions/player/player_action";
 
 const SOCKET_EVENTS = {
   RECEIVER: {
+    DISCONNECT: ["disconnect", disconnectGameRoom],
     RETRIEVE_GAME_INFO: ["retrieveGameInfo", retrieveGameInfo],
     UPDATE_CHAT_PLAYER_MESSAGE: ["playerMessage", addMessageToChat],
     UPDATE_CHAT_INFORM_MESSAGE: ["generalMessage", addMessageToChat],
