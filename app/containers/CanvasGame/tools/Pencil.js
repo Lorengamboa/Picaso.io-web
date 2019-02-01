@@ -1,11 +1,17 @@
 "use strict";
 
 const Pencil = {
-  classic: (data, ctx) => {
+  classic: (data, canvas) => {
+    const ctx = canvas.getContext("2d");
     const { drawPosition, colorPicked } = data;
     if (!drawPosition) return;
 
-    const { currentX, currentY, prevX, prevY } = drawPosition;
+    let { currentX, currentY, prevX, prevY } = drawPosition;
+    
+    currentX = currentX / (600 / canvas.width);
+    currentY = currentY / (400 / canvas.height);
+    prevX = prevX / (600 / canvas.width);
+    prevY = prevY / (400 / canvas.height);
 
     ctx.beginPath();
     ctx.moveTo(prevX, prevY, currentX, currentY);

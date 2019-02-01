@@ -24023,7 +24023,7 @@
 
 	var _screens = __webpack_require__(158);
 
-	var _routes = __webpack_require__(858);
+	var _routes = __webpack_require__(859);
 
 	var _routes2 = _interopRequireDefault(_routes);
 
@@ -40325,7 +40325,7 @@
 
 	var _play = __webpack_require__(832);
 
-	var _Create = __webpack_require__(857);
+	var _Create = __webpack_require__(858);
 
 	var _Create2 = _interopRequireDefault(_Create);
 
@@ -40485,19 +40485,30 @@
 	  }, {
 	    key: "render",
 	    value: function render() {
-	      var renderSamples = void 0;
+	      // let renderSamples;
 
-	      if (this.state.loadingSamples) {
-	        renderSamples = _react2.default.createElement(_semanticUiReact.Loader, { active: true, inline: "centered" });
-	      } else {
-	        if (!this.state.samples.size) {
-	          renderSamples = _react2.default.createElement("div", null, _react2.default.createElement(_semanticUiReact.Header, { as: "h2", icon: true, textAlign: "center" }, _react2.default.createElement(_semanticUiReact.Icon, { name: "images", circular: true }), _react2.default.createElement(_semanticUiReact.Header.Content, null, "Not draws available!")));
-	        } else {
-	          renderSamples = this.state.samples.map(function (draw) {
-	            return _react2.default.createElement("div", { className: "sample four columns" }, _react2.default.createElement(_semanticUiReact.Image, { src: "data:image/png;base64, " + draw, size: "medium", bordered: true }));
-	          });
-	        }
-	      }
+	      // if (this.state.loadingSamples) {
+	      //   renderSamples = <Loader active inline='centered' />;
+	      // }
+	      // else {
+	      //   if (!this.state.samples.size) {
+	      //     renderSamples = <div>
+	      //       <Header as='h2' icon textAlign='center'>
+	      //         <Icon name='images' circular />
+	      //         <Header.Content>Not draws available!</Header.Content>
+	      //       </Header>
+	      //     </div>
+	      //   }
+	      //   else {
+	      //     renderSamples = this.state.samples.map(draw => {
+	      //       return (
+	      //         <div className="sample four columns">
+	      //           <Image src={`data:image/png;base64, ${draw}`} size='medium' bordered />
+	      //         </div>
+	      //       );
+	      //     });
+	      //   }
+	      // }
 
 	      return _react2.default.createElement("div", { id: "home-site" }, _react2.default.createElement(_components.Navbar, null), _react2.default.createElement("div", { className: "home-menu" }, _react2.default.createElement(_components.InputText, {
 	        "class": "input",
@@ -40518,7 +40529,7 @@
 	        "class": "create-btn",
 	        value: this.state.privateTxt,
 	        onClick: this.onCreateButtonClick
-	      }), _react2.default.createElement(_semanticUiReact.Divider, { className: "divide", horizontal: true }, "Last draws")), _react2.default.createElement("div", { className: "sample-content" }, _react2.default.createElement("div", { className: "row" }, renderSamples)));
+	      })));
 	    }
 	  }]);
 
@@ -83321,7 +83332,7 @@
 
 	var _PublicGame2 = _interopRequireDefault(_PublicGame);
 
-	var _PrivateGame = __webpack_require__(856);
+	var _PrivateGame = __webpack_require__(857);
 
 	var _PrivateGame2 = _interopRequireDefault(_PrivateGame);
 
@@ -83388,6 +83399,8 @@
 
 	var _game = __webpack_require__(845);
 
+	var _utils = __webpack_require__(856);
+
 	function _interopRequireDefault(obj) {
 	  return obj && obj.__esModule ? obj : { default: obj };
 	}
@@ -83453,6 +83466,18 @@
 	      });
 	      sound.play();
 	    }
+	  }, {
+	    key: "componentDidMount",
+	    value: function componentDidMount() {
+	      var mycanvas = document.getElementById("mycanvas");
+
+	      this.setState({
+	        canvas: {
+	          width: mycanvas.scrollWidth,
+	          height: mycanvas.scrollHeight
+	        }
+	      });
+	    }
 
 	    /**
 	     * Keeps track of the mouse moving over the canvas
@@ -83463,6 +83488,8 @@
 	    key: "handleDisplayMouseMove",
 	    value: function handleDisplayMouseMove(e) {
 	      if (!this.state.isPenDown) return;
+
+	      var coordinates = (0, _utils.is_touch_device)() ? e.touches[0] : e;
 	      var mycanvas = document.getElementById("mycanvas");
 
 	      var _mycanvas$getBounding = mycanvas.getBoundingClientRect(),
@@ -83470,10 +83497,9 @@
 	          left = _mycanvas$getBounding.left;
 
 	      var drawPosition = Object.assign({}, this.state.currentPosition, {
-	        currentX: e.clientX - left,
-	        currentY: e.clientY - top
+	        currentX: (coordinates.clientX - left) * (600 / mycanvas.width),
+	        currentY: (coordinates.clientY - top) * (400 / mycanvas.height)
 	      });
-
 	      //
 	      this.props.playerDrawCanvas({
 	        drawPosition: drawPosition,
@@ -83483,8 +83509,8 @@
 	      //
 	      this.setState({
 	        currentPosition: Object.assign({}, this.state.currentPosition, {
-	          prevX: e.clientX - left,
-	          prevY: e.clientY - top
+	          prevX: (coordinates.clientX - left) * (600 / mycanvas.width),
+	          prevY: (coordinates.clientY - top) * (400 / mycanvas.height)
 	        })
 	      });
 	    }
@@ -83499,6 +83525,7 @@
 	    value: function handleDisplayMouseDown(e) {
 	      window.addEventListener("mouseup", this.handleDisplayMouseUp);
 
+	      var coordinates = (0, _utils.is_touch_device)() ? e.touches[0] : e;
 	      var mycanvas = document.getElementById("mycanvas");
 
 	      var _mycanvas$getBounding2 = mycanvas.getBoundingClientRect(),
@@ -83508,8 +83535,8 @@
 	      this.setState({
 	        isPenDown: true,
 	        currentPosition: Object.assign({}, this.state.currentPosition, {
-	          prevX: e.clientX - left,
-	          prevY: e.clientY - top
+	          prevX: (coordinates.clientX - left) * (600 / mycanvas.width),
+	          prevY: (coordinates.clientY - top) * (400 / mycanvas.height)
 	        })
 	      });
 	    }
@@ -83542,25 +83569,10 @@
 	    value: function render() {
 	      var roomUrl = "http://www.localhost:8080/game/" + this.props.gameInfo.roomTag;
 
-	      return _react2.default.createElement("div", { id: "play-site" }, _react2.default.createElement(_components.Navbar, null), _react2.default.createElement(_semanticUiReact.Grid, null, _react2.default.createElement(_PlayerList2.default, null), _react2.default.createElement(_semanticUiReact.Grid.Row, null, _react2.default.createElement(_semanticUiReact.Grid.Column, { width: 3 }, _react2.default.createElement(_semanticUiReact.Card, {
-	        link: true,
-	        header: this.props.currentWord,
-	        color: "purple",
-	        description: this.props.gamePlay === "waiting" ? "Not enough players to start" : _react2.default.createElement(_react.Fragment, null, _react2.default.createElement(_components.Timer, { time: this.props.countDown }))
-	      }), _react2.default.createElement(_semanticUiReact.Input, {
-	        className: "clipboard",
-	        size: "mini",
-	        action: {
-	          color: "teal",
-	          labelPosition: "right",
-	          icon: "copy",
-	          content: "Copy"
-	        },
-	        value: roomUrl
-	      })), _react2.default.createElement(_semanticUiReact.Grid.Column, { width: 9 }, this.props.gamePlay === "voting" ? _react2.default.createElement("div", { className: "row" }, this.renderPlayerDraws()) : _react2.default.createElement("div", null, _react2.default.createElement(_components.Timer, { className: "timer", time: this.props.countDown }), _react2.default.createElement(_CanvasGame2.default, {
+	      return _react2.default.createElement("div", { id: "play-site" }, _react2.default.createElement(_components.Navbar, null), _react2.default.createElement(_semanticUiReact.Grid, null, _react2.default.createElement(_PlayerList2.default, null), _react2.default.createElement(_semanticUiReact.Grid.Row, null, _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 16, tablet: 10, computer: 2 }, _react2.default.createElement(_ToolPaint2.default, null)), _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 16, tablet: 10, computer: 10 }, this.props.gamePlay === "voting" ? _react2.default.createElement("div", { className: "row" }, this.renderPlayerDraws()) : _react2.default.createElement("div", null, _react2.default.createElement(_components.Timer, { className: "timer", time: this.props.countDown }), _react2.default.createElement(_CanvasGame2.default, {
 	        onMouseMove: this.handleDisplayMouseMove,
 	        onMouseDown: this.handleDisplayMouseDown
-	      })), _react2.default.createElement(_ToolPaint2.default, null)), _react2.default.createElement(_semanticUiReact.Grid.Column, { width: 4 }, _react2.default.createElement(_Chat2.default, null)))), _react2.default.createElement(_GeneralModal2.default, { visibility: this.props.modal }));
+	      }))), _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 4, tablet: 4, computer: 4 }, _react2.default.createElement(_Chat2.default, null)))), _react2.default.createElement(_GeneralModal2.default, { visibility: this.props.modal }));
 	    }
 	  }]);
 
@@ -86854,8 +86866,6 @@
 	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 	}
 
-	// import resizeCanvas from "./resizer";
-
 	/**
 	 * @class Canvas 🎨
 	 * @desc Canvas HTML5 element where all the magic happens!
@@ -86873,17 +86883,11 @@
 	    };
 
 	    _this.clearCanvas = _this.clearCanvas.bind(_this);
+	    _this.resize = _this.resize.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(Canvas, [{
-	    key: "componentDidMount",
-	    value: function componentDidMount() {
-	      this.state.opts.aspectRatio = 1;
-	      this.state.opts.width = document.getElementById("mycanvas").clientWidth;
-	      this.state.opts.height = this.state.opts.width * this.state.opts.aspectRatio;
-	    }
-	  }, {
 	    key: "clearCanvas",
 	    value: function clearCanvas() {
 	      var canvas = this.refs.canvas;
@@ -86891,27 +86895,27 @@
 	      context.clearRect(0, 0, canvas.width, canvas.height);
 	    }
 	  }, {
-	    key: "getCanvasSize",
-	    value: function getCanvasSize() {
+	    key: "resize",
+	    value: function resize() {
 	      var canvas = this.refs.canvas;
-	      return {
-	        width: canvas.width,
-	        height: canvas.height
-	      };
+	      if (!canvas) return;
+
+	      var offsetWidth = canvas.offsetWidth,
+	          offsetHeight = canvas.offsetHeight;
+
+	      canvas.width = offsetWidth ? offsetWidth : canvas.width;
+	      canvas.height = offsetHeight ? offsetHeight : canvas.height;
 	    }
 	  }, {
 	    key: "componentDidMount",
 	    value: function componentDidMount() {
-	      var canvas = this.refs.canvas;
-	      // window.addEventListener(
-	      //   "resize",
-	      //   this.resize.bind(this, canvas.offsetWidth)
-	      // );
+	      this.resize();
+	      window.addEventListener("resize", this.resize.bind(this));
 	    }
 	  }, {
 	    key: "componentWillUnmount",
 	    value: function componentWillUnmount() {
-	      // window.removeEventListener("resize", this.resize.bind(this));
+	      window.removeEventListener("resize", this.resize.bind(this));
 	    }
 	  }, {
 	    key: "componentDidUpdate",
@@ -86923,7 +86927,7 @@
 
 	      var tool = this.props.lastDraw.toolPicked;
 
-	      if (tool === "pencil") _tools.PencilTool.classic(this.props.lastDraw, ctx);else if (tool === "eraser") (0, _tools.EraserTool)(this.props.lastDraw, ctx);else if (tool === "bucket") (0, _tools.Bucket)(this.props.lastDraw, ctx);else if (tool === "bin") (0, _tools.BinRecycler)(canvas);
+	      if (tool === "pencil") _tools.PencilTool.classic(this.props.lastDraw, canvas);else if (tool === "eraser") (0, _tools.EraserTool)(this.props.lastDraw, ctx);else if (tool === "bucket") (0, _tools.Bucket)(this.props.lastDraw, ctx);else if (tool === "bin") (0, _tools.BinRecycler)(canvas);
 	    }
 	  }, {
 	    key: "render",
@@ -86931,10 +86935,12 @@
 	      return _react2.default.createElement("canvas", {
 	        id: "mycanvas",
 	        ref: "canvas",
-	        width: "800",
-	        height: "600",
+	        width: "600",
+	        height: "400",
 	        onMouseMove: this.props.onMouseMove,
-	        onMouseDown: this.props.onMouseDown
+	        onMouseDown: this.props.onMouseDown,
+	        onTouchStart: this.props.onMouseDown,
+	        onTouchMove: this.props.onMouseMove
 	      });
 	    }
 	  }]);
@@ -87001,7 +87007,8 @@
 	  value: true
 	});
 	var Pencil = {
-	  classic: function classic(data, ctx) {
+	  classic: function classic(data, canvas) {
+	    var ctx = canvas.getContext("2d");
 	    var drawPosition = data.drawPosition,
 	        colorPicked = data.colorPicked;
 
@@ -87011,6 +87018,11 @@
 	        currentY = drawPosition.currentY,
 	        prevX = drawPosition.prevX,
 	        prevY = drawPosition.prevY;
+
+	    currentX = currentX / (600 / canvas.width);
+	    currentY = currentY / (400 / canvas.height);
+	    prevX = prevX / (600 / canvas.width);
+	    prevY = prevY / (400 / canvas.height);
 
 	    ctx.beginPath();
 	    ctx.moveTo(prevX, prevY, currentX, currentY);
@@ -87908,6 +87920,32 @@
 
 /***/ }),
 /* 856 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.is_touch_device = is_touch_device;
+	function is_touch_device() {
+	  var prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
+	  var mq = function mq(query) {
+	    return window.matchMedia(query).matches;
+	  };
+
+	  if ('ontouchstart' in window || window.DocumentTouch && document instanceof DocumentTouch) {
+	    return true;
+	  }
+
+	  // include the 'heartz' as a way to have a non matching MQ to help terminate the join
+	  // https://git.io/vznFH
+	  var query = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('');
+	  return mq(query);
+	}
+
+/***/ }),
+/* 857 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -88101,7 +88139,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(PrivateGame);
 
 /***/ }),
-/* 857 */
+/* 858 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -88368,7 +88406,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(CreatePage);
 
 /***/ }),
-/* 858 */
+/* 859 */
 /***/ (function(module, exports) {
 
 	'use strict';

@@ -18,13 +18,17 @@ const pipe = spawn("mongod", ["--dbpath=<LOCATION>", "--port", "<PORT>"]);
 
 var url = "mongodb://localhost:27017/dev"; // mydatabase is the name of db 
 MongoClient.connect(url, function(err, db) {
-  if (err) throw err;
-console.log("Database created!");
+  if (err) return logger.server.error("MONGODB connection error" + err);;
+  logger.server.info("MONGODB connection succesfull");
   db.close();
 });
 
 // connect to MongoDB
-mongoose.connect(url);
+mongoose.connect(url)
+.catch((err) => {
+  logger.server.error("MONGODB connection error" + err);
+});
+
 var db = mongoose.connection;
 
 //

@@ -3,7 +3,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { PencilTool, EraserTool, BinRecycler, Bucket } from "./tools";
-// import resizeCanvas from "./resizer";
 
 /**
  * @class Canvas 🎨
@@ -17,12 +16,7 @@ class Canvas extends Component {
     };
 
     this.clearCanvas = this.clearCanvas.bind(this);
-  }
-
-  componentDidMount() {
-    this.state.opts.aspectRatio = 1;
-    this.state.opts.width = document.getElementById("mycanvas").clientWidth;
-    this.state.opts.height = this.state.opts.width * this.state.opts.aspectRatio;
+    this.resize = this.resize.bind(this);
   }
 
   clearCanvas() {
@@ -31,24 +25,23 @@ class Canvas extends Component {
     context.clearRect(0, 0, canvas.width, canvas.height);
   }
 
-  getCanvasSize() {
+  resize() {
     const canvas = this.refs.canvas;
-    return {
-      width: canvas.width,
-      height: canvas.height
-    };
+    if(!canvas) return;
+    
+    const { offsetWidth, offsetHeight } = canvas;
+
+    canvas.width = offsetWidth ? offsetWidth: canvas.width;
+    canvas.height = offsetHeight ? offsetHeight: canvas.height;
   }
 
   componentDidMount() {
-    const canvas = this.refs.canvas;
-    // window.addEventListener(
-    //   "resize",
-    //   this.resize.bind(this, canvas.offsetWidth)
-    // );
+    this.resize();
+    window.addEventListener("resize", this.resize.bind(this));
   }
 
   componentWillUnmount() {
-    // window.removeEventListener("resize", this.resize.bind(this));
+    window.removeEventListener("resize", this.resize.bind(this));
   }
 
   componentDidUpdate() {
@@ -59,7 +52,7 @@ class Canvas extends Component {
 
     const tool = this.props.lastDraw.toolPicked;
 
-    if (tool === "pencil") PencilTool.classic(this.props.lastDraw, ctx);
+    if (tool === "pencil") PencilTool.classic(this.props.lastDraw, canvas);
     else if (tool === "eraser") EraserTool(this.props.lastDraw, ctx);
     else if (tool === "bucket") Bucket(this.props.lastDraw, ctx);
     else if (tool === "bin") BinRecycler(canvas);
@@ -70,10 +63,12 @@ class Canvas extends Component {
       <canvas
         id="mycanvas"
         ref="canvas"
-        width="800"
-        height="600"
+        width="600"
+        height="400"
         onMouseMove={this.props.onMouseMove}
         onMouseDown={this.props.onMouseDown}
+        onTouchStart={this.props.onMouseDown}
+        onTouchMove={this.props.onMouseMove}
       />
     );
   }

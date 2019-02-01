@@ -1,0 +1,59 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "logs/.c08f5af9a52c791ecbcb001d75d1416a6167dfa2-audit.json",
+    "files": [
+        {
+            "date": 1548984419064,
+            "name": "logs/server-2019-02-01-02.json",
+            "hash": "5437ead71e15e3eb66da8004d46383a8"
+        },
+        {
+            "date": 1548990490716,
+            "name": "logs/server-2019-02-01-04.json",
+            "hash": "8f7ea40da25c65b6f4a533e9e16102fd"
+        },
+        {
+            "date": 1548993537007,
+            "name": "logs/server-2019-02-01-04.json.1",
+            "hash": "8be9694131140be90ae182baeeffd21b"
+        },
+        {
+            "date": 1548993613488,
+            "name": "logs/server-2019-02-01-05.json",
+            "hash": "a8809800f47bcd419199869836be0e87"
+        },
+        {
+            "date": 1548998041063,
+            "name": "logs/server-2019-02-01-06.json",
+            "hash": "07492386cc743cd7a57172a872041e36"
+        },
+        {
+            "date": 1549002467612,
+            "name": "logs/server-2019-02-01-07.json",
+            "hash": "7d9ba1e9f664f40fc9712caddbd7d962"
+        },
+        {
+            "date": 1549007667727,
+            "name": "logs/server-2019-02-01-08.json",
+            "hash": "af1b671547cb54e149e75581c98e0eb9"
+        },
+        {
+            "date": 1549007899810,
+            "name": "logs/server-2019-02-01-08.json.1",
+            "hash": "2a09c5a3aeb2966b67adfbc4bba2d431"
+        },
+        {
+            "date": 1549009182763,
+            "name": "logs/server-2019-02-01-09.json",
+            "hash": "680f020ab81f3cc8ed1e6cef49648443"
+        },
+        {
+            "date": 1549029040897,
+            "name": "logs/server-2019-02-01-14.json",
+            "hash": "1d2cea4da161893a2c69e6b3ae4f917b"
+        }
+    ]
+}

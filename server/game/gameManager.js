@@ -69,6 +69,7 @@ const gameManager = socket => {
     playerJoinRandomGame: function(username, socket) {
       let usr = username;
       if (!usr) usr = rndValueArray(list_names);
+      usr = "(guest) " + usr;
 
       return new Promise((resolve, reject) => {
         if (!valiteNickname(usr)) return reject("Invalid username", usr);

@@ -79,30 +79,30 @@ class HomePage extends Component {
   }
 
   render() {
-    let renderSamples;
-
-    if (this.state.loadingSamples) {
-      renderSamples = <Loader active inline='centered' />;
-    }
-    else {
-      if (!this.state.samples.size) {
-        renderSamples = <div>
-          <Header as='h2' icon textAlign='center'>
-            <Icon name='images' circular />
-            <Header.Content>Not draws available!</Header.Content>
-          </Header>
-        </div>
-      }
-      else {
-        renderSamples = this.state.samples.map(draw => {
-          return (
-            <div className="sample four columns">
-              <Image src={`data:image/png;base64, ${draw}`} size='medium' bordered />
-            </div>
-          );
-        });
-      }
-    }
+    // let renderSamples;
+    
+    // if (this.state.loadingSamples) {
+    //   renderSamples = <Loader active inline='centered' />;
+    // }
+    // else {
+    //   if (!this.state.samples.size) {
+    //     renderSamples = <div>
+    //       <Header as='h2' icon textAlign='center'>
+    //         <Icon name='images' circular />
+    //         <Header.Content>Not draws available!</Header.Content>
+    //       </Header>
+    //     </div>
+    //   }
+    //   else {
+    //     renderSamples = this.state.samples.map(draw => {
+    //       return (
+    //         <div className="sample four columns">
+    //           <Image src={`data:image/png;base64, ${draw}`} size='medium' bordered />
+    //         </div>
+    //       );
+    //     });
+    //   }
+    // }
 
     return (
       <div id="home-site">
@@ -132,15 +132,15 @@ class HomePage extends Component {
             value={this.state.privateTxt}
             onClick={this.onCreateButtonClick}
           />
-          <Divider className="divide" horizontal>
+          {/* <Divider className="divide" horizontal>
             Last draws
-          </Divider>
+          </Divider> */}
         </div>
-        <div className="sample-content">
+        {/* <div className="sample-content">
           <div className="row">
             {renderSamples}
           </div>
-        </div>
+        </div> */}
       </div>
     );
   }

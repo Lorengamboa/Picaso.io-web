@@ -28,7 +28,7 @@ module.exports = {
           .catch(err => {
             socket.disconnect();
             socket.emit(SOCKET_EVENTS.CONNECTION_RESULT, false);
-            logger.sockets.error("👨 - ❌  Socket connection failed", err);
+            logger.sockets.error("👨 - ❌  Socket connection failed: " + err);
           });
       });
 

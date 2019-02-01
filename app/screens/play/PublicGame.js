@@ -1,16 +1,8 @@
 "use strict";
 
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  Card,
-  Grid,
-  Input,
-  Modal,
-  Header,
-  Icon,
-  Button
-} from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import { Howl } from "howler";
 
 import GeneralModal from "./GeneralModal";
@@ -22,6 +14,7 @@ import ToolPaint from "../../containers/ToolPaint";
 import { Navbar, DrawThumbnail, Timer } from "../../components";
 
 import { playerDrawCanvas } from "../../actions/game";
+import { is_touch_device } from '../../utils';
 
 /**
  * @class PublicGame
@@ -59,21 +52,32 @@ class PublicGame extends Component {
     sound.play();
   }
 
+  componentDidMount() {
+    const mycanvas = document.getElementById("mycanvas");
+
+    this.setState({
+      canvas: {
+        width: mycanvas.scrollWidth,
+        height: mycanvas.scrollHeight,
+      }
+    })
+  }
+
   /**
    * Keeps track of the mouse moving over the canvas
    * @param {Object} e
    */
   handleDisplayMouseMove(e) {
     if (!this.state.isPenDown) return;
+
+    const coordinates = is_touch_device() ? e.touches[0] : e;
     const mycanvas = document.getElementById("mycanvas");
-
     const { top, left } = mycanvas.getBoundingClientRect();
-
+  
     const drawPosition = Object.assign({}, this.state.currentPosition, {
-      currentX: e.clientX - left,
-      currentY: e.clientY - top
+      currentX: (coordinates.clientX - left) * (600 / mycanvas.width),
+      currentY: (coordinates.clientY - top) *  (400 / mycanvas.height)
     });
-
     //
     this.props.playerDrawCanvas({
       drawPosition,
@@ -83,8 +87,8 @@ class PublicGame extends Component {
     //
     this.setState({
       currentPosition: Object.assign({}, this.state.currentPosition, {
-        prevX: e.clientX - left,
-        prevY: e.clientY - top
+        prevX: (coordinates.clientX - left) * (600 / mycanvas.width),
+        prevY: (coordinates.clientY - top) *  (400 / mycanvas.height)
       })
     });
   }
@@ -96,17 +100,19 @@ class PublicGame extends Component {
   handleDisplayMouseDown(e) {
     window.addEventListener("mouseup", this.handleDisplayMouseUp);
 
+    const coordinates = is_touch_device() ? e.touches[0] : e;
     const mycanvas = document.getElementById("mycanvas");
-
     const { top, left } = mycanvas.getBoundingClientRect();
 
     this.setState({
       isPenDown: true,
       currentPosition: Object.assign({}, this.state.currentPosition, {
-        prevX: e.clientX - left,
-        prevY: e.clientY - top
+        prevX: (coordinates.clientX - left) * (600 / mycanvas.width),
+        prevY: (coordinates.clientY - top) *  (400 / mycanvas.height)
       })
     });
+
+
   }
 
   /**
@@ -142,8 +148,9 @@ class PublicGame extends Component {
           <PlayerList />
           <Grid.Row>
             {/*Left column*/}
-            <Grid.Column width={3}>
-              <Card
+            <Grid.Column mobile={16} tablet={10} computer={2}>
+            <ToolPaint />
+              {/* <Card
                 link
                 header={this.props.currentWord}
                 color="purple"
@@ -167,10 +174,10 @@ class PublicGame extends Component {
                   content: "Copy"
                 }}
                 value={roomUrl}
-              />
+              /> */}
             </Grid.Column>
             {/* Middle column */}
-            <Grid.Column width={9}>
+            <Grid.Column mobile={16} tablet={10} computer={10} >
               {this.props.gamePlay === "voting" ? (
                 <div className="row">{this.renderPlayerDraws()}</div>
               ) : (
@@ -182,10 +189,9 @@ class PublicGame extends Component {
                   />
                 </div>
               )}
-              <ToolPaint />
             </Grid.Column>
             {/* Right column */}
-            <Grid.Column width={4}>
+            <Grid.Column mobile={4} tablet={4} computer={4}>
               <Chat />
             </Grid.Column>
           </Grid.Row>
