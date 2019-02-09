@@ -107,8 +107,8 @@ class PrivateGame extends Component {
  */
 function mapStateToProps(state) {
   return {
-    username: state.PlayerReducer.username,
-    connection: state.PlayerReducer.connection
+    username: state.playerReducer.username,
+    connection: state.playerReducer.connection
   };
 }
 

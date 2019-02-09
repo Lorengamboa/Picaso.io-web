@@ -206,8 +206,8 @@ class PublicGame extends Component {
  * The component will subscribe to Redux store updates.
  * @param {store}
  */
-function mapStateToProps({ PlayerReducer, GameReducer }) {
-  const { username, connection } = PlayerReducer;
+function mapStateToProps({ playerReducer, gameReducer }) {
+  const { username, connection } = playerReducer;
   const {
     colorPicked,
     toolPicked,
@@ -217,7 +217,7 @@ function mapStateToProps({ PlayerReducer, GameReducer }) {
     currentWord,
     gameInfo,
     modal
-  } = GameReducer;
+  } = gameReducer;
 
   return {
     username,

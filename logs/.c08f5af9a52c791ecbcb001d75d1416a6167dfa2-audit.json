@@ -54,6 +54,16 @@
             "date": 1549029040897,
             "name": "logs/server-2019-02-01-14.json",
             "hash": "1d2cea4da161893a2c69e6b3ae4f917b"
+        },
+        {
+            "date": 1549126086500,
+            "name": "logs/server-2019-02-02-17.json",
+            "hash": "cc2dc2ec67a401bf0015ff735e18b322"
+        },
+        {
+            "date": 1549486214167,
+            "name": "logs/server-2019-02-06-21.json",
+            "hash": "26b8403c49ccb17f2332aed53e0ff97d"
         }
     ]
 }

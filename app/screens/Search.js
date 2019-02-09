@@ -134,7 +134,7 @@ class SearchPage extends Component {
  * @param {store}
  */
 function mapStateToProps(state) {
-  return { username: state.PlayerReducer.username };
+  return { username: state.playerReducer.username };
 }
 
 /**

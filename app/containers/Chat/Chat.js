@@ -99,7 +99,7 @@ export class Chat extends Component {
  * @param {store}
  */
 function mapStateToProps(state) {
-  return { messages: state.GameReducer.messages };
+  return { messages: state.gameReducer.messages };
 }
 
 /**

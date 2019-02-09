@@ -6,11 +6,6 @@
     "auditLog": "logs/.bc112edeef96dab2a675e564308628a5bc5a94fa-audit.json",
     "files": [
         {
-            "date": 1548422771737,
-            "name": "logs/sockets-2019-01-25-14.json",
-            "hash": "1cacc985290bb53e70c8e3a949aa852a"
-        },
-        {
             "date": 1548541898737,
             "name": "logs/sockets-2019-01-26-23.json",
             "hash": "97656eca89430e023334eb2ca9355c0a"
@@ -124,6 +119,41 @@
             "date": 1549029040901,
             "name": "logs/sockets-2019-02-01-14.json",
             "hash": "2f641d8f81a1616425b8518fd9cfd6a3"
+        },
+        {
+            "date": 1549126086503,
+            "name": "logs/sockets-2019-02-02-17.json",
+            "hash": "c1edb0a2bec7f8730c196fd488736ed7"
+        },
+        {
+            "date": 1549192322946,
+            "name": "logs/sockets-2019-02-03-12.json",
+            "hash": "7ab8f33d051300f23383fe8af4165a7b"
+        },
+        {
+            "date": 1549207368767,
+            "name": "logs/sockets-2019-02-03-16.json",
+            "hash": "863d8b08914d6c530f70b7fcca0e1cd7"
+        },
+        {
+            "date": 1549238059639,
+            "name": "logs/sockets-2019-02-04-00.json",
+            "hash": "c73413ae2ea5bbb25288392fc5f77cce"
+        },
+        {
+            "date": 1549483653513,
+            "name": "logs/sockets-2019-02-06-21.json",
+            "hash": "eabbbab435fabd40c6660b595de3be51"
+        },
+        {
+            "date": 1549487062760,
+            "name": "logs/sockets-2019-02-06-22.json",
+            "hash": "4e4e74f0a8cca665f22a166d0d03aa0d"
+        },
+        {
+            "date": 1549729964626,
+            "name": "logs/sockets-2019-02-09-17.json",
+            "hash": "ab5c2dde4edaca679c9b2b9843cfa817"
         }
     ]
 }

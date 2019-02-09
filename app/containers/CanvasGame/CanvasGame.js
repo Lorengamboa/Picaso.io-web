@@ -79,7 +79,7 @@ class Canvas extends Component {
  * @param {store}
  */
 function mapStateToProps(store) {
-  const { lastDraw } = store.GameReducer;
+  const { lastDraw } = store.gameReducer;
 
   return { lastDraw };
 }

@@ -87,9 +87,9 @@ class ToolPaint extends Component {
  * The component will subscribe to Redux store updates.
  * @param {store}
  */
-function mapStateToProps({ GameReducer, PlayerReducer }) {
-  const { colorPicked, myCanvas } = GameReducer;
-  const { socket } = PlayerReducer;
+function mapStateToProps({ gameReducer, playerReducer }) {
+  const { colorPicked, myCanvas } = gameReducer;
+  const { socket } = playerReducer;
 
   return { colorPicked, myCanvas, socket };
 }

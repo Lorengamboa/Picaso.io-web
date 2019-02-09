@@ -14,7 +14,7 @@ import {
 
 const SocketMiddleware = url => store => {
   let sm; // SocketManage
-  let { username } = store.getState().PlayerReducer;
+  let { username } = store.getState().playerReducer;
 
   return next => action => {
     // When dispatching a redux action.

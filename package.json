@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@material-ui/core": "^3.9.2",
     "aws-sdk": "^2.384.0",
     "axios": "^0.16.2",
     "bad-words": "^1.6.1",

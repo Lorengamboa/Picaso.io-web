@@ -42,7 +42,7 @@ class PlayerList extends Component {
  * @param {store}
  */
 function mapStateToProps(state) {
-  return { playerList: state.GameReducer.playerList };
+  return { playerList: state.gameReducer.playerList };
 }
 
 export default connect(

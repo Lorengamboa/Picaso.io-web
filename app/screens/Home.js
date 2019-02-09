@@ -2,7 +2,8 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Divider, Loader, Image, Header, Icon } from 'semantic-ui-react'
+// import { Divider, Loader, Image, Header, Icon } from 'semantic-ui-react'
+import Button from '@material-ui/core/Button';
 
 import { setUsername, openPlayerSocketConnection } from "../actions/player";
 import { InputText, PrimaryButton, Navbar } from "../components";
@@ -151,7 +152,7 @@ class HomePage extends Component {
  * @param {store}
  */
 function mapStateToProps(state) {
-  return { username: state.PlayerReducer.username };
+  return { username: state.playerReducer.username };
 }
 
 /**

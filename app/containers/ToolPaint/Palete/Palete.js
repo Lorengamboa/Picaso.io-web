@@ -49,8 +49,8 @@ export class Palete extends Component {
  * The component will subscribe to Redux store updates.
  * @param {store}
  */
-function mapStateToProps({ GameReducer }) {
-  const { colorPicked } = GameReducer;
+function mapStateToProps({ gameReducer }) {
+  const { colorPicked } = gameReducer;
 
   return { colorPicked };
 }
