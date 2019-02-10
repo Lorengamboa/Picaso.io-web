@@ -8,10 +8,10 @@ const PencilModel = {
 
 const Pencil = {
   classic: (data, ctx) => {
-    const { drawPosition, colorPicked } = data;
-    if (!drawPosition || !functionvalidateColor(colorPicked)) return;
+    const { coordinates, colorPicked } = data;
+    if (!coordinates || !functionvalidateColor(colorPicked)) return;
 
-    const { currentX, currentY, prevX, prevY } = drawPosition;
+    const { currentX, currentY, prevX, prevY } = coordinates;
     
     ctx.beginPath();
     ctx.moveTo(prevX, prevY);

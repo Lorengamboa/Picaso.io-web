@@ -12,19 +12,27 @@ class Canvas extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      opts: {}
+      fullscreen: false
     };
 
+    // bind functions
     this.clearCanvas = this.clearCanvas.bind(this);
     this.resize = this.resize.bind(this);
+    this.togleFullScreen = this.togleFullScreen.bind(this);
   }
 
+  /**
+   * Clears canvas to blank
+   */
   clearCanvas() {
     const canvas = this.refs.canvas;
     const context = canvas.getContext("2d");
     context.clearRect(0, 0, canvas.width, canvas.height);
   }
 
+  /**
+   * Resizes canvas dimensions
+   */
   resize() {
     const canvas = this.refs.canvas;
     if(!canvas) return;
@@ -33,6 +41,15 @@ class Canvas extends Component {
 
     canvas.width = offsetWidth ? offsetWidth: canvas.width;
     canvas.height = offsetHeight ? offsetHeight: canvas.height;
+  }
+
+  /**
+   * Toogles canvas to fullscreen if its value is false already
+   */
+  togleFullScreen() {
+    this.setState({
+      fullscreen: !this.state.fullscreen
+    })
   }
 
   componentDidMount() {
@@ -54,7 +71,7 @@ class Canvas extends Component {
 
     if (tool === "pencil") PencilTool.classic(this.props.lastDraw, canvas);
     else if (tool === "eraser") EraserTool(this.props.lastDraw, ctx);
-    else if (tool === "bucket") Bucket(this.props.lastDraw, ctx);
+    else if (tool === "bucket") Bucket(this.props.lastDraw, canvas);
     else if (tool === "bin") BinRecycler(canvas);
   }
 
@@ -62,6 +79,7 @@ class Canvas extends Component {
     return (
       <canvas
         id="mycanvas"
+        className={this.state.fullscreen ? "fullscreen": ""}
         ref="canvas"
         width="600"
         height="400"

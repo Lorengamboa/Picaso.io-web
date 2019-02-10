@@ -1,27 +1,24 @@
 "use strict";
 
-const Bucket = (data, ctx) => {
-  const { drawPosition } = data;
+import { scalePositionHeight, scalePositionX } from '../../../utils';
 
-  if (!drawPosition) return;
+/**
+ * 
+ * @param {*} data 
+ * @param {*} canvas 
+ */
+const Bucket = (data, canvas) => {
+  const ctx = canvas.getContext("2d");
 
-  const { currentX, currentY, x, y } = drawPosition;
+  const { colorPicked, coordinates } = data;
 
-  var imgData = ctx.getImageData(x, y, 600, 400);
+  let { prevX, prevY } = coordinates;
 
-  console.log(imgData.data[0])
-  console.log(imgData.data[1])
-  console.log(imgData.data[2])
-  console.log(imgData.data[3])
+  prevX = scalePositionX(prevX, canvas.width);
+  prevY = scalePositionHeight(prevY, canvas.height);
 
-  ctx.beginPath();
-  ctx.moveTo(x, y);
-  ctx.lineTo(currentX, currentY);
-  ctx.strokeStyle = "white";
-  ctx.lineWidth = 5;
-
-  ctx.stroke();
-  ctx.closePath();
+  ctx.fillStyle = colorPicked;
+  ctx.floodFill(prevX, prevY, 0);
 };
 
 export default Bucket;

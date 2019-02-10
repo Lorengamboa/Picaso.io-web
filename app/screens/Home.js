@@ -2,10 +2,11 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Grid } from "semantic-ui-react";
 // import { Divider, Loader, Image, Header, Icon } from 'semantic-ui-react'
-import Button from '@material-ui/core/Button';
+import Button from "@material-ui/core/Button";
 
-import { setUsername, openPlayerSocketConnection } from "../actions/player";
+import { setUsername, openPlayerSocketConnection } from "../core/player/playerActions";
 import { InputText, PrimaryButton, Navbar } from "../components";
 
 const SAMPLE_DRAWS_ENDPOINT = "/api/sample/draws";
@@ -36,8 +37,6 @@ class HomePage extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
- 
-
   /**
    * Detecs user input changes
    * @param {Object} e
@@ -64,7 +63,7 @@ class HomePage extends Component {
   }
 
   /**
-   *
+   * Create new game with certain settings
    */
   onCreateButtonClick() {
     this.props.history.push("/create");
@@ -81,7 +80,7 @@ class HomePage extends Component {
 
   render() {
     // let renderSamples;
-    
+
     // if (this.state.loadingSamples) {
     //   renderSamples = <Loader active inline='centered' />;
     // }
@@ -107,32 +106,51 @@ class HomePage extends Component {
 
     return (
       <div id="home-site">
-        <Navbar />
+        <Navbar className="center" />
         <div className="home-menu">
-          <InputText
-            class="input"
-            placeholder={this.state.placeholder}
-            onInputChange={this.onInputChange}
-            username={this.state.username}
-            onKeyPress={this.onSubmit}
-          />
-          <br />
-          <PrimaryButton
-            color="red"
-            value={this.state.buttonTxt}
-            onClick={this.onPlayButtonClick}
-          />
-          <PrimaryButton
-            color="green"
-            value={this.state.searchTxt}
-            onClick={this.onSearchButtonClick}
-          />
-          <PrimaryButton
-            color="yellow"
-            class="create-btn"
-            value={this.state.privateTxt}
-            onClick={this.onCreateButtonClick}
-          />
+          <Grid>
+            <Grid.Row>
+            <Grid.Column mobile={16} tablet={16} computer={16}>
+              <InputText
+                className="input"
+                placeholder={this.state.placeholder}
+                onInputChange={this.onInputChange}
+                username={this.state.username}
+                onKeyPress={this.onSubmit}
+              />
+             </Grid.Column>
+              <Grid.Column mobile={16} tablet={8} computer={16}>
+                <PrimaryButton
+                  color="red"
+                  className="btn-roundy"
+                  value={this.state.buttonTxt}
+                  onClick={this.onPlayButtonClick}
+                />
+              </Grid.Column>
+
+              <Grid.Column mobile={16} tablet={8} computer={16}>
+                <PrimaryButton
+                  color="green"
+                  className="btn-roundy"
+                  value={this.state.searchTxt}
+                  onClick={this.onSearchButtonClick}
+                />
+                <PrimaryButton
+                  color="blue"
+                  className="btn-roundy"
+                  value={this.state.privateTxt}
+                  onClick={this.onCreateButtonClick}
+                />
+                <PrimaryButton
+                  color="grey"
+                  className="btn-roundy"
+                  value="settings"
+                  onClick={this.onCreateButtonClick}
+                />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+
           {/* <Divider className="divide" horizontal>
             Last draws
           </Divider> */}
@@ -156,20 +174,21 @@ function mapStateToProps(state) {
 }
 
 /**
- * 
- * @param {*} dispatch 
+ *
+ * @param {*} dispatch
  */
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    setUsername: (name) => {
+    setUsername: name => {
       dispatch(setUsername(name));
     },
-    openPlayerSocketConnection: (data) => {
+    openPlayerSocketConnection: data => {
       dispatch(openPlayerSocketConnection(data));
-    },
+    }
   };
 };
 
 export default connect(
-  mapStateToProps, mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(HomePage);

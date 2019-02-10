@@ -1,6 +1,6 @@
 "use strict";
 
-const logger = require("../../config/logger");
+const logger = require("../../logger");
 const gameManager = require("../game/gameManager");
 const { SOCKET_EVENTS } = require("../events");
 
@@ -46,7 +46,7 @@ module.exports = {
             .catch(err => {
               socket.emit(SOCKET_EVENTS.CONNECTION_RESULT, false);
               socket.disconnect();
-              logger.sockets.error("👨 - ❌  Socket connection failed", err);
+              logger.sockets.error("👨 - ❌  Socket connection failed: " + err);
             });
         }
       );
@@ -61,7 +61,7 @@ module.exports = {
           })
           .catch(err => {
             socket.disconnect();
-            logger.sockets.error("🎮 - ❌ Failed creating game: ", err);
+            logger.sockets.error("🎮 - ❌ Failed creating game: " + err);
           });
       });
 

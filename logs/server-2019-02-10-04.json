@@ -1,0 +1,15 @@
+{"message":"development, Picaso.io App listening on port 8080","level":"info","timestamp":"2019-02-10 04:37:41"}
+{"message":"MONGODB connection errorMongoNetworkError: failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]","level":"error","timestamp":"2019-02-10 04:37:41"}
+{"message":"MONGODB connection error","level":"error","timestamp":"2019-02-10 04:37:41"}
+{"message":"development, Picaso.io App listening on port 8080","level":"info","timestamp":"2019-02-10 04:37:44"}
+{"message":"MONGODB connection errorMongoNetworkError: failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]","level":"error","timestamp":"2019-02-10 04:37:44"}
+{"message":"MONGODB connection error","level":"error","timestamp":"2019-02-10 04:37:44"}
+{"message":"development, Picaso.io App listening on port 8080","level":"info","timestamp":"2019-02-10 04:38:21"}
+{"message":"MONGODB connection error","level":"error","timestamp":"2019-02-10 04:38:21"}
+{"message":"MONGODB connection errorMongoNetworkError: failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]","level":"error","timestamp":"2019-02-10 04:38:21"}
+{"message":"development, Picaso.io App listening on port 8080","level":"info","timestamp":"2019-02-10 04:39:03"}
+{"message":"MONGODB connection errorMongoNetworkError: failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]","level":"error","timestamp":"2019-02-10 04:39:03"}
+{"message":"MONGODB connection error","level":"error","timestamp":"2019-02-10 04:39:03"}
+{"message":"development, Picaso.io App listening on port 8080","level":"info","timestamp":"2019-02-10 04:39:21"}
+{"message":"MONGODB connection errorMongoNetworkError: failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]","level":"error","timestamp":"2019-02-10 04:39:21"}
+{"message":"MONGODB connection error","level":"error","timestamp":"2019-02-10 04:39:21"}

@@ -1,9 +1,13 @@
 "use strict";
 
 const Canvas = require("canvas");
+
+const floodFill = require("./floodFill");
 const { PencilTool, EraserTool, BinRecycler, Bucket } = require("./tools");
 
 const CANVAS_CONFIG = require("../config/canvas");
+
+Canvas.Context2d.prototype.floodFill = floodFill; // implementing floodfill extension
 
 /**
  * Class Canvas
@@ -11,6 +15,7 @@ const CANVAS_CONFIG = require("../config/canvas");
 class CanvasArea {
   constructor() {
     this.canvas = Canvas.createCanvas(CANVAS_CONFIG.WIDTH, CANVAS_CONFIG.HEIGHT);
+    this.version = 1.0;
   }
 
   /**

@@ -1,5 +1,5 @@
 var S3 = require('aws-sdk/clients/s3');
-const logger = require('../../config/logger');
+const logger = require('../../logger');
 
 
 class AWSManager {

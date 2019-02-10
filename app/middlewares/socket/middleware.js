@@ -13,13 +13,12 @@ import {
 } from "../../actions/game/actions";
 
 const SocketMiddleware = url => store => {
-  let sm; // SocketManage
-  let { username } = store.getState().playerReducer;
-
+  let sm; // SocketManage  
   return next => action => {
     // When dispatching a redux action.
     switch (action.type) {
       case SOCKET_CONNECTION:
+        let { username } = store.getState().playerReducer;
         sm = SocketManagerFactory(url, store);
         sm.joinRandomRoom(username);
         action.payload = true;

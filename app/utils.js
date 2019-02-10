@@ -14,5 +14,11 @@ export function is_touch_device() {
     return mq(query);
   }
 
+export function scalePositionX(x, width) {
+  return x / (600 / width);
+}
 
+export function scalePositionHeight(y, height) {
+  return y / (400 / height);
+}
   

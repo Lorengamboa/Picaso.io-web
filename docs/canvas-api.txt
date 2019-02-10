@@ -1,0 +1,5 @@
+### CANVAS API ###
+
+v.1.0
+- width: 600
+- height: 400

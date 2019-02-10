@@ -14,11 +14,13 @@ body {
   background: linear-gradient(135deg, rgba(226,242,249,1) 0%, rgba(226,242,249,1) 26%, rgba(226,242,249,1) 40%, rgba(155,223,248,1) 78%, rgba(226,242,249,1) 100%);
 }
 
+.center {
+  text-align: center;
+}
+
 .center-div
 {
-  display:block;
-  margin:auto;
-  margin-top: 20vh;
+  width: 50%; margin: 0 auto; text-align: left
 }
 
 .img-responsive {
@@ -31,14 +33,13 @@ body {
 }
 
 .header .logo { 
-  width: 160px;
+  width: 260px;
 }
 
 @media screen and (max-width: 500px) {
-  .header a {
-    float: none;
-    display: block;
-    text-align: left;
+  .header .logo {
+    width: 100%;
+    height: auto;
   }
 }
 
@@ -213,6 +214,14 @@ canvas {
   cursor: url(/assets/img/tools/pencil.png) 5 40, auto;
 }
 
+.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .timer {
   position: absolute;
   top: -10px;
@@ -229,8 +238,6 @@ canvas {
 
 /*****************************************************************/
 
-.btn-primary {
-  border: 1px solid;
-  overflow: hidden;
-  position: relative;
+.btn-roundy {
+  border-radius: 5em / 5em !important;
 }

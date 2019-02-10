@@ -30157,14 +30157,14 @@
 
 	var SocketMiddleware = function SocketMiddleware(url) {
 	  return function (store) {
-	    var sm = void 0; // SocketManage
-	    var username = store.getState().playerReducer.username;
-
+	    var sm = void 0; // SocketManage  
 	    return function (next) {
 	      return function (action) {
 	        // When dispatching a redux action.
 	        switch (action.type) {
 	          case _actions.SOCKET_CONNECTION:
+	            var username = store.getState().playerReducer.username;
+
 	            sm = (0, _SocketManagerFactory2.default)(url, store);
 	            sm.joinRandomRoom(username);
 	            action.payload = true;
@@ -40135,11 +40135,13 @@
 
 	var _reactRedux = __webpack_require__(18);
 
+	var _semanticUiReact = __webpack_require__(154);
+
 	var _Button = __webpack_require__(859);
 
 	var _Button2 = _interopRequireDefault(_Button);
 
-	var _player = __webpack_require__(782);
+	var _playerActions = __webpack_require__(967);
 
 	var _components = __webpack_require__(783);
 
@@ -40234,7 +40236,7 @@
 	    }
 
 	    /**
-	     *
+	     * Create new game with certain settings
 	     */
 
 	  }, {
@@ -40282,26 +40284,33 @@
 	      //   }
 	      // }
 
-	      return _react2.default.createElement("div", { id: "home-site" }, _react2.default.createElement(_components.Navbar, null), _react2.default.createElement("div", { className: "home-menu" }, _react2.default.createElement(_components.InputText, {
-	        "class": "input",
+	      return _react2.default.createElement("div", { id: "home-site" }, _react2.default.createElement(_components.Navbar, { className: "center" }), _react2.default.createElement("div", { className: "home-menu" }, _react2.default.createElement(_semanticUiReact.Grid, null, _react2.default.createElement(_semanticUiReact.Grid.Row, null, _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 16, tablet: 16, computer: 16 }, _react2.default.createElement(_components.InputText, {
+	        className: "input",
 	        placeholder: this.state.placeholder,
 	        onInputChange: this.onInputChange,
 	        username: this.state.username,
 	        onKeyPress: this.onSubmit
-	      }), _react2.default.createElement("br", null), _react2.default.createElement(_components.PrimaryButton, {
+	      })), _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 16, tablet: 8, computer: 16 }, _react2.default.createElement(_components.PrimaryButton, {
 	        color: "red",
+	        className: "btn-roundy",
 	        value: this.state.buttonTxt,
 	        onClick: this.onPlayButtonClick
-	      }), _react2.default.createElement(_components.PrimaryButton, {
+	      })), _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 16, tablet: 8, computer: 16 }, _react2.default.createElement(_components.PrimaryButton, {
 	        color: "green",
+	        className: "btn-roundy",
 	        value: this.state.searchTxt,
 	        onClick: this.onSearchButtonClick
 	      }), _react2.default.createElement(_components.PrimaryButton, {
-	        color: "yellow",
-	        "class": "create-btn",
+	        color: "blue",
+	        className: "btn-roundy",
 	        value: this.state.privateTxt,
 	        onClick: this.onCreateButtonClick
-	      })));
+	      }), _react2.default.createElement(_components.PrimaryButton, {
+	        color: "grey",
+	        className: "btn-roundy",
+	        value: "settings",
+	        onClick: this.onCreateButtonClick
+	      }))))));
 	    }
 	  }]);
 
@@ -40318,16 +40327,16 @@
 	}
 
 	/**
-	 * 
-	 * @param {*} dispatch 
+	 *
+	 * @param {*} dispatch
 	 */
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
 	    setUsername: function setUsername(name) {
-	      dispatch((0, _player.setUsername)(name));
+	      dispatch((0, _playerActions.setUsername)(name));
 	    },
 	    openPlayerSocketConnection: function openPlayerSocketConnection(data) {
-	      dispatch((0, _player.openPlayerSocketConnection)(data));
+	      dispatch((0, _playerActions.openPlayerSocketConnection)(data));
 	    }
 	  };
 	};
@@ -81007,7 +81016,7 @@
 
 	var PrimaryButton = function PrimaryButton(props) {
 	    return _react2.default.createElement(_semanticUiReact.Button, {
-	        basic: true,
+	        className: props.className,
 	        color: props.color,
 	        onClick: props.onClick,
 	        content: props.value,
@@ -81283,8 +81292,8 @@
 	/**
 	 * Header Component
 	 */
-	var Navbar = function Navbar() {
-	  return _react2.default.createElement("div", { className: "header" }, _react2.default.createElement("a", { href: "/" }, _react2.default.createElement("img", { className: "logo", src: "/assets/img/logo.png" })));
+	var Navbar = function Navbar(props) {
+	  return _react2.default.createElement("div", { className: "header " + props.className }, _react2.default.createElement("a", { href: "/" }, _react2.default.createElement("img", { className: "logo img-responsive", src: "/assets/img/logo.png" })));
 	};
 
 	exports.default = Navbar;
@@ -83225,6 +83234,9 @@
 	    _this.handleDisplayMouseMove = _this.handleDisplayMouseMove.bind(_this);
 	    _this.handleDisplayMouseUp = _this.handleDisplayMouseUp.bind(_this);
 	    _this.handleDisplayMouseDown = _this.handleDisplayMouseDown.bind(_this);
+	    _this.setPrevPosition = _this.setPrevPosition.bind(_this);
+	    _this.setCurrentPosition = _this.setCurrentPosition.bind(_this);
+	    _this.drawCoordinates = _this.drawCoordinates.bind(_this);
 	    return _this;
 	  }
 
@@ -83242,12 +83254,72 @@
 	    key: "componentDidMount",
 	    value: function componentDidMount() {
 	      var mycanvas = document.getElementById("mycanvas");
-
 	      this.setState({
 	        canvas: {
 	          width: mycanvas.scrollWidth,
 	          height: mycanvas.scrollHeight
 	        }
+	      });
+	    }
+
+	    /**
+	     * 
+	     * @param {*} e 
+	     */
+
+	  }, {
+	    key: "setCurrentPosition",
+	    value: function setCurrentPosition(e) {
+	      var coordinates = (0, _utils.is_touch_device)() ? e.touches[0] : e;
+	      var mycanvas = document.getElementById("mycanvas");
+
+	      var _mycanvas$getBounding = mycanvas.getBoundingClientRect(),
+	          top = _mycanvas$getBounding.top,
+	          left = _mycanvas$getBounding.left;
+
+	      var draw = Object.assign({}, this.state.currentPosition, {
+	        currentX: (coordinates.clientX - left) * (600 / mycanvas.width),
+	        currentY: (coordinates.clientY - top) * (400 / mycanvas.height)
+	      });
+
+	      return draw;
+	    }
+
+	    /**
+	     * 
+	     * @param {*} e 
+	     */
+
+	  }, {
+	    key: "setPrevPosition",
+	    value: function setPrevPosition(e) {
+	      var coordinates = (0, _utils.is_touch_device)() ? e.touches[0] : e;
+	      var mycanvas = document.getElementById("mycanvas");
+
+	      var _mycanvas$getBounding2 = mycanvas.getBoundingClientRect(),
+	          top = _mycanvas$getBounding2.top,
+	          left = _mycanvas$getBounding2.left;
+
+	      this.setState({
+	        currentPosition: Object.assign({}, this.state.currentPosition, {
+	          prevX: (coordinates.clientX - left) * (600 / mycanvas.width),
+	          prevY: (coordinates.clientY - top) * (400 / mycanvas.height)
+	        })
+	      });
+	    }
+
+	    /**
+	     * 
+	     * @param {*} coordinates 
+	     */
+
+	  }, {
+	    key: "drawCoordinates",
+	    value: function drawCoordinates(coordinates) {
+	      this.props.playerDrawCanvas({
+	        coordinates: coordinates,
+	        colorPicked: this.props.colorPicked,
+	        toolPicked: this.props.toolPicked
 	      });
 	    }
 
@@ -83259,32 +83331,11 @@
 	  }, {
 	    key: "handleDisplayMouseMove",
 	    value: function handleDisplayMouseMove(e) {
-	      if (!this.state.isPenDown) return;
+	      if (!this.state.isPenDown || this.props.toolPicked === "bucket") return;
 
-	      var coordinates = (0, _utils.is_touch_device)() ? e.touches[0] : e;
-	      var mycanvas = document.getElementById("mycanvas");
-
-	      var _mycanvas$getBounding = mycanvas.getBoundingClientRect(),
-	          top = _mycanvas$getBounding.top,
-	          left = _mycanvas$getBounding.left;
-
-	      var drawPosition = Object.assign({}, this.state.currentPosition, {
-	        currentX: (coordinates.clientX - left) * (600 / mycanvas.width),
-	        currentY: (coordinates.clientY - top) * (400 / mycanvas.height)
-	      });
-	      //
-	      this.props.playerDrawCanvas({
-	        drawPosition: drawPosition,
-	        colorPicked: this.props.colorPicked,
-	        toolPicked: this.props.toolPicked
-	      });
-	      //
-	      this.setState({
-	        currentPosition: Object.assign({}, this.state.currentPosition, {
-	          prevX: (coordinates.clientX - left) * (600 / mycanvas.width),
-	          prevY: (coordinates.clientY - top) * (400 / mycanvas.height)
-	        })
-	      });
+	      var coordinates = this.setCurrentPosition(e);
+	      this.drawCoordinates(coordinates);
+	      this.setPrevPosition(e);
 	    }
 
 	    /**
@@ -83296,21 +83347,8 @@
 	    key: "handleDisplayMouseDown",
 	    value: function handleDisplayMouseDown(e) {
 	      window.addEventListener("mouseup", this.handleDisplayMouseUp);
-
-	      var coordinates = (0, _utils.is_touch_device)() ? e.touches[0] : e;
-	      var mycanvas = document.getElementById("mycanvas");
-
-	      var _mycanvas$getBounding2 = mycanvas.getBoundingClientRect(),
-	          top = _mycanvas$getBounding2.top,
-	          left = _mycanvas$getBounding2.left;
-
-	      this.setState({
-	        isPenDown: true,
-	        currentPosition: Object.assign({}, this.state.currentPosition, {
-	          prevX: (coordinates.clientX - left) * (600 / mycanvas.width),
-	          prevY: (coordinates.clientY - top) * (400 / mycanvas.height)
-	        })
-	      });
+	      this.setPrevPosition(e);
+	      this.setState({ isPenDown: true });
 	    }
 
 	    /**
@@ -83321,6 +83359,8 @@
 	  }, {
 	    key: "handleDisplayMouseUp",
 	    value: function handleDisplayMouseUp(e) {
+	      var coordinates = this.setCurrentPosition(e);
+	      this.drawCoordinates(coordinates);
 	      window.removeEventListener("mouseup", this.handleDisplayMouseUp);
 	      this.setState({ isPenDown: false });
 	    }
@@ -86651,13 +86691,19 @@
 	    var _this = _possibleConstructorReturn(this, (Canvas.__proto__ || Object.getPrototypeOf(Canvas)).call(this, props));
 
 	    _this.state = {
-	      opts: {}
+	      fullscreen: false
 	    };
 
+	    // bind functions
 	    _this.clearCanvas = _this.clearCanvas.bind(_this);
 	    _this.resize = _this.resize.bind(_this);
+	    _this.togleFullScreen = _this.togleFullScreen.bind(_this);
 	    return _this;
 	  }
+
+	  /**
+	   * Clears canvas to blank
+	   */
 
 	  _createClass(Canvas, [{
 	    key: "clearCanvas",
@@ -86666,6 +86712,11 @@
 	      var context = canvas.getContext("2d");
 	      context.clearRect(0, 0, canvas.width, canvas.height);
 	    }
+
+	    /**
+	     * Resizes canvas dimensions
+	     */
+
 	  }, {
 	    key: "resize",
 	    value: function resize() {
@@ -86677,6 +86728,18 @@
 
 	      canvas.width = offsetWidth ? offsetWidth : canvas.width;
 	      canvas.height = offsetHeight ? offsetHeight : canvas.height;
+	    }
+
+	    /**
+	     * Toogles canvas to fullscreen if its value is false already
+	     */
+
+	  }, {
+	    key: "togleFullScreen",
+	    value: function togleFullScreen() {
+	      this.setState({
+	        fullscreen: !this.state.fullscreen
+	      });
 	    }
 	  }, {
 	    key: "componentDidMount",
@@ -86699,13 +86762,14 @@
 
 	      var tool = this.props.lastDraw.toolPicked;
 
-	      if (tool === "pencil") _tools.PencilTool.classic(this.props.lastDraw, canvas);else if (tool === "eraser") (0, _tools.EraserTool)(this.props.lastDraw, ctx);else if (tool === "bucket") (0, _tools.Bucket)(this.props.lastDraw, ctx);else if (tool === "bin") (0, _tools.BinRecycler)(canvas);
+	      if (tool === "pencil") _tools.PencilTool.classic(this.props.lastDraw, canvas);else if (tool === "eraser") (0, _tools.EraserTool)(this.props.lastDraw, ctx);else if (tool === "bucket") (0, _tools.Bucket)(this.props.lastDraw, canvas);else if (tool === "bin") (0, _tools.BinRecycler)(canvas);
 	    }
 	  }, {
 	    key: "render",
 	    value: function render() {
 	      return _react2.default.createElement("canvas", {
 	        id: "mycanvas",
+	        className: this.state.fullscreen ? "fullscreen" : "",
 	        ref: "canvas",
 	        width: "600",
 	        height: "400",
@@ -86771,33 +86835,39 @@
 
 /***/ }),
 /* 833 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _utils = __webpack_require__(850);
+
 	var Pencil = {
 	  classic: function classic(data, canvas) {
 	    var ctx = canvas.getContext("2d");
-	    var drawPosition = data.drawPosition,
+	    var coordinates = data.coordinates,
 	        colorPicked = data.colorPicked;
 
-	    if (!drawPosition) return;
+	    if (!coordinates) return;
 
-	    var currentX = drawPosition.currentX,
-	        currentY = drawPosition.currentY,
-	        prevX = drawPosition.prevX,
-	        prevY = drawPosition.prevY;
+	    var currentX = coordinates.currentX,
+	        currentY = coordinates.currentY,
+	        prevX = coordinates.prevX,
+	        prevY = coordinates.prevY;
 
-	    currentX = currentX / (600 / canvas.width);
-	    currentY = currentY / (400 / canvas.height);
-	    prevX = prevX / (600 / canvas.width);
-	    prevY = prevY / (400 / canvas.height);
+	    currentX = !currentX ? prevX + 1 : currentX;
+	    currentY = !currentY ? prevY + 1 : currentY;
+
+	    currentX = (0, _utils.scalePositionX)(currentX, canvas.width);
+	    currentY = (0, _utils.scalePositionHeight)(currentY, canvas.height);
+	    prevX = (0, _utils.scalePositionX)(prevX, canvas.width);
+	    prevY = (0, _utils.scalePositionHeight)(prevY, canvas.height);
 
 	    ctx.beginPath();
-	    ctx.moveTo(prevX, prevY, currentX, currentY);
+	    ctx.moveTo(prevX, prevY);
 	    ctx.lineTo(currentX, currentY);
 	    ctx.strokeStyle = colorPicked;
 	    ctx.lineWidth = 2;
@@ -86862,38 +86932,34 @@
 
 /***/ }),
 /* 836 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var Bucket = function Bucket(data, ctx) {
-	  var drawPosition = data.drawPosition;
 
-	  if (!drawPosition) return;
+	var _utils = __webpack_require__(850);
 
-	  var currentX = drawPosition.currentX,
-	      currentY = drawPosition.currentY,
-	      x = drawPosition.x,
-	      y = drawPosition.y;
+	/**
+	 * 
+	 * @param {*} data 
+	 * @param {*} canvas 
+	 */
+	var Bucket = function Bucket(data, canvas) {
+	  var ctx = canvas.getContext("2d");
 
-	  var imgData = ctx.getImageData(x, y, 600, 400);
+	  var colorPicked = data.colorPicked,
+	      coordinates = data.coordinates;
+	  var prevX = coordinates.prevX,
+	      prevY = coordinates.prevY;
 
-	  console.log(imgData.data[0]);
-	  console.log(imgData.data[1]);
-	  console.log(imgData.data[2]);
-	  console.log(imgData.data[3]);
+	  prevX = (0, _utils.scalePositionX)(prevX, canvas.width);
+	  prevY = (0, _utils.scalePositionHeight)(prevY, canvas.height);
 
-	  ctx.beginPath();
-	  ctx.moveTo(x, y);
-	  ctx.lineTo(currentX, currentY);
-	  ctx.strokeStyle = "white";
-	  ctx.lineWidth = 5;
-
-	  ctx.stroke();
-	  ctx.closePath();
+	  ctx.fillStyle = colorPicked;
+	  ctx.floodFill(prevX, prevY, 0);
 	};
 
 	exports.default = Bucket;
@@ -86997,10 +87063,24 @@
 	    // Event Listeners
 	    _this.sendMessage = _this.sendMessage.bind(_this);
 	    _this.updateText = _this.updateText.bind(_this);
+	    _this.scrollChatToBot = _this.scrollChatToBot.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(Chat, [{
+	    key: "componentWillReceiveProps",
+	    value: function componentWillReceiveProps(props) {
+	      if (props.messages) this.scrollChatToBot();
+	    }
+	  }, {
+	    key: "scrollChatToBot",
+	    value: function scrollChatToBot() {
+	      var messages = this.refs.messagesRef;
+	      setTimeout(function () {
+	        messages.scrollTop = messages.scrollHeight;
+	      }, 0);
+	    }
+	  }, {
 	    key: "renderMessages",
 	    value: function renderMessages() {
 	      return this.props.messages.map(function (message, key) {
@@ -87035,19 +87115,9 @@
 	        // the msg is not blank at all
 	        if (!/^\s*$/.test(this.state.text)) this.props.playerSendMessage(this.state.text);
 
-	        scrollChatToBot.call(this);
-
 	        this.setState({
 	          text: ""
 	        });
-	      }
-
-	      // pushes the scroll to the end of the div container
-	      function scrollChatToBot() {
-	        var messages = this.refs.messagesRef;
-	        setTimeout(function () {
-	          messages.scrollTop = messages.scrollHeight;
-	        }, 500);
 	      }
 	    }
 
@@ -87700,6 +87770,8 @@
 	  value: true
 	});
 	exports.is_touch_device = is_touch_device;
+	exports.scalePositionX = scalePositionX;
+	exports.scalePositionHeight = scalePositionHeight;
 	function is_touch_device() {
 	  var prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
 	  var mq = function mq(query) {
@@ -87714,6 +87786,14 @@
 	  // https://git.io/vznFH
 	  var query = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('');
 	  return mq(query);
+	}
+
+	function scalePositionX(x, width) {
+	  return x / (600 / width);
+	}
+
+	function scalePositionHeight(y, height) {
+	  return y / (400 / height);
 	}
 
 /***/ }),
@@ -98545,6 +98625,111 @@
 	  }, function () {});
 	}
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+
+/***/ }),
+/* 962 */,
+/* 963 */,
+/* 964 */,
+/* 965 */,
+/* 966 */,
+/* 967 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.setUsername = setUsername;
+	exports.createRoom = createRoom;
+	exports.openPlayerSocketConnection = openPlayerSocketConnection;
+	exports.joinPrivateGame = joinPrivateGame;
+	exports.setConnection = setConnection;
+
+	var _actions = __webpack_require__(968);
+
+	var ACTIONS = _interopRequireWildcard(_actions);
+
+	function _interopRequireWildcard(obj) {
+	  if (obj && obj.__esModule) {
+	    return obj;
+	  } else {
+	    var newObj = {};if (obj != null) {
+	      for (var key in obj) {
+	        if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+	      }
+	    }newObj.default = obj;return newObj;
+	  }
+	}
+
+	/**
+	 * Sets the username value
+	 * @param {String} username
+	 */
+	function setUsername(username) {
+	  return {
+	    type: ACTIONS.CHANGE_USERNAME,
+	    payload: username
+	  };
+	}
+
+	/**
+	 *
+	 * @param {*} settings
+	 */
+	function createRoom(settings) {
+	  return {
+	    type: ACTIONS.CREATE_ROOM,
+	    payload: settings
+	  };
+	}
+
+	/**
+	 * Opens a socket conn for the player
+	 */
+	function openPlayerSocketConnection() {
+	  return {
+	    type: ACTIONS.SOCKET_CONNECTION,
+	    payload: false
+	  };
+	}
+
+	/**
+	 * Join private game
+	 * @param {*} id
+	 */
+	function joinPrivateGame(id) {
+	  return {
+	    type: ACTIONS.CONNECT_PRIVATE_ROOM,
+	    payload: id
+	  };
+	}
+
+	/**
+	 * 
+	 * @param {*} result 
+	 */
+	function setConnection(result) {
+	  return {
+	    type: ACTIONS.SET_CONNECTION,
+	    payload: result
+	  };
+	}
+
+/***/ }),
+/* 968 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var CHANGE_USERNAME = exports.CHANGE_USERNAME = 'setPlayerUsername';
+	var SOCKET_CONNECTION = exports.SOCKET_CONNECTION = 'openSocketConnection';
+	var CONNECT_PRIVATE_ROOM = exports.CONNECT_PRIVATE_ROOM = 'connectPrivateRoom';
+	var CREATE_ROOM = exports.CREATE_ROOM = 'createRoom';
+	var SET_CONNECTION = exports.SET_CONNECTION = 'setConnection';
 
 /***/ })
 /******/ ]);

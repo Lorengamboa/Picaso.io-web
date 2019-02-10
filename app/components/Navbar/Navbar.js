@@ -5,10 +5,10 @@ import React from "react";
 /**
  * Header Component
  */
-const Navbar = () => (
-  <div className="header">
+const Navbar = (props) => (
+  <div className={`header ${props.className}`}>
     <a href="/">
-      <img className="logo" src="/assets/img/logo.png" />
+      <img className="logo img-responsive" src="/assets/img/logo.png" />
     </a>
   </div>
 );

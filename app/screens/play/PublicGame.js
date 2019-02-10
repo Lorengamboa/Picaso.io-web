@@ -41,6 +41,9 @@ class PublicGame extends Component {
     this.handleDisplayMouseMove = this.handleDisplayMouseMove.bind(this);
     this.handleDisplayMouseUp = this.handleDisplayMouseUp.bind(this);
     this.handleDisplayMouseDown = this.handleDisplayMouseDown.bind(this);
+    this.setPrevPosition = this.setPrevPosition.bind(this);
+    this.setCurrentPosition = this.setCurrentPosition.bind(this);
+    this.drawCoordinates = this.drawCoordinates.bind(this);
   }
 
   init() {
@@ -54,7 +57,6 @@ class PublicGame extends Component {
 
   componentDidMount() {
     const mycanvas = document.getElementById("mycanvas");
-
     this.setState({
       canvas: {
         width: mycanvas.scrollWidth,
@@ -64,33 +66,61 @@ class PublicGame extends Component {
   }
 
   /**
-   * Keeps track of the mouse moving over the canvas
-   * @param {Object} e
+   * 
+   * @param {*} e 
    */
-  handleDisplayMouseMove(e) {
-    if (!this.state.isPenDown) return;
-
+  setCurrentPosition(e) {
     const coordinates = is_touch_device() ? e.touches[0] : e;
-    const mycanvas = document.getElementById("mycanvas");
-    const { top, left } = mycanvas.getBoundingClientRect();
-  
-    const drawPosition = Object.assign({}, this.state.currentPosition, {
+     const mycanvas = document.getElementById("mycanvas");
+     const { top, left } = mycanvas.getBoundingClientRect();
+
+      const draw = Object.assign({}, this.state.currentPosition, {
       currentX: (coordinates.clientX - left) * (600 / mycanvas.width),
       currentY: (coordinates.clientY - top) *  (400 / mycanvas.height)
     });
-    //
-    this.props.playerDrawCanvas({
-      drawPosition,
-      colorPicked: this.props.colorPicked,
-      toolPicked: this.props.toolPicked
-    });
-    //
+
+    return draw;
+  }
+
+  /**
+   * 
+   * @param {*} e 
+   */
+  setPrevPosition(e) {
+    const coordinates = is_touch_device() ? e.touches[0] : e;
+    const mycanvas = document.getElementById("mycanvas");
+    const { top, left } = mycanvas.getBoundingClientRect();
+
     this.setState({
       currentPosition: Object.assign({}, this.state.currentPosition, {
         prevX: (coordinates.clientX - left) * (600 / mycanvas.width),
         prevY: (coordinates.clientY - top) *  (400 / mycanvas.height)
       })
     });
+  }
+
+  /**
+   * 
+   * @param {*} coordinates 
+   */
+  drawCoordinates(coordinates) {
+    this.props.playerDrawCanvas({
+      coordinates,
+      colorPicked: this.props.colorPicked,
+      toolPicked: this.props.toolPicked
+    });
+  }
+
+  /**
+   * Keeps track of the mouse moving over the canvas
+   * @param {Object} e
+   */
+  handleDisplayMouseMove(e) {
+    if (!this.state.isPenDown || this.props.toolPicked === "bucket") return;
+  
+    const coordinates = this.setCurrentPosition(e);
+    this.drawCoordinates(coordinates);
+    this.setPrevPosition(e);
   }
 
   /**
@@ -99,20 +129,8 @@ class PublicGame extends Component {
    */
   handleDisplayMouseDown(e) {
     window.addEventListener("mouseup", this.handleDisplayMouseUp);
-
-    const coordinates = is_touch_device() ? e.touches[0] : e;
-    const mycanvas = document.getElementById("mycanvas");
-    const { top, left } = mycanvas.getBoundingClientRect();
-
-    this.setState({
-      isPenDown: true,
-      currentPosition: Object.assign({}, this.state.currentPosition, {
-        prevX: (coordinates.clientX - left) * (600 / mycanvas.width),
-        prevY: (coordinates.clientY - top) *  (400 / mycanvas.height)
-      })
-    });
-
-
+    this.setPrevPosition(e);
+    this.setState({ isPenDown: true });
   }
 
   /**
@@ -120,6 +138,8 @@ class PublicGame extends Component {
    * @param {*} e
    */
   handleDisplayMouseUp(e) {
+    const coordinates = this.setCurrentPosition(e);
+    this.drawCoordinates(coordinates);
     window.removeEventListener("mouseup", this.handleDisplayMouseUp);
     this.setState({ isPenDown: false });
   }

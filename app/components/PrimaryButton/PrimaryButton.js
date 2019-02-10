@@ -6,7 +6,7 @@ import { Button } from 'semantic-ui-react';
 const PrimaryButton = props => {
     return (
         <Button 
-            basic
+            className={props.className}
             color={props.color}
             onClick={props.onClick}
             content={props.value}

@@ -23,6 +23,19 @@ export class Chat extends Component {
     // Event Listeners
     this.sendMessage = this.sendMessage.bind(this);
     this.updateText = this.updateText.bind(this);
+    this.scrollChatToBot = this.scrollChatToBot.bind(this);
+  }
+
+  componentWillReceiveProps(props) {
+    if(props.messages) this.scrollChatToBot();
+  }
+
+  scrollChatToBot() {
+    const messages = this.refs.messagesRef;
+    setTimeout(function() {
+      messages.scrollTop = messages.scrollHeight;
+    }, 0);
+    
   }
 
   renderMessages() {
@@ -50,21 +63,10 @@ export class Chat extends Component {
     if (e.key === "Enter") {
       // the msg is not blank at all
       if (!/^\s*$/.test(this.state.text)) this.props.playerSendMessage(this.state.text);
-      
-      scrollChatToBot.call(this);
 
       this.setState({
         text: "",
       });
-    }
-
-    // pushes the scroll to the end of the div container
-    function scrollChatToBot() {
-      const messages = this.refs.messagesRef;
-      setTimeout(function() {
-        messages.scrollTop = messages.scrollHeight;
-      }, 500);
-      
     }
   }
 

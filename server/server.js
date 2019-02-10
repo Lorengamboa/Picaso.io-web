@@ -1,7 +1,7 @@
 "use strict";
 
-const logger = require("../config/logger");
-const PORT = process.env.PORT || 8080;
+const logger = require("../logger");
+const PORT = process.env.PORT;
 
 /**
  * Starts server

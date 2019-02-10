@@ -15,7 +15,7 @@ const Timer = require("./Timer");
 const GAME_CONFIG  = require("../config/room");
 
 /**
- * Class Game 
+ * @class Room 
  * Contains all the logic to make a game start
  */
 class Room {
@@ -90,7 +90,6 @@ class Room {
       if (this.gamePlay === GAME_STATE.WAITING 
           && this.players.length === GAME_CONFIG.MIN_PLAYERS_START_GAME)  
           changeGamePlay.call(this, GAME_STATE.STARTING, GAME_CONFIG.TIME_STARTING_COUNTDOWN, this.start);
-
       resolve();
     });
   }
