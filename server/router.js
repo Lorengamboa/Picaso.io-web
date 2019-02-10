@@ -2,7 +2,7 @@
 
 const User = require("./core/User");
 const routes = require('./config/routes');
-const { API_DICTIONARY_v1 } = require('./api');
+const { API_DICTIONARY_v1 } = require('./API');
 
 module.exports = function (app, gm_ctrl) {
   /**********************************************************************/
