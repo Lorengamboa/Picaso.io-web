@@ -9,10 +9,10 @@ import {
   updateGameState,
   fetchPlayersDraw,
   displayCurrentWord,
-  disconnectGameRoom
-} from "../actions/game/game_action";
+  disconnectGameRoom,
+} from "../core/game/gameActions";
 
-import { setConnection } from "../actions/player/player_action";
+import { setConnection } from "../core/player/playerActions";
 
 const SOCKET_EVENTS = {
   RECEIVER: {

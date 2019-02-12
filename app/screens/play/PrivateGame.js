@@ -8,7 +8,7 @@ import {
   setUsername,
   openPlayerSocketConnection,
   joinPrivateGame
-} from "../../actions/player";
+} from "../../core/player/playerActions";
 import { InputText, PrimaryButton } from "../../components";
 
 /**

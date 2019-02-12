@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Input, Select, Grid, Checkbox } from 'semantic-ui-react'
 
-import { createRoom } from "../actions/player";
+import { createRoom } from "../core/game/gameActions";
 import { PrimaryButton, Navbar } from "../components";
 
 /**

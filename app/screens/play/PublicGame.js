@@ -13,7 +13,7 @@ import ToolPaint from "../../containers/ToolPaint";
 
 import { Navbar, DrawThumbnail, Timer } from "../../components";
 
-import { playerDrawCanvas } from "../../actions/game";
+import { playerDrawCanvas } from "../../core/game/gameActions";
 import { is_touch_device } from '../../utils';
 
 /**

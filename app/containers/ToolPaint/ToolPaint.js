@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { selectTool, setColorPicked, clearCanvas } from '../../actions/game';
+import { selectTool, setColorPicked, clearCanvas } from '../../core/game/gameActions';
 import Palete from './Palete';
 import Tool from './Tool';
 

@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Message, InfoMessage } from "../../components";
-import { playerSendMessage } from '../../actions/game';
+import { playerSendMessage } from '../../core/game/gameActions';
 import chatListStyles from "./styles";
 
 

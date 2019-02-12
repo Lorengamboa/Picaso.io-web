@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { Icon, Menu, Table, Grid } from 'semantic-ui-react'
 import axios from 'axios';
 
-import { setUsername, openPlayerSocketConnection } from "../actions/player";
+import { setUsername, openPlayerSocketConnection } from "../core/player/playerActions";
 import { Navbar } from "../components";
 
 const ROOMS_AVAILABLE_ENDPOINT = "/api/rooms_available";

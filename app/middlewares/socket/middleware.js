@@ -5,12 +5,12 @@ import {
   SOCKET_CONNECTION,
   CONNECT_PRIVATE_ROOM,
   CREATE_ROOM
-} from "../../actions/player/actions";
+} from "../../core/player/actions";
 import {
   PLAYER_SEND_MESSAGE,
   PLAYER_DRAW_CANVAS,
   PLAYER_CLEAR_CANVAS
-} from "../../actions/game/actions";
+} from "../../core/game/actions";
 
 const SocketMiddleware = url => store => {
   let sm; // SocketManage  

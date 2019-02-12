@@ -1,6 +1,6 @@
 "use strict";
 
-import * as ACTIONS from "../../actions/player/actions";
+import * as ACTIONS from "./actions";
 import initialState from "../initialState";
 
 export default function playerReducer(state = initialState.player, action) {

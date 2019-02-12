@@ -34,6 +34,16 @@
             "date": 1549811351661,
             "name": "logs/sockets-2019-02-10-16.json",
             "hash": "7f41b5d53310a74140de683628cc9e65"
+        },
+        {
+            "date": 1550001200458,
+            "name": "logs/sockets-2019-02-12-20.json",
+            "hash": "73936a727d19012d34533bfeb108135c"
+        },
+        {
+            "date": 1550001610490,
+            "name": "logs/sockets-2019-02-12-21.json",
+            "hash": "a5d2697aff3b49de4f5b0785cf023b11"
         }
     ]
 }

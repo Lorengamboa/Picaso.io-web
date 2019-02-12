@@ -12,7 +12,8 @@ class Canvas extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fullscreen: false
+      fullscreen: false,
+      canvasUri: null
     };
 
     // bind functions
@@ -21,6 +22,16 @@ class Canvas extends Component {
     this.togleFullScreen = this.togleFullScreen.bind(this);
   }
 
+  componentWillReceiveProps(){
+    const canvas = this.refs.canvas;
+    if (!canvas) return;
+
+    var url = canvas.toDataURL();
+
+    this.setState({
+      canvasUri: url
+    });  }
+ 
   /**
    * Clears canvas to blank
    */
@@ -32,15 +43,24 @@ class Canvas extends Component {
 
   /**
    * Resizes canvas dimensions
+   * @TODO fix the resizing so it adjust to the canva's size
    */
   resize() {
     const canvas = this.refs.canvas;
-    if(!canvas) return;
-    
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
     const { offsetWidth, offsetHeight } = canvas;
 
-    canvas.width = offsetWidth ? offsetWidth: canvas.width;
-    canvas.height = offsetHeight ? offsetHeight: canvas.height;
+    canvas.width = offsetWidth ? offsetWidth : canvas.width;
+    canvas.height = offsetHeight ? offsetHeight : canvas.height;
+
+    var image = new Image();
+    image.src =  this.state.canvasUri
+    //
+    image.onload = function() {
+      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+    };
   }
 
   /**
@@ -49,7 +69,7 @@ class Canvas extends Component {
   togleFullScreen() {
     this.setState({
       fullscreen: !this.state.fullscreen
-    })
+    });
   }
 
   componentDidMount() {
@@ -79,7 +99,7 @@ class Canvas extends Component {
     return (
       <canvas
         id="mycanvas"
-        className={this.state.fullscreen ? "fullscreen": ""}
+        className={this.state.fullscreen ? "fullscreen" : ""}
         ref="canvas"
         width="600"
         height="400"

@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setColorPicked } from '../../../actions/game';
+import { setColorPicked } from '../../../core/game/gameActions';
 import { colors } from './colors';
 
 /**
