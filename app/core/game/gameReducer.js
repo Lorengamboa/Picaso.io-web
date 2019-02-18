@@ -9,6 +9,10 @@ export default function gameReducer(state = initialState.game, action) {
       return Object.assign({}, state, {
         gameInfo: action.payload
       });
+    case ACTIONS.TOGGLE_EXPAND:
+      return Object.assign({}, state, {
+        fullscreen: !state.fullscreen
+      });    
     case ACTIONS.CHANGE_COLOR_PICKED:
       return Object.assign({}, state, {
         colorPicked: action.payload

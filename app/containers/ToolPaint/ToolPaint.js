@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { selectTool, setColorPicked, clearCanvas } from '../../core/game/gameActions';
+import { selectTool, setColorPicked, clearCanvas, toggleExpand } from '../../core/game/gameActions';
 import Palete from './Palete';
 import Tool from './Tool';
 
@@ -15,10 +15,15 @@ class ToolPaint extends Component {
     super(props);
 
     // Event listeners
+    this._toggleExpand = this._toggleExpand.bind(this);
     this._onEraserClick = this._onEraserClick.bind(this);
     this._onPaleteClick = this._onPaleteClick.bind(this);
     this._onBinClick = this._onBinClick.bind(this);
     this._onBucketClick = this._onBucketClick.bind(this);
+  }
+
+  _toggleExpand() {
+    this.props.toggleExpand();
   }
 
   /**
@@ -34,7 +39,7 @@ class ToolPaint extends Component {
    * @param {NodeElement} element
    */
   _onPaleteClick(element) {
-    document.getElementById('mycanvas').style.cursor = "url('/assets/img/tools/pencil.png') 5 40, auto";
+    document.getElementById('mycanvas').style.cursor = "url('/assets/img/tools/pencil.svg') 5 40, auto";
     document.querySelector(`[data-color='${this.props.colorPicked}']`).classList.remove('active-color');
 
     const color = element.target.dataset.color;
@@ -64,6 +69,11 @@ class ToolPaint extends Component {
       <div className='toolpaint'>
         <Palete onClick={this._onPaleteClick} />
         <Tool
+          type='expand'
+          onClick={this._toggleExpand}
+          src='/assets/img/tools/expand.svg'
+        />
+        <Tool
           type='eraser'
           onClick={this._onEraserClick}
           src='/assets/img/tools/eraser.png'
@@ -71,12 +81,12 @@ class ToolPaint extends Component {
         <Tool
           type='bin'
           onClick={this._onBinClick}
-          src='/assets/img/tools/bin.png'
+          src='/assets/img/tools/bin.svg'
         />
         <Tool
           type='bucket'
           onClick={this._onBucketClick}
-          src='/assets/img/tools/bucket.png'
+          src='/assets/img/tools/water-glass.svg'
         />
       </div>
     );
@@ -109,6 +119,9 @@ const mapDispatchToProps = (dispatch) => {
     clearCanvas: () => {
       dispatch(clearCanvas());
     },
+    toggleExpand: () => {
+      dispatch(toggleExpand());
+    }
   };
 };
 

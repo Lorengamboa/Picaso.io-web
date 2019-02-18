@@ -72,3 +72,4 @@
 {"message":"👨 - ❌  Socket connection closed","level":"info","timestamp":"2019-02-12 21:31:20"}
 {"message":"👨 - ❌  Socket connection failed: Invalid username","level":"error","timestamp":"2019-02-12 21:31:23"}
 {"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-12 21:31:27"}
+{"message":"👨 - ❌  Socket connection failed: Invalid username","level":"error","timestamp":"2019-02-12 21:46:02"}

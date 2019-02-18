@@ -8,7 +8,7 @@ const MongoStore = require("connect-mongo")(session);
 
 const database = require("./plugins/mongo");
 const logger = require("./logger");
-const socketManager = require("./server/socket/index");
+const socketManager = require("./server/socketManager");
 
 const app = express();
 

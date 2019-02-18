@@ -158,3 +158,12 @@ export function disconnectGameRoom() {
     type: ACTIONS.DISCONNECT_GAME_ROOM,
   };
 }
+
+/**
+ * 
+ */
+export function toggleExpand() {
+  return {
+    type: ACTIONS.TOGGLE_EXPAND,
+  };
+}

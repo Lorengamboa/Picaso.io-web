@@ -1,0 +1,63 @@
+{"message":"development, Picaso.io App listening on port 8080","level":"info","timestamp":"2019-02-14 20:00:14"}
+{"message":"MONGODB connection errorMongoNetworkError: failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]","level":"error","timestamp":"2019-02-14 20:00:14"}
+{"message":"MONGODB connection error","level":"error","timestamp":"2019-02-14 20:00:14"}
+{"message":"development, Picaso.io App listening on port 8080","level":"info","timestamp":"2019-02-14 20:00:48"}
+{"message":"MONGODB connection errorMongoNetworkError: failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]","level":"error","timestamp":"2019-02-14 20:00:48"}
+{"message":"MONGODB connection error","level":"error","timestamp":"2019-02-14 20:00:48"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:01:46"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:01:46"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:01:47"}
+{"message":"development, Picaso.io App listening on port 8080","level":"info","timestamp":"2019-02-14 20:02:26"}
+{"message":"MONGODB connection errorMongoNetworkError: failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]","level":"error","timestamp":"2019-02-14 20:02:26"}
+{"message":"MONGODB connection error","level":"error","timestamp":"2019-02-14 20:02:26"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:03:25"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:03:25"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:03:25"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:04:10"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:04:10"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:04:11"}
+{"message":"development, Picaso.io App listening on port 8080","level":"info","timestamp":"2019-02-14 20:04:40"}
+{"message":"MONGODB connection errorMongoNetworkError: failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]","level":"error","timestamp":"2019-02-14 20:04:40"}
+{"message":"MONGODB connection error","level":"error","timestamp":"2019-02-14 20:04:40"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:05:41"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:05:41"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:05:41"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:06:26"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:06:26"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:07:11"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:07:12"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:07:57"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:07:57"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:08:42"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:08:42"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:09:27"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:09:27"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:10:12"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:10:12"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:10:58"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:10:58"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:11:43"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:11:43"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:12:28"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:12:28"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:13:13"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:13:14"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:13:59"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:13:59"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:14:44"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:14:44"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:15:29"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:15:29"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:16:14"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:16:14"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:17:00"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:17:00"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:17:45"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:17:45"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:18:30"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:18:31"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:19:15"}
+{"message":"Successfully uploaded data to myBucket/myKey","level":"info","timestamp":"2019-02-14 20:19:15"}
+{"message":"development, Picaso.io App listening on port 8080","level":"info","timestamp":"2019-02-14 20:19:53"}
+{"message":"MONGODB connection errorMongoNetworkError: failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]","level":"error","timestamp":"2019-02-14 20:19:53"}
+{"message":"MONGODB connection error","level":"error","timestamp":"2019-02-14 20:19:53"}

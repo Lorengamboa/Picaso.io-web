@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Grid } from "semantic-ui-react";
 import { Howl } from "howler";
+import Reactcardstack from "../../containers/react-cards-stack/src";
 
 import GeneralModal from "./GeneralModal";
 import CanvasGame from "../../containers/CanvasGame";
@@ -11,10 +12,10 @@ import Chat from "../../containers/Chat";
 import PlayerList from "../../containers/PlayerList";
 import ToolPaint from "../../containers/ToolPaint";
 
-import { Navbar, DrawThumbnail, Timer } from "../../components";
+import { Navbar, Timer } from "../../components";
 
 import { playerDrawCanvas } from "../../core/game/gameActions";
-import { is_touch_device } from '../../utils';
+import { is_touch_device } from "../../utils";
 
 /**
  * @class PublicGame
@@ -60,31 +61,31 @@ class PublicGame extends Component {
     this.setState({
       canvas: {
         width: mycanvas.scrollWidth,
-        height: mycanvas.scrollHeight,
+        height: mycanvas.scrollHeight
       }
-    })
+    });
   }
 
   /**
-   * 
-   * @param {*} e 
+   *
+   * @param {*} e
    */
   setCurrentPosition(e) {
     const coordinates = is_touch_device() ? e.touches[0] : e;
-     const mycanvas = document.getElementById("mycanvas");
-     const { top, left } = mycanvas.getBoundingClientRect();
+    const mycanvas = document.getElementById("mycanvas");
+    const { top, left } = mycanvas.getBoundingClientRect();
 
-      const draw = Object.assign({}, this.state.currentPosition, {
+    const draw = Object.assign({}, this.state.currentPosition, {
       currentX: (coordinates.clientX - left) * (600 / mycanvas.width),
-      currentY: (coordinates.clientY - top) *  (400 / mycanvas.height)
+      currentY: (coordinates.clientY - top) * (400 / mycanvas.height)
     });
 
     return draw;
   }
 
   /**
-   * 
-   * @param {*} e 
+   *
+   * @param {*} e
    */
   setPrevPosition(e) {
     const coordinates = is_touch_device() ? e.touches[0] : e;
@@ -94,14 +95,14 @@ class PublicGame extends Component {
     this.setState({
       currentPosition: Object.assign({}, this.state.currentPosition, {
         prevX: (coordinates.clientX - left) * (600 / mycanvas.width),
-        prevY: (coordinates.clientY - top) *  (400 / mycanvas.height)
+        prevY: (coordinates.clientY - top) * (400 / mycanvas.height)
       })
     });
   }
 
   /**
-   * 
-   * @param {*} coordinates 
+   *
+   * @param {*} coordinates
    */
   drawCoordinates(coordinates) {
     this.props.playerDrawCanvas({
@@ -117,7 +118,7 @@ class PublicGame extends Component {
    */
   handleDisplayMouseMove(e) {
     if (!this.state.isPenDown || this.props.toolPicked === "bucket") return;
-  
+
     const coordinates = this.setCurrentPosition(e);
     this.drawCoordinates(coordinates);
     this.setPrevPosition(e);
@@ -148,13 +149,19 @@ class PublicGame extends Component {
    * Display random draw samples
    */
   renderPlayerDraws() {
-    return this.props.playersDraw.map(base64 => {
-      return (
-        <div className="six columns">
-          <DrawThumbnail src={base64} />
-        </div>
-      );
-    });
+    function onstackendfn(res) {
+      console.log("onstackedfn", res);
+    }
+    return (
+      <div>
+        <Reactcardstack
+          images={this.props.playersDraw}
+          onstackendfn={onstackendfn.bind(this)}
+          cancelIcon="/assets/img/tools/thumbs-up.svg"
+          acceptIcon="/assets/img/tools/thumbs-down.svg"
+        />
+      </div>
+    );
   }
 
   render() {
@@ -169,7 +176,7 @@ class PublicGame extends Component {
           <Grid.Row>
             {/*Left column*/}
             <Grid.Column mobile={16} tablet={10} computer={2}>
-            <ToolPaint />
+              <ToolPaint />
               {/* <Card
                 link
                 header={this.props.currentWord}
@@ -197,7 +204,7 @@ class PublicGame extends Component {
               /> */}
             </Grid.Column>
             {/* Middle column */}
-            <Grid.Column mobile={16} tablet={10} computer={10} >
+            <Grid.Column mobile={16} tablet={10} computer={10}>
               {this.props.gamePlay === "voting" ? (
                 <div className="row">{this.renderPlayerDraws()}</div>
               ) : (

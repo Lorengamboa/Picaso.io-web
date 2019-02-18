@@ -1,28 +1,33 @@
-'use strict';
+"use strict";
 
+const EventEmitter = require("events");
 const _ = require("lodash");
 
+const Socket = require('../Socket');
 const Chat = require("../chat");
 
-const { changeGamePlay, createNewCanvas, requestRandomWord, persistDraw } = require("./services");
+const {
+  changeGamePlay,
+  createNewCanvas,
+  requestRandomWord,
+  persistDraw
+} = require("./services");
 const { SOCKET_EVENTS } = require("../../events");
 const CHAT_CONF = require("../config/chat_conf");
 const { GAME_STATE } = require("../config/constants");
 const { getRandomColor, isBlank } = require("../../utils");
-const Timer = require("./Timer");
+const Timer = require("./utils/Timer");
 
-
-const GAME_CONFIG  = require("../config/room");
+const GAME_CONFIG = require("../config/room");
 
 /**
- * @class Room 
+ * @class Room
  * Contains all the logic to make a game start
  */
-class Room {
+class Room extends Socket {
   constructor(name, io, type) {
-    this.type = type || 'public';
-    this.name = name;
-    this.io = io;
+    super(io, name);
+    this.type = type || "public";
     this.players = [];
     this.draws = [];
     this.currentWord = null;
@@ -36,7 +41,7 @@ class Room {
   }
 
   /**
-   * 
+   *
    */
   init() {
     this.io.emit(SOCKET_EVENTS.RETRIEVE_GAME_INFO, {
@@ -45,16 +50,16 @@ class Room {
   }
 
   /**
-   * PLAYING TIME - 
+   * PLAYING TIME -
    */
   start() {
     this.currentWord = requestRandomWord();
     this.io.to(this.name).emit(SOCKET_EVENTS.CURRENT_WORD, this.currentWord);
-    changeGamePlay.call(this, GAME_STATE.PLAYING, GAME_CONFIG.TIME_PLAYING_COUNTDOWN, this.vote);
+    changeGamePlay.call(this,GAME_STATE.PLAYING,GAME_CONFIG.TIME_PLAYING_COUNTDOWN,this.vote);
   }
 
   /**
-   * VOTE TIME - 
+   * VOTE TIME -
    */
   vote() {
     const drawsBase64 = this.draws.map(draw => {
@@ -63,8 +68,13 @@ class Room {
     });
 
     this.io.to(this.name).emit(SOCKET_EVENTS.DISPLAY_ALL_DRAWS, drawsBase64);
-
-    changeGamePlay.call(this, GAME_STATE.VOTING, GAME_CONFIG.TIME_VOTING_COUNTDOWN, this.start);
+    
+    changeGamePlay.call(
+      this,
+      GAME_STATE.VOTING,
+      GAME_CONFIG.TIME_VOTING_COUNTDOWN,
+      this.start
+    );
   }
 
   /**
@@ -85,12 +95,35 @@ class Room {
       this.draws.push(createNewCanvas(player.id));
 
       this.updatePlayerJoined(player.name);
-    
+
       // start game 10s
-      if (this.gamePlay === GAME_STATE.WAITING 
-          && this.players.length === GAME_CONFIG.MIN_PLAYERS_START_GAME)  
-          changeGamePlay.call(this, GAME_STATE.STARTING, GAME_CONFIG.TIME_STARTING_COUNTDOWN, this.start);
+      if (this.gamePlay === GAME_STATE.WAITING && this.players.length === GAME_CONFIG.MIN_PLAYERS_START_GAME) this.emit('enough_players');
       resolve();
+    });
+  }
+
+  requestLeave(player) {
+    return new Promise((resolve, reject) => {
+      try {
+        player.socket.leave(this.name);
+        this.informsPlayerLeft(player.id);
+
+        if (
+          this.gamePlay === GAME_STATE.PLAYING &&
+          this.players.length < GAME_CONFIG.MIN_PLAYERS_START_GAME
+        ) {
+          this.timer.clearInterval();
+          changeGamePlay.call(
+            this,
+            GAME_STATE.WAITING,
+            0,
+            null
+          );
+        }
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 
@@ -99,22 +132,19 @@ class Room {
    * @param {Array} data
    */
   updateCanvas(socket, drawingInfo) {
-
-    const { id } = socket ;
+    const { id } = socket;
     var canvas = _.find(this.draws, { id }).canvas;
 
-    if(socket && this.gamePlay === GAME_STATE.PLAYING) {
-
+    if (socket && this.gamePlay === GAME_STATE.PLAYING) {
       canvas.draw(drawingInfo);
       return socket.emit(SOCKET_EVENTS.UPDATE_CANVAS, drawingInfo);
-
     }
 
     this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_CANVAS, drawingInfo);
   }
 
   /**
-   * 
+   *
    */
   updateGameState() {
     this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_GAME_STATE, this.gamePlay);
@@ -133,7 +163,8 @@ class Room {
    * @param {String} msg
    */
   playerSendsMessage(id, msg) {
-    if(isBlank(msg) || msg.length > CHAT_CONF.MAX_MESSAGE_LENGTH || !id) return;
+    if (isBlank(msg) || msg.length > CHAT_CONF.MAX_MESSAGE_LENGTH || !id)
+      return;
 
     const player = _.find(this.players, { id });
     const filterPlayer = {

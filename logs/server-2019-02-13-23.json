@@ -1,0 +1,3 @@
+{"message":"development, Picaso.io App listening on port 8080","level":"info","timestamp":"2019-02-13 23:21:59"}
+{"message":"MONGODB connection errorMongoNetworkError: failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]","level":"error","timestamp":"2019-02-13 23:21:59"}
+{"message":"MONGODB connection error","level":"error","timestamp":"2019-02-13 23:21:59"}

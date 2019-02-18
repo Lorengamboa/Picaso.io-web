@@ -15,7 +15,8 @@ const initialState = {
     gamePlay: "waitting",
     playersDraw: [],
     currentWord: "Waitting round to start",
-    modal: false
+    modal: false,
+    fullscreen: false
   },
   player: {
     username: "",

@@ -14,8 +14,9 @@ Canvas.Context2d.prototype.floodFill = floodFill; // implementing floodfill exte
  */
 class CanvasArea {
   constructor() {
-    this.canvas = Canvas.createCanvas(CANVAS_CONFIG.WIDTH, CANVAS_CONFIG.HEIGHT);
     this.version = 1.0;
+    this.canvas = Canvas.createCanvas(CANVAS_CONFIG.WIDTH, CANVAS_CONFIG.HEIGHT);
+    this.moves = [];
   }
 
   /**
@@ -35,6 +36,10 @@ class CanvasArea {
     ctx.clearRect(0, 0, width, height);
   }
 
+  addMove(move) {
+    this.moves.push(move);
+  }
+
   /**
    * Makes draw action over the canvas
    * @param {*} data
@@ -42,9 +47,10 @@ class CanvasArea {
   draw(data) {
     const { toolPicked } = data;
     const ctx = this.getContext();
-
-    if (toolPicked === "pencil")
-      PencilTool.classic(data, ctx);
+    if (toolPicked === "pencil") {
+      const move = PencilTool.classic.call(this, data, ctx);
+      this.addMove(move);
+    }
     if (toolPicked === "bucket")
       Bucket(data, ctx);
     else if (toolPicked === "eraser")

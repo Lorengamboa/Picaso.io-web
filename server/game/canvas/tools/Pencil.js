@@ -2,10 +2,6 @@
 
 const colors = require("../colors");
 
-const PencilModel = {
-
-};
-
 const Pencil = {
   classic: (data, ctx) => {
     const { coordinates, colorPicked } = data;
@@ -21,6 +17,14 @@ const Pencil = {
 
     ctx.stroke();
     ctx.closePath();
+
+    const move = {
+      tool: "pencil",
+      color: colorPicked,
+      coordinates,
+    };
+
+    return move;
   }
 };
 

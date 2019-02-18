@@ -2,6 +2,7 @@
 
 var Filter = require('bad-words/lib/badwords');
 
+const Socket = require('../Socket');
 const MESSAGE_CONF = require('../config/chat_conf');
 const { SOCKET_EVENTS } = require('../../events');
 
@@ -11,10 +12,9 @@ const filter = new Filter();
  * Chat class
  * Class in charge of managing the messages flow
  */
-class Chat {
+class Chat extends Socket{
     constructor(io, name) {
-        this.io = io;
-        this.name = name;
+        super(io,name);
     }
 
     /**

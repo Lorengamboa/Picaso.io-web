@@ -1,0 +1,21 @@
+{"message":"development, Picaso.io App listening on port 8080","level":"info","timestamp":"2019-02-17 23:57:37"}
+{"message":"MONGODB connection errorMongoNetworkError: failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]","level":"error","timestamp":"2019-02-17 23:57:38"}
+{"message":"MONGODB connection error","level":"error","timestamp":"2019-02-17 23:57:38"}
+{"message":"development, Picaso.io App listening on port 8080","level":"info","timestamp":"2019-02-17 23:56:34"}
+{"message":"MONGODB connection error","level":"error","timestamp":"2019-02-17 23:56:34"}
+{"message":"MONGODB connection errorMongoNetworkError: failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]","level":"error","timestamp":"2019-02-17 23:56:34"}
+{"message":"development, Picaso.io App listening on port 8080","level":"info","timestamp":"2019-02-17 23:57:19"}
+{"message":"MONGODB connection errorMongoNetworkError: failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]","level":"error","timestamp":"2019-02-17 23:57:19"}
+{"message":"MONGODB connection error","level":"error","timestamp":"2019-02-17 23:57:19"}
+{"message":"development, Picaso.io App listening on port 8080","level":"info","timestamp":"2019-02-17 23:57:35"}
+{"message":"MONGODB connection errorMongoNetworkError: failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]","level":"error","timestamp":"2019-02-17 23:57:35"}
+{"message":"MONGODB connection error","level":"error","timestamp":"2019-02-17 23:57:35"}
+{"message":"development, Picaso.io App listening on port 8080","level":"info","timestamp":"2019-02-17 23:59:38"}
+{"message":"MONGODB connection errorMongoNetworkError: failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]","level":"error","timestamp":"2019-02-17 23:59:38"}
+{"message":"MONGODB connection error","level":"error","timestamp":"2019-02-17 23:59:38"}
+{"message":"development, Picaso.io App listening on port 8080","level":"info","timestamp":"2019-02-17 23:59:48"}
+{"message":"MONGODB connection errorMongoNetworkError: failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]","level":"error","timestamp":"2019-02-17 23:59:48"}
+{"message":"MONGODB connection error","level":"error","timestamp":"2019-02-17 23:59:48"}
+{"message":"development, Picaso.io App listening on port 8080","level":"info","timestamp":"2019-02-17 23:59:53"}
+{"message":"MONGODB connection error","level":"error","timestamp":"2019-02-17 23:59:53"}
+{"message":"MONGODB connection errorMongoNetworkError: failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]","level":"error","timestamp":"2019-02-17 23:59:53"}

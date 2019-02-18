@@ -1,0 +1,52 @@
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:01:21"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:01:25"}
+{"message":"👨- ✅  Player leaves room","level":"info","timestamp":"2019-02-18 00:03:12"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:03:20"}
+{"message":"👨- ✅  Player leaves room","level":"info","timestamp":"2019-02-18 00:04:41"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:04:51"}
+{"message":"👨- ✅  Player leaves room","level":"info","timestamp":"2019-02-18 00:06:21"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:14:05"}
+{"message":"👨- ✅  Player leaves room","level":"info","timestamp":"2019-02-18 00:18:17"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:18:22"}
+{"message":"👨- ✅  Player leaves room","level":"info","timestamp":"2019-02-18 00:18:23"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:19:57"}
+{"message":"👨- ✅  Player leaves room","level":"info","timestamp":"2019-02-18 00:20:37"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:20:42"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:23:43"}
+{"message":"👨- ✅  Player leaves room","level":"info","timestamp":"2019-02-18 00:23:48"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:23:56"}
+{"message":"👨 - ❌  Socket connection failed: Invalid username","level":"error","timestamp":"2019-02-18 00:27:32"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:27:39"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:27:53"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:27:57"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:34:56"}
+{"message":"👨- ✅  Player leaves room","level":"info","timestamp":"2019-02-18 00:34:59"}
+{"message":"👨 - ❌  Socket connection failed: Invalid username","level":"error","timestamp":"2019-02-18 00:35:02"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:35:05"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:41:22"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:41:23"}
+{"message":"👨 - ❌  Socket connection failed: Invalid username","level":"error","timestamp":"2019-02-18 00:41:24"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:41:28"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:44:40"}
+{"message":"👨 - ❌  Socket connection failed: Invalid username","level":"error","timestamp":"2019-02-18 00:44:46"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:44:49"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:44:51"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:48:49"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:48:50"}
+{"message":"👨 - ❌  Socket connection failed: TypeError: Cannot read property 'call' of undefined","level":"error","timestamp":"2019-02-18 00:48:52"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:49:40"}
+{"message":"👨- ✅  Player leaves room","level":"info","timestamp":"2019-02-18 00:49:40"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:49:43"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:49:44"}
+{"message":"👨 - ❌  Socket connection failed: TypeError: Cannot read property 'call' of undefined","level":"error","timestamp":"2019-02-18 00:49:46"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:51:15"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:51:18"}
+{"message":"👨 - ❌  Socket connection failed: TypeError: Cannot read property 'call' of undefined","level":"error","timestamp":"2019-02-18 00:51:38"}
+{"message":"👨- ✅  Player leaves room","level":"info","timestamp":"2019-02-18 00:51:38"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:52:56"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:52:59"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:53:07"}
+{"message":"👨- ✅  Player leaves room","level":"info","timestamp":"2019-02-18 00:53:38"}
+{"message":"👨- ✅  Player leaves room","level":"info","timestamp":"2019-02-18 00:53:41"}
+{"message":"👨- ✅  Player leaves room","level":"info","timestamp":"2019-02-18 00:53:42"}
+{"message":"👨 - ✅  Socket connection openned","level":"info","timestamp":"2019-02-18 00:59:52"}

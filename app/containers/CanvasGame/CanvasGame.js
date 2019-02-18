@@ -12,26 +12,31 @@ class Canvas extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fullscreen: false,
       canvasUri: null
     };
 
     // bind functions
     this.clearCanvas = this.clearCanvas.bind(this);
     this.resize = this.resize.bind(this);
-    this.togleFullScreen = this.togleFullScreen.bind(this);
   }
 
-  componentWillReceiveProps(){
+  componentWillReceiveProps(props){
     const canvas = this.refs.canvas;
     if (!canvas) return;
 
     var url = canvas.toDataURL();
 
+
     this.setState({
       canvasUri: url
-    });  }
- 
+    });  
+    // if(props.fullscreen) this.resize();
+
+  }
+  
+  componentDidMount() {
+    console.log("updating")
+  }
   /**
    * Clears canvas to blank
    */
@@ -49,11 +54,25 @@ class Canvas extends Component {
     const canvas = this.refs.canvas;
     if (!canvas) return;
 
-    const ctx = canvas.getContext("2d");
     const { offsetWidth, offsetHeight } = canvas;
 
     canvas.width = offsetWidth ? offsetWidth : canvas.width;
     canvas.height = offsetHeight ? offsetHeight : canvas.height;
+
+    // var image = new Image();
+    // image.src =  this.state.canvasUri
+    // //
+    // image.onload = function() {
+    //   ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+    // };
+  }
+
+  redraw() {
+    const canvas = this.refs.canvas;
+    if(!canvas) return;
+    
+    this.resize();
+    const ctx = canvas.getContext("2d");
 
     var image = new Image();
     image.src =  this.state.canvasUri
@@ -63,22 +82,14 @@ class Canvas extends Component {
     };
   }
 
-  /**
-   * Toogles canvas to fullscreen if its value is false already
-   */
-  togleFullScreen() {
-    this.setState({
-      fullscreen: !this.state.fullscreen
-    });
-  }
 
   componentDidMount() {
     this.resize();
-    window.addEventListener("resize", this.resize.bind(this));
+    window.addEventListener("resize", this.redraw.bind(this));
   }
 
   componentWillUnmount() {
-    window.removeEventListener("resize", this.resize.bind(this));
+    window.removeEventListener("resize", this.redraw.bind(this));
   }
 
   componentDidUpdate() {
@@ -99,7 +110,7 @@ class Canvas extends Component {
     return (
       <canvas
         id="mycanvas"
-        className={this.state.fullscreen ? "fullscreen" : ""}
+        className={this.props.fullscreen ? "fullscreen" : ""}
         ref="canvas"
         width="600"
         height="400"
@@ -117,9 +128,9 @@ class Canvas extends Component {
  * @param {store}
  */
 function mapStateToProps(store) {
-  const { lastDraw } = store.gameReducer;
+  const { lastDraw, fullscreen } = store.gameReducer;
 
-  return { lastDraw };
+  return { lastDraw, fullscreen };
 }
 
 export default connect(
