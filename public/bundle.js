@@ -40541,7 +40541,7 @@
 	        className: "btn-roundy",
 	        value: "settings",
 	        onClick: this.onSettingsButtonClick
-	      }))))));
+	      }))))), _react2.default.createElement(_components.Footer, { links: ["contact us", "policy", "download"] }));
 	    }
 	  }]);
 
@@ -81239,7 +81239,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.Timer = exports.DrawThumbnail = exports.Navbar = exports.AdBlock = exports.InfoMessage = exports.Message = exports.InputText = exports.PrimaryButton = undefined;
+	exports.Footer = exports.Timer = exports.DrawThumbnail = exports.Navbar = exports.AdBlock = exports.InfoMessage = exports.Message = exports.InputText = exports.PrimaryButton = undefined;
 
 	var _PrimaryButton = __webpack_require__(889);
 
@@ -81265,6 +81265,10 @@
 
 	var _Navbar2 = _interopRequireDefault(_Navbar);
 
+	var _Footer = __webpack_require__(997);
+
+	var _Footer2 = _interopRequireDefault(_Footer);
+
 	var _DrawThumbnail = __webpack_require__(900);
 
 	var _DrawThumbnail2 = _interopRequireDefault(_DrawThumbnail);
@@ -81285,6 +81289,7 @@
 	exports.Navbar = _Navbar2.default;
 	exports.DrawThumbnail = _DrawThumbnail2.default;
 	exports.Timer = _Timer2.default;
+	exports.Footer = _Footer2.default;
 
 /***/ }),
 /* 889 */
@@ -95339,12 +95344,9 @@
 	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 	}
 
-	var ROOMS_AVAILABLE_ENDPOINT = "/api/rooms_available";
-
 	/**
 	 * SEARCHPAGE COMPONENT VIEW
 	 */
-
 	var SettingsPage = function (_Component) {
 	  _inherits(SettingsPage, _Component);
 
@@ -95357,7 +95359,7 @@
 	  _createClass(SettingsPage, [{
 	    key: "render",
 	    value: function render() {
-	      return _react2.default.createElement("div", { id: "settings-site" }, _react2.default.createElement(_components.Navbar, null), _react2.default.createElement(_semanticUiReact.Grid, null, _react2.default.createElement(_semanticUiReact.Grid.Row, null, _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 16, tablet: 16, computer: 16 }, "Sound ", _react2.default.createElement(_semanticUiReact.Checkbox, { toggle: true })), _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 16, tablet: 16, computer: 16 }, "Swearing ", _react2.default.createElement(_semanticUiReact.Checkbox, { toggle: true })))));
+	      return _react2.default.createElement("div", { id: "settings-site" }, _react2.default.createElement(_components.Navbar, null), _react2.default.createElement(_semanticUiReact.Grid, null, _react2.default.createElement(_semanticUiReact.Grid.Row, null, _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 16, tablet: 16, computer: 16 }, "Sound ", _react2.default.createElement(_semanticUiReact.Checkbox, { toggle: true })), _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 16, tablet: 16, computer: 16 }, "Swearing ", _react2.default.createElement(_semanticUiReact.Checkbox, { toggle: true })))), _react2.default.createElement(_components.Footer, { links: ["contact us", "policy", "download"] }));
 	    }
 	  }]);
 
@@ -95382,6 +95384,81 @@
 	};
 
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(SettingsPage);
+
+/***/ }),
+/* 997 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _Footer = __webpack_require__(999);
+
+	var _Footer2 = _interopRequireDefault(_Footer);
+
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { default: obj };
+	}
+
+	exports.default = _Footer2.default;
+
+/***/ }),
+/* 998 */
+/***/ (function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var styles = {
+	  container: {
+	    width: "100%",
+	    position: "absolute",
+	    bottom: "0",
+	    margin: ".5rem 1rem",
+	    textAlign: "center",
+	    transition: "200ms"
+	  }
+	};
+
+	exports.default = styles;
+
+/***/ }),
+/* 999 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _styles = __webpack_require__(998);
+
+	var _styles2 = _interopRequireDefault(_styles);
+
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { default: obj };
+	}
+
+	/**
+	 * Footer component
+	 */
+	var Footer = function Footer(props) {
+	  return _react2.default.createElement("div", { style: _styles2.default.container }, props.links.map(function (link, id) {
+	    return _react2.default.createElement("a", { key: id }, "| ", link, "\xA0|");
+	  }));
+	};
+
+	exports.default = Footer;
 
 /***/ })
 /******/ ]);

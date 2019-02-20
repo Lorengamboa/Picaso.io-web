@@ -118,6 +118,11 @@ body {
   padding: 10px 20px;
 }
 
+#settings-site {
+	height: 100%;
+	padding: 10px 20px;
+}
+
 .find-content {
   width: 80% !important;
   margin: 3em auto !important;

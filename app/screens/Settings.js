@@ -3,9 +3,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Checkbox, Grid } from 'semantic-ui-react'
-import { Navbar } from "../components";
-
-const ROOMS_AVAILABLE_ENDPOINT = "/api/rooms_available";
+import { Navbar, Footer } from "../components";
 
 /**
  * SEARCHPAGE COMPONENT VIEW
@@ -29,6 +27,7 @@ class SettingsPage extends Component {
           </Grid.Column>
           </Grid.Row>
         </Grid>
+        <Footer links={["contact us", "policy", "download"]} />
       </div>
     );
   }

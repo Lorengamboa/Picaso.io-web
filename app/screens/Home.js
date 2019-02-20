@@ -6,7 +6,7 @@ import { Grid } from "semantic-ui-react";
 // import { Divider, Loader, Image, Header, Icon } from 'semantic-ui-react'
 
 import { setUsername, openPlayerSocketConnection } from "../core/player/playerActions";
-import { InputText, PrimaryButton, Navbar } from "../components";
+import { InputText, PrimaryButton, Navbar, Footer } from "../components";
 
 const SAMPLE_DRAWS_ENDPOINT = "/api/sample/draws";
 
@@ -172,6 +172,7 @@ class HomePage extends Component {
             {renderSamples}
           </div>
         </div> */}
+       <Footer links={["contact us", "policy", "download"]} />
       </div>
     );
   }
