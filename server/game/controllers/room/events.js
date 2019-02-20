@@ -1,6 +1,8 @@
 
 module.exports = {
-    ENOUGH_PLAYERS: 'enough_players',
+    STARTING: 'start',
+    PLAYING: 'play',
     NOT_ENOUGH_PLAYERS: 'not_enough_players',
-    EMPTY_ROOM: 'empty_room'
+    EMPTY_ROOM: 'empty_room',
+    VOTE: 'vote',
 }

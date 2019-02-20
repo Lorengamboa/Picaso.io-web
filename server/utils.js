@@ -59,7 +59,7 @@ function isBlank(msg) {
  * @param {*} nickname
  */
 function valiteNickname(nickname) {
-  if (nickname === '' || nickname.length > 16) return false;
+  if (nickname === '' || nickname.length > 20) return false;
   return true;
 }
 

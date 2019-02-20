@@ -1,8 +1,8 @@
 "use strict";
 
-const logger = require("../logger");
-const gameManager = require("./game/manager");
-const { SOCKET_EVENTS } = require("./events");
+const logger = require("../../logger");
+const gameManager = require("../game/manager");
+const { SOCKET_EVENTS } = require("../events");
 
 /**
  * Starts the socket module

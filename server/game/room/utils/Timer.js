@@ -12,7 +12,7 @@ const Timer = function() {
     startCountdown: function(seconds, gameModeFnc) {
       var that = this;
       this.countdown = seconds;
-      this.intervalId = setInterval(() => {
+      this.timer.intervalId = setInterval(() => {
         that.io.to(that.name).emit(SOCKET_EVENTS.UPDATE_TIMER, that.countdown);
         if (that.countdown === 0) {
           that.timer.clearInterval();

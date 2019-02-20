@@ -7,7 +7,6 @@ const Socket = require('../Socket');
 const Chat = require("../chat");
 
 const {
-  changeGamePlay,
   createNewCanvas,
   requestRandomWord,
   persistDraw
@@ -41,40 +40,15 @@ class Room extends Socket {
   }
 
   /**
-   *
+   * Init function
    */
   init() {
+    this.currentWord = requestRandomWord();
+
+    // TODO: send game status individually
     this.io.emit(SOCKET_EVENTS.RETRIEVE_GAME_INFO, {
       roomTag: this.name
     });
-  }
-
-  /**
-   * PLAYING TIME -
-   */
-  start() {
-    this.currentWord = requestRandomWord();
-    this.io.to(this.name).emit(SOCKET_EVENTS.CURRENT_WORD, this.currentWord);
-    changeGamePlay.call(this,GAME_STATE.PLAYING,GAME_CONFIG.TIME_PLAYING_COUNTDOWN,this.vote);
-  }
-
-  /**
-   * VOTE TIME -
-   */
-  vote() {
-    const drawsBase64 = this.draws.map(draw => {
-      persistDraw(draw.canvas.getImageData());
-      return draw.canvas.getImageData();
-    });
-
-    this.io.to(this.name).emit(SOCKET_EVENTS.DISPLAY_ALL_DRAWS, drawsBase64);
-    
-    changeGamePlay.call(
-      this,
-      GAME_STATE.VOTING,
-      GAME_CONFIG.TIME_VOTING_COUNTDOWN,
-      this.start
-    );
   }
 
   /**
@@ -83,43 +57,31 @@ class Room extends Socket {
    */
   requestJoin(player) {
     const userColor = getRandomColor();
-
     return new Promise((resolve, reject) => {
-      if (this.players.length == process.env.MAX_PLAYERS_PER_ROOM)
-        return reject("5 PLAYER MAX PER ROOM");
+      if (this.players.length == process.env.MAX_PLAYERS_PER_ROOM) return reject("5 PLAYER MAX PER ROOM");
 
       player.socket.join(this.name);
       player.color = userColor;
 
       this.players.push(player);
       this.draws.push(createNewCanvas(player.id));
-
       this.updatePlayerJoined(player.name);
 
-      // start game 10s
-      if (this.gamePlay === GAME_STATE.WAITING && this.players.length === GAME_CONFIG.MIN_PLAYERS_START_GAME) this.emit('enough_players');
+      if (this.gamePlay === GAME_STATE.WAITING && this.players.length === GAME_CONFIG.MIN_PLAYERS_START_GAME) this.start();
       resolve();
     });
   }
 
+  /**
+   * Players leaves room!
+   * @param {*} player 
+   */
   requestLeave(player) {
     return new Promise((resolve, reject) => {
       try {
         player.socket.leave(this.name);
         this.informsPlayerLeft(player.id);
-
-        if (
-          this.gamePlay === GAME_STATE.PLAYING &&
-          this.players.length < GAME_CONFIG.MIN_PLAYERS_START_GAME
-        ) {
-          this.timer.clearInterval();
-          changeGamePlay.call(
-            this,
-            GAME_STATE.WAITING,
-            0,
-            null
-          );
-        }
+        if (this.gamePlay === GAME_STATE.PLAYING && this.players.length < GAME_CONFIG.MIN_PLAYERS_START_GAME) this.pause();
         resolve();
       } catch (error) {
         reject(error);
@@ -144,7 +106,7 @@ class Room extends Socket {
   }
 
   /**
-   *
+   * Updates client game state
    */
   updateGameState() {
     this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_GAME_STATE, this.gamePlay);
@@ -213,6 +175,46 @@ class Room extends Socket {
     );
     this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_USER_LIST, playerList);
   }
+
+    /*********************************************************************************/
+   /*                            GAME STATUS                                        */
+  /*********************************************************************************/
+
+  /**
+   * GAME STATE: START
+   */
+  start() {
+    this.emit('start');
+  }
+
+  /**
+   * GAME STATE: PLAY
+   */
+  play() {
+    this.io.to(this.name).emit(SOCKET_EVENTS.CURRENT_WORD, this.currentWord);
+    this.emit('play');
+  }
+
+  /**
+   * GAME STATE: PAUSE
+   */
+  pause() {
+    this.emit('pause')  
+  }
+
+  /**
+   * GAME STATE: VOTE
+   */
+  vote() {
+    const drawsBase64 = this.draws.map(draw => {
+      persistDraw(draw.canvas.getImageData());
+      return draw.canvas.getImageData();
+    });
+
+    this.io.to(this.name).emit(SOCKET_EVENTS.DISPLAY_ALL_DRAWS, drawsBase64);
+    this.emit('vote');
+  }
+
 }
 
 module.exports = Room;

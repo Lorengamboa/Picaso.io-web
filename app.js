@@ -6,25 +6,25 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 
-const database = require("./plugins/mongo");
+// const database = require("./services/mongo");
 const logger = require("./logger");
-const socketManager = require("./server/socketManager");
+const socketManager = require("./server/services/socket-service");
 
 const app = express();
 
 // app use
 app.use(express.static(path.join(__dirname, "public")));
 //use sessions for tracking logins
-app.use(
-  session({
-    secret: "work hard",
-    resave: true,
-    saveUninitialized: false,
-    store: new MongoStore({
-      mongooseConnection: database
-    })
-  })
-);
+// app.use(
+//   session({
+//     secret: "work hard",
+//     resave: true,
+//     saveUninitialized: false,
+//     store: new MongoStore({
+//       mongooseConnection: database
+//     })
+//   })
+// );
 
 // parse incoming requests
 app.use(bodyParser.json());

@@ -1,7 +1,7 @@
 'use strict';
 
 const uuidv1 = require('uuid/v1');
-const S3 = require("../../../services/AWSManager");
+const S3 = require("../../../services/AWS-service");
 
 const s3Bucket = new S3("picasso.io-dev");
 

@@ -5,24 +5,35 @@ const EVENTS = require("./events");
 
 /**
  * Attaches event listeners to the room instance
- * @param {*} game 
+ * @param {*} game
  */
 function attachEvents(game) {
-  game.on(EVENTS.ENOUGH_PLAYERS, () => {
+  //
+  game.on(EVENTS.STARTING, () => {
     changeGamePlay.call(
       game,
       GAME_STATE.STARTING,
       GAME_CONFIG.TIME_STARTING_COUNTDOWN,
-      game.start
+      game.play
     );
   });
-
-  game.on(EVENTS.NOT_ENOUGH_PLAYERS, () => {
-    console.log("enough players");
+  //
+  game.on(EVENTS.PLAYING, () => {
+    changeGamePlay.call(
+      game,
+      GAME_STATE.PLAYING,
+      GAME_CONFIG.TIME_PLAYING_COUNTDOWN,
+      game.vote
+    );
   });
-
-  game.on(EVENTS.EMPTY_ROOM, () => {
-    console.log("enough players");
+  //
+  game.on(EVENTS.VOTE, () => {
+    changeGamePlay.call(
+      game,
+      GAME_STATE.VOTING,
+      GAME_CONFIG.TIME_VOTING_COUNTDOWN,
+      game.play
+    );
   });
 }
 

@@ -5,7 +5,8 @@ const routes = {
     SEARCH: '/search',
     PLAY: "/play",
     CREATE: "/create",
-    GAME: "/game/:roomId"
+    GAME: "/game/:roomId",
+    SETTINGS: "/settings"
   };
 
 export default routes;

@@ -4,7 +4,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Grid } from "semantic-ui-react";
 // import { Divider, Loader, Image, Header, Icon } from 'semantic-ui-react'
-import Button from "@material-ui/core/Button";
 
 import { setUsername, openPlayerSocketConnection } from "../core/player/playerActions";
 import { InputText, PrimaryButton, Navbar } from "../components";
@@ -34,6 +33,7 @@ class HomePage extends Component {
     this.onPlayButtonClick = this.onPlayButtonClick.bind(this);
     this.onSearchButtonClick = this.onSearchButtonClick.bind(this);
     this.onCreateButtonClick = this.onCreateButtonClick.bind(this);
+    this.onSettingsButtonClick = this.onSettingsButtonClick.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -58,16 +58,28 @@ class HomePage extends Component {
     this.props.history.push("/play");
   }
 
+  /**
+   * Find existing games!
+   */
   onSearchButtonClick() {
     this.props.history.push("/search");
   }
 
   /**
-   * Create new game with certain settings
+   * Create new game!
    */
   onCreateButtonClick() {
     this.props.history.push("/create");
   }
+
+  /**
+   * Set your config games!
+   */
+  onSettingsButtonClick() {
+    this.props.history.push("/settings");
+  }
+
+  
 
   /**
    * If enter key button has been pressed it will trigger
@@ -145,7 +157,7 @@ class HomePage extends Component {
                   color="grey"
                   className="btn-roundy"
                   value="settings"
-                  onClick={this.onCreateButtonClick}
+                  onClick={this.onSettingsButtonClick}
                 />
               </Grid.Column>
             </Grid.Row>
