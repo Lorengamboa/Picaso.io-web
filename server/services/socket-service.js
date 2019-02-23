@@ -2,8 +2,8 @@
 
 const logger = require("../../logger");
 const gameManager = require("../game/manager");
-const { SOCKET_EVENTS } = require("../events");
-
+const { SOCKET_EVENTS } = require("../constants/socket-events");
+const message = require("../constants/log-msg");
 /**
  * Starts the socket module
  * @param {Object} http
@@ -23,12 +23,12 @@ module.exports = {
           .then(nplayer => {
             player = nplayer;
             socket.emit(SOCKET_EVENTS.CONNECTION_RESULT, true);
-            logger.sockets.info("👨 - ✅  Socket connection openned");
+            logger.sockets.info(message.LOG_SOCKET_SUCCESSFULL_CONNECTION + player);
           })
           .catch(err => {
             socket.disconnect();
             socket.emit(SOCKET_EVENTS.CONNECTION_RESULT, false);
-            logger.sockets.error("👨 - ❌  Socket connection failed: " + err);
+            logger.sockets.error(message.LOG_SOCKET_FAIL_CONNECTION + err);
           });
       });
 
@@ -41,12 +41,12 @@ module.exports = {
             .then(nplayer => {
               player = nplayer;
               socket.emit(SOCKET_EVENTS.CONNECTION_RESULT, true);
-              logger.sockets.info("👨 - ✅  Socket connection openned");
+              logger.sockets.info(message.LOG_SOCKET_SUCCESSFULL_CONNECTION + player);
             })
             .catch(err => {
               socket.emit(SOCKET_EVENTS.CONNECTION_RESULT, false);
               socket.disconnect();
-              logger.sockets.error("👨 - ❌  Socket connection failed: " + err);
+              logger.sockets.error(message.LOG_SOCKET_FAIL_CONNECTION + err);
             });
         }
       );
@@ -58,11 +58,11 @@ module.exports = {
           .playerLeaveRoom(player)
           .then(player => {
             player = null;
-            logger.sockets.info("👨- ✅  Player leaves room") + player;
+            logger.sockets.info(message.LOG_PLAYER_LEAVES_SUCCESS + player);
           })
           .catch(err => {
             socket.disconnect();
-            logger.sockets.error("👨- ❌ Player leaves room: " + err);
+            logger.sockets.error(message.LOG_PLAYER_LEAVES_SUCCESS + err);
           });
       });
 
@@ -72,11 +72,11 @@ module.exports = {
           .playerCreatesGame(settings, socket)
           .then(nplayer => {
             player = nplayer;
-            logger.sockets.info("🎮 - ✅  Player creates game");
+            logger.sockets.info(message.LOG_PLAYER_CREATES_ROOM_SUCCESS + player);
           })
           .catch(err => {
             socket.disconnect();
-            logger.sockets.error("🎮 - ❌ Failed creating game: " + err);
+            logger.sockets.error(message.LOG_PLAYER_CREATES_ROOM_FAIL + err);
           });
       });
     });

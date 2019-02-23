@@ -10,6 +10,7 @@ module.exports.SOCKET_EVENTS = {
   PLAYER_LEAVE_GAMEROOM: 'leaveGameRoom',
   PLAYER_SEND_MESSAGE: 'sendMessage',
   PLAYER_DRAWING: 'drawing',
+  PLAYER_VOTES_DRAW: 'playerVotesDraw',
   DISCONNECT: 'disconnect',
   UPDATE_CHAT_PLAYER_MESSAGE: 'playerMessage',
   UPDATE_CHAT_INFORM_MESSAGE: 'generalMessage',
@@ -20,5 +21,5 @@ module.exports.SOCKET_EVENTS = {
   UPDATE_GAME_STATE: 'updateGameState',
   DISPLAY_ALL_DRAWS: 'playerDraws',
   CURRENT_WORD: 'currentWord',
-  AVAILABLE_GAMES: 'availableGames'
+  AVAILABLE_GAMES: 'availableGames',
 }

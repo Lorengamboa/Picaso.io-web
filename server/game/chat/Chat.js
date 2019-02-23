@@ -4,7 +4,7 @@ var Filter = require('bad-words/lib/badwords');
 
 const Socket = require('../Socket');
 const MESSAGE_CONF = require('../config/chat_conf');
-const { SOCKET_EVENTS } = require('../../events');
+const { SOCKET_EVENTS } = require('../../constants/socket-events');
 
 const filter = new Filter();
 

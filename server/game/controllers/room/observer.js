@@ -8,7 +8,7 @@ const EVENTS = require("./events");
  * @param {*} game
  */
 function attachEvents(game) {
-  //
+  // GAME ABOUT TO START!
   game.on(EVENTS.STARTING, () => {
     changeGamePlay.call(
       game,
@@ -17,7 +17,7 @@ function attachEvents(game) {
       game.play
     );
   });
-  //
+  // START PLAYING!
   game.on(EVENTS.PLAYING, () => {
     changeGamePlay.call(
       game,
@@ -26,7 +26,7 @@ function attachEvents(game) {
       game.vote
     );
   });
-  //
+  // START VOTING!
   game.on(EVENTS.VOTE, () => {
     changeGamePlay.call(
       game,
@@ -34,6 +34,11 @@ function attachEvents(game) {
       GAME_CONFIG.TIME_VOTING_COUNTDOWN,
       game.play
     );
+  });
+  // PAUSE GAME!
+  game.on(EVENTS.PAUSE, () => {
+    game.timer.clearInterval();
+    game.status = GAME_STATE.PAUSED;
   });
 }
 

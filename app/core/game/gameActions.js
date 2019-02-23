@@ -36,6 +36,7 @@ export function updateTimer(data) {
  * @param {*} data 
  */
 export function updateGameState(data) {
+  console.log(data)
   return {
     type: ACTIONS.UPDATE_GAME_STATE,
     payload: data

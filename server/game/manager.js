@@ -8,10 +8,10 @@ const list_names = require("./config/names");
 
 /**
  * Object controller in charge of managing the player join/leave flow
- * @param {Object} socket
+ * @param {Object} socketio
  */
-const gameManager = socket => {
-  const io = socket;
+const gameManager = socketio => {
+  const io = socketio;
   return {
     // All games available
     games: {
