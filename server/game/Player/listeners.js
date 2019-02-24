@@ -20,8 +20,9 @@ function attachListeners() {
   this.socket.on(SOCKET_EVENTS.PLAYER_SEND_MESSAGE, msg => {
     this.gameroom.playerSendsMessage(this.id, msg);
   });
-  //
-  this.socket.on(SOCKET_EVENTS.PLAYER_VOTES_DRAW, ({draw, feedback}) => {
+  // Player votes for a specific draw
+  this.socket.on(SOCKET_EVENTS.PLAYER_VOTES_DRAW, (data) => {
+    const { draw, feedback } = data;
     this.gameroom.playerVoteDraw(this.id, draw, feedback);
   });
 }

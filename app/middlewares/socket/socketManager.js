@@ -44,6 +44,14 @@ class SocketManager {
   }
 
   /**
+   * 
+   * @param {*} data 
+   */
+  voteDraw(data) {
+    this.socket.emit(S.EMITTER.PLAYER_VOTES_DRAW, data);
+  }
+
+  /**
    * Makes a draw action over the canvas
    * @param {*} data
    */

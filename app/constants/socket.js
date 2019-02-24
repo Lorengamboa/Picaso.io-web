@@ -35,6 +35,7 @@ const SOCKET_EVENTS = {
     PLAYER_LEAVE_GAMEROOM: "leaveGameRoom",
     PLAYER_SEND_MESSAGE: "sendMessage",
     PLAYER_DRAWING: "drawing",
+    PLAYER_VOTES_DRAW: 'playerVotesDraw',
     CLEAR_CANVAS: "clearCanvas",
     PLAYER_DISCONNECT: "disconnect"
   }

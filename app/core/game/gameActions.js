@@ -36,7 +36,6 @@ export function updateTimer(data) {
  * @param {*} data 
  */
 export function updateGameState(data) {
-  console.log(data)
   return {
     type: ACTIONS.UPDATE_GAME_STATE,
     payload: data
@@ -150,6 +149,19 @@ export function clearCanvas() {
     type: ACTIONS.PLAYER_CLEAR_CANVAS,
   };
 }
+
+/**
+ * 
+ * @param {*} draw 
+ * @param {*} feedback 
+ */
+export function voteDraw(draw, feedback) {
+  return {
+    type: ACTIONS.PLAYER_VOTE_DRAW,
+    payload: { draw, feedback }
+  };
+}
+
 
 /**
  * 

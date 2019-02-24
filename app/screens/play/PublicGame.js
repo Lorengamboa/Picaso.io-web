@@ -14,7 +14,7 @@ import ToolPaint from "../../containers/ToolPaint";
 
 import { Navbar, Timer } from "../../components";
 
-import { playerDrawCanvas } from "../../core/game/gameActions";
+import { playerDrawCanvas, voteDraw } from "../../core/game/gameActions";
 import { is_touch_device } from "../../utils";
 
 /**
@@ -36,7 +36,8 @@ class PublicGame extends Component {
       drawData: null
     };
 
-    this.init();
+
+    this.deckRef = React.createRef();
 
     // Events
     this.handleDisplayMouseMove = this.handleDisplayMouseMove.bind(this);
@@ -45,6 +46,8 @@ class PublicGame extends Component {
     this.setPrevPosition = this.setPrevPosition.bind(this);
     this.setCurrentPosition = this.setCurrentPosition.bind(this);
     this.drawCoordinates = this.drawCoordinates.bind(this);
+
+    this.init();
   }
 
   init() {
@@ -152,13 +155,29 @@ class PublicGame extends Component {
     function onstackendfn(res) {
       console.log("onstackedfn", res);
     }
+
+    function accept() {
+      const { items, current } = this.deckRef.current.state.stack;
+      this.props.voteDraw(items[current].id, 1)
+      this.deckRef.current.state.stack.accept();
+    }
+
+    function reject() {
+      const { items, current } = this.deckRef.current.state.stack;
+      this.props.voteDraw(items[current].id, 0)
+      this.deckRef.current.state.stack.reject();
+    }
+
     return (
       <div>
         <Reactcardstack
+          ref={this.deckRef}
           images={this.props.playersDraw}
           onstackendfn={onstackendfn.bind(this)}
           cancelIcon="/assets/img/tools/thumbs-up.svg"
           acceptIcon="/assets/img/tools/thumbs-down.svg"
+          accept={accept.bind(this)}
+          reject={reject.bind(this)}
         />
       </div>
     );
@@ -268,6 +287,9 @@ const mapDispatchToProps = dispatch => {
   return {
     playerDrawCanvas: data => {
       dispatch(playerDrawCanvas(data));
+    },
+    voteDraw: (draw, feedback) => {
+      dispatch(voteDraw(draw, feedback))
     }
   };
 };

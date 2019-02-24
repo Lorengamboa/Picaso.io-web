@@ -43,10 +43,9 @@ class Room extends Socket {
   }
 
   /**
-   *  
+   *
    */
   manageFlow() {
-
     if (
       this.status === GAME_STATE.PAUSED &&
       this.players.length === GAME_CONFIG.MIN_PLAYERS_START_GAME
@@ -80,7 +79,11 @@ class Room extends Socket {
       this.draws.push(GameFactory(player.id));
       this.updatePlayerJoined(player.name);
 
-      if (this.status === GAME_STATE.WAITING && this.players.length === GAME_CONFIG.MIN_PLAYERS_START_GAME) return this.start();
+      if (
+        this.status === GAME_STATE.WAITING &&
+        this.players.length === GAME_CONFIG.MIN_PLAYERS_START_GAME
+      )
+        return this.start();
 
       player.socket.emit(SOCKET_EVENTS.RETRIEVE_GAME_INFO, {
         roomTag: this.name
@@ -147,29 +150,6 @@ class Room extends Socket {
     this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_USER_LIST, playerList);
   }
 
-  /*********************************************************************************/
-  /*                          PLAYER ACTIONS                                       */
-  /*********************************************************************************/
-
-  /**
-   * Shows the message the player sent to the whole room
-   * @param {String} username
-   * @param {String} msg
-   */
-  playerSendsMessage(id, msg) {
-    if (isBlank(msg) || msg.length > CHAT_CONF.MAX_MESSAGE_LENGTH || !id)
-      return;
-
-    const player = _.find(this.players, { id });
-    const filterPlayer = {
-      name: player.name,
-      color: player.color,
-      avatar: player.avatar
-    };
-
-    this.chatRoom.sendMessageToAll(filterPlayer, msg);
-  }
-
   /**
    * Informs the chatlist that a new player joinned the room
    * @param {Number} id
@@ -195,6 +175,29 @@ class Room extends Socket {
     this.updateChatlist();
 
     this.chatRoom.informPlayerLeft(playerToRemove.name);
+  }
+
+  /*********************************************************************************/
+  /*                          PLAYER ACTIONS                                       */
+  /*********************************************************************************/
+
+  /**
+   * Shows the message the player sent to the whole room
+   * @param {String} username
+   * @param {String} msg
+   */
+  playerSendsMessage(id, msg) {
+    if (isBlank(msg) || msg.length > CHAT_CONF.MAX_MESSAGE_LENGTH || !id)
+      return;
+
+    const player = _.find(this.players, { id });
+    const filterPlayer = {
+      name: player.name,
+      color: player.color,
+      avatar: player.avatar
+    };
+
+    this.chatRoom.sendMessageToAll(filterPlayer, msg);
   }
 
   /**
@@ -238,8 +241,11 @@ class Room extends Socket {
    */
   vote() {
     const drawsBase64 = this.draws.map(draw => {
-      persistDraw(draw.canvas.getImageData());
-      return draw.canvas.getImageData();
+      const imageData = draw.canvas.getImageData();
+      const idDraw = draw.id;
+      persistDraw(imageData);
+
+      return { id: idDraw, imageData };
     });
 
     this.io.to(this.name).emit(SOCKET_EVENTS.DISPLAY_ALL_DRAWS, drawsBase64);

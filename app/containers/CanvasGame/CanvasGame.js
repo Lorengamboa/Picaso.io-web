@@ -35,7 +35,7 @@ class Canvas extends Component {
   }
   
   componentDidMount() {
-    console.log("updating")
+    // console.log("updating")
   }
   /**
    * Clears canvas to blank

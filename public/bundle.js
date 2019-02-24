@@ -30329,6 +30329,7 @@
 	var PLAYER_DRAW_CANVAS = exports.PLAYER_DRAW_CANVAS = 'playerDrawCanvas';
 	var PLAYER_CLEAR_CANVAS = exports.PLAYER_CLEAR_CANVAS = 'clearCanvas';
 	var UPDATE_GAME_STATE = exports.UPDATE_GAME_STATE = 'updateGameState';
+	var PLAYER_VOTE_DRAW = exports.PLAYER_VOTE_DRAW = 'playerVoteDraw';
 	var DISPLAY_PLAYERS_DRAW = exports.DISPLAY_PLAYERS_DRAW = 'displayPlayersDraw';
 	var DISPLAY_CURRENT_WORD = exports.DISPLAY_CURRENT_WORD = 'displayCurrentWord';
 	var DISCONNECT_GAME_ROOM = exports.DISCONNECT_GAME_ROOM = 'disconnectGameRoom';
@@ -30402,7 +30403,7 @@
 
 	var SocketMiddleware = function SocketMiddleware(url) {
 	  return function (store) {
-	    var sm = void 0; // SocketManage  
+	    var sm = void 0; // SocketManage
 	    return function (next) {
 	      return function (action) {
 	        // When dispatching a redux action.
@@ -30433,6 +30434,9 @@
 	            break;
 	          case _actions2.PLAYER_CLEAR_CANVAS:
 	            sm.clearCanvas();
+	            break;
+	          case _actions2.PLAYER_VOTE_DRAW:
+	            sm.voteDraw(action.payload);
 	            break;
 	          default:
 	            next(action);
@@ -39881,6 +39885,17 @@
 	    }
 
 	    /**
+	     * 
+	     * @param {*} data 
+	     */
+
+	  }, {
+	    key: "voteDraw",
+	    value: function voteDraw(data) {
+	      this.socket.emit(_socket2.default.EMITTER.PLAYER_VOTES_DRAW, data);
+	    }
+
+	    /**
 	     * Makes a draw action over the canvas
 	     * @param {*} data
 	     */
@@ -39987,6 +40002,7 @@
 	    PLAYER_LEAVE_GAMEROOM: "leaveGameRoom",
 	    PLAYER_SEND_MESSAGE: "sendMessage",
 	    PLAYER_DRAWING: "drawing",
+	    PLAYER_VOTES_DRAW: 'playerVotesDraw',
 	    CLEAR_CANVAS: "clearCanvas",
 	    PLAYER_DISCONNECT: "disconnect"
 	  }
@@ -40017,6 +40033,7 @@
 	exports.playerSendMessage = playerSendMessage;
 	exports.playerDrawCanvas = playerDrawCanvas;
 	exports.clearCanvas = clearCanvas;
+	exports.voteDraw = voteDraw;
 	exports.disconnectGameRoom = disconnectGameRoom;
 	exports.toggleExpand = toggleExpand;
 
@@ -40070,7 +40087,6 @@
 	 * @param {*} data 
 	 */
 	function updateGameState(data) {
-	  console.log(data);
 	  return {
 	    type: ACTIONS.UPDATE_GAME_STATE,
 	    payload: data
@@ -40182,6 +40198,18 @@
 	function clearCanvas() {
 	  return {
 	    type: ACTIONS.PLAYER_CLEAR_CANVAS
+	  };
+	}
+
+	/**
+	 * 
+	 * @param {*} draw 
+	 * @param {*} feedback 
+	 */
+	function voteDraw(draw, feedback) {
+	  return {
+	    type: ACTIONS.PLAYER_VOTE_DRAW,
+	    payload: { draw: draw, feedback: feedback }
 	  };
 	}
 
@@ -83442,7 +83470,7 @@
 	      drawData: null
 	    };
 
-	    _this.init();
+	    _this.deckRef = _react2.default.createRef();
 
 	    // Events
 	    _this.handleDisplayMouseMove = _this.handleDisplayMouseMove.bind(_this);
@@ -83451,6 +83479,8 @@
 	    _this.setPrevPosition = _this.setPrevPosition.bind(_this);
 	    _this.setCurrentPosition = _this.setCurrentPosition.bind(_this);
 	    _this.drawCoordinates = _this.drawCoordinates.bind(_this);
+
+	    _this.init();
 	    return _this;
 	  }
 
@@ -83589,11 +83619,33 @@
 	      function onstackendfn(res) {
 	        console.log("onstackedfn", res);
 	      }
+
+	      function accept() {
+	        var _deckRef$current$stat = this.deckRef.current.state.stack,
+	            items = _deckRef$current$stat.items,
+	            current = _deckRef$current$stat.current;
+
+	        this.props.voteDraw(items[current].id, 1);
+	        this.deckRef.current.state.stack.accept();
+	      }
+
+	      function reject() {
+	        var _deckRef$current$stat2 = this.deckRef.current.state.stack,
+	            items = _deckRef$current$stat2.items,
+	            current = _deckRef$current$stat2.current;
+
+	        this.props.voteDraw(items[current].id, 0);
+	        this.deckRef.current.state.stack.reject();
+	      }
+
 	      return _react2.default.createElement("div", null, _react2.default.createElement(_src2.default, {
+	        ref: this.deckRef,
 	        images: this.props.playersDraw,
 	        onstackendfn: onstackendfn.bind(this),
 	        cancelIcon: "/assets/img/tools/thumbs-up.svg",
-	        acceptIcon: "/assets/img/tools/thumbs-down.svg"
+	        acceptIcon: "/assets/img/tools/thumbs-down.svg",
+	        accept: accept.bind(this),
+	        reject: reject.bind(this)
 	      }));
 	    }
 	  }, {
@@ -83652,6 +83704,9 @@
 	  return {
 	    playerDrawCanvas: function playerDrawCanvas(data) {
 	      dispatch((0, _gameActions.playerDrawCanvas)(data));
+	    },
+	    voteDraw: function voteDraw(draw, feedback) {
+	      dispatch((0, _gameActions.voteDraw)(draw, feedback));
 	    }
 	  };
 	};
@@ -86868,8 +86923,6 @@
 	      postivebtnclass: undefined,
 	      negativebtnclass: undefined
 	    };
-	    _this.reject = _this.reject.bind(_this);
-	    _this.accept = _this.accept.bind(_this);
 	    _this.onEndStack = _this.onEndStack.bind(_this);
 	    return _this;
 	  }
@@ -86904,23 +86957,11 @@
 	      this.props.onstackendfn();
 	    }
 	  }, {
-	    key: 'reject',
-	    value: function reject() {
-	      var stack = this.state.stack;
-	      stack.reject();
-	    }
-	  }, {
-	    key: 'accept',
-	    value: function accept() {
-	      var stack = this.state.stack;
-	      stack.accept();
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement('div', { className: 'stack-container' }, _react2.default.createElement('ul', { id: 'stack', className: 'stack stack--' + this.state.effect }, this.state.imgs && this.state.imgs.map(function (img, i) {
-	        return _react2.default.createElement('li', { key: i, className: 'stack__item' }, _react2.default.createElement('img', { src: img }));
-	      })), _react2.default.createElement('div', { className: 'controls' }, _react2.default.createElement('div', null, _react2.default.createElement('p', { className: this.state.queryclass }, this.state.query), _react2.default.createElement('img', { className: 'icon-tool', src: this.props.cancelIcon, onClick: this.reject }), _react2.default.createElement('img', { className: 'icon-tool', src: this.props.acceptIcon, onClick: this.accept }))));
+	        return _react2.default.createElement('li', { id: img.id, key: img.id, className: 'stack__item' }, _react2.default.createElement('img', { src: img.imageData }));
+	      })), _react2.default.createElement('div', { className: 'controls' }, _react2.default.createElement('div', null, _react2.default.createElement('p', { className: this.state.queryclass }, this.state.query), _react2.default.createElement('img', { className: 'icon-tool', src: this.props.cancelIcon, onClick: this.props.reject }), _react2.default.createElement('img', { className: 'icon-tool', src: this.props.acceptIcon, onClick: this.props.accept }))));
 	    }
 	  }]);
 
@@ -93598,9 +93639,9 @@
 	    }
 	  }, {
 	    key: "componentDidMount",
-	    value: function componentDidMount() {
-	      console.log("updating");
-	    }
+	    value: function componentDidMount() {}
+	    // console.log("updating")
+
 	    /**
 	     * Clears canvas to blank
 	     */
