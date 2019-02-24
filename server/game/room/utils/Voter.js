@@ -1,20 +1,31 @@
-
+const _ = require("lodash");
 
 
 /**
  * @class Voter
- * 
+ *
  */
 class Voter {
-    constructor(draws) {
-        this.draws = draws;
-    }
+  constructor(draws) {
+    this.draws = draws;
+  }
 
-    resetVoting() {
-        this.draws = [];
-    }
-    
-    rateDraw(draw, rate) {
+  resetVotes() {
+    // this.draws = [];
+  }
 
+  rateDraw(voter, idDraw, rate) {
+      if(_.find(this.draws, {voters: voter})) return; //
+
+      const position = this.draws.findIndex(el => {
+        return el.id === idDraw
+      });
+
+      this.draws[position].voters.push(voter);
+      this.draws[position].points += rate;
+      console.log(this.draws[position]);
     }
-}
+  }
+
+
+module.exports = Voter;

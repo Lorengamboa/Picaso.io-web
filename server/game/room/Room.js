@@ -4,6 +4,7 @@ const _ = require("lodash");
 
 const Socket = require("../Socket");
 const Chat = require("../chat");
+const Voter = require("./utils/Voter");
 const events = require("../controllers/room/events");
 const { requestRandomWord, persistDraw } = require("./services");
 const GameFactory = require("./GameFactory");
@@ -29,6 +30,7 @@ class Room extends Socket {
     this.currentPlayer;
     this.scores = [];
     this.chatRoom = new Chat(this.io, this.name);
+    this.voter = null;
     this.timer = Timer();
     this.status = GAME_STATE.WAITING;
 
@@ -206,8 +208,13 @@ class Room extends Socket {
    * @param {*} draw
    * @param {*} feedback
    */
-  playerVoteDraw(id, draw, feedback) {
-    console.log(id, draw, feedback);
+  playerVoteDraw(socket, draw, feedback) {
+    if(socket === draw) return;
+
+    //
+    if(_.find(this.draws, {id: draw})) {
+      this.voter.rateDraw(socket, draw, feedback);
+    }
   }
 
   /*********************************************************************************/
@@ -248,6 +255,11 @@ class Room extends Socket {
       return { id: idDraw, imageData };
     });
 
+    const idDraws = this.draws.map(draw => {
+      return { id: draw.id, voters: [], points: 0}
+    });
+
+    this.voter = new Voter(idDraws);
     this.io.to(this.name).emit(SOCKET_EVENTS.DISPLAY_ALL_DRAWS, drawsBase64);
     this.emit("vote");
   }

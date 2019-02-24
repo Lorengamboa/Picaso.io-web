@@ -174,8 +174,8 @@ class PublicGame extends Component {
           ref={this.deckRef}
           images={this.props.playersDraw}
           onstackendfn={onstackendfn.bind(this)}
-          cancelIcon="/assets/img/tools/thumbs-up.svg"
-          acceptIcon="/assets/img/tools/thumbs-down.svg"
+          cancelIcon="/assets/img/tools/thumbs-down.svg"
+          acceptIcon="/assets/img/tools/thumbs-up.svg"
           accept={accept.bind(this)}
           reject={reject.bind(this)}
         />
