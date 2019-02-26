@@ -40,6 +40,12 @@ function attachEvents(game) {
     game.timer.clearInterval();
     game.status = GAME_STATE.PAUSED;
   });
+  // FINISH GAME!
+  game.on(EVENTS.FINISH, () => {
+    game.timer.clearInterval();
+    game.status = GAME_STATE.FINISHED;
+  });
 }
+
 
 module.exports = attachEvents;

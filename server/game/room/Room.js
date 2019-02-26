@@ -29,9 +29,10 @@ class Room extends Socket {
     this.currentWord = null;
     this.currentPlayer;
     this.scores = [];
-    this.chatRoom = new Chat(this.io, this.name);
+    this.chatRoom = null;
     this.voter = null;
-    this.timer = Timer();
+    this.round = 0;
+    this.timer = null;
     this.status = GAME_STATE.WAITING;
 
     this.init();
@@ -42,12 +43,20 @@ class Room extends Socket {
    */
   init() {
     this.currentWord = requestRandomWord();
+    this.timer = Timer();
+    this.chatRoom = new Chat(this.io, this.name);
   }
 
   /**
    *
    */
   manageFlow() {
+    if (
+      this.status === GAME_STATE.WAITING &&
+      this.players.length === GAME_CONFIG.MIN_PLAYERS_START_GAME
+    )
+      return this.start();
+
     if (
       this.status === GAME_STATE.PAUSED &&
       this.players.length === GAME_CONFIG.MIN_PLAYERS_START_GAME
@@ -58,6 +67,13 @@ class Room extends Socket {
       this.players.length < GAME_CONFIG.MIN_PLAYERS_START_GAME
     )
       return this.pause();
+  }
+
+  /**
+   *
+   */
+  addRound() {
+    this.round += 1;
   }
 
   /*********************************************************************************/
@@ -80,13 +96,7 @@ class Room extends Socket {
       this.players.push(player);
       this.draws.push(GameFactory(player.id));
       this.updatePlayerJoined(player.name);
-
-      if (
-        this.status === GAME_STATE.WAITING &&
-        this.players.length === GAME_CONFIG.MIN_PLAYERS_START_GAME
-      )
-        return this.start();
-
+      this.manageFlow();
       player.socket.emit(SOCKET_EVENTS.RETRIEVE_GAME_INFO, {
         roomTag: this.name
       });
@@ -149,6 +159,7 @@ class Room extends Socket {
       this.players,
       _.partialRight(_.pick, ["name", "color", "avatar"])
     );
+
     this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_USER_LIST, playerList);
   }
 
@@ -209,16 +220,22 @@ class Room extends Socket {
    * @param {*} feedback
    */
   playerVoteDraw(socket, draw, feedback) {
-    if(socket === draw) return;
+    if (socket === draw) return;
 
     //
-    if(_.find(this.draws, {id: draw})) {
+    if (_.find(this.draws, { id: draw })) {
       this.voter.rateDraw(socket, draw, feedback);
     }
   }
 
   /*********************************************************************************/
-  /*                            GAME STATUS                                        */
+  /*                        GAME STATUS INTERFACE                                  */
+  /*********************************************************************************/
+  /* 1. Start                                                                      */
+  /* 2. Play                                                                       */
+  /* 3. Pause                                                                      */
+  /* 4. Vote                                                                       */
+  /* 5. Finish                                                                     */
   /*********************************************************************************/
 
   /**
@@ -232,8 +249,11 @@ class Room extends Socket {
    * GAME STATE: PLAY
    */
   play() {
+    if (this.round === GAME_CONFIG.NUMBER_OF_ROUNDS) return this.finish();
+
     this.io.to(this.name).emit(SOCKET_EVENTS.CURRENT_WORD, this.currentWord);
     this.emit(events.PLAYING);
+    this.addRound();
   }
 
   /**
@@ -247,21 +267,31 @@ class Room extends Socket {
    * GAME STATE: VOTE
    */
   vote() {
-    const drawsBase64 = this.draws.map(draw => {
-      const imageData = draw.canvas.getImageData();
-      const idDraw = draw.id;
-      persistDraw(imageData);
+    const drawsBase64 = this.draws
+      .filter(draw => !draw.canvas.isBlank())
+      .map(draw => {
+        const imageData = draw.canvas.getImageData();
+        const idDraw = draw.id;
 
-      return { id: idDraw, imageData };
-    });
+        persistDraw(imageData);
+
+        return { id: idDraw, imageData };
+      });
 
     const idDraws = this.draws.map(draw => {
-      return { id: draw.id, voters: [], points: 0}
+      return { id: draw.id, voters: [], points: 0 };
     });
 
     this.voter = new Voter(idDraws);
     this.io.to(this.name).emit(SOCKET_EVENTS.DISPLAY_ALL_DRAWS, drawsBase64);
     this.emit("vote");
+  }
+
+  /**
+   * GAME STATE: FINISH
+   */
+  finish() {
+    this.emit(events.FINISH);
   }
 }
 

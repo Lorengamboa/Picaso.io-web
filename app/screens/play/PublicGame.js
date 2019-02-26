@@ -170,6 +170,7 @@ class PublicGame extends Component {
 
     return (
       <div>
+        <Timer className="timer" time={this.props.countDown} />
         <Reactcardstack
           ref={this.deckRef}
           images={this.props.playersDraw}

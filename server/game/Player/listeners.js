@@ -10,7 +10,7 @@ function attachListeners() {
   });
   // Clears canvas
   this.socket.on(SOCKET_EVENTS.CLEAR_CANVAS, () => {
-    this.gameroom.clearPlayerCanvas(socket);
+    this.gameroom.clearPlayerCanvas(this.socket);
   });
   // Player sends a msg to the entire chatroom
   this.socket.on(SOCKET_EVENTS.PLAYER_SEND_MESSAGE, msg => {

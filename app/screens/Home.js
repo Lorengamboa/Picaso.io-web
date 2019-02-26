@@ -125,7 +125,7 @@ class HomePage extends Component {
             <Grid.Column mobile={16} tablet={16} computer={16}>
               <InputText
                 className="input"
-                placeholder={this.state.placeholder}
+                placeholder="home.input"
                 onInputChange={this.onInputChange}
                 username={this.state.username}
                 onKeyPress={this.onSubmit}
@@ -135,7 +135,7 @@ class HomePage extends Component {
                 <PrimaryButton
                   color="red"
                   className="btn-roundy"
-                  value={this.state.buttonTxt}
+                  value="home.btn1"
                   onClick={this.onPlayButtonClick}
                 />
               </Grid.Column>
@@ -144,19 +144,19 @@ class HomePage extends Component {
                 <PrimaryButton
                   color="green"
                   className="btn-roundy"
-                  value={this.state.searchTxt}
+                  value="home.btn2"
                   onClick={this.onSearchButtonClick}
                 />
                 <PrimaryButton
                   color="blue"
                   className="btn-roundy"
-                  value={this.state.privateTxt}
+                  value="home.btn3"
                   onClick={this.onCreateButtonClick}
                 />
                 <PrimaryButton
                   color="grey"
                   className="btn-roundy"
-                  value="settings"
+                  value="home.btn4"
                   onClick={this.onSettingsButtonClick}
                 />
               </Grid.Column>

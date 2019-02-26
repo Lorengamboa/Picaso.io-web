@@ -23,7 +23,6 @@ class Voter {
 
       this.draws[position].voters.push(voter);
       this.draws[position].points += rate;
-      console.log(this.draws[position]);
     }
   }
 

@@ -6,4 +6,5 @@ module.exports = {
     NOT_ENOUGH_PLAYERS: 'not_enough_players',
     EMPTY_ROOM: 'empty_room',
     VOTE: 'vote',
+    FINISH: 'finish'
 }
