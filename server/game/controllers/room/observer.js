@@ -44,6 +44,7 @@ function attachEvents(game) {
   game.on(EVENTS.FINISH, () => {
     game.timer.clearInterval();
     game.status = GAME_STATE.FINISHED;
+    game.updateGameState();
   });
 }
 

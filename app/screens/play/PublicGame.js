@@ -36,7 +36,6 @@ class PublicGame extends Component {
       drawData: null
     };
 
-
     this.deckRef = React.createRef();
 
     // Events
@@ -158,17 +157,24 @@ class PublicGame extends Component {
 
     function accept() {
       const { items, current } = this.deckRef.current.state.stack;
-      this.props.voteDraw(items[current].id, 1)
+      this.props.voteDraw(items[current].id, 1);
       this.deckRef.current.state.stack.accept();
     }
 
     function reject() {
       const { items, current } = this.deckRef.current.state.stack;
-      this.props.voteDraw(items[current].id, 0)
+      this.props.voteDraw(items[current].id, 0);
       this.deckRef.current.state.stack.reject();
     }
 
+    if(this.props.playersDraw.length === 0) 
+      return <div>        
+        <Timer className="timer" time={this.props.countDown} />
+          Not draws!
+      </div>;
+
     return (
+      
       <div>
         <Timer className="timer" time={this.props.countDown} />
         <Reactcardstack
@@ -187,7 +193,7 @@ class PublicGame extends Component {
   render() {
     const roomUrl =
       "http://www.localhost:8080/game/" + this.props.gameInfo.roomTag;
-
+    console.log(this.props.gamePlay);
     return (
       <div id="play-site">
         <Navbar />
@@ -225,9 +231,27 @@ class PublicGame extends Component {
             </Grid.Column>
             {/* Middle column */}
             <Grid.Column mobile={16} tablet={10} computer={10}>
-              {this.props.gamePlay === "voting" ? (
+              {this.props.gamePlay === "voting" && 
                 <div className="row">{this.renderPlayerDraws()}</div>
-              ) : (
+              }
+              {this.props.gamePlay === "waitting" && 
+                <div>
+                <CanvasGame
+                  onMouseMove={this.handleDisplayMouseMove}
+                  onMouseDown={this.handleDisplayMouseDown}
+                />
+              </div>              
+            }
+            {this.props.gamePlay === "starting" && 
+                <div>
+                <Timer className="timer" time={this.props.countDown} />
+                <CanvasGame
+                  onMouseMove={this.handleDisplayMouseMove}
+                  onMouseDown={this.handleDisplayMouseDown}
+                />
+              </div>              
+            }
+              {this.props.gamePlay === "playing" && 
                 <div>
                   <Timer className="timer" time={this.props.countDown} />
                   <CanvasGame
@@ -235,7 +259,12 @@ class PublicGame extends Component {
                     onMouseDown={this.handleDisplayMouseDown}
                   />
                 </div>
-              )}
+              }
+              {this.props.gamePlay === "finished" && 
+                <div>
+                  <h1>finished</h1>
+                </div>
+              }
             </Grid.Column>
             {/* Right column */}
             <Grid.Column mobile={4} tablet={4} computer={4}>
@@ -290,7 +319,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(playerDrawCanvas(data));
     },
     voteDraw: (draw, feedback) => {
-      dispatch(voteDraw(draw, feedback))
+      dispatch(voteDraw(draw, feedback));
     }
   };
 };

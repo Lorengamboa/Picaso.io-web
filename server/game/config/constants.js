@@ -7,7 +7,8 @@ const GAME_STATE = {
   STARTING: 'starting',
   PLAYING: 'playing',
   VOTING: 'voting',
-  PAUSED: 'paused'
+  PAUSED: 'paused',
+  FINISHED: 'finished'
 };
 
 const GAME_AVATARS = ['andorian', 'anonymous','avatar2','kawaii','morty-smith','ninja-head','old-age','rick-sanchez','user-avatar', 'trump','tyler'];

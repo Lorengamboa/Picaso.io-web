@@ -89920,6 +89920,8 @@
 	        this.deckRef.current.state.stack.reject();
 	      }
 
+	      if (this.props.playersDraw.length === 0) return _react2.default.createElement("div", null, _react2.default.createElement(_components.Timer, { className: "timer", time: this.props.countDown }), "Not draws!");
+
 	      return _react2.default.createElement("div", null, _react2.default.createElement(_components.Timer, { className: "timer", time: this.props.countDown }), _react2.default.createElement(_src2.default, {
 	        ref: this.deckRef,
 	        images: this.props.playersDraw,
@@ -89934,11 +89936,17 @@
 	    key: "render",
 	    value: function render() {
 	      var roomUrl = "http://www.localhost:8080/game/" + this.props.gameInfo.roomTag;
-
-	      return _react2.default.createElement("div", { id: "play-site" }, _react2.default.createElement(_components.Navbar, null), _react2.default.createElement(_semanticUiReact.Grid, null, _react2.default.createElement(_PlayerList2.default, null), _react2.default.createElement(_semanticUiReact.Grid.Row, null, _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 16, tablet: 10, computer: 2 }, _react2.default.createElement(_ToolPaint2.default, null)), _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 16, tablet: 10, computer: 10 }, this.props.gamePlay === "voting" ? _react2.default.createElement("div", { className: "row" }, this.renderPlayerDraws()) : _react2.default.createElement("div", null, _react2.default.createElement(_components.Timer, { className: "timer", time: this.props.countDown }), _react2.default.createElement(_CanvasGame2.default, {
+	      console.log(this.props.gamePlay);
+	      return _react2.default.createElement("div", { id: "play-site" }, _react2.default.createElement(_components.Navbar, null), _react2.default.createElement(_semanticUiReact.Grid, null, _react2.default.createElement(_PlayerList2.default, null), _react2.default.createElement(_semanticUiReact.Grid.Row, null, _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 16, tablet: 10, computer: 2 }, _react2.default.createElement(_ToolPaint2.default, null)), _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 16, tablet: 10, computer: 10 }, this.props.gamePlay === "voting" && _react2.default.createElement("div", { className: "row" }, this.renderPlayerDraws()), this.props.gamePlay === "waitting" && _react2.default.createElement("div", null, _react2.default.createElement(_CanvasGame2.default, {
 	        onMouseMove: this.handleDisplayMouseMove,
 	        onMouseDown: this.handleDisplayMouseDown
-	      }))), _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 4, tablet: 4, computer: 4 }, _react2.default.createElement(_Chat2.default, null)))), _react2.default.createElement(_GeneralModal2.default, { visibility: this.props.modal }));
+	      })), this.props.gamePlay === "starting" && _react2.default.createElement("div", null, _react2.default.createElement(_components.Timer, { className: "timer", time: this.props.countDown }), _react2.default.createElement(_CanvasGame2.default, {
+	        onMouseMove: this.handleDisplayMouseMove,
+	        onMouseDown: this.handleDisplayMouseDown
+	      })), this.props.gamePlay === "playing" && _react2.default.createElement("div", null, _react2.default.createElement(_components.Timer, { className: "timer", time: this.props.countDown }), _react2.default.createElement(_CanvasGame2.default, {
+	        onMouseMove: this.handleDisplayMouseMove,
+	        onMouseDown: this.handleDisplayMouseDown
+	      })), this.props.gamePlay === "finished" && _react2.default.createElement("div", null, _react2.default.createElement("h1", null, "finished"))), _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 4, tablet: 4, computer: 4 }, _react2.default.createElement(_Chat2.default, null)))), _react2.default.createElement(_GeneralModal2.default, { visibility: this.props.modal }));
 	    }
 	  }]);
 
