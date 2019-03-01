@@ -88047,7 +88047,6 @@
 	    key: "renderTable",
 	    value: function renderTable() {
 	      if (!this.state.rooms === 0) return;
-	      console.log(this.state.rooms);
 
 	      return this.state.rooms.map(function (room) {
 	        return _react2.default.createElement(_semanticUiReact.Table.Row, null, _react2.default.createElement(_semanticUiReact.Table.Cell, null, room.name), _react2.default.createElement(_semanticUiReact.Table.Cell, null, room.players.length), _react2.default.createElement(_semanticUiReact.Table.Cell, null, _react2.default.createElement("a", { href: '/game/' + room.name }, "Enter")));
@@ -89899,7 +89898,7 @@
 	    key: "renderPlayerDraws",
 	    value: function renderPlayerDraws() {
 	      function onstackendfn(res) {
-	        console.log("onstackedfn", res);
+	        // console.log("onstackedfn", res);
 	      }
 
 	      function accept() {
@@ -89936,7 +89935,6 @@
 	    key: "render",
 	    value: function render() {
 	      var roomUrl = "http://www.localhost:8080/game/" + this.props.gameInfo.roomTag;
-	      console.log(this.props.gamePlay);
 	      return _react2.default.createElement("div", { id: "play-site" }, _react2.default.createElement(_components.Navbar, null), _react2.default.createElement(_semanticUiReact.Grid, null, _react2.default.createElement(_PlayerList2.default, null), _react2.default.createElement(_semanticUiReact.Grid.Row, null, _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 16, tablet: 10, computer: 2 }, _react2.default.createElement(_ToolPaint2.default, null)), _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 16, tablet: 10, computer: 10 }, this.props.gamePlay === "voting" && _react2.default.createElement("div", { className: "row" }, this.renderPlayerDraws()), this.props.gamePlay === "waitting" && _react2.default.createElement("div", null, _react2.default.createElement(_CanvasGame2.default, {
 	        onMouseMove: this.handleDisplayMouseMove,
 	        onMouseDown: this.handleDisplayMouseDown
@@ -99926,11 +99924,6 @@
 	        canvasUri: url
 	      });
 	    }
-	  }, {
-	    key: "componentDidMount",
-	    value: function componentDidMount() {}
-	    // console.log("updating")
-
 
 	    /**
 	     * Clears canvas to blank
@@ -100585,7 +100578,7 @@
 	    key: "drawPlayerList",
 	    value: function drawPlayerList() {
 	      return this.props.playerList.map(function (player, key) {
-	        return _react2.default.createElement(_semanticUiReact.List.Item, { key: key }, _react2.default.createElement(_semanticUiReact.Image, { avatar: true, src: '/assets/img/avatars/' + player.avatar + '.png' }), _react2.default.createElement(_semanticUiReact.List.Content, null, _react2.default.createElement(_semanticUiReact.List.Header, null, player.name), "0 points"));
+	        return _react2.default.createElement(_semanticUiReact.List.Item, { key: key }, _react2.default.createElement(_semanticUiReact.Image, { avatar: true, src: '/assets/img/avatars/' + player.avatar + '.png' }), _react2.default.createElement(_semanticUiReact.List.Content, null, _react2.default.createElement(_semanticUiReact.List.Header, null, player.name), player.points, " points"));
 	      });
 	    }
 	    //

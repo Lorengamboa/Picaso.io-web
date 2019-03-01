@@ -6,23 +6,33 @@ const _ = require("lodash");
  *
  */
 class Voter {
-  constructor(draws) {
-    this.draws = draws;
+  constructor() {
+    this.draws = {};
   }
 
+  /**
+   * 
+   */
   resetVotes() {
     // this.draws = [];
   }
 
-  rateDraw(voter, idDraw, rate) {
-      if(_.find(this.draws, {voters: voter})) return; //
+  /**
+   * 
+   */
+  addPlayer(idPlayer) {
+    this.draws[idPlayer] = {"voters": [], "points": 0};
+  }
 
-      const position = this.draws.findIndex(el => {
-        return el.id === idDraw
-      });
+  /**
+   * 
+   */
+  rateDraw(voter, idplayer, rate) {
+      const draw = this.draws[idplayer];
+      if(_.find(this.draws, {voters: voter}) || !draw) return; //
 
-      this.draws[position].voters.push(voter);
-      this.draws[position].points += rate;
+      draw.voters.push(voter);
+      draw.points += rate;
     }
   }
 

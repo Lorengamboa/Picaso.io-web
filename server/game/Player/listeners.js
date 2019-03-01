@@ -16,10 +16,6 @@ function attachListeners() {
   this.socket.on(SOCKET_EVENTS.PLAYER_SEND_MESSAGE, msg => {
     this.gameroom.playerSendsMessage(this.id, msg);
   });
-  // Player sends a msg to the entire chatroom
-  this.socket.on(SOCKET_EVENTS.PLAYER_SEND_MESSAGE, msg => {
-    this.gameroom.playerSendsMessage(this.id, msg);
-  });
   // Player votes for a specific draw
   this.socket.on(SOCKET_EVENTS.PLAYER_VOTES_DRAW, (data) => {
     const { draw, feedback } = data;

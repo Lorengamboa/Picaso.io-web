@@ -31,10 +31,6 @@ class Canvas extends Component {
       canvasUri: url
     });  
   }
-  
-  componentDidMount() {
-    // console.log("updating")
-  }
 
   /**
    * Clears canvas to blank

@@ -30,7 +30,7 @@ class Room extends Socket {
     this.currentPlayer;
     this.scores = [];
     this.chatRoom = null;
-    this.voter = null;
+    this.voters = null;
     this.round = 0;
     this.timer = null;
     this.status = GAME_STATE.WAITING;
@@ -45,6 +45,7 @@ class Room extends Socket {
     this.currentWord = requestRandomWord();
     this.timer = Timer();
     this.chatRoom = new Chat(this.io, this.name);
+    this.voters = new Voter();
   }
 
   /**
@@ -95,6 +96,8 @@ class Room extends Socket {
 
       this.players.push(player);
       this.draws.push(GameFactory(player.id));
+      this.voters.addPlayer(player.id);
+
       this.updatePlayerJoined(player.name);
       this.manageFlow();
       player.socket.emit(SOCKET_EVENTS.RETRIEVE_GAME_INFO, {
@@ -155,9 +158,15 @@ class Room extends Socket {
    * Updates all the room's players their userlist
    */
   updateChatlist() {
-    const playerList = _.map(
+
+    let playerList = this.players.map(player => {
+      const points = this.voters.draws[player.id].points;
+      return player.points = points;
+    });
+
+    playerList = _.map(
       this.players,
-      _.partialRight(_.pick, ["name", "color", "avatar"])
+      _.partialRight(_.pick, ["name", "color", "avatar", "points"])
     );
 
     this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_USER_LIST, playerList);
@@ -184,6 +193,7 @@ class Room extends Socket {
 
     _.remove(this.players, player => player.id == playerToRemove.id);
     _.remove(this.draws, draw => draw.id == playerToRemove.id);
+    _.remove(this.votes, voter => voter.id == playerToRemove.id);
 
     this.updateChatlist();
 
@@ -224,7 +234,7 @@ class Room extends Socket {
 
     //
     if (_.find(this.draws, { id: draw })) {
-      this.voter.rateDraw(socket, draw, feedback);
+      this.voters.rateDraw(socket, draw, feedback);
     }
   }
 
@@ -254,6 +264,7 @@ class Room extends Socket {
     this.io.to(this.name).emit(SOCKET_EVENTS.CURRENT_WORD, this.currentWord);
     this.emit(events.PLAYING);
     this.addRound();
+    this.updateChatlist();
   }
 
   /**
@@ -278,11 +289,7 @@ class Room extends Socket {
         return { id: idDraw, imageData };
       });
 
-    const idDraws = this.draws.map(draw => {
-      return { id: draw.id, voters: [], points: 0 };
-    });
-
-    this.voter = new Voter(idDraws);
+    // this.voter = new Voter(idDraws);
     this.io.to(this.name).emit(SOCKET_EVENTS.DISPLAY_ALL_DRAWS, drawsBase64);
     this.emit("vote");
   }

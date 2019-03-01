@@ -22,7 +22,7 @@ class PlayerList extends Component {
         <Image avatar src={'/assets/img/avatars/'+ player.avatar + '.png'} />
         <List.Content>
           <List.Header>{player.name}</List.Header>
-          0 points
+          {player.points} points
         </List.Content>
       </List.Item>
     ));

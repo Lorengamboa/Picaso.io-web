@@ -152,7 +152,7 @@ class PublicGame extends Component {
    */
   renderPlayerDraws() {
     function onstackendfn(res) {
-      console.log("onstackedfn", res);
+      // console.log("onstackedfn", res);
     }
 
     function accept() {
@@ -193,7 +193,6 @@ class PublicGame extends Component {
   render() {
     const roomUrl =
       "http://www.localhost:8080/game/" + this.props.gameInfo.roomTag;
-    console.log(this.props.gamePlay);
     return (
       <div id="play-site">
         <Navbar />
