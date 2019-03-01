@@ -9,11 +9,12 @@ import {
 import {
   PLAYER_SEND_MESSAGE,
   PLAYER_DRAW_CANVAS,
-  PLAYER_CLEAR_CANVAS
+  PLAYER_CLEAR_CANVAS,
+  PLAYER_VOTE_DRAW
 } from "../../core/game/actions";
 
 const SocketMiddleware = url => store => {
-  let sm; // SocketManage  
+  let sm; // SocketManage
   return next => action => {
     // When dispatching a redux action.
     switch (action.type) {
@@ -42,6 +43,9 @@ const SocketMiddleware = url => store => {
         break;
       case PLAYER_CLEAR_CANVAS:
         sm.clearCanvas();
+        break;
+      case PLAYER_VOTE_DRAW:
+        sm.voteDraw(action.payload);
         break;
       default:
         next(action);

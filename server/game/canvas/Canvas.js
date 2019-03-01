@@ -1,6 +1,7 @@
 "use strict";
 
 const Canvas = require("canvas");
+const _ = require("lodash");
 
 const floodFill = require("./floodFill");
 const { PencilTool, EraserTool, BinRecycler, Bucket } = require("./tools");
@@ -16,6 +17,7 @@ class CanvasArea {
   constructor() {
     this.version = 1.0;
     this.canvas = Canvas.createCanvas(CANVAS_CONFIG.WIDTH, CANVAS_CONFIG.HEIGHT);
+    this.blank = Canvas.createCanvas(CANVAS_CONFIG.WIDTH, CANVAS_CONFIG.HEIGHT); // TODO: TRY CLONE
     this.moves = [];
   }
 
@@ -65,6 +67,13 @@ class CanvasArea {
     const dataURL = this.canvas.toDataURL();
 
     return dataURL;
+  }
+
+  /**
+   * Checks if the actual canvas is blank
+   */
+  isBlank() {
+    return this.canvas.toDataURL() == this.blank.toDataURL();
   }
 }
 

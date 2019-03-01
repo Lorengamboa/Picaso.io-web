@@ -1,17 +1,14 @@
 "use strict";
 
-const EventEmitter = require("events");
 const _ = require("lodash");
 
-const Socket = require('../Socket');
+const Socket = require("../Socket");
 const Chat = require("../chat");
-
-const {
-  createNewCanvas,
-  requestRandomWord,
-  persistDraw
-} = require("./services");
-const { SOCKET_EVENTS } = require("../../events");
+const Voter = require("./utils/Voter");
+const events = require("../controllers/room/events");
+const { requestRandomWord, persistDraw } = require("./services");
+const GameFactory = require("./GameFactory");
+const { SOCKET_EVENTS } = require("../../constants/socket-events");
 const CHAT_CONF = require("../config/chat_conf");
 const { GAME_STATE } = require("../config/constants");
 const { getRandomColor, isBlank } = require("../../utils");
@@ -32,9 +29,11 @@ class Room extends Socket {
     this.currentWord = null;
     this.currentPlayer;
     this.scores = [];
-    this.chatRoom = new Chat(this.io, this.name);
-    this.timer = Timer();
-    this.gamePlay = GAME_STATE.WAITING;
+    this.chatRoom = null;
+    this.voters = null;
+    this.round = 0;
+    this.timer = null;
+    this.status = GAME_STATE.WAITING;
 
     this.init();
   }
@@ -44,12 +43,43 @@ class Room extends Socket {
    */
   init() {
     this.currentWord = requestRandomWord();
-
-    // TODO: send game status individually
-    this.io.emit(SOCKET_EVENTS.RETRIEVE_GAME_INFO, {
-      roomTag: this.name
-    });
+    this.timer = Timer();
+    this.chatRoom = new Chat(this.io, this.name);
+    this.voters = new Voter();
   }
+
+  /**
+   *
+   */
+  manageFlow() {
+    if (
+      this.status === GAME_STATE.WAITING &&
+      this.players.length === GAME_CONFIG.MIN_PLAYERS_START_GAME
+    )
+      return this.start();
+
+    if (
+      this.status === GAME_STATE.PAUSED &&
+      this.players.length === GAME_CONFIG.MIN_PLAYERS_START_GAME
+    )
+      return this.start();
+    if (
+      this.status !== GAME_STATE.WAITING &&
+      this.players.length < GAME_CONFIG.MIN_PLAYERS_START_GAME
+    )
+      return this.pause();
+  }
+
+  /**
+   *
+   */
+  addRound() {
+    this.round += 1;
+  }
+
+  /*********************************************************************************/
+  /*                        GAME GENERAL ACTIONS                                   */
+  /*********************************************************************************/
 
   /**
    * Takes player requests and proccess either to accept or cancel it
@@ -58,30 +88,35 @@ class Room extends Socket {
   requestJoin(player) {
     const userColor = getRandomColor();
     return new Promise((resolve, reject) => {
-      if (this.players.length == process.env.MAX_PLAYERS_PER_ROOM) return reject("5 PLAYER MAX PER ROOM");
+      if (this.players.length == process.env.MAX_PLAYERS_PER_ROOM)
+        return reject("5 PLAYER MAX PER ROOM");
 
       player.socket.join(this.name);
       player.color = userColor;
 
       this.players.push(player);
-      this.draws.push(createNewCanvas(player.id));
-      this.updatePlayerJoined(player.name);
+      this.draws.push(GameFactory(player.id));
+      this.voters.addPlayer(player.id);
 
-      if (this.gamePlay === GAME_STATE.WAITING && this.players.length === GAME_CONFIG.MIN_PLAYERS_START_GAME) this.start();
+      this.updatePlayerJoined(player.name);
+      this.manageFlow();
+      player.socket.emit(SOCKET_EVENTS.RETRIEVE_GAME_INFO, {
+        roomTag: this.name
+      });
       resolve();
     });
   }
 
   /**
    * Players leaves room!
-   * @param {*} player 
+   * @param {*} player
    */
   requestLeave(player) {
     return new Promise((resolve, reject) => {
       try {
         player.socket.leave(this.name);
         this.informsPlayerLeft(player.id);
-        if (this.gamePlay === GAME_STATE.PLAYING && this.players.length < GAME_CONFIG.MIN_PLAYERS_START_GAME) this.pause();
+        this.manageFlow();
         resolve();
       } catch (error) {
         reject(error);
@@ -97,7 +132,7 @@ class Room extends Socket {
     const { id } = socket;
     var canvas = _.find(this.draws, { id }).canvas;
 
-    if (socket && this.gamePlay === GAME_STATE.PLAYING) {
+    if (socket && this.status === GAME_STATE.PLAYING) {
       canvas.draw(drawingInfo);
       return socket.emit(SOCKET_EVENTS.UPDATE_CANVAS, drawingInfo);
     }
@@ -109,7 +144,7 @@ class Room extends Socket {
    * Updates client game state
    */
   updateGameState() {
-    this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_GAME_STATE, this.gamePlay);
+    this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_GAME_STATE, this.status);
   }
 
   /**
@@ -120,22 +155,21 @@ class Room extends Socket {
   }
 
   /**
-   * Shows the message the player sent to the whole room
-   * @param {String} username
-   * @param {String} msg
+   * Updates all the room's players their userlist
    */
-  playerSendsMessage(id, msg) {
-    if (isBlank(msg) || msg.length > CHAT_CONF.MAX_MESSAGE_LENGTH || !id)
-      return;
+  updateChatlist() {
 
-    const player = _.find(this.players, { id });
-    const filterPlayer = {
-      name: player.name,
-      color: player.color,
-      avatar: player.avatar
-    };
+    let playerList = this.players.map(player => {
+      const points = this.voters.draws[player.id].points;
+      return player.points = points;
+    });
 
-    this.chatRoom.sendMessageToAll(filterPlayer, msg);
+    playerList = _.map(
+      this.players,
+      _.partialRight(_.pick, ["name", "color", "avatar", "points"])
+    );
+
+    this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_USER_LIST, playerList);
   }
 
   /**
@@ -159,62 +193,113 @@ class Room extends Socket {
 
     _.remove(this.players, player => player.id == playerToRemove.id);
     _.remove(this.draws, draw => draw.id == playerToRemove.id);
+    _.remove(this.votes, voter => voter.id == playerToRemove.id);
 
     this.updateChatlist();
 
     this.chatRoom.informPlayerLeft(playerToRemove.name);
   }
 
+  /*********************************************************************************/
+  /*                          PLAYER ACTIONS                                       */
+  /*********************************************************************************/
+
   /**
-   * Updates all the room's players their userlist
+   * Shows the message the player sent to the whole room
+   * @param {String} username
+   * @param {String} msg
    */
-  updateChatlist() {
-    const playerList = _.map(
-      this.players,
-      _.partialRight(_.pick, ["name", "color", "avatar"])
-    );
-    this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_USER_LIST, playerList);
+  playerSendsMessage(id, msg) {
+    if (isBlank(msg) || msg.length > CHAT_CONF.MAX_MESSAGE_LENGTH || !id)
+      return;
+
+    const player = _.find(this.players, { id });
+    const filterPlayer = {
+      name: player.name,
+      color: player.color,
+      avatar: player.avatar
+    };
+
+    this.chatRoom.sendMessageToAll(filterPlayer, msg);
   }
 
-    /*********************************************************************************/
-   /*                            GAME STATUS                                        */
+  /**
+   *
+   * @param {*} id
+   * @param {*} draw
+   * @param {*} feedback
+   */
+  playerVoteDraw(socket, draw, feedback) {
+    if (socket === draw) return;
+
+    //
+    if (_.find(this.draws, { id: draw })) {
+      this.voters.rateDraw(socket, draw, feedback);
+    }
+  }
+
+  /*********************************************************************************/
+  /*                        GAME STATUS INTERFACE                                  */
+  /*********************************************************************************/
+  /* 1. Start                                                                      */
+  /* 2. Play                                                                       */
+  /* 3. Pause                                                                      */
+  /* 4. Vote                                                                       */
+  /* 5. Finish                                                                     */
   /*********************************************************************************/
 
   /**
    * GAME STATE: START
    */
   start() {
-    this.emit('start');
+    this.emit(events.STARTING);
   }
 
   /**
    * GAME STATE: PLAY
    */
   play() {
+    if (this.round === GAME_CONFIG.NUMBER_OF_ROUNDS) return this.finish();
+
     this.io.to(this.name).emit(SOCKET_EVENTS.CURRENT_WORD, this.currentWord);
-    this.emit('play');
+    this.emit(events.PLAYING);
+    this.addRound();
+    this.updateChatlist();
   }
 
   /**
    * GAME STATE: PAUSE
    */
   pause() {
-    this.emit('pause')  
+    this.emit(events.PAUSE);
   }
 
   /**
    * GAME STATE: VOTE
    */
   vote() {
-    const drawsBase64 = this.draws.map(draw => {
-      persistDraw(draw.canvas.getImageData());
-      return draw.canvas.getImageData();
-    });
+    const drawsBase64 = this.draws
+      .filter(draw => !draw.canvas.isBlank())
+      .map(draw => {
+        const imageData = draw.canvas.getImageData();
+        const idDraw = draw.id;
 
+        persistDraw(imageData);
+
+        return { id: idDraw, imageData };
+      });
+
+    // this.voter = new Voter(idDraws);
     this.io.to(this.name).emit(SOCKET_EVENTS.DISPLAY_ALL_DRAWS, drawsBase64);
-    this.emit('vote');
+    this.emit("vote");
   }
 
+  /**
+   * GAME STATE: FINISH
+   */
+  finish() {
+    this.emit(events.FINISH);
+  }
 }
 
 module.exports = Room;

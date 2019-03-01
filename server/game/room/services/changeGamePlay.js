@@ -6,9 +6,9 @@
  * @param {*} time 
  * @param {*} gameStateFn 
  */
-const changeGamePlay = function (gameState, time, action) {
+const changeGamePlay = function (gameStatus, time, action) {
     // if(!action) this.timer.clearInterval();
-    this.gamePlay = gameState;
+    this.status = gameStatus;
     this.updateGameState();
     this.timer.startCountdown.call(this, time, action);
 }

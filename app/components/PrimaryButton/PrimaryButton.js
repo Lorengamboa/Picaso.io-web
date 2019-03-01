@@ -2,14 +2,16 @@
 
 import React from 'react';
 import { Button } from 'semantic-ui-react';
+import { FormattedMessage } from 'react-intl';
 
 const PrimaryButton = props => {
+    const intlValue = <FormattedMessage id={props.value} />;
     return (
         <Button 
             className={props.className}
             color={props.color}
             onClick={props.onClick}
-            content={props.value}
+            content={intlValue}
             size='massive'
             fluid
         />

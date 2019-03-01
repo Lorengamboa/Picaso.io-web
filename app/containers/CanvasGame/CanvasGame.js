@@ -30,13 +30,8 @@ class Canvas extends Component {
     this.setState({
       canvasUri: url
     });  
-    // if(props.fullscreen) this.resize();
+  }
 
-  }
-  
-  componentDidMount() {
-    console.log("updating")
-  }
   /**
    * Clears canvas to blank
    */

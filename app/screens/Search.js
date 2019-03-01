@@ -68,7 +68,6 @@ class SearchPage extends Component {
    */
   renderTable() {
     if (!this.state.rooms === 0) return;
-    console.log(this.state.rooms);
 
     return this.state.rooms.map(room => {
       return (

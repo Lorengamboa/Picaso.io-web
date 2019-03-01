@@ -14,7 +14,7 @@ import ToolPaint from "../../containers/ToolPaint";
 
 import { Navbar, Timer } from "../../components";
 
-import { playerDrawCanvas } from "../../core/game/gameActions";
+import { playerDrawCanvas, voteDraw } from "../../core/game/gameActions";
 import { is_touch_device } from "../../utils";
 
 /**
@@ -36,7 +36,7 @@ class PublicGame extends Component {
       drawData: null
     };
 
-    this.init();
+    this.deckRef = React.createRef();
 
     // Events
     this.handleDisplayMouseMove = this.handleDisplayMouseMove.bind(this);
@@ -45,6 +45,8 @@ class PublicGame extends Component {
     this.setPrevPosition = this.setPrevPosition.bind(this);
     this.setCurrentPosition = this.setCurrentPosition.bind(this);
     this.drawCoordinates = this.drawCoordinates.bind(this);
+
+    this.init();
   }
 
   init() {
@@ -150,15 +152,39 @@ class PublicGame extends Component {
    */
   renderPlayerDraws() {
     function onstackendfn(res) {
-      console.log("onstackedfn", res);
+      // console.log("onstackedfn", res);
     }
+
+    function accept() {
+      const { items, current } = this.deckRef.current.state.stack;
+      this.props.voteDraw(items[current].id, 1);
+      this.deckRef.current.state.stack.accept();
+    }
+
+    function reject() {
+      const { items, current } = this.deckRef.current.state.stack;
+      this.props.voteDraw(items[current].id, 0);
+      this.deckRef.current.state.stack.reject();
+    }
+
+    if(this.props.playersDraw.length === 0) 
+      return <div>        
+        <Timer className="timer" time={this.props.countDown} />
+          Not draws!
+      </div>;
+
     return (
+      
       <div>
+        <Timer className="timer" time={this.props.countDown} />
         <Reactcardstack
+          ref={this.deckRef}
           images={this.props.playersDraw}
           onstackendfn={onstackendfn.bind(this)}
-          cancelIcon="/assets/img/tools/thumbs-up.svg"
-          acceptIcon="/assets/img/tools/thumbs-down.svg"
+          cancelIcon="/assets/img/tools/thumbs-down.svg"
+          acceptIcon="/assets/img/tools/thumbs-up.svg"
+          accept={accept.bind(this)}
+          reject={reject.bind(this)}
         />
       </div>
     );
@@ -167,7 +193,6 @@ class PublicGame extends Component {
   render() {
     const roomUrl =
       "http://www.localhost:8080/game/" + this.props.gameInfo.roomTag;
-
     return (
       <div id="play-site">
         <Navbar />
@@ -205,9 +230,27 @@ class PublicGame extends Component {
             </Grid.Column>
             {/* Middle column */}
             <Grid.Column mobile={16} tablet={10} computer={10}>
-              {this.props.gamePlay === "voting" ? (
+              {this.props.gamePlay === "voting" && 
                 <div className="row">{this.renderPlayerDraws()}</div>
-              ) : (
+              }
+              {this.props.gamePlay === "waitting" && 
+                <div>
+                <CanvasGame
+                  onMouseMove={this.handleDisplayMouseMove}
+                  onMouseDown={this.handleDisplayMouseDown}
+                />
+              </div>              
+            }
+            {this.props.gamePlay === "starting" && 
+                <div>
+                <Timer className="timer" time={this.props.countDown} />
+                <CanvasGame
+                  onMouseMove={this.handleDisplayMouseMove}
+                  onMouseDown={this.handleDisplayMouseDown}
+                />
+              </div>              
+            }
+              {this.props.gamePlay === "playing" && 
                 <div>
                   <Timer className="timer" time={this.props.countDown} />
                   <CanvasGame
@@ -215,7 +258,12 @@ class PublicGame extends Component {
                     onMouseDown={this.handleDisplayMouseDown}
                   />
                 </div>
-              )}
+              }
+              {this.props.gamePlay === "finished" && 
+                <div>
+                  <h1>finished</h1>
+                </div>
+              }
             </Grid.Column>
             {/* Right column */}
             <Grid.Column mobile={4} tablet={4} computer={4}>
@@ -268,6 +316,9 @@ const mapDispatchToProps = dispatch => {
   return {
     playerDrawCanvas: data => {
       dispatch(playerDrawCanvas(data));
+    },
+    voteDraw: (draw, feedback) => {
+      dispatch(voteDraw(draw, feedback));
     }
   };
 };

@@ -152,6 +152,19 @@ export function clearCanvas() {
 
 /**
  * 
+ * @param {*} draw 
+ * @param {*} feedback 
+ */
+export function voteDraw(draw, feedback) {
+  return {
+    type: ACTIONS.PLAYER_VOTE_DRAW,
+    payload: { draw, feedback }
+  };
+}
+
+
+/**
+ * 
  */
 export function disconnectGameRoom() {
   return {

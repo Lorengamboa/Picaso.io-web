@@ -1,6 +1,6 @@
 "use strict";
 
-const { SOCKET_EVENTS } = require("../../../events");
+const { SOCKET_EVENTS } = require("../../../constants/socket-events");
 
 /**
  * Timer helper function

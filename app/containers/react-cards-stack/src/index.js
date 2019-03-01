@@ -13,8 +13,6 @@ class Fancy extends React.Component {
       postivebtnclass : undefined,
       negativebtnclass : undefined
     }
-    this.reject = this.reject.bind(this)
-    this.accept = this.accept.bind(this)
     this.onEndStack = this.onEndStack.bind(this)
   }
 
@@ -44,30 +42,20 @@ class Fancy extends React.Component {
     this.props.onstackendfn()
   }
 
-  reject() {
-    let stack = this.state.stack
-    stack.reject()
-  }
-
-  accept() {
-    let stack = this.state.stack
-    stack.accept()
-  }
-
   render() {
     return (
       <div className="stack-container">
         <ul id="stack" className={`stack stack--${this.state.effect}`}>
         {this.state.imgs && this.state.imgs.map((img, i) =>
-          <li key={i} className="stack__item">
-          <img src={img} />
+          <li id={img.id} key={img.id} className="stack__item">
+          <img src={img.imageData} />
         </li>)}
       </ul>
         <div className="controls">
           <div>
             <p className={this.state.queryclass}>{this.state.query}</p>
-            <img className="icon-tool" src={this.props.cancelIcon}  onClick={this.reject} />
-            <img className="icon-tool" src={this.props.acceptIcon}  onClick={this.accept} />
+            <img className="icon-tool" src={this.props.cancelIcon}  onClick={this.props.reject} />
+            <img className="icon-tool" src={this.props.acceptIcon}  onClick={this.props.accept} />
           </div>
         </div>
     </div>);
