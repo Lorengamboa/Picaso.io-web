@@ -12,7 +12,7 @@ import Chat from "../../containers/Chat";
 import PlayerList from "../../containers/PlayerList";
 import ToolPaint from "../../containers/ToolPaint";
 
-import { Navbar, Timer } from "../../components";
+import { Navbar, Timer, AdBlock } from "../../components";
 
 import { playerDrawCanvas, voteDraw } from "../../core/game/gameActions";
 import { is_touch_device } from "../../utils";
@@ -167,14 +167,15 @@ class PublicGame extends Component {
       this.deckRef.current.state.stack.reject();
     }
 
-    if(this.props.playersDraw.length === 0) 
-      return <div>        
-        <Timer className="timer" time={this.props.countDown} />
+    if (this.props.playersDraw.length === 0)
+      return (
+        <div>
+          <Timer className="timer" time={this.props.countDown} />
           Not draws!
-      </div>;
+        </div>
+      );
 
     return (
-      
       <div>
         <Timer className="timer" time={this.props.countDown} />
         <Reactcardstack
@@ -199,58 +200,27 @@ class PublicGame extends Component {
         <Grid>
           <PlayerList />
           <Grid.Row>
+            {/* {roomUrl} */}
+            {this.props.currentWord}
+          </Grid.Row>
+          <Grid.Row>
             {/*Left column*/}
             <Grid.Column mobile={16} tablet={10} computer={2}>
               <ToolPaint />
-              {/* <Card
-                link
-                header={this.props.currentWord}
-                color="purple"
-                description={
-                  this.props.gamePlay === "waiting" ? (
-                    "Not enough players to start"
-                  ) : (
-                    <Fragment>
-                      <Timer time={this.props.countDown} />
-                    </Fragment>
-                  )
-                }
-              />
-              <Input
-                className="clipboard"
-                size="mini"
-                action={{
-                  color: "teal",
-                  labelPosition: "right",
-                  icon: "copy",
-                  content: "Copy"
-                }}
-                value={roomUrl}
-              /> */}
             </Grid.Column>
             {/* Middle column */}
             <Grid.Column mobile={16} tablet={10} computer={10}>
-              {this.props.gamePlay === "voting" && 
+              {this.props.gamePlay === "voting" && (
                 <div className="row">{this.renderPlayerDraws()}</div>
-              }
-              {this.props.gamePlay === "waitting" && 
-                <div>
+              )}
+              {this.props.gamePlay === "waitting" && (
                 <CanvasGame
                   onMouseMove={this.handleDisplayMouseMove}
                   onMouseDown={this.handleDisplayMouseDown}
                 />
-              </div>              
-            }
-            {this.props.gamePlay === "starting" && 
-                <div>
-                <Timer className="timer" time={this.props.countDown} />
-                <CanvasGame
-                  onMouseMove={this.handleDisplayMouseMove}
-                  onMouseDown={this.handleDisplayMouseDown}
-                />
-              </div>              
-            }
-              {this.props.gamePlay === "playing" && 
+              )}
+              {this.props.gamePlay === "starting" && <AdBlock />}
+              {this.props.gamePlay === "playing" && (
                 <div>
                   <Timer className="timer" time={this.props.countDown} />
                   <CanvasGame
@@ -258,12 +228,12 @@ class PublicGame extends Component {
                     onMouseDown={this.handleDisplayMouseDown}
                   />
                 </div>
-              }
-              {this.props.gamePlay === "finished" && 
+              )}
+              {this.props.gamePlay === "finished" && (
                 <div>
                   <h1>finished</h1>
                 </div>
-              }
+              )}
             </Grid.Column>
             {/* Right column */}
             <Grid.Column mobile={4} tablet={4} computer={4}>

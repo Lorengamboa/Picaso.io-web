@@ -32,7 +32,7 @@ body {
 }
 
 .header .logo { 
-  width: 260px;
+  width: 170px;
 }
 
 @media screen and (max-width: 500px) {
@@ -104,7 +104,6 @@ body {
 
 #home-site {
   height: 100%;
-  padding: 10px 20px;
 }
 
 #find-site {

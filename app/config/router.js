@@ -11,7 +11,9 @@ import {
   CreatePage,
   PrivateGame,
   SearchPage,
-  SettingsPage
+  SettingsPage,
+  HowToPlayPage,
+  PolicyPage
 } from "../screens";
 import routes from "./routes";
 
@@ -42,6 +44,8 @@ export const router = (
           <Route path={routes.CREATE} component={CreatePage} />
           <Route path={routes.GAME} component={PrivateGame} />
           <Route path={routes.SETTINGS} component={SettingsPage} />
+          <Route path={routes.POLICY} component={PolicyPage} />
+          <Route path={routes.HOW_TO_PLAY} component={HowToPlayPage} />
         </Switch>
       </Router>
     </IntlProvider>

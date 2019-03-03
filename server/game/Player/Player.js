@@ -1,6 +1,5 @@
 'use strict';
 
-const { SOCKET_EVENTS } = require('../../constants/socket-events');
 const applyListeners = require("./listeners");
 const { GAME_AVATARS } = require('../config/constants');
 const { rndValueArray } = require('../../utils');

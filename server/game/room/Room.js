@@ -5,7 +5,7 @@ const _ = require("lodash");
 const Socket = require("../Socket");
 const Chat = require("../chat");
 const Voter = require("./utils/Voter");
-const events = require("../controllers/room/events");
+const events = require("./events");
 const { requestRandomWord, persistDraw } = require("./services");
 const GameFactory = require("./GameFactory");
 const { SOCKET_EVENTS } = require("../../constants/socket-events");
@@ -18,7 +18,7 @@ const GAME_CONFIG = require("../config/room");
 
 /**
  * @class Room
- * Contains all the logic to make a game start
+ * @desc Contains all the logic to make a game start
  */
 class Room extends Socket {
   constructor(name, io, type) {

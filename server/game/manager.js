@@ -1,7 +1,7 @@
 "use strict";
 const _ = require("lodash");
 
-const { RoomCreator, isRoomEmpty, deleteRoom} = require("./controllers/room/controller");
+const { RoomCreator, isRoomEmpty, deleteRoom } = require("./room/controller");
 const Player = require("./Player");
 const { rndValueArray, valiteNickname } = require("../utils");
 const list_names = require("./config/names");
