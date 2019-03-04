@@ -50,8 +50,6 @@ class PublicGame extends Component {
   }
 
   init() {
-    // no connection openned, then redirect to home page
-    if (!this.props.connection) return this.props.history.push("/");
     var sound = new Howl({
       src: ["/assets/music/entrance.mp3"]
     });
@@ -251,8 +249,9 @@ class PublicGame extends Component {
  * The component will subscribe to Redux store updates.
  * @param {store}
  */
-function mapStateToProps({ playerReducer, gameReducer }) {
-  const { username, connection } = playerReducer;
+function mapStateToProps({ playerReducer, gameReducer, socketReducer }) {
+  const { username } = playerReducer;
+  const { connection } = socketReducer;
   const {
     colorPicked,
     toolPicked,

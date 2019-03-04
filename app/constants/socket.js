@@ -12,7 +12,7 @@ import {
   disconnectGameRoom,
 } from "../core/game/gameActions";
 
-import { setConnection } from "../core/player/playerActions";
+import { setConnection } from "../core/socket/socketActions";
 
 const SOCKET_EVENTS = {
   RECEIVER: {

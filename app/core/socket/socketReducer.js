@@ -3,15 +3,16 @@
 import * as ACTIONS from "./actions";
 import initialState from "../initialState";
 
-export default function playerReducer(state = initialState.player, action) {
+export default function playerReducer(state = initialState.socket, action) {
   switch (action.type) {
-    case ACTIONS.CHANGE_USERNAME:
+    case ACTIONS.SOCKET_CONNECTION:
       return Object.assign({}, state, {
-        username: action.payload
+        loading: true
       });
-    case ACTIONS.CREATE_ROOM:
+    case ACTIONS.SET_CONNECTION:
       return Object.assign({}, state, {
-        connection: true
+        loading: false,
+        connection: action.payload
       });
     default:
       return state;

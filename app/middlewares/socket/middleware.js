@@ -3,8 +3,10 @@
 import SocketManagerFactory from "./SocketManagerFactory";
 import {
   SOCKET_CONNECTION,
+} from "../../core/socket/actions";
+import {
+  CREATE_ROOM,
   CONNECT_PRIVATE_ROOM,
-  CREATE_ROOM
 } from "../../core/player/actions";
 import {
   PLAYER_SEND_MESSAGE,
@@ -22,7 +24,6 @@ const SocketMiddleware = url => store => {
         let { username } = store.getState().playerReducer;
         sm = SocketManagerFactory(url, store);
         sm.joinRandomRoom(username);
-        action.payload = true;
         next(action);
         break;
       case CONNECT_PRIVATE_ROOM:

@@ -21,7 +21,12 @@ const initialState = {
   player: {
     username: "",
     connection: null,
+    loading: false,
     sound: true
+  },
+  socket: {
+    connection: null,
+    loading: false,
   }
 };
 

@@ -2,19 +2,17 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Grid } from "semantic-ui-react";
-import * as Sentry from '@sentry/browser';
+import { Grid, Loader, Dimmer } from "semantic-ui-react";
+import * as Sentry from "@sentry/browser";
 
-import {
-  setUsername,
-  openPlayerSocketConnection
-} from "../../core/player/playerActions";
+import { setUsername } from '../../core/player/playerActions';
+import { openPlayerSocketConnection } from "../../core/socket/socketActions";
 import { InputText, PrimaryButton, Navbar, Footer } from "../../components";
 
 const SAMPLE_DRAWS_ENDPOINT = "/api/sample/draws";
 
 Sentry.init({
- dsn: "https://0bf6ab16edaf42b687dba1a4cdb01548@sentry.io/1406806"
+  dsn: "https://0bf6ab16edaf42b687dba1a4cdb01548@sentry.io/1406806"
 });
 
 /**
@@ -45,6 +43,11 @@ class HomePage extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  /**
+   *
+   * @param {*} error
+   * @param {*} errorInfo
+   */
   componentDidCatch(error, errorInfo) {
     this.setState({ error });
     Sentry.withScope(scope => {
@@ -53,6 +56,10 @@ class HomePage extends Component {
       });
       Sentry.captureException(error);
     });
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.connection) return this.props.history.push("/play");
   }
 
   /**
@@ -73,7 +80,6 @@ class HomePage extends Component {
   onPlayButtonClick() {
     this.props.setUsername(this.state.username);
     this.props.openPlayerSocketConnection();
-    this.props.history.push("/play");
   }
 
   /**
@@ -107,33 +113,11 @@ class HomePage extends Component {
   }
 
   render() {
-    // let renderSamples;
-
-    // if (this.state.loadingSamples) {
-    //   renderSamples = <Loader active inline='centered' />;
-    // }
-    // else {
-    //   if (!this.state.samples.size) {
-    //     renderSamples = <div>
-    //       <Header as='h2' icon textAlign='center'>
-    //         <Icon name='images' circular />
-    //         <Header.Content>Not draws available!</Header.Content>
-    //       </Header>
-    //     </div>
-    //   }
-    //   else {
-    //     renderSamples = this.state.samples.map(draw => {
-    //       return (
-    //         <div className="sample four columns">
-    //           <Image src={`data:image/png;base64, ${draw}`} size='medium' bordered />
-    //         </div>
-    //       );
-    //     });
-    //   }
-    // }
-
     return (
       <div id="home-site">
+        <Dimmer active={this.props.loading}>
+          <Loader indeterminate>Loading game</Loader>
+        </Dimmer>
         <Navbar className="center" />
         <div className="home-menu">
           <Grid>
@@ -178,23 +162,16 @@ class HomePage extends Component {
               </Grid.Column>
             </Grid.Row>
           </Grid>
-
-          {/* <Divider className="divide" horizontal>
-            Last draws
-          </Divider> */}
         </div>
-        {/* <div className="sample-content">
-          <div className="row">
-            {renderSamples}
-          </div>
-        </div> */}
-        <div className="center img-responsive">
-          <a href="https://discord.gg/NuNGe4">
-            <img src="assets/img/join-discord.png" style={{ width: "30vh" }} />
-          </a>
-        </div>
-        <div className="center"> 
-        <Footer links={[{action: "mailto", value: "picas.iohelp@gmail.com" }, {value: "policy", action: "link", url: "/policy"}, {value: "How to play", action: "link", url: "/howtoplay"}]} />
+        <div className="center">
+          <Footer
+            links={[
+              { action: "mailto", value: "picas.iohelp@gmail.com" },
+              { value: "policy", action: "link", url: "/policy" },
+              { value: "How to play", action: "link", url: "/howtoplay" },
+              { value: "Join our Discord community", action: "link", url: "https://discord.gg/NuNGe4" },
+            ]}
+          />
         </div>
       </div>
     );
@@ -206,7 +183,7 @@ class HomePage extends Component {
  * @param {store}
  */
 function mapStateToProps(state) {
-  return { username: state.playerReducer.username };
+  return { username: state.playerReducer.username, loading: state.socketReducer.loading, connection: state.socketReducer.connection };
 }
 
 /**
@@ -218,8 +195,8 @@ const mapDispatchToProps = dispatch => {
     setUsername: name => {
       dispatch(setUsername(name));
     },
-    openPlayerSocketConnection: data => {
-      dispatch(openPlayerSocketConnection(data));
+    openPlayerSocketConnection: () => {
+      dispatch(openPlayerSocketConnection());
     }
   };
 };

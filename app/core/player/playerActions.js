@@ -25,16 +25,6 @@ export function createRoom(settings) {
 }
 
 /**
- * Opens a socket conn for the player
- */
-export function openPlayerSocketConnection() {
-  return {
-    type: ACTIONS.SOCKET_CONNECTION,
-    payload: false
-  };
-}
-
-/**
  * Join private game
  * @param {*} id
  */
@@ -44,15 +34,3 @@ export function joinPrivateGame(id) {
     payload: id
   };
 }
-
-/**
- * 
- * @param {*} result 
- */
-export function setConnection(result) {
-  return {
-    type: ACTIONS.SET_CONNECTION,
-    payload: result
-  };
-}
-
