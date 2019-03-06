@@ -162,16 +162,6 @@ export function voteDraw(draw, feedback) {
   };
 }
 
-
-/**
- * 
- */
-export function disconnectGameRoom() {
-  return {
-    type: ACTIONS.DISCONNECT_GAME_ROOM,
-  };
-}
-
 /**
  * 
  */
@@ -180,3 +170,15 @@ export function toggleExpand() {
     type: ACTIONS.TOGGLE_EXPAND,
   };
 }
+
+/**
+ * 
+ */
+export function hideModal() {
+  return {
+    type: ACTIONS.HIDE_MODAL,
+    payload: false
+  };
+}
+
+

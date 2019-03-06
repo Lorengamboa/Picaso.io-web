@@ -12,9 +12,9 @@ import Chat from "../../containers/Chat";
 import PlayerList from "../../containers/PlayerList";
 import ToolPaint from "../../containers/ToolPaint";
 
-import { Navbar, Timer, AdBlock } from "../../components";
+import { Navbar, Timer, Advertisement } from "../../components";
 
-import { playerDrawCanvas, voteDraw } from "../../core/game/gameActions";
+import { playerDrawCanvas, voteDraw, hideModal } from "../../core/game/gameActions";
 import { is_touch_device } from "../../utils";
 
 /**
@@ -25,9 +25,6 @@ class PublicGame extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "Play Game!",
-      modalOpen: true,
-      username: this.props.username,
       isPenDown: false,
       currentPosition: {
         prevX: null,
@@ -45,6 +42,7 @@ class PublicGame extends Component {
     this.setPrevPosition = this.setPrevPosition.bind(this);
     this.setCurrentPosition = this.setCurrentPosition.bind(this);
     this.drawCoordinates = this.drawCoordinates.bind(this);
+    this.goHome = this.goHome.bind(this);
 
     this.init();
   }
@@ -56,14 +54,26 @@ class PublicGame extends Component {
     sound.play();
   }
 
+  /**
+   * 
+   */
   componentDidMount() {
     const mycanvas = document.getElementById("mycanvas");
+    if(!mycanvas) return;
     this.setState({
       canvas: {
         width: mycanvas.scrollWidth,
         height: mycanvas.scrollHeight
       }
     });
+  }
+
+  /**
+   * 
+   */
+  goHome() {
+    this.props.history.push("/");
+    this.props.hideModal();
   }
 
   /**
@@ -217,7 +227,7 @@ class PublicGame extends Component {
                   onMouseDown={this.handleDisplayMouseDown}
                 />
               )}
-              {this.props.gamePlay === "starting" && <AdBlock />}
+              {this.props.gamePlay === "starting" && <Advertisement blockimg="/assets/img/pencil-drunk.png" /> }
               {this.props.gamePlay === "playing" && (
                 <div>
                   <Timer className="timer" time={this.props.countDown} />
@@ -239,7 +249,13 @@ class PublicGame extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <GeneralModal visibility={this.props.modal} />
+        <GeneralModal 
+            visibility={this.props.modal} 
+            title="Connection error" 
+            content="You have lost the connection with the actual room, would u like to try reconnect?" 
+            btn1="Yes" 
+            btn2="No" 
+            action2={this.goHome} />
       </div>
     );
   }
@@ -288,6 +304,9 @@ const mapDispatchToProps = dispatch => {
     },
     voteDraw: (draw, feedback) => {
       dispatch(voteDraw(draw, feedback));
+    },
+    hideModal: () => {
+      dispatch(hideModal());
     }
   };
 };

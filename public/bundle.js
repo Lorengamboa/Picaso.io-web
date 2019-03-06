@@ -25058,25 +25058,25 @@
 
 	var _screens = __webpack_require__(162);
 
-	var _routes = __webpack_require__(969);
+	var _routes = __webpack_require__(973);
 
 	var _routes2 = _interopRequireDefault(_routes);
 
-	var _reactIntl = __webpack_require__(831);
+	var _reactIntl = __webpack_require__(832);
 
-	var _en = __webpack_require__(970);
+	var _en = __webpack_require__(974);
 
 	var _en2 = _interopRequireDefault(_en);
 
-	var _es = __webpack_require__(971);
+	var _es = __webpack_require__(975);
 
 	var _es2 = _interopRequireDefault(_es);
 
-	var _es3 = __webpack_require__(972);
+	var _es3 = __webpack_require__(976);
 
 	var _es4 = _interopRequireDefault(_es3);
 
-	var _en3 = __webpack_require__(973);
+	var _en3 = __webpack_require__(977);
 
 	var _en4 = _interopRequireDefault(_en3);
 
@@ -31449,7 +31449,7 @@
 
 	var _gameReducer2 = _interopRequireDefault(_gameReducer);
 
-	var _socketReducer = __webpack_require__(100);
+	var _socketReducer = __webpack_require__(101);
 
 	var _socketReducer2 = _interopRequireDefault(_socketReducer);
 
@@ -31586,7 +31586,11 @@
 
 	var _actions = __webpack_require__(99);
 
-	var ACTIONS = _interopRequireWildcard(_actions);
+	var GAME_ACTIONS = _interopRequireWildcard(_actions);
+
+	var _actions2 = __webpack_require__(100);
+
+	var SOCKET_ACTIONS = _interopRequireWildcard(_actions2);
 
 	var _initialState = __webpack_require__(97);
 
@@ -31623,55 +31627,59 @@
 	  var action = arguments[1];
 
 	  switch (action.type) {
-	    case ACTIONS.RETRIEVE_GAME_INFO:
+	    case GAME_ACTIONS.RETRIEVE_GAME_INFO:
 	      return Object.assign({}, state, {
 	        gameInfo: action.payload
 	      });
-	    case ACTIONS.TOGGLE_EXPAND:
+	    case GAME_ACTIONS.TOGGLE_EXPAND:
 	      return Object.assign({}, state, {
 	        fullscreen: !state.fullscreen
 	      });
-	    case ACTIONS.CHANGE_COLOR_PICKED:
+	    case GAME_ACTIONS.CHANGE_COLOR_PICKED:
 	      return Object.assign({}, state, {
 	        colorPicked: action.payload
 	      });
-	    case ACTIONS.SELECT_TOOL_PICKED:
+	    case GAME_ACTIONS.SELECT_TOOL_PICKED:
 	      return Object.assign({}, state, {
 	        toolPicked: action.payload
 	      });
-	    case ACTIONS.SELECT_PEN_WIDTH:
+	    case GAME_ACTIONS.SELECT_PEN_WIDTH:
 	      return Object.assign({}, state, {
 	        penWidth: action.payload
 	      });
-	    case ACTIONS.UPDATE_USERLIST:
+	    case GAME_ACTIONS.UPDATE_USERLIST:
 	      return Object.assign({}, state, {
 	        playerList: action.payload
 	      });
-	    case ACTIONS.ADD_NEW_CHAT_MESSAGE:
+	    case GAME_ACTIONS.ADD_NEW_CHAT_MESSAGE:
 	      return Object.assign({}, state, {
 	        messages: [].concat(_toConsumableArray(state.messages), [action.payload])
 	      });
-	    case ACTIONS.UPDATE_CANVAS:
+	    case GAME_ACTIONS.UPDATE_CANVAS:
 	      return Object.assign({}, state, {
 	        lastDraw: action.payload
 	      });
-	    case ACTIONS.UPDATE_TIMER:
+	    case GAME_ACTIONS.UPDATE_TIMER:
 	      return Object.assign({}, state, {
 	        countDown: action.payload
 	      });
-	    case ACTIONS.UPDATE_GAME_STATE:
+	    case GAME_ACTIONS.UPDATE_GAME_STATE:
 	      return Object.assign({}, state, {
 	        gamePlay: action.payload
 	      });
-	    case ACTIONS.DISPLAY_PLAYERS_DRAW:
+	    case GAME_ACTIONS.DISPLAY_PLAYERS_DRAW:
 	      return Object.assign({}, state, {
 	        playersDraw: action.payload
 	      });
-	    case ACTIONS.DISPLAY_CURRENT_WORD:
+	    case GAME_ACTIONS.DISPLAY_CURRENT_WORD:
 	      return Object.assign({}, state, {
 	        currentWord: action.payload
 	      });
-	    case ACTIONS.DISCONNECT_GAME_ROOM:
+	    case GAME_ACTIONS.HIDE_MODAL:
+	      return Object.assign({}, state, {
+	        modal: action.payload
+	      });
+	    case SOCKET_ACTIONS.DISCONNECT_GAME_ROOM:
 	      return Object.assign({}, state, {
 	        modal: true
 	      });
@@ -31704,11 +31712,25 @@
 	var PLAYER_VOTE_DRAW = exports.PLAYER_VOTE_DRAW = 'playerVoteDraw';
 	var DISPLAY_PLAYERS_DRAW = exports.DISPLAY_PLAYERS_DRAW = 'displayPlayersDraw';
 	var DISPLAY_CURRENT_WORD = exports.DISPLAY_CURRENT_WORD = 'displayCurrentWord';
-	var DISCONNECT_GAME_ROOM = exports.DISCONNECT_GAME_ROOM = 'disconnectGameRoom';
 	var TOGGLE_EXPAND = exports.TOGGLE_EXPAND = 'toggleExpand';
+	var HIDE_MODAL = exports.HIDE_MODAL = 'hideModal';
 
 /***/ }),
 /* 100 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var SOCKET_CONNECTION = exports.SOCKET_CONNECTION = 'openSocketConnection';
+	var SET_CONNECTION = exports.SET_CONNECTION = 'setConnection';
+	var DISCONNECT_GAME_ROOM = exports.DISCONNECT_GAME_ROOM = 'disconnectGameRoom';
+	var CONNECTION_ERROR = exports.CONNECTION_ERROR = 'connectionError';
+
+/***/ }),
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31718,7 +31740,7 @@
 	});
 	exports.default = playerReducer;
 
-	var _actions = __webpack_require__(101);
+	var _actions = __webpack_require__(100);
 
 	var ACTIONS = _interopRequireWildcard(_actions);
 
@@ -31756,22 +31778,21 @@
 	        loading: false,
 	        connection: action.payload
 	      });
+	    case ACTIONS.DISCONNECT_GAME_ROOM:
+	      return Object.assign({}, state, {
+	        loading: false,
+	        connection: null
+	      });
+	    case ACTIONS.CONNECTION_ERROR:
+	      return Object.assign({}, state, {
+	        loading: false,
+	        connection: null
+	      });
+
 	    default:
 	      return state;
 	  }
 	}
-
-/***/ }),
-/* 101 */
-/***/ (function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var SOCKET_CONNECTION = exports.SOCKET_CONNECTION = 'openSocketConnection';
-	var SET_CONNECTION = exports.SET_CONNECTION = 'setConnection';
 
 /***/ }),
 /* 102 */
@@ -31831,7 +31852,7 @@
 
 	var _SocketManagerFactory2 = _interopRequireDefault(_SocketManagerFactory);
 
-	var _actions = __webpack_require__(101);
+	var _actions = __webpack_require__(100);
 
 	var _actions2 = __webpack_require__(96);
 
@@ -31910,7 +31931,10 @@
 	}
 
 	var SocketManagerFactory = function SocketManagerFactory(url, store) {
-	    var ws = (0, _socket2.default)(url);
+	    var ws = _socket2.default.connect(url, {
+	        reconnection: false
+	    });
+
 	    var sm = new _socketManager2.default(ws, store);
 
 	    return sm;
@@ -36060,7 +36084,7 @@
 
 	exports.read = function (buffer, offset, isLE, mLen, nBytes) {
 	  var e, m
-	  var eLen = nBytes * 8 - mLen - 1
+	  var eLen = (nBytes * 8) - mLen - 1
 	  var eMax = (1 << eLen) - 1
 	  var eBias = eMax >> 1
 	  var nBits = -7
@@ -36073,12 +36097,12 @@
 	  e = s & ((1 << (-nBits)) - 1)
 	  s >>= (-nBits)
 	  nBits += eLen
-	  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+	  for (; nBits > 0; e = (e * 256) + buffer[offset + i], i += d, nBits -= 8) {}
 
 	  m = e & ((1 << (-nBits)) - 1)
 	  e >>= (-nBits)
 	  nBits += mLen
-	  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+	  for (; nBits > 0; m = (m * 256) + buffer[offset + i], i += d, nBits -= 8) {}
 
 	  if (e === 0) {
 	    e = 1 - eBias
@@ -36093,7 +36117,7 @@
 
 	exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 	  var e, m, c
-	  var eLen = nBytes * 8 - mLen - 1
+	  var eLen = (nBytes * 8) - mLen - 1
 	  var eMax = (1 << eLen) - 1
 	  var eBias = eMax >> 1
 	  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
@@ -36126,7 +36150,7 @@
 	      m = 0
 	      e = eMax
 	    } else if (e + eBias >= 1) {
-	      m = (value * c - 1) * Math.pow(2, mLen)
+	      m = ((value * c) - 1) * Math.pow(2, mLen)
 	      e = e + eBias
 	    } else {
 	      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
@@ -41738,7 +41762,7 @@
 
 	var SOCKET_EVENTS = {
 	  RECEIVER: {
-	    DISCONNECT: ["disconnect", _gameActions.disconnectGameRoom],
+	    DISCONNECT: ["disconnect", _socketActions.disconnectGameRoom],
 	    RETRIEVE_GAME_INFO: ["retrieveGameInfo", _gameActions.retrieveGameInfo],
 	    UPDATE_CHAT_PLAYER_MESSAGE: ["playerMessage", _gameActions.addMessageToChat],
 	    UPDATE_CHAT_INFORM_MESSAGE: ["generalMessage", _gameActions.addMessageToChat],
@@ -41748,7 +41772,9 @@
 	    UPDATE_GAME_STATE: ["updateGameState", _gameActions.updateGameState],
 	    DISPLAY_PLAYERS_DRAW: ["playerDraws", _gameActions.fetchPlayersDraw],
 	    DISPLAY_CURRENT_WORD: ["currentWord", _gameActions.displayCurrentWord],
-	    CONNECTION_RESULT: ["connectionResult", _socketActions.setConnection]
+	    CONNECTION_RESULT: ["connectionResult", _socketActions.setConnection],
+	    CONNECTION_ERROR: ["connect_error", _socketActions.connectionError],
+	    ERROR: ["error", _socketActions.connectionError]
 	  },
 	  EMITTER: {
 	    PLAYER_JOIN_RANDOM_GAMEROOM: "joinRandomRoom",
@@ -41789,8 +41815,8 @@
 	exports.playerDrawCanvas = playerDrawCanvas;
 	exports.clearCanvas = clearCanvas;
 	exports.voteDraw = voteDraw;
-	exports.disconnectGameRoom = disconnectGameRoom;
 	exports.toggleExpand = toggleExpand;
+	exports.hideModal = hideModal;
 
 	var _actions = __webpack_require__(99);
 
@@ -41971,18 +41997,19 @@
 	/**
 	 * 
 	 */
-	function disconnectGameRoom() {
+	function toggleExpand() {
 	  return {
-	    type: ACTIONS.DISCONNECT_GAME_ROOM
+	    type: ACTIONS.TOGGLE_EXPAND
 	  };
 	}
 
 	/**
 	 * 
 	 */
-	function toggleExpand() {
+	function hideModal() {
 	  return {
-	    type: ACTIONS.TOGGLE_EXPAND
+	    type: ACTIONS.HIDE_MODAL,
+	    payload: false
 	  };
 	}
 
@@ -41997,8 +42024,10 @@
 	});
 	exports.openPlayerSocketConnection = openPlayerSocketConnection;
 	exports.setConnection = setConnection;
+	exports.disconnectGameRoom = disconnectGameRoom;
+	exports.connectionError = connectionError;
 
-	var _actions = __webpack_require__(101);
+	var _actions = __webpack_require__(100);
 
 	var ACTIONS = _interopRequireWildcard(_actions);
 
@@ -42034,6 +42063,24 @@
 	  };
 	}
 
+	/**
+	 * 
+	 */
+	function disconnectGameRoom() {
+	  return {
+	    type: ACTIONS.DISCONNECT_GAME_ROOM
+	  };
+	}
+
+	/**
+	 * 
+	 */
+	function connectionError(err) {
+	  return {
+	    type: ACTIONS.CONNECTION_ERROR
+	  };
+	}
+
 /***/ }),
 /* 162 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -42049,25 +42096,25 @@
 
 	var _Home2 = _interopRequireDefault(_Home);
 
-	var _Search = __webpack_require__(870);
+	var _Search = __webpack_require__(874);
 
 	var _Search2 = _interopRequireDefault(_Search);
 
-	var _play = __webpack_require__(898);
+	var _play = __webpack_require__(902);
 
-	var _Create = __webpack_require__(961);
+	var _Create = __webpack_require__(965);
 
 	var _Create2 = _interopRequireDefault(_Create);
 
-	var _Setting = __webpack_require__(963);
+	var _Setting = __webpack_require__(967);
 
 	var _Setting2 = _interopRequireDefault(_Setting);
 
-	var _Policy = __webpack_require__(965);
+	var _Policy = __webpack_require__(969);
 
 	var _Policy2 = _interopRequireDefault(_Policy);
 
-	var _HowToPlay = __webpack_require__(967);
+	var _HowToPlay = __webpack_require__(971);
 
 	var _HowToPlay2 = _interopRequireDefault(_HowToPlay);
 
@@ -42142,7 +42189,15 @@
 
 	var _socketActions = __webpack_require__(161);
 
-	var _components = __webpack_require__(828);
+	var _footer_url = __webpack_require__(828);
+
+	var _footer_url2 = _interopRequireDefault(_footer_url);
+
+	var _components = __webpack_require__(829);
+
+	var _MenuButton = __webpack_require__(873);
+
+	var _MenuButton2 = _interopRequireDefault(_MenuButton);
 
 	function _interopRequireWildcard(obj) {
 	  if (obj && obj.__esModule) {
@@ -42178,8 +42233,6 @@
 	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 	}
 
-	var SAMPLE_DRAWS_ENDPOINT = "/api/sample/draws";
-
 	Sentry.init({
 	  dsn: "https://0bf6ab16edaf42b687dba1a4cdb01548@sentry.io/1406806"
 	});
@@ -42197,15 +42250,7 @@
 	    var _this = _possibleConstructorReturn(this, (HomePage.__proto__ || Object.getPrototypeOf(HomePage)).call(this, props));
 
 	    _this.state = {
-	      error: null,
-	      title: "Home",
-	      placeholder: "Introduce a nickname",
-	      username: _this.props.username,
-	      buttonTxt: "Play now!",
-	      privateTxt: "Create Private room",
-	      searchTxt: "Find game",
-	      samples: [],
-	      loadingSamples: true
+	      error: null
 	    };
 
 	    // Events listeners
@@ -42317,29 +42362,7 @@
 	        onInputChange: this.onInputChange,
 	        username: this.state.username,
 	        onKeyPress: this.onSubmit
-	      })), _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 16, tablet: 16, computer: 16 }, _react2.default.createElement(_components.PrimaryButton, {
-	        color: "red",
-	        className: "btn-roundy",
-	        value: "home.btn1",
-	        onClick: this.onPlayButtonClick
-	      })), _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 16, tablet: 16, computer: 16 }, _react2.default.createElement(_components.PrimaryButton, {
-	        color: "green",
-	        className: "btn-roundy",
-	        value: "home.btn2",
-	        onClick: this.onSearchButtonClick
-	      }), _react2.default.createElement(_components.PrimaryButton, {
-	        color: "blue",
-	        className: "btn-roundy",
-	        value: "home.btn3",
-	        onClick: this.onCreateButtonClick
-	      }), _react2.default.createElement(_components.PrimaryButton, {
-	        color: "grey",
-	        className: "btn-roundy",
-	        value: "home.btn4",
-	        onClick: this.onSettingsButtonClick
-	      }))))), _react2.default.createElement("div", { className: "center" }, _react2.default.createElement(_components.Footer, {
-	        links: [{ action: "mailto", value: "picas.iohelp@gmail.com" }, { value: "policy", action: "link", url: "/policy" }, { value: "How to play", action: "link", url: "/howtoplay" }, { value: "Join our Discord community", action: "link", url: "https://discord.gg/NuNGe4" }]
-	      })));
+	      }), _react2.default.createElement(_MenuButton2.default, { actions: [this.onPlayButtonClick, this.onSearchButtonClick, this.onCreateButtonClick, this.onCreateButtonClick, this.onSettingsButtonClick] }))))), _react2.default.createElement("div", { className: "center" }, _react2.default.createElement(_components.Footer, { links: _footer_url2.default })));
 	    }
 	  }]);
 
@@ -91761,6 +91784,21 @@
 
 /***/ }),
 /* 828 */
+/***/ (function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = [{ action: "mailto", value: "picas.iohelp@gmail.com" }, { value: "policy", action: "link", url: "/policy" }, {
+	  value: "Join our Discord community",
+	  action: "link",
+	  url: "https://discord.gg/NuNGe4"
+	}];
+
+/***/ }),
+/* 829 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -91768,41 +91806,41 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.Footer = exports.Timer = exports.DrawThumbnail = exports.Navbar = exports.AdBlock = exports.InfoMessage = exports.Message = exports.InputText = exports.PrimaryButton = undefined;
+	exports.Footer = exports.Timer = exports.DrawThumbnail = exports.Navbar = exports.Advertisement = exports.InfoMessage = exports.Message = exports.InputText = exports.PrimaryButton = undefined;
 
-	var _PrimaryButton = __webpack_require__(829);
+	var _PrimaryButton = __webpack_require__(830);
 
 	var _PrimaryButton2 = _interopRequireDefault(_PrimaryButton);
 
-	var _InputText = __webpack_require__(853);
+	var _InputText = __webpack_require__(854);
 
 	var _InputText2 = _interopRequireDefault(_InputText);
 
-	var _Message = __webpack_require__(854);
+	var _Message = __webpack_require__(855);
 
 	var _Message2 = _interopRequireDefault(_Message);
 
-	var _InfoMessage = __webpack_require__(857);
+	var _InfoMessage = __webpack_require__(858);
 
 	var _InfoMessage2 = _interopRequireDefault(_InfoMessage);
 
-	var _AdBlock = __webpack_require__(859);
+	var _Advertisement = __webpack_require__(860);
 
-	var _AdBlock2 = _interopRequireDefault(_AdBlock);
+	var _Advertisement2 = _interopRequireDefault(_Advertisement);
 
-	var _Navbar = __webpack_require__(861);
+	var _Navbar = __webpack_require__(864);
 
 	var _Navbar2 = _interopRequireDefault(_Navbar);
 
-	var _Footer = __webpack_require__(863);
+	var _Footer = __webpack_require__(866);
 
 	var _Footer2 = _interopRequireDefault(_Footer);
 
-	var _DrawThumbnail = __webpack_require__(866);
+	var _DrawThumbnail = __webpack_require__(869);
 
 	var _DrawThumbnail2 = _interopRequireDefault(_DrawThumbnail);
 
-	var _Timer = __webpack_require__(868);
+	var _Timer = __webpack_require__(871);
 
 	var _Timer2 = _interopRequireDefault(_Timer);
 
@@ -91814,14 +91852,14 @@
 	exports.InputText = _InputText2.default;
 	exports.Message = _Message2.default;
 	exports.InfoMessage = _InfoMessage2.default;
-	exports.AdBlock = _AdBlock2.default;
+	exports.Advertisement = _Advertisement2.default;
 	exports.Navbar = _Navbar2.default;
 	exports.DrawThumbnail = _DrawThumbnail2.default;
 	exports.Timer = _Timer2.default;
 	exports.Footer = _Footer2.default;
 
 /***/ }),
-/* 829 */
+/* 830 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -91830,7 +91868,7 @@
 	  value: true
 	});
 
-	var _PrimaryButton = __webpack_require__(830);
+	var _PrimaryButton = __webpack_require__(831);
 
 	var _PrimaryButton2 = _interopRequireDefault(_PrimaryButton);
 
@@ -91841,7 +91879,7 @@
 	exports.default = _PrimaryButton2.default;
 
 /***/ }),
-/* 830 */
+/* 831 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -91856,7 +91894,7 @@
 
 	var _semanticUiReact = __webpack_require__(165);
 
-	var _reactIntl = __webpack_require__(831);
+	var _reactIntl = __webpack_require__(832);
 
 	function _interopRequireDefault(obj) {
 	    return obj && obj.__esModule ? obj : { default: obj };
@@ -91877,7 +91915,7 @@
 	exports.default = PrimaryButton;
 
 /***/ }),
-/* 831 */
+/* 832 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/*
@@ -91892,15 +91930,15 @@
 
 	function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-	var allLocaleData = _interopDefault(__webpack_require__(832));
-	var IntlMessageFormat = _interopDefault(__webpack_require__(833));
-	var IntlRelativeFormat = _interopDefault(__webpack_require__(843));
+	var allLocaleData = _interopDefault(__webpack_require__(833));
+	var IntlMessageFormat = _interopDefault(__webpack_require__(834));
+	var IntlRelativeFormat = _interopDefault(__webpack_require__(844));
 	var PropTypes = _interopDefault(__webpack_require__(20));
 	var React = __webpack_require__(4);
 	var React__default = _interopDefault(React);
 	var hoistNonReactStatics = _interopDefault(__webpack_require__(51));
 	var invariant = _interopDefault(__webpack_require__(52));
-	var memoizeIntlConstructor = _interopDefault(__webpack_require__(850));
+	var memoizeIntlConstructor = _interopDefault(__webpack_require__(851));
 
 	// GENERATED FILE
 	var defaultLocaleData = { "locale": "en", "pluralRuleFunction": function pluralRuleFunction(n, ord) {
@@ -93686,24 +93724,24 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 832 */
+/* 833 */
 /***/ (function(module, exports) {
 
 	/* (ignored) */
 
 /***/ }),
-/* 833 */
+/* 834 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* jshint node:true */
 
 	'use strict';
 
-	var IntlMessageFormat = __webpack_require__(834)['default'];
+	var IntlMessageFormat = __webpack_require__(835)['default'];
 
 	// Add all locale data to `IntlMessageFormat`. This module will be ignored when
 	// bundling for the browser with Browserify/Webpack.
-	__webpack_require__(842);
+	__webpack_require__(843);
 
 	// Re-export `IntlMessageFormat` as the CommonJS default exports with all the
 	// locale data registered, and with English set as the default locale. Define
@@ -93713,13 +93751,13 @@
 
 
 /***/ }),
-/* 834 */
+/* 835 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* jslint esnext: true */
 
 	"use strict";
-	var src$core$$ = __webpack_require__(835), src$en$$ = __webpack_require__(841);
+	var src$core$$ = __webpack_require__(836), src$en$$ = __webpack_require__(842);
 
 	src$core$$["default"].__addLocaleData(src$en$$["default"]);
 	src$core$$["default"].defaultLocale = 'en';
@@ -93729,7 +93767,7 @@
 	//# sourceMappingURL=main.js.map
 
 /***/ }),
-/* 835 */
+/* 836 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
@@ -93741,7 +93779,7 @@
 	/* jslint esnext: true */
 
 	"use strict";
-	var src$utils$$ = __webpack_require__(836), src$es5$$ = __webpack_require__(837), src$compiler$$ = __webpack_require__(838), intl$messageformat$parser$$ = __webpack_require__(839);
+	var src$utils$$ = __webpack_require__(837), src$es5$$ = __webpack_require__(838), src$compiler$$ = __webpack_require__(839), intl$messageformat$parser$$ = __webpack_require__(840);
 	exports["default"] = MessageFormat;
 
 	// -- MessageFormat --------------------------------------------------------
@@ -94011,7 +94049,7 @@
 	//# sourceMappingURL=core.js.map
 
 /***/ }),
-/* 836 */
+/* 837 */
 /***/ (function(module, exports) {
 
 	/*
@@ -94048,7 +94086,7 @@
 	//# sourceMappingURL=utils.js.map
 
 /***/ }),
-/* 837 */
+/* 838 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
@@ -94060,7 +94098,7 @@
 	/* jslint esnext: true */
 
 	"use strict";
-	var src$utils$$ = __webpack_require__(836);
+	var src$utils$$ = __webpack_require__(837);
 
 	// Purposely using the same implementation as the Intl.js `Intl` polyfill.
 	// Copyright 2013 Andy Earnshaw, MIT License
@@ -94103,7 +94141,7 @@
 	//# sourceMappingURL=es5.js.map
 
 /***/ }),
-/* 838 */
+/* 839 */
 /***/ (function(module, exports) {
 
 	/*
@@ -94317,17 +94355,17 @@
 	//# sourceMappingURL=compiler.js.map
 
 /***/ }),
-/* 839 */
+/* 840 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	exports = module.exports = __webpack_require__(840)['default'];
+	exports = module.exports = __webpack_require__(841)['default'];
 	exports['default'] = exports;
 
 
 /***/ }),
-/* 840 */
+/* 841 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -95733,7 +95771,7 @@
 	//# sourceMappingURL=parser.js.map
 
 /***/ }),
-/* 841 */
+/* 842 */
 /***/ (function(module, exports) {
 
 	// GENERATED FILE
@@ -95743,24 +95781,24 @@
 	//# sourceMappingURL=en.js.map
 
 /***/ }),
-/* 842 */
+/* 843 */
 /***/ (function(module, exports) {
 
 	/* (ignored) */
 
 /***/ }),
-/* 843 */
+/* 844 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* jshint node:true */
 
 	'use strict';
 
-	var IntlRelativeFormat = __webpack_require__(844)['default'];
+	var IntlRelativeFormat = __webpack_require__(845)['default'];
 
 	// Add all locale data to `IntlRelativeFormat`. This module will be ignored when
 	// bundling for the browser with Browserify/Webpack.
-	__webpack_require__(849);
+	__webpack_require__(850);
 
 	// Re-export `IntlRelativeFormat` as the CommonJS default exports with all the
 	// locale data registered, and with English set as the default locale. Define
@@ -95770,13 +95808,13 @@
 
 
 /***/ }),
-/* 844 */
+/* 845 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* jslint esnext: true */
 
 	"use strict";
-	var src$core$$ = __webpack_require__(845), src$en$$ = __webpack_require__(848);
+	var src$core$$ = __webpack_require__(846), src$en$$ = __webpack_require__(849);
 
 	src$core$$["default"].__addLocaleData(src$en$$["default"]);
 	src$core$$["default"].defaultLocale = 'en';
@@ -95786,7 +95824,7 @@
 	//# sourceMappingURL=main.js.map
 
 /***/ }),
-/* 845 */
+/* 846 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
@@ -95798,7 +95836,7 @@
 	/* jslint esnext: true */
 
 	"use strict";
-	var intl$messageformat$$ = __webpack_require__(833), src$diff$$ = __webpack_require__(846), src$es5$$ = __webpack_require__(847);
+	var intl$messageformat$$ = __webpack_require__(834), src$diff$$ = __webpack_require__(847), src$es5$$ = __webpack_require__(848);
 	exports["default"] = RelativeFormat;
 
 	// -----------------------------------------------------------------------------
@@ -96098,7 +96136,7 @@
 	//# sourceMappingURL=core.js.map
 
 /***/ }),
-/* 846 */
+/* 847 */
 /***/ (function(module, exports) {
 
 	/*
@@ -96156,7 +96194,7 @@
 	//# sourceMappingURL=diff.js.map
 
 /***/ }),
-/* 847 */
+/* 848 */
 /***/ (function(module, exports) {
 
 	/*
@@ -96237,7 +96275,7 @@
 	//# sourceMappingURL=es5.js.map
 
 /***/ }),
-/* 848 */
+/* 849 */
 /***/ (function(module, exports) {
 
 	// GENERATED FILE
@@ -96247,23 +96285,23 @@
 	//# sourceMappingURL=en.js.map
 
 /***/ }),
-/* 849 */
+/* 850 */
 /***/ (function(module, exports) {
 
 	/* (ignored) */
 
 /***/ }),
-/* 850 */
+/* 851 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	exports = module.exports = __webpack_require__(851)['default'];
+	exports = module.exports = __webpack_require__(852)['default'];
 	exports['default'] = exports;
 
 
 /***/ }),
-/* 851 */
+/* 852 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
@@ -96275,7 +96313,7 @@
 	/* jshint esnext: true */
 
 	"use strict";
-	var src$es5$$ = __webpack_require__(852);
+	var src$es5$$ = __webpack_require__(853);
 	exports["default"] = createFormatCache;
 
 	// -----------------------------------------------------------------------------
@@ -96351,7 +96389,7 @@
 	//# sourceMappingURL=memoizer.js.map
 
 /***/ }),
-/* 852 */
+/* 853 */
 /***/ (function(module, exports) {
 
 	/*
@@ -96436,7 +96474,7 @@
 	//# sourceMappingURL=es5.js.map
 
 /***/ }),
-/* 853 */
+/* 854 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -96449,7 +96487,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactIntl = __webpack_require__(831);
+	var _reactIntl = __webpack_require__(832);
 
 	function _interopRequireDefault(obj) {
 	    return obj && obj.__esModule ? obj : { default: obj };
@@ -96479,7 +96517,7 @@
 	exports.default = (0, _reactIntl.injectIntl)(InputText);
 
 /***/ }),
-/* 854 */
+/* 855 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -96488,7 +96526,7 @@
 	  value: true
 	});
 
-	var _Message = __webpack_require__(855);
+	var _Message = __webpack_require__(856);
 
 	var _Message2 = _interopRequireDefault(_Message);
 
@@ -96499,7 +96537,7 @@
 	exports.default = _Message2.default;
 
 /***/ }),
-/* 855 */
+/* 856 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -96512,7 +96550,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _styles = __webpack_require__(856);
+	var _styles = __webpack_require__(857);
 
 	var _styles2 = _interopRequireDefault(_styles);
 
@@ -96537,7 +96575,7 @@
 	exports.default = Message;
 
 /***/ }),
-/* 856 */
+/* 857 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -96582,7 +96620,7 @@
 	exports.default = messageStyles;
 
 /***/ }),
-/* 857 */
+/* 858 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -96595,7 +96633,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _styles = __webpack_require__(858);
+	var _styles = __webpack_require__(859);
 
 	var _styles2 = _interopRequireDefault(_styles);
 
@@ -96616,7 +96654,7 @@
 	exports.default = InfoMessage;
 
 /***/ }),
-/* 858 */
+/* 859 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -96638,26 +96676,6 @@
 	exports.default = infoMessageStyles;
 
 /***/ }),
-/* 859 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _AdBlock = __webpack_require__(860);
-
-	var _AdBlock2 = _interopRequireDefault(_AdBlock);
-
-	function _interopRequireDefault(obj) {
-	  return obj && obj.__esModule ? obj : { default: obj };
-	}
-
-	exports.default = _AdBlock2.default;
-
-/***/ }),
 /* 860 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -96667,25 +96685,152 @@
 	  value: true
 	});
 
-	var _react = __webpack_require__(4);
+	var _Advertisement = __webpack_require__(861);
 
-	var _react2 = _interopRequireDefault(_react);
+	var _Advertisement2 = _interopRequireDefault(_Advertisement);
 
 	function _interopRequireDefault(obj) {
 	  return obj && obj.__esModule ? obj : { default: obj };
 	}
 
-	/**
-	 * AdBlock Component
-	 */
-	var AdBlock = function AdBlock(props) {
-	  return _react2.default.createElement('div', { id: 'afscontainer1' });
-	};
-
-	exports.default = AdBlock;
+	exports.default = _Advertisement2.default;
 
 /***/ }),
 /* 861 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _AdBlockDetect = __webpack_require__(862);
+
+	var _AdBlockDetect2 = _interopRequireDefault(_AdBlockDetect);
+
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { default: obj };
+	}
+
+	var Advertisement = function Advertisement(props) {
+	  return _react2.default.createElement(_AdBlockDetect2.default, { blockimg: props.blockimg }, _react2.default.createElement("div", { id: "afscontainer1" }));
+	};
+
+	exports.default = Advertisement;
+
+/***/ }),
+/* 862 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () {
+	    function defineProperties(target, props) {
+	        for (var i = 0; i < props.length; i++) {
+	            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+	        }
+	    }return function (Constructor, protoProps, staticProps) {
+	        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	    };
+	}();
+
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _adblockdetect = __webpack_require__(863);
+
+	function _interopRequireDefault(obj) {
+	    return obj && obj.__esModule ? obj : { default: obj };
+	}
+
+	function _classCallCheck(instance, Constructor) {
+	    if (!(instance instanceof Constructor)) {
+	        throw new TypeError("Cannot call a class as a function");
+	    }
+	}
+
+	function _possibleConstructorReturn(self, call) {
+	    if (!self) {
+	        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	    }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+	}
+
+	function _inherits(subClass, superClass) {
+	    if (typeof superClass !== "function" && superClass !== null) {
+	        throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+	    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	}
+
+	var AdBlockDetect = function (_Component) {
+	    _inherits(AdBlockDetect, _Component);
+
+	    function AdBlockDetect(props) {
+	        _classCallCheck(this, AdBlockDetect);
+
+	        var _this = _possibleConstructorReturn(this, (AdBlockDetect.__proto__ || Object.getPrototypeOf(AdBlockDetect)).call(this, props));
+
+	        _this.state = {
+	            detected: false
+	        };
+	        return _this;
+	    }
+
+	    _createClass(AdBlockDetect, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            this.setState({
+	                detected: (0, _adblockdetect.detected)()
+	            });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return this.state.detected ? _react2.default.createElement('img', { src: this.props.blockimg }) : this.props.children;
+	        }
+	    }]);
+
+	    return AdBlockDetect;
+	}(_react.Component);
+
+	exports.default = AdBlockDetect;
+
+/***/ }),
+/* 863 */
+/***/ (function(module, exports) {
+
+	module.exports = {
+	  detected: function() {
+	    blockedElement = document.createElement('div')
+	    blockedElement.className = 'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads'
+	    blockedElement.setAttribute('style', 'position: absolute; top: -10px; left: -10px; width: 1px; height: 1px;')
+	    document.body.appendChild(blockedElement)
+
+	    return window.document.body.getAttribute('abp') != null ||
+	      blockedElement.offsetParent == null ||
+	      blockedElement.offsetHeight == 0 ||
+	      blockedElement.offsetLeft == 0 ||
+	      blockedElement.offsetTop == 0 ||
+	      blockedElement.offsetWidth == 0 ||
+	      blockedElement.clientHeight == 0 ||
+	      blockedElement.clientWidth == 0
+	  }
+	}
+
+
+/***/ }),
+/* 864 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -96694,7 +96839,7 @@
 	  value: true
 	});
 
-	var _Navbar = __webpack_require__(862);
+	var _Navbar = __webpack_require__(865);
 
 	var _Navbar2 = _interopRequireDefault(_Navbar);
 
@@ -96705,7 +96850,7 @@
 	exports.default = _Navbar2.default;
 
 /***/ }),
-/* 862 */
+/* 865 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -96732,7 +96877,7 @@
 	exports.default = Navbar;
 
 /***/ }),
-/* 863 */
+/* 866 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -96741,7 +96886,7 @@
 	  value: true
 	});
 
-	var _Footer = __webpack_require__(864);
+	var _Footer = __webpack_require__(867);
 
 	var _Footer2 = _interopRequireDefault(_Footer);
 
@@ -96752,7 +96897,7 @@
 	exports.default = _Footer2.default;
 
 /***/ }),
-/* 864 */
+/* 867 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -96765,7 +96910,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _styles = __webpack_require__(865);
+	var _styles = __webpack_require__(868);
 
 	var _styles2 = _interopRequireDefault(_styles);
 
@@ -96789,7 +96934,7 @@
 	exports.default = Footer;
 
 /***/ }),
-/* 865 */
+/* 868 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -96801,14 +96946,15 @@
 	  container: {
 	    width: "100%",
 	    position: "absolute",
-	    bottom: "0"
+	    bottom: "0",
+	    marginTop: "10px"
 	  }
 	};
 
 	exports.default = styles;
 
 /***/ }),
-/* 866 */
+/* 869 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -96817,7 +96963,7 @@
 	  value: true
 	});
 
-	var _DrawThumbnail = __webpack_require__(867);
+	var _DrawThumbnail = __webpack_require__(870);
 
 	var _DrawThumbnail2 = _interopRequireDefault(_DrawThumbnail);
 
@@ -96828,7 +96974,7 @@
 	exports.default = _DrawThumbnail2.default;
 
 /***/ }),
-/* 867 */
+/* 870 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -96854,7 +97000,7 @@
 	exports.default = DrawThumbnail;
 
 /***/ }),
-/* 868 */
+/* 871 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -96863,7 +97009,7 @@
 	  value: true
 	});
 
-	var _Timer = __webpack_require__(869);
+	var _Timer = __webpack_require__(872);
 
 	var _Timer2 = _interopRequireDefault(_Timer);
 
@@ -96874,7 +97020,7 @@
 	exports.default = _Timer2.default;
 
 /***/ }),
-/* 869 */
+/* 872 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -96901,7 +97047,63 @@
 	exports.default = Timer;
 
 /***/ }),
-/* 870 */
+/* 873 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _components = __webpack_require__(829);
+
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { default: obj };
+	}
+
+	/**
+	 * Menubutton functional component
+	 */
+	var MenuButton = function MenuButton(_ref) {
+	  var actions = _ref.actions;
+
+	  return _react2.default.createElement("div", null, _react2.default.createElement(_components.PrimaryButton, {
+	    color: "red",
+	    className: "btn-roundy",
+	    value: "home.btn1",
+	    onClick: actions[0]
+	  }), _react2.default.createElement(_components.PrimaryButton, {
+	    color: "green",
+	    className: "btn-roundy",
+	    value: "home.btn2",
+	    onClick: actions[1]
+	  }), _react2.default.createElement(_components.PrimaryButton, {
+	    color: "blue",
+	    className: "btn-roundy",
+	    value: "home.btn3",
+	    onClick: actions[2]
+	  }), _react2.default.createElement(_components.PrimaryButton, {
+	    color: "purple",
+	    className: "btn-roundy",
+	    value: "home.btn4",
+	    onClick: actions[3]
+	  }), _react2.default.createElement(_components.PrimaryButton, {
+	    color: "grey",
+	    className: "btn-roundy",
+	    value: "home.btn5",
+	    onClick: actions[4]
+	  }));
+	};
+
+	exports.default = MenuButton;
+
+/***/ }),
+/* 874 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -96910,7 +97112,7 @@
 	  value: true
 	});
 
-	var _Search = __webpack_require__(871);
+	var _Search = __webpack_require__(875);
 
 	var _Search2 = _interopRequireDefault(_Search);
 
@@ -96921,7 +97123,7 @@
 	exports.default = _Search2.default;
 
 /***/ }),
-/* 871 */
+/* 875 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -96950,13 +97152,13 @@
 
 	var _semanticUiReact = __webpack_require__(165);
 
-	var _axios = __webpack_require__(872);
+	var _axios = __webpack_require__(876);
 
 	var _axios2 = _interopRequireDefault(_axios);
 
 	var _playerActions = __webpack_require__(827);
 
-	var _components = __webpack_require__(828);
+	var _components = __webpack_require__(829);
 
 	function _interopRequireDefault(obj) {
 	  return obj && obj.__esModule ? obj : { default: obj };
@@ -97098,21 +97300,21 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SearchPage);
 
 /***/ }),
-/* 872 */
+/* 876 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(873);
+	module.exports = __webpack_require__(877);
 
 /***/ }),
-/* 873 */
+/* 877 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(874);
-	var bind = __webpack_require__(875);
-	var Axios = __webpack_require__(877);
-	var defaults = __webpack_require__(878);
+	var utils = __webpack_require__(878);
+	var bind = __webpack_require__(879);
+	var Axios = __webpack_require__(881);
+	var defaults = __webpack_require__(882);
 
 	/**
 	 * Create an instance of Axios
@@ -97145,15 +97347,15 @@
 	};
 
 	// Expose Cancel & CancelToken
-	axios.Cancel = __webpack_require__(895);
-	axios.CancelToken = __webpack_require__(896);
-	axios.isCancel = __webpack_require__(892);
+	axios.Cancel = __webpack_require__(899);
+	axios.CancelToken = __webpack_require__(900);
+	axios.isCancel = __webpack_require__(896);
 
 	// Expose all/spread
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(897);
+	axios.spread = __webpack_require__(901);
 
 	module.exports = axios;
 
@@ -97162,13 +97364,13 @@
 
 
 /***/ }),
-/* 874 */
+/* 878 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var bind = __webpack_require__(875);
-	var isBuffer = __webpack_require__(876);
+	var bind = __webpack_require__(879);
+	var isBuffer = __webpack_require__(880);
 
 	/*global toString:true*/
 
@@ -97471,7 +97673,7 @@
 
 
 /***/ }),
-/* 875 */
+/* 879 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -97488,7 +97690,7 @@
 
 
 /***/ }),
-/* 876 */
+/* 880 */
 /***/ (function(module, exports) {
 
 	/*!
@@ -97515,17 +97717,17 @@
 
 
 /***/ }),
-/* 877 */
+/* 881 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var defaults = __webpack_require__(878);
-	var utils = __webpack_require__(874);
-	var InterceptorManager = __webpack_require__(889);
-	var dispatchRequest = __webpack_require__(890);
-	var isAbsoluteURL = __webpack_require__(893);
-	var combineURLs = __webpack_require__(894);
+	var defaults = __webpack_require__(882);
+	var utils = __webpack_require__(878);
+	var InterceptorManager = __webpack_require__(893);
+	var dispatchRequest = __webpack_require__(894);
+	var isAbsoluteURL = __webpack_require__(897);
+	var combineURLs = __webpack_require__(898);
 
 	/**
 	 * Create a new instance of Axios
@@ -97607,13 +97809,13 @@
 
 
 /***/ }),
-/* 878 */
+/* 882 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var utils = __webpack_require__(874);
-	var normalizeHeaderName = __webpack_require__(879);
+	var utils = __webpack_require__(878);
+	var normalizeHeaderName = __webpack_require__(883);
 
 	var DEFAULT_CONTENT_TYPE = {
 	  'Content-Type': 'application/x-www-form-urlencoded'
@@ -97629,10 +97831,10 @@
 	  var adapter;
 	  if (typeof XMLHttpRequest !== 'undefined') {
 	    // For browsers use XHR adapter
-	    adapter = __webpack_require__(880);
+	    adapter = __webpack_require__(884);
 	  } else if (typeof process !== 'undefined') {
 	    // For node use HTTP adapter
-	    adapter = __webpack_require__(880);
+	    adapter = __webpack_require__(884);
 	  }
 	  return adapter;
 	}
@@ -97706,12 +97908,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 879 */
+/* 883 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(874);
+	var utils = __webpack_require__(878);
 
 	module.exports = function normalizeHeaderName(headers, normalizedName) {
 	  utils.forEach(headers, function processHeader(value, name) {
@@ -97724,18 +97926,18 @@
 
 
 /***/ }),
-/* 880 */
+/* 884 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var utils = __webpack_require__(874);
-	var settle = __webpack_require__(881);
-	var buildURL = __webpack_require__(884);
-	var parseHeaders = __webpack_require__(885);
-	var isURLSameOrigin = __webpack_require__(886);
-	var createError = __webpack_require__(882);
-	var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(887);
+	var utils = __webpack_require__(878);
+	var settle = __webpack_require__(885);
+	var buildURL = __webpack_require__(888);
+	var parseHeaders = __webpack_require__(889);
+	var isURLSameOrigin = __webpack_require__(890);
+	var createError = __webpack_require__(886);
+	var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(891);
 
 	module.exports = function xhrAdapter(config) {
 	  return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -97832,7 +98034,7 @@
 	    // This is only done if running in a standard browser environment.
 	    // Specifically not if we're in a web worker, or react-native.
 	    if (utils.isStandardBrowserEnv()) {
-	      var cookies = __webpack_require__(888);
+	      var cookies = __webpack_require__(892);
 
 	      // Add xsrf header
 	      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -97911,12 +98113,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 881 */
+/* 885 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var createError = __webpack_require__(882);
+	var createError = __webpack_require__(886);
 
 	/**
 	 * Resolve or reject a Promise based on response status.
@@ -97943,12 +98145,12 @@
 
 
 /***/ }),
-/* 882 */
+/* 886 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var enhanceError = __webpack_require__(883);
+	var enhanceError = __webpack_require__(887);
 
 	/**
 	 * Create an Error with the specified message, config, error code, request and response.
@@ -97967,7 +98169,7 @@
 
 
 /***/ }),
-/* 883 */
+/* 887 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -97994,12 +98196,12 @@
 
 
 /***/ }),
-/* 884 */
+/* 888 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(874);
+	var utils = __webpack_require__(878);
 
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -98068,12 +98270,12 @@
 
 
 /***/ }),
-/* 885 */
+/* 889 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(874);
+	var utils = __webpack_require__(878);
 
 	/**
 	 * Parse headers into an object
@@ -98111,12 +98313,12 @@
 
 
 /***/ }),
-/* 886 */
+/* 890 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(874);
+	var utils = __webpack_require__(878);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -98185,7 +98387,7 @@
 
 
 /***/ }),
-/* 887 */
+/* 891 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -98227,12 +98429,12 @@
 
 
 /***/ }),
-/* 888 */
+/* 892 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(874);
+	var utils = __webpack_require__(878);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -98286,12 +98488,12 @@
 
 
 /***/ }),
-/* 889 */
+/* 893 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(874);
+	var utils = __webpack_require__(878);
 
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -98344,15 +98546,15 @@
 
 
 /***/ }),
-/* 890 */
+/* 894 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(874);
-	var transformData = __webpack_require__(891);
-	var isCancel = __webpack_require__(892);
-	var defaults = __webpack_require__(878);
+	var utils = __webpack_require__(878);
+	var transformData = __webpack_require__(895);
+	var isCancel = __webpack_require__(896);
+	var defaults = __webpack_require__(882);
 
 	/**
 	 * Throws a `Cancel` if cancellation has been requested.
@@ -98429,12 +98631,12 @@
 
 
 /***/ }),
-/* 891 */
+/* 895 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(874);
+	var utils = __webpack_require__(878);
 
 	/**
 	 * Transform the data for a request or a response
@@ -98455,7 +98657,7 @@
 
 
 /***/ }),
-/* 892 */
+/* 896 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -98466,7 +98668,7 @@
 
 
 /***/ }),
-/* 893 */
+/* 897 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -98486,7 +98688,7 @@
 
 
 /***/ }),
-/* 894 */
+/* 898 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -98506,7 +98708,7 @@
 
 
 /***/ }),
-/* 895 */
+/* 899 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -98531,12 +98733,12 @@
 
 
 /***/ }),
-/* 896 */
+/* 900 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Cancel = __webpack_require__(895);
+	var Cancel = __webpack_require__(899);
 
 	/**
 	 * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -98594,7 +98796,7 @@
 
 
 /***/ }),
-/* 897 */
+/* 901 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -98627,7 +98829,7 @@
 
 
 /***/ }),
-/* 898 */
+/* 902 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98637,11 +98839,11 @@
 	});
 	exports.PrivateGame = exports.PublicGame = undefined;
 
-	var _PublicGame = __webpack_require__(899);
+	var _PublicGame = __webpack_require__(903);
 
 	var _PublicGame2 = _interopRequireDefault(_PublicGame);
 
-	var _PrivateGame = __webpack_require__(960);
+	var _PrivateGame = __webpack_require__(964);
 
 	var _PrivateGame2 = _interopRequireDefault(_PrivateGame);
 
@@ -98653,7 +98855,7 @@
 	exports.PrivateGame = _PrivateGame2.default;
 
 /***/ }),
-/* 899 */
+/* 903 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -98682,37 +98884,37 @@
 
 	var _semanticUiReact = __webpack_require__(165);
 
-	var _howler = __webpack_require__(900);
+	var _howler = __webpack_require__(904);
 
-	var _src = __webpack_require__(901);
+	var _src = __webpack_require__(905);
 
 	var _src2 = _interopRequireDefault(_src);
 
-	var _GeneralModal = __webpack_require__(939);
+	var _GeneralModal = __webpack_require__(943);
 
 	var _GeneralModal2 = _interopRequireDefault(_GeneralModal);
 
-	var _CanvasGame = __webpack_require__(940);
+	var _CanvasGame = __webpack_require__(944);
 
 	var _CanvasGame2 = _interopRequireDefault(_CanvasGame);
 
-	var _Chat = __webpack_require__(948);
+	var _Chat = __webpack_require__(952);
 
 	var _Chat2 = _interopRequireDefault(_Chat);
 
-	var _PlayerList = __webpack_require__(951);
+	var _PlayerList = __webpack_require__(955);
 
 	var _PlayerList2 = _interopRequireDefault(_PlayerList);
 
-	var _ToolPaint = __webpack_require__(953);
+	var _ToolPaint = __webpack_require__(957);
 
 	var _ToolPaint2 = _interopRequireDefault(_ToolPaint);
 
-	var _components = __webpack_require__(828);
+	var _components = __webpack_require__(829);
 
 	var _gameActions = __webpack_require__(160);
 
-	var _utils = __webpack_require__(944);
+	var _utils = __webpack_require__(948);
 
 	function _interopRequireDefault(obj) {
 	  return obj && obj.__esModule ? obj : { default: obj };
@@ -98749,9 +98951,6 @@
 	    var _this = _possibleConstructorReturn(this, (PublicGame.__proto__ || Object.getPrototypeOf(PublicGame)).call(this, props));
 
 	    _this.state = {
-	      title: "Play Game!",
-	      modalOpen: true,
-	      username: _this.props.username,
 	      isPenDown: false,
 	      currentPosition: {
 	        prevX: null,
@@ -98769,6 +98968,7 @@
 	    _this.setPrevPosition = _this.setPrevPosition.bind(_this);
 	    _this.setCurrentPosition = _this.setCurrentPosition.bind(_this);
 	    _this.drawCoordinates = _this.drawCoordinates.bind(_this);
+	    _this.goHome = _this.goHome.bind(_this);
 
 	    _this.init();
 	    return _this;
@@ -98777,23 +98977,38 @@
 	  _createClass(PublicGame, [{
 	    key: "init",
 	    value: function init() {
-	      // no connection openned, then redirect to home page
-	      if (!this.props.connection) return this.props.history.push("/");
 	      var sound = new _howler.Howl({
 	        src: ["/assets/music/entrance.mp3"]
 	      });
 	      sound.play();
 	    }
+
+	    /**
+	     * 
+	     */
+
 	  }, {
 	    key: "componentDidMount",
 	    value: function componentDidMount() {
 	      var mycanvas = document.getElementById("mycanvas");
+	      if (!mycanvas) return;
 	      this.setState({
 	        canvas: {
 	          width: mycanvas.scrollWidth,
 	          height: mycanvas.scrollHeight
 	        }
 	      });
+	    }
+
+	    /**
+	     * 
+	     */
+
+	  }, {
+	    key: "goHome",
+	    value: function goHome() {
+	      this.props.history.push("/");
+	      this.props.hideModal();
 	    }
 
 	    /**
@@ -98947,10 +99162,16 @@
 	      return _react2.default.createElement("div", { id: "play-site" }, _react2.default.createElement(_components.Navbar, null), _react2.default.createElement(_semanticUiReact.Grid, null, _react2.default.createElement(_PlayerList2.default, null), _react2.default.createElement(_semanticUiReact.Grid.Row, null, this.props.currentWord), _react2.default.createElement(_semanticUiReact.Grid.Row, null, _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 16, tablet: 10, computer: 2 }, _react2.default.createElement(_ToolPaint2.default, null)), _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 16, tablet: 10, computer: 10 }, this.props.gamePlay === "voting" && _react2.default.createElement("div", { className: "row" }, this.renderPlayerDraws()), this.props.gamePlay === "waitting" && _react2.default.createElement(_CanvasGame2.default, {
 	        onMouseMove: this.handleDisplayMouseMove,
 	        onMouseDown: this.handleDisplayMouseDown
-	      }), this.props.gamePlay === "starting" && _react2.default.createElement(_components.AdBlock, null), this.props.gamePlay === "playing" && _react2.default.createElement("div", null, _react2.default.createElement(_components.Timer, { className: "timer", time: this.props.countDown }), _react2.default.createElement(_CanvasGame2.default, {
+	      }), this.props.gamePlay === "starting" && _react2.default.createElement(_components.Advertisement, { blockimg: "/assets/img/pencil-drunk.png" }), this.props.gamePlay === "playing" && _react2.default.createElement("div", null, _react2.default.createElement(_components.Timer, { className: "timer", time: this.props.countDown }), _react2.default.createElement(_CanvasGame2.default, {
 	        onMouseMove: this.handleDisplayMouseMove,
 	        onMouseDown: this.handleDisplayMouseDown
-	      })), this.props.gamePlay === "finished" && _react2.default.createElement("div", null, _react2.default.createElement("h1", null, "finished"))), _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 4, tablet: 4, computer: 4 }, _react2.default.createElement(_Chat2.default, null)))), _react2.default.createElement(_GeneralModal2.default, { visibility: this.props.modal }));
+	      })), this.props.gamePlay === "finished" && _react2.default.createElement("div", null, _react2.default.createElement("h1", null, "finished"))), _react2.default.createElement(_semanticUiReact.Grid.Column, { mobile: 4, tablet: 4, computer: 4 }, _react2.default.createElement(_Chat2.default, null)))), _react2.default.createElement(_GeneralModal2.default, {
+	        visibility: this.props.modal,
+	        title: "Connection error",
+	        content: "You have lost the connection with the actual room, would u like to try reconnect?",
+	        btn1: "Yes",
+	        btn2: "No",
+	        action2: this.goHome }));
 	    }
 	  }]);
 
@@ -99002,6 +99223,9 @@
 	    },
 	    voteDraw: function voteDraw(draw, feedback) {
 	      dispatch((0, _gameActions.voteDraw)(draw, feedback));
+	    },
+	    hideModal: function hideModal() {
+	      dispatch((0, _gameActions.hideModal)());
 	    }
 	  };
 	};
@@ -99009,7 +99233,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(PublicGame);
 
 /***/ }),
-/* 900 */
+/* 904 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -102151,7 +102375,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 901 */
+/* 905 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -102172,13 +102396,13 @@
 	  };
 	}();
 
-	var _react = __webpack_require__(902);
+	var _react = __webpack_require__(906);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	__webpack_require__(933);
+	__webpack_require__(937);
 
-	__webpack_require__(934);
+	__webpack_require__(938);
 
 	function _interopRequireDefault(obj) {
 	  return obj && obj.__esModule ? obj : { default: obj };
@@ -102266,16 +102490,16 @@
 	exports.default = Fancy;
 
 /***/ }),
-/* 902 */
+/* 906 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	module.exports = __webpack_require__(903);
+	module.exports = __webpack_require__(907);
 
 
 /***/ }),
-/* 903 */
+/* 907 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -102290,24 +102514,24 @@
 
 	var _assign = __webpack_require__(6);
 
-	var ReactBaseClasses = __webpack_require__(904);
-	var ReactChildren = __webpack_require__(913);
-	var ReactDOMFactories = __webpack_require__(921);
-	var ReactElement = __webpack_require__(915);
-	var ReactPropTypes = __webpack_require__(927);
-	var ReactVersion = __webpack_require__(929);
+	var ReactBaseClasses = __webpack_require__(908);
+	var ReactChildren = __webpack_require__(917);
+	var ReactDOMFactories = __webpack_require__(925);
+	var ReactElement = __webpack_require__(919);
+	var ReactPropTypes = __webpack_require__(931);
+	var ReactVersion = __webpack_require__(933);
 
-	var createReactClass = __webpack_require__(930);
-	var onlyChild = __webpack_require__(932);
+	var createReactClass = __webpack_require__(934);
+	var onlyChild = __webpack_require__(936);
 
 	var createElement = ReactElement.createElement;
 	var createFactory = ReactElement.createFactory;
 	var cloneElement = ReactElement.cloneElement;
 
 	if (process.env.NODE_ENV !== 'production') {
-	  var lowPriorityWarning = __webpack_require__(912);
-	  var canDefineProperty = __webpack_require__(909);
-	  var ReactElementValidator = __webpack_require__(922);
+	  var lowPriorityWarning = __webpack_require__(916);
+	  var canDefineProperty = __webpack_require__(913);
+	  var ReactElementValidator = __webpack_require__(926);
 	  var didWarnPropTypesDeprecated = false;
 	  createElement = ReactElementValidator.createElement;
 	  createFactory = ReactElementValidator.createFactory;
@@ -102410,7 +102634,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 904 */
+/* 908 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -102423,15 +102647,15 @@
 
 	'use strict';
 
-	var _prodInvariant = __webpack_require__(905),
+	var _prodInvariant = __webpack_require__(909),
 	    _assign = __webpack_require__(6);
 
-	var ReactNoopUpdateQueue = __webpack_require__(906);
+	var ReactNoopUpdateQueue = __webpack_require__(910);
 
-	var canDefineProperty = __webpack_require__(909);
-	var emptyObject = __webpack_require__(910);
-	var invariant = __webpack_require__(911);
-	var lowPriorityWarning = __webpack_require__(912);
+	var canDefineProperty = __webpack_require__(913);
+	var emptyObject = __webpack_require__(914);
+	var invariant = __webpack_require__(915);
+	var lowPriorityWarning = __webpack_require__(916);
 
 	/**
 	 * Base class helpers for the updating state of a component.
@@ -102556,7 +102780,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 905 */
+/* 909 */
 /***/ (function(module, exports) {
 
 	/**
@@ -102597,7 +102821,7 @@
 	module.exports = reactProdInvariant;
 
 /***/ }),
-/* 906 */
+/* 910 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -102610,7 +102834,7 @@
 
 	'use strict';
 
-	var warning = __webpack_require__(907);
+	var warning = __webpack_require__(911);
 
 	function warnNoop(publicInstance, callerName) {
 	  if (process.env.NODE_ENV !== 'production') {
@@ -102695,7 +102919,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 907 */
+/* 911 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -102708,7 +102932,7 @@
 
 	'use strict';
 
-	var emptyFunction = __webpack_require__(908);
+	var emptyFunction = __webpack_require__(912);
 
 	/**
 	 * Similar to invariant but only logs a warning if the condition is not met.
@@ -102763,7 +102987,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 908 */
+/* 912 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -102804,7 +103028,7 @@
 	module.exports = emptyFunction;
 
 /***/ }),
-/* 909 */
+/* 913 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -102833,7 +103057,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 910 */
+/* 914 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -102856,7 +103080,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 911 */
+/* 915 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -102915,7 +103139,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 912 */
+/* 916 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -102983,7 +103207,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 913 */
+/* 917 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -102996,11 +103220,11 @@
 
 	'use strict';
 
-	var PooledClass = __webpack_require__(914);
-	var ReactElement = __webpack_require__(915);
+	var PooledClass = __webpack_require__(918);
+	var ReactElement = __webpack_require__(919);
 
-	var emptyFunction = __webpack_require__(908);
-	var traverseAllChildren = __webpack_require__(918);
+	var emptyFunction = __webpack_require__(912);
+	var traverseAllChildren = __webpack_require__(922);
 
 	var twoArgumentPooler = PooledClass.twoArgumentPooler;
 	var fourArgumentPooler = PooledClass.fourArgumentPooler;
@@ -103176,7 +103400,7 @@
 	module.exports = ReactChildren;
 
 /***/ }),
-/* 914 */
+/* 918 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -103190,9 +103414,9 @@
 
 	'use strict';
 
-	var _prodInvariant = __webpack_require__(905);
+	var _prodInvariant = __webpack_require__(909);
 
-	var invariant = __webpack_require__(911);
+	var invariant = __webpack_require__(915);
 
 	/**
 	 * Static poolers. Several custom versions for each potential number of
@@ -103291,7 +103515,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 915 */
+/* 919 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -103306,13 +103530,13 @@
 
 	var _assign = __webpack_require__(6);
 
-	var ReactCurrentOwner = __webpack_require__(916);
+	var ReactCurrentOwner = __webpack_require__(920);
 
-	var warning = __webpack_require__(907);
-	var canDefineProperty = __webpack_require__(909);
+	var warning = __webpack_require__(911);
+	var canDefineProperty = __webpack_require__(913);
 	var hasOwnProperty = Object.prototype.hasOwnProperty;
 
-	var REACT_ELEMENT_TYPE = __webpack_require__(917);
+	var REACT_ELEMENT_TYPE = __webpack_require__(921);
 
 	var RESERVED_PROPS = {
 	  key: true,
@@ -103635,7 +103859,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 916 */
+/* 920 */
 /***/ (function(module, exports) {
 
 	/**
@@ -103666,7 +103890,7 @@
 	module.exports = ReactCurrentOwner;
 
 /***/ }),
-/* 917 */
+/* 921 */
 /***/ (function(module, exports) {
 
 	/**
@@ -103688,7 +103912,7 @@
 	module.exports = REACT_ELEMENT_TYPE;
 
 /***/ }),
-/* 918 */
+/* 922 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -103701,15 +103925,15 @@
 
 	'use strict';
 
-	var _prodInvariant = __webpack_require__(905);
+	var _prodInvariant = __webpack_require__(909);
 
-	var ReactCurrentOwner = __webpack_require__(916);
-	var REACT_ELEMENT_TYPE = __webpack_require__(917);
+	var ReactCurrentOwner = __webpack_require__(920);
+	var REACT_ELEMENT_TYPE = __webpack_require__(921);
 
-	var getIteratorFn = __webpack_require__(919);
-	var invariant = __webpack_require__(911);
-	var KeyEscapeUtils = __webpack_require__(920);
-	var warning = __webpack_require__(907);
+	var getIteratorFn = __webpack_require__(923);
+	var invariant = __webpack_require__(915);
+	var KeyEscapeUtils = __webpack_require__(924);
+	var warning = __webpack_require__(911);
 
 	var SEPARATOR = '.';
 	var SUBSEPARATOR = ':';
@@ -103867,7 +104091,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 919 */
+/* 923 */
 /***/ (function(module, exports) {
 
 	/**
@@ -103910,7 +104134,7 @@
 	module.exports = getIteratorFn;
 
 /***/ }),
-/* 920 */
+/* 924 */
 /***/ (function(module, exports) {
 
 	/**
@@ -103971,7 +104195,7 @@
 	module.exports = KeyEscapeUtils;
 
 /***/ }),
-/* 921 */
+/* 925 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -103984,7 +104208,7 @@
 
 	'use strict';
 
-	var ReactElement = __webpack_require__(915);
+	var ReactElement = __webpack_require__(919);
 
 	/**
 	 * Create a factory that creates HTML tag elements.
@@ -103993,7 +104217,7 @@
 	 */
 	var createDOMFactory = ReactElement.createFactory;
 	if (process.env.NODE_ENV !== 'production') {
-	  var ReactElementValidator = __webpack_require__(922);
+	  var ReactElementValidator = __webpack_require__(926);
 	  createDOMFactory = ReactElementValidator.createFactory;
 	}
 
@@ -104143,7 +104367,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 922 */
+/* 926 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -104163,16 +104387,16 @@
 
 	'use strict';
 
-	var ReactCurrentOwner = __webpack_require__(916);
-	var ReactComponentTreeHook = __webpack_require__(923);
-	var ReactElement = __webpack_require__(915);
+	var ReactCurrentOwner = __webpack_require__(920);
+	var ReactComponentTreeHook = __webpack_require__(927);
+	var ReactElement = __webpack_require__(919);
 
-	var checkReactTypeSpec = __webpack_require__(924);
+	var checkReactTypeSpec = __webpack_require__(928);
 
-	var canDefineProperty = __webpack_require__(909);
-	var getIteratorFn = __webpack_require__(919);
-	var warning = __webpack_require__(907);
-	var lowPriorityWarning = __webpack_require__(912);
+	var canDefineProperty = __webpack_require__(913);
+	var getIteratorFn = __webpack_require__(923);
+	var warning = __webpack_require__(911);
+	var lowPriorityWarning = __webpack_require__(916);
 
 	function getDeclarationErrorAddendum() {
 	  if (ReactCurrentOwner.current) {
@@ -104401,7 +104625,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 923 */
+/* 927 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -104415,12 +104639,12 @@
 
 	'use strict';
 
-	var _prodInvariant = __webpack_require__(905);
+	var _prodInvariant = __webpack_require__(909);
 
-	var ReactCurrentOwner = __webpack_require__(916);
+	var ReactCurrentOwner = __webpack_require__(920);
 
-	var invariant = __webpack_require__(911);
-	var warning = __webpack_require__(907);
+	var invariant = __webpack_require__(915);
+	var warning = __webpack_require__(911);
 
 	function isNative(fn) {
 	  // Based on isNative() from Lodash
@@ -104783,7 +105007,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 924 */
+/* 928 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -104796,13 +105020,13 @@
 
 	'use strict';
 
-	var _prodInvariant = __webpack_require__(905);
+	var _prodInvariant = __webpack_require__(909);
 
-	var ReactPropTypeLocationNames = __webpack_require__(925);
-	var ReactPropTypesSecret = __webpack_require__(926);
+	var ReactPropTypeLocationNames = __webpack_require__(929);
+	var ReactPropTypesSecret = __webpack_require__(930);
 
-	var invariant = __webpack_require__(911);
-	var warning = __webpack_require__(907);
+	var invariant = __webpack_require__(915);
+	var warning = __webpack_require__(911);
 
 	var ReactComponentTreeHook;
 
@@ -104812,7 +105036,7 @@
 	  // https://github.com/facebook/react/issues/7240
 	  // Remove the inline requires when we don't need them anymore:
 	  // https://github.com/facebook/react/pull/7178
-	  ReactComponentTreeHook = __webpack_require__(923);
+	  ReactComponentTreeHook = __webpack_require__(927);
 	}
 
 	var loggedTypeFailures = {};
@@ -104854,7 +105078,7 @@
 
 	        if (process.env.NODE_ENV !== 'production') {
 	          if (!ReactComponentTreeHook) {
-	            ReactComponentTreeHook = __webpack_require__(923);
+	            ReactComponentTreeHook = __webpack_require__(927);
 	          }
 	          if (debugID !== null) {
 	            componentStackInfo = ReactComponentTreeHook.getStackAddendumByID(debugID);
@@ -104873,7 +105097,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 925 */
+/* 929 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -104901,7 +105125,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 926 */
+/* 930 */
 /***/ (function(module, exports) {
 
 	/**
@@ -104920,7 +105144,7 @@
 	module.exports = ReactPropTypesSecret;
 
 /***/ }),
-/* 927 */
+/* 931 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -104933,15 +105157,15 @@
 
 	'use strict';
 
-	var _require = __webpack_require__(915),
+	var _require = __webpack_require__(919),
 	    isValidElement = _require.isValidElement;
 
-	var factory = __webpack_require__(928);
+	var factory = __webpack_require__(932);
 
 	module.exports = factory(isValidElement);
 
 /***/ }),
-/* 928 */
+/* 932 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -104966,7 +105190,7 @@
 
 
 /***/ }),
-/* 929 */
+/* 933 */
 /***/ (function(module, exports) {
 
 	/**
@@ -104982,7 +105206,7 @@
 	module.exports = '15.6.2';
 
 /***/ }),
-/* 930 */
+/* 934 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -104995,19 +105219,19 @@
 
 	'use strict';
 
-	var _require = __webpack_require__(904),
+	var _require = __webpack_require__(908),
 	    Component = _require.Component;
 
-	var _require2 = __webpack_require__(915),
+	var _require2 = __webpack_require__(919),
 	    isValidElement = _require2.isValidElement;
 
-	var ReactNoopUpdateQueue = __webpack_require__(906);
-	var factory = __webpack_require__(931);
+	var ReactNoopUpdateQueue = __webpack_require__(910);
+	var factory = __webpack_require__(935);
 
 	module.exports = factory(Component, isValidElement, ReactNoopUpdateQueue);
 
 /***/ }),
-/* 931 */
+/* 935 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -105022,11 +105246,11 @@
 
 	var _assign = __webpack_require__(6);
 
-	var emptyObject = __webpack_require__(910);
-	var _invariant = __webpack_require__(911);
+	var emptyObject = __webpack_require__(914);
+	var _invariant = __webpack_require__(915);
 
 	if (process.env.NODE_ENV !== 'production') {
-	  var warning = __webpack_require__(907);
+	  var warning = __webpack_require__(911);
 	}
 
 	var MIXINS_KEY = 'mixins';
@@ -105940,7 +106164,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 932 */
+/* 936 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -105952,11 +106176,11 @@
 	 */
 	'use strict';
 
-	var _prodInvariant = __webpack_require__(905);
+	var _prodInvariant = __webpack_require__(909);
 
-	var ReactElement = __webpack_require__(915);
+	var ReactElement = __webpack_require__(919);
 
-	var invariant = __webpack_require__(911);
+	var invariant = __webpack_require__(915);
 
 	/**
 	 * Returns the first child in a collection of children and verifies that there
@@ -105981,7 +106205,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 933 */
+/* 937 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -106108,7 +106332,7 @@
 	}(window, document);
 
 /***/ }),
-/* 934 */
+/* 938 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -106128,8 +106352,8 @@
 
 		'use strict';
 
-		var dynamics = __webpack_require__(935);
-		var classie = __webpack_require__(936);
+		var dynamics = __webpack_require__(939);
+		var classie = __webpack_require__(940);
 		var support = { animations: Modernizr.cssanimations },
 		    animEndEventNames = { 'WebkitAnimation': 'webkitAnimationEnd', 'OAnimation': 'oAnimationEnd', 'msAnimation': 'MSAnimationEnd', 'animation': 'animationend' },
 		    animEndEventName = animEndEventNames[Modernizr.prefixed('animation')],
@@ -106361,7 +106585,7 @@
 	})(window);
 
 /***/ }),
-/* 935 */
+/* 939 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;// Generated by CoffeeScript 1.7.1
@@ -108449,7 +108673,7 @@
 
 
 /***/ }),
-/* 936 */
+/* 940 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
@@ -108459,11 +108683,11 @@
 	 * Copyright (c) 2013 AmexPub. All rights reserved.
 	 */
 
-	module.exports = __webpack_require__(937);
+	module.exports = __webpack_require__(941);
 
 
 /***/ }),
-/* 937 */
+/* 941 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module) {/*!
@@ -108481,7 +108705,7 @@
 	'use strict';
 
 	// class helper functions from bonzo https://github.com/ded/bonzo
-	var classList = __webpack_require__(938),
+	var classList = __webpack_require__(942),
 	    classie;
 
 	function classReg(className) {
@@ -108574,7 +108798,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(44)(module)))
 
 /***/ }),
-/* 938 */
+/* 942 */
 /***/ (function(module, exports) {
 
 	/* 
@@ -108800,7 +109024,7 @@
 
 
 /***/ }),
-/* 939 */
+/* 943 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -108820,13 +109044,13 @@
 	}
 
 	var GeneralModal = function GeneralModal(props) {
-	  return _react2.default.createElement(_semanticUiReact.Modal, { basic: true, open: props.visibility }, _react2.default.createElement(_semanticUiReact.Header, { icon: "archive", content: "Archive Old Messages" }), _react2.default.createElement(_semanticUiReact.Modal.Content, null, _react2.default.createElement("p", null, "Your inbox is getting full, would you like us to enable automatic archiving of old messages?")), _react2.default.createElement(_semanticUiReact.Modal.Actions, null, _react2.default.createElement(_semanticUiReact.Button, { basic: true, color: "red", inverted: true }, _react2.default.createElement(_semanticUiReact.Icon, { name: "remove" }), " No"), _react2.default.createElement(_semanticUiReact.Button, { color: "green", inverted: true }, _react2.default.createElement(_semanticUiReact.Icon, { name: "checkmark" }), " Yes")));
+	  return _react2.default.createElement(_semanticUiReact.Modal, { basic: true, open: props.visibility }, _react2.default.createElement(_semanticUiReact.Header, { icon: "server", content: props.title }), _react2.default.createElement(_semanticUiReact.Modal.Content, null, _react2.default.createElement("p", null, props.content)), _react2.default.createElement(_semanticUiReact.Modal.Actions, null, _react2.default.createElement(_semanticUiReact.Button, { basic: true, color: "green", inverted: true }, _react2.default.createElement(_semanticUiReact.Icon, { name: "remove" }), " ", props.btn1), _react2.default.createElement(_semanticUiReact.Button, { color: "red", inverted: true, onClick: props.action2 }, _react2.default.createElement(_semanticUiReact.Icon, { name: "checkmark" }), " ", props.btn2)));
 	};
 
 	exports.default = GeneralModal;
 
 /***/ }),
-/* 940 */
+/* 944 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -108835,7 +109059,7 @@
 	  value: true
 	});
 
-	var _CanvasGame = __webpack_require__(941);
+	var _CanvasGame = __webpack_require__(945);
 
 	var _CanvasGame2 = _interopRequireDefault(_CanvasGame);
 
@@ -108846,7 +109070,7 @@
 	exports.default = _CanvasGame2.default;
 
 /***/ }),
-/* 941 */
+/* 945 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -108873,7 +109097,7 @@
 
 	var _reactRedux = __webpack_require__(18);
 
-	var _tools = __webpack_require__(942);
+	var _tools = __webpack_require__(946);
 
 	function _interopRequireDefault(obj) {
 	  return obj && obj.__esModule ? obj : { default: obj };
@@ -109043,7 +109267,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(Canvas);
 
 /***/ }),
-/* 942 */
+/* 946 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -109053,19 +109277,19 @@
 	});
 	exports.Bucket = exports.BinRecycler = exports.EraserTool = exports.PencilTool = undefined;
 
-	var _Pencil = __webpack_require__(943);
+	var _Pencil = __webpack_require__(947);
 
 	var _Pencil2 = _interopRequireDefault(_Pencil);
 
-	var _Eraser = __webpack_require__(945);
+	var _Eraser = __webpack_require__(949);
 
 	var _Eraser2 = _interopRequireDefault(_Eraser);
 
-	var _BinRecycler = __webpack_require__(946);
+	var _BinRecycler = __webpack_require__(950);
 
 	var _BinRecycler2 = _interopRequireDefault(_BinRecycler);
 
-	var _Bucket = __webpack_require__(947);
+	var _Bucket = __webpack_require__(951);
 
 	var _Bucket2 = _interopRequireDefault(_Bucket);
 
@@ -109079,7 +109303,7 @@
 	exports.Bucket = _Bucket2.default;
 
 /***/ }),
-/* 943 */
+/* 947 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -109088,7 +109312,7 @@
 	  value: true
 	});
 
-	var _utils = __webpack_require__(944);
+	var _utils = __webpack_require__(948);
 
 	var Pencil = {
 	  classic: function classic(data, canvas) {
@@ -109125,7 +109349,7 @@
 	exports.default = Pencil;
 
 /***/ }),
-/* 944 */
+/* 948 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -109161,7 +109385,7 @@
 	}
 
 /***/ }),
-/* 945 */
+/* 949 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -109192,7 +109416,7 @@
 	exports.default = Eraser;
 
 /***/ }),
-/* 946 */
+/* 950 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -109212,7 +109436,7 @@
 	exports.default = BinRecycler;
 
 /***/ }),
-/* 947 */
+/* 951 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -109221,7 +109445,7 @@
 	  value: true
 	});
 
-	var _utils = __webpack_require__(944);
+	var _utils = __webpack_require__(948);
 
 	/**
 	 * 
@@ -109246,7 +109470,7 @@
 	exports.default = Bucket;
 
 /***/ }),
-/* 948 */
+/* 952 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -109255,7 +109479,7 @@
 	  value: true
 	});
 
-	var _Chat = __webpack_require__(949);
+	var _Chat = __webpack_require__(953);
 
 	var _Chat2 = _interopRequireDefault(_Chat);
 
@@ -109266,7 +109490,7 @@
 	exports.default = _Chat2.default;
 
 /***/ }),
-/* 949 */
+/* 953 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -109294,11 +109518,11 @@
 
 	var _reactRedux = __webpack_require__(18);
 
-	var _components = __webpack_require__(828);
+	var _components = __webpack_require__(829);
 
 	var _gameActions = __webpack_require__(160);
 
-	var _styles = __webpack_require__(950);
+	var _styles = __webpack_require__(954);
 
 	var _styles2 = _interopRequireDefault(_styles);
 
@@ -109454,7 +109678,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Chat);
 
 /***/ }),
-/* 950 */
+/* 954 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -109493,7 +109717,7 @@
 	exports.default = chatListStyles;
 
 /***/ }),
-/* 951 */
+/* 955 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -109502,7 +109726,7 @@
 	  value: true
 	});
 
-	var _PlayerList = __webpack_require__(952);
+	var _PlayerList = __webpack_require__(956);
 
 	var _PlayerList2 = _interopRequireDefault(_PlayerList);
 
@@ -109513,7 +109737,7 @@
 	exports.default = _PlayerList2.default;
 
 /***/ }),
-/* 952 */
+/* 956 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -109612,7 +109836,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(PlayerList);
 
 /***/ }),
-/* 953 */
+/* 957 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -109621,7 +109845,7 @@
 	  value: true
 	});
 
-	var _ToolPaint = __webpack_require__(954);
+	var _ToolPaint = __webpack_require__(958);
 
 	var _ToolPaint2 = _interopRequireDefault(_ToolPaint);
 
@@ -109632,7 +109856,7 @@
 	exports.default = _ToolPaint2.default;
 
 /***/ }),
-/* 954 */
+/* 958 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -109661,11 +109885,11 @@
 
 	var _gameActions = __webpack_require__(160);
 
-	var _Palete = __webpack_require__(955);
+	var _Palete = __webpack_require__(959);
 
 	var _Palete2 = _interopRequireDefault(_Palete);
 
-	var _Tool = __webpack_require__(958);
+	var _Tool = __webpack_require__(962);
 
 	var _Tool2 = _interopRequireDefault(_Tool);
 
@@ -109832,7 +110056,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ToolPaint);
 
 /***/ }),
-/* 955 */
+/* 959 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -109841,7 +110065,7 @@
 	  value: true
 	});
 
-	var _Palete = __webpack_require__(956);
+	var _Palete = __webpack_require__(960);
 
 	var _Palete2 = _interopRequireDefault(_Palete);
 
@@ -109852,7 +110076,7 @@
 	exports.default = _Palete2.default;
 
 /***/ }),
-/* 956 */
+/* 960 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -109882,7 +110106,7 @@
 
 	var _gameActions = __webpack_require__(160);
 
-	var _colors = __webpack_require__(957);
+	var _colors = __webpack_require__(961);
 
 	function _interopRequireDefault(obj) {
 	  return obj && obj.__esModule ? obj : { default: obj };
@@ -109975,7 +110199,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, { setColorPicked: _gameActions.setColorPicked })(Palete);
 
 /***/ }),
-/* 957 */
+/* 961 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -109986,7 +110210,7 @@
 	var colors = exports.colors = ['#E74C3C', '#3498DB', '#58D68D', '#F7DC6F', '#E67E22', '#CACFD2', '#000', '#ffffff'];
 
 /***/ }),
-/* 958 */
+/* 962 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -109995,7 +110219,7 @@
 	  value: true
 	});
 
-	var _Tool = __webpack_require__(959);
+	var _Tool = __webpack_require__(963);
 
 	var _Tool2 = _interopRequireDefault(_Tool);
 
@@ -110006,7 +110230,7 @@
 	exports.default = _Tool2.default;
 
 /***/ }),
-/* 959 */
+/* 963 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -110034,7 +110258,7 @@
 	exports.default = Tool;
 
 /***/ }),
-/* 960 */
+/* 964 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -110061,13 +110285,13 @@
 
 	var _reactRedux = __webpack_require__(18);
 
-	var _PublicGame = __webpack_require__(899);
+	var _PublicGame = __webpack_require__(903);
 
 	var _PublicGame2 = _interopRequireDefault(_PublicGame);
 
 	var _playerActions = __webpack_require__(827);
 
-	var _components = __webpack_require__(828);
+	var _components = __webpack_require__(829);
 
 	function _interopRequireDefault(obj) {
 	  return obj && obj.__esModule ? obj : { default: obj };
@@ -110228,7 +110452,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(PrivateGame);
 
 /***/ }),
-/* 961 */
+/* 965 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -110237,7 +110461,7 @@
 	  value: true
 	});
 
-	var _Create = __webpack_require__(962);
+	var _Create = __webpack_require__(966);
 
 	var _Create2 = _interopRequireDefault(_Create);
 
@@ -110248,7 +110472,7 @@
 	exports.default = _Create2.default;
 
 /***/ }),
-/* 962 */
+/* 966 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -110289,7 +110513,7 @@
 
 	var _gameActions = __webpack_require__(160);
 
-	var _components = __webpack_require__(828);
+	var _components = __webpack_require__(829);
 
 	function _interopRequireDefault(obj) {
 	  return obj && obj.__esModule ? obj : { default: obj };
@@ -110515,7 +110739,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(CreatePage);
 
 /***/ }),
-/* 963 */
+/* 967 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -110524,7 +110748,7 @@
 	  value: true
 	});
 
-	var _Settings = __webpack_require__(964);
+	var _Settings = __webpack_require__(968);
 
 	var _Settings2 = _interopRequireDefault(_Settings);
 
@@ -110535,7 +110759,7 @@
 	exports.default = _Settings2.default;
 
 /***/ }),
-/* 964 */
+/* 968 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -110564,7 +110788,7 @@
 
 	var _semanticUiReact = __webpack_require__(165);
 
-	var _components = __webpack_require__(828);
+	var _components = __webpack_require__(829);
 
 	function _interopRequireDefault(obj) {
 	  return obj && obj.__esModule ? obj : { default: obj };
@@ -110630,7 +110854,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(SettingsPage);
 
 /***/ }),
-/* 965 */
+/* 969 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -110639,7 +110863,7 @@
 	  value: true
 	});
 
-	var _Policy = __webpack_require__(966);
+	var _Policy = __webpack_require__(970);
 
 	var _Policy2 = _interopRequireDefault(_Policy);
 
@@ -110650,7 +110874,7 @@
 	exports.default = _Policy2.default;
 
 /***/ }),
-/* 966 */
+/* 970 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -110722,7 +110946,7 @@
 	exports.default = Policy;
 
 /***/ }),
-/* 967 */
+/* 971 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -110731,7 +110955,7 @@
 	  value: true
 	});
 
-	var _HowToPlay = __webpack_require__(968);
+	var _HowToPlay = __webpack_require__(972);
 
 	var _HowToPlay2 = _interopRequireDefault(_HowToPlay);
 
@@ -110742,7 +110966,7 @@
 	exports.default = _HowToPlay2.default;
 
 /***/ }),
-/* 968 */
+/* 972 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -110814,7 +111038,7 @@
 	exports.default = HowToPlay;
 
 /***/ }),
-/* 969 */
+/* 973 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -110836,30 +111060,30 @@
 	exports.default = routes;
 
 /***/ }),
-/* 970 */
+/* 974 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	!function(e,a){ true?module.exports=a():"function"==typeof define&&define.amd?define(a):(e.ReactIntlLocaleData=e.ReactIntlLocaleData||{},e.ReactIntlLocaleData.en=a())}(this,function(){"use strict";return[{locale:"en",pluralRuleFunction:function(e,a){var t=String(e).split("."),o=!t[1],n=Number(t[0])==e,r=n&&t[0].slice(-1),i=n&&t[0].slice(-2);return a?1==r&&11!=i?"one":2==r&&12!=i?"two":3==r&&13!=i?"few":"other":1==e&&o?"one":"other"},fields:{year:{displayName:"year",relative:{0:"this year",1:"next year","-1":"last year"},relativeTime:{future:{one:"in {0} year",other:"in {0} years"},past:{one:"{0} year ago",other:"{0} years ago"}}},"year-short":{displayName:"yr.",relative:{0:"this yr.",1:"next yr.","-1":"last yr."},relativeTime:{future:{one:"in {0} yr.",other:"in {0} yr."},past:{one:"{0} yr. ago",other:"{0} yr. ago"}}},month:{displayName:"month",relative:{0:"this month",1:"next month","-1":"last month"},relativeTime:{future:{one:"in {0} month",other:"in {0} months"},past:{one:"{0} month ago",other:"{0} months ago"}}},"month-short":{displayName:"mo.",relative:{0:"this mo.",1:"next mo.","-1":"last mo."},relativeTime:{future:{one:"in {0} mo.",other:"in {0} mo."},past:{one:"{0} mo. ago",other:"{0} mo. ago"}}},day:{displayName:"day",relative:{0:"today",1:"tomorrow","-1":"yesterday"},relativeTime:{future:{one:"in {0} day",other:"in {0} days"},past:{one:"{0} day ago",other:"{0} days ago"}}},"day-short":{displayName:"day",relative:{0:"today",1:"tomorrow","-1":"yesterday"},relativeTime:{future:{one:"in {0} day",other:"in {0} days"},past:{one:"{0} day ago",other:"{0} days ago"}}},hour:{displayName:"hour",relative:{0:"this hour"},relativeTime:{future:{one:"in {0} hour",other:"in {0} hours"},past:{one:"{0} hour ago",other:"{0} hours ago"}}},"hour-short":{displayName:"hr.",relative:{0:"this hour"},relativeTime:{future:{one:"in {0} hr.",other:"in {0} hr."},past:{one:"{0} hr. ago",other:"{0} hr. ago"}}},minute:{displayName:"minute",relative:{0:"this minute"},relativeTime:{future:{one:"in {0} minute",other:"in {0} minutes"},past:{one:"{0} minute ago",other:"{0} minutes ago"}}},"minute-short":{displayName:"min.",relative:{0:"this minute"},relativeTime:{future:{one:"in {0} min.",other:"in {0} min."},past:{one:"{0} min. ago",other:"{0} min. ago"}}},second:{displayName:"second",relative:{0:"now"},relativeTime:{future:{one:"in {0} second",other:"in {0} seconds"},past:{one:"{0} second ago",other:"{0} seconds ago"}}},"second-short":{displayName:"sec.",relative:{0:"now"},relativeTime:{future:{one:"in {0} sec.",other:"in {0} sec."},past:{one:"{0} sec. ago",other:"{0} sec. ago"}}}}},{locale:"en-001",parentLocale:"en",fields:{year:{displayName:"year",relative:{0:"this year",1:"next year","-1":"last year"},relativeTime:{future:{one:"in {0} year",other:"in {0} years"},past:{one:"{0} year ago",other:"{0} years ago"}}},"year-short":{displayName:"yr",relative:{0:"this yr.",1:"next yr.","-1":"last yr."},relativeTime:{future:{one:"in {0} yr",other:"in {0} yr"},past:{one:"{0} yr ago",other:"{0} yr ago"}}},month:{displayName:"month",relative:{0:"this month",1:"next month","-1":"last month"},relativeTime:{future:{one:"in {0} month",other:"in {0} months"},past:{one:"{0} month ago",other:"{0} months ago"}}},"month-short":{displayName:"mo",relative:{0:"this mo.",1:"next mo.","-1":"last mo."},relativeTime:{future:{one:"in {0} mo",other:"in {0} mo"},past:{one:"{0} mo ago",other:"{0} mo ago"}}},day:{displayName:"day",relative:{0:"today",1:"tomorrow","-1":"yesterday"},relativeTime:{future:{one:"in {0} day",other:"in {0} days"},past:{one:"{0} day ago",other:"{0} days ago"}}},"day-short":{displayName:"day",relative:{0:"today",1:"tomorrow","-1":"yesterday"},relativeTime:{future:{one:"in {0} day",other:"in {0} days"},past:{one:"{0} day ago",other:"{0} days ago"}}},hour:{displayName:"hour",relative:{0:"this hour"},relativeTime:{future:{one:"in {0} hour",other:"in {0} hours"},past:{one:"{0} hour ago",other:"{0} hours ago"}}},"hour-short":{displayName:"hr",relative:{0:"this hour"},relativeTime:{future:{one:"in {0} hr",other:"in {0} hr"},past:{one:"{0} hr ago",other:"{0} hr ago"}}},minute:{displayName:"minute",relative:{0:"this minute"},relativeTime:{future:{one:"in {0} minute",other:"in {0} minutes"},past:{one:"{0} minute ago",other:"{0} minutes ago"}}},"minute-short":{displayName:"min",relative:{0:"this minute"},relativeTime:{future:{one:"in {0} min",other:"in {0} min"},past:{one:"{0} min ago",other:"{0} min ago"}}},second:{displayName:"second",relative:{0:"now"},relativeTime:{future:{one:"in {0} second",other:"in {0} seconds"},past:{one:"{0} second ago",other:"{0} seconds ago"}}},"second-short":{displayName:"sec",relative:{0:"now"},relativeTime:{future:{one:"in {0} sec",other:"in {0} sec"},past:{one:"{0} sec ago",other:"{0} sec ago"}}}}},{locale:"en-150",parentLocale:"en-001"},{locale:"en-AG",parentLocale:"en-001"},{locale:"en-AI",parentLocale:"en-001"},{locale:"en-AS",parentLocale:"en"},{locale:"en-AT",parentLocale:"en-150"},{locale:"en-AU",parentLocale:"en-001",fields:{year:{displayName:"year",relative:{0:"this year",1:"next year","-1":"last year"},relativeTime:{future:{one:"in {0} year",other:"in {0} years"},past:{one:"{0} year ago",other:"{0} years ago"}}},"year-short":{displayName:"yr",relative:{0:"this yr.",1:"next yr.","-1":"last yr."},relativeTime:{future:{one:"in {0} yr",other:"in {0} yrs"},past:{one:"{0} yr ago",other:"{0} yrs ago"}}},month:{displayName:"month",relative:{0:"this month",1:"next month","-1":"last month"},relativeTime:{future:{one:"in {0} month",other:"in {0} months"},past:{one:"{0} month ago",other:"{0} months ago"}}},"month-short":{displayName:"mo.",relative:{0:"this mo.",1:"next mo.","-1":"last mo."},relativeTime:{future:{one:"in {0} mo.",other:"in {0} mo."},past:{one:"{0} mo. ago",other:"{0} mo. ago"}}},day:{displayName:"day",relative:{0:"today",1:"tomorrow","-1":"yesterday"},relativeTime:{future:{one:"in {0} day",other:"in {0} days"},past:{one:"{0} day ago",other:"{0} days ago"}}},"day-short":{displayName:"day",relative:{0:"today",1:"tomorrow","-1":"yesterday"},relativeTime:{future:{one:"in {0} day",other:"in {0} days"},past:{one:"{0} day ago",other:"{0} days ago"}}},hour:{displayName:"hour",relative:{0:"this hour"},relativeTime:{future:{one:"in {0} hour",other:"in {0} hours"},past:{one:"{0} hour ago",other:"{0} hours ago"}}},"hour-short":{displayName:"h",relative:{0:"this hour"},relativeTime:{future:{one:"in {0} hr",other:"in {0} hrs"},past:{one:"{0} hr ago",other:"{0} hrs ago"}}},minute:{displayName:"minute",relative:{0:"this minute"},relativeTime:{future:{one:"in {0} minute",other:"in {0} minutes"},past:{one:"{0} minute ago",other:"{0} minutes ago"}}},"minute-short":{displayName:"min.",relative:{0:"this minute"},relativeTime:{future:{one:"in {0} min.",other:"in {0} mins"},past:{one:"{0} min. ago",other:"{0} mins ago"}}},second:{displayName:"second",relative:{0:"now"},relativeTime:{future:{one:"in {0} second",other:"in {0} seconds"},past:{one:"{0} second ago",other:"{0} seconds ago"}}},"second-short":{displayName:"sec.",relative:{0:"now"},relativeTime:{future:{one:"in {0} sec.",other:"in {0} secs"},past:{one:"{0} sec. ago",other:"{0} secs ago"}}}}},{locale:"en-BB",parentLocale:"en-001"},{locale:"en-BE",parentLocale:"en-001"},{locale:"en-BI",parentLocale:"en"},{locale:"en-BM",parentLocale:"en-001"},{locale:"en-BS",parentLocale:"en-001"},{locale:"en-BW",parentLocale:"en-001"},{locale:"en-BZ",parentLocale:"en-001"},{locale:"en-CA",parentLocale:"en-001",fields:{year:{displayName:"year",relative:{0:"this year",1:"next year","-1":"last year"},relativeTime:{future:{one:"in {0} year",other:"in {0} years"},past:{one:"{0} year ago",other:"{0} years ago"}}},"year-short":{displayName:"yr.",relative:{0:"this yr.",1:"next yr.","-1":"last yr."},relativeTime:{future:{one:"in {0} yr.",other:"in {0} yrs."},past:{one:"{0} yr. ago",other:"{0} yrs. ago"}}},month:{displayName:"month",relative:{0:"this month",1:"next month","-1":"last month"},relativeTime:{future:{one:"in {0} month",other:"in {0} months"},past:{one:"{0} month ago",other:"{0} months ago"}}},"month-short":{displayName:"mo.",relative:{0:"this mo.",1:"next mo.","-1":"last mo."},relativeTime:{future:{one:"in {0} mo.",other:"in {0} mos."},past:{one:"{0} mo. ago",other:"{0} mos. ago"}}},day:{displayName:"day",relative:{0:"today",1:"tomorrow","-1":"yesterday"},relativeTime:{future:{one:"in {0} day",other:"in {0} days"},past:{one:"{0} day ago",other:"{0} days ago"}}},"day-short":{displayName:"day",relative:{0:"today",1:"tomorrow","-1":"yesterday"},relativeTime:{future:{one:"in {0} day",other:"in {0} days"},past:{one:"{0} day ago",other:"{0} days ago"}}},hour:{displayName:"hour",relative:{0:"this hour"},relativeTime:{future:{one:"in {0} hour",other:"in {0} hours"},past:{one:"{0} hour ago",other:"{0} hours ago"}}},"hour-short":{displayName:"hr.",relative:{0:"this hour"},relativeTime:{future:{one:"in {0} hr.",other:"in {0} hrs."},past:{one:"{0} hr. ago",other:"{0} hrs. ago"}}},minute:{displayName:"minute",relative:{0:"this minute"},relativeTime:{future:{one:"in {0} minute",other:"in {0} minutes"},past:{one:"{0} minute ago",other:"{0} minutes ago"}}},"minute-short":{displayName:"min.",relative:{0:"this minute"},relativeTime:{future:{one:"in {0} min.",other:"in {0} mins."},past:{one:"{0} min. ago",other:"{0} mins. ago"}}},second:{displayName:"second",relative:{0:"now"},relativeTime:{future:{one:"in {0} second",other:"in {0} seconds"},past:{one:"{0} second ago",other:"{0} seconds ago"}}},"second-short":{displayName:"sec.",relative:{0:"now"},relativeTime:{future:{one:"in {0} sec.",other:"in {0} secs."},past:{one:"{0} sec. ago",other:"{0} secs. ago"}}}}},{locale:"en-CC",parentLocale:"en-001"},{locale:"en-CH",parentLocale:"en-150"},{locale:"en-CK",parentLocale:"en-001"},{locale:"en-CM",parentLocale:"en-001"},{locale:"en-CX",parentLocale:"en-001"},{locale:"en-CY",parentLocale:"en-001"},{locale:"en-DE",parentLocale:"en-150"},{locale:"en-DG",parentLocale:"en-001"},{locale:"en-DK",parentLocale:"en-150"},{locale:"en-DM",parentLocale:"en-001"},{locale:"en-Dsrt",pluralRuleFunction:function(e,a){return"other"},fields:{year:{displayName:"Year",relative:{0:"this year",1:"next year","-1":"last year"},relativeTime:{future:{other:"+{0} y"},past:{other:"-{0} y"}}},"year-short":{displayName:"Year",relative:{0:"this year",1:"next year","-1":"last year"},relativeTime:{future:{other:"+{0} y"},past:{other:"-{0} y"}}},month:{displayName:"Month",relative:{0:"this month",1:"next month","-1":"last month"},relativeTime:{future:{other:"+{0} m"},past:{other:"-{0} m"}}},"month-short":{displayName:"Month",relative:{0:"this month",1:"next month","-1":"last month"},relativeTime:{future:{other:"+{0} m"},past:{other:"-{0} m"}}},day:{displayName:"Day",relative:{0:"today",1:"tomorrow","-1":"yesterday"},relativeTime:{future:{other:"+{0} d"},past:{other:"-{0} d"}}},"day-short":{displayName:"Day",relative:{0:"today",1:"tomorrow","-1":"yesterday"},relativeTime:{future:{other:"+{0} d"},past:{other:"-{0} d"}}},hour:{displayName:"Hour",relative:{0:"this hour"},relativeTime:{future:{other:"+{0} h"},past:{other:"-{0} h"}}},"hour-short":{displayName:"Hour",relative:{0:"this hour"},relativeTime:{future:{other:"+{0} h"},past:{other:"-{0} h"}}},minute:{displayName:"Minute",relative:{0:"this minute"},relativeTime:{future:{other:"+{0} min"},past:{other:"-{0} min"}}},"minute-short":{displayName:"Minute",relative:{0:"this minute"},relativeTime:{future:{other:"+{0} min"},past:{other:"-{0} min"}}},second:{displayName:"Second",relative:{0:"now"},relativeTime:{future:{other:"+{0} s"},past:{other:"-{0} s"}}},"second-short":{displayName:"Second",relative:{0:"now"},relativeTime:{future:{other:"+{0} s"},past:{other:"-{0} s"}}}}},{locale:"en-ER",parentLocale:"en-001"},{locale:"en-FI",parentLocale:"en-150"},{locale:"en-FJ",parentLocale:"en-001"},{locale:"en-FK",parentLocale:"en-001"},{locale:"en-FM",parentLocale:"en-001"},{locale:"en-GB",parentLocale:"en-001"},{locale:"en-GD",parentLocale:"en-001"},{locale:"en-GG",parentLocale:"en-001"},{locale:"en-GH",parentLocale:"en-001"},{locale:"en-GI",parentLocale:"en-001"},{locale:"en-GM",parentLocale:"en-001"},{locale:"en-GU",parentLocale:"en"},{locale:"en-GY",parentLocale:"en-001"},{locale:"en-HK",parentLocale:"en-001"},{locale:"en-IE",parentLocale:"en-001"},{locale:"en-IL",parentLocale:"en-001"},{locale:"en-IM",parentLocale:"en-001"},{locale:"en-IN",parentLocale:"en-001"},{locale:"en-IO",parentLocale:"en-001"},{locale:"en-JE",parentLocale:"en-001"},{locale:"en-JM",parentLocale:"en-001"},{locale:"en-KE",parentLocale:"en-001"},{locale:"en-KI",parentLocale:"en-001"},{locale:"en-KN",parentLocale:"en-001"},{locale:"en-KY",parentLocale:"en-001"},{locale:"en-LC",parentLocale:"en-001"},{locale:"en-LR",parentLocale:"en-001"},{locale:"en-LS",parentLocale:"en-001"},{locale:"en-MG",parentLocale:"en-001"},{locale:"en-MH",parentLocale:"en"},{locale:"en-MO",parentLocale:"en-001"},{locale:"en-MP",parentLocale:"en"},{locale:"en-MS",parentLocale:"en-001"},{locale:"en-MT",parentLocale:"en-001"},{locale:"en-MU",parentLocale:"en-001"},{locale:"en-MW",parentLocale:"en-001"},{locale:"en-MY",parentLocale:"en-001"},{locale:"en-NA",parentLocale:"en-001"},{locale:"en-NF",parentLocale:"en-001"},{locale:"en-NG",parentLocale:"en-001"},{locale:"en-NL",parentLocale:"en-150"},{locale:"en-NR",parentLocale:"en-001"},{locale:"en-NU",parentLocale:"en-001"},{locale:"en-NZ",parentLocale:"en-001"},{locale:"en-PG",parentLocale:"en-001"},{locale:"en-PH",parentLocale:"en-001"},{locale:"en-PK",parentLocale:"en-001"},{locale:"en-PN",parentLocale:"en-001"},{locale:"en-PR",parentLocale:"en"},{locale:"en-PW",parentLocale:"en-001"},{locale:"en-RW",parentLocale:"en-001"},{locale:"en-SB",parentLocale:"en-001"},{locale:"en-SC",parentLocale:"en-001"},{locale:"en-SD",parentLocale:"en-001"},{locale:"en-SE",parentLocale:"en-150"},{locale:"en-SG",parentLocale:"en-001",fields:{year:{displayName:"year",relative:{0:"this year",1:"next year","-1":"last year"},relativeTime:{future:{one:"in {0} year",other:"in {0} years"},past:{one:"{0} year ago",other:"{0} years ago"}}},"year-short":{displayName:"yr",relative:{0:"this yr",1:"next yr","-1":"last yr"},relativeTime:{future:{one:"in {0} yr",other:"in {0} yr"},past:{one:"{0} yr ago",other:"{0} yr ago"}}},month:{displayName:"month",relative:{0:"this month",1:"next month","-1":"last month"},relativeTime:{future:{one:"in {0} month",other:"in {0} months"},past:{one:"{0} month ago",other:"{0} months ago"}}},"month-short":{displayName:"mth",relative:{0:"this mth",1:"next mth","-1":"last mth"},relativeTime:{future:{one:"in {0} mth",other:"in {0} mth"},past:{one:"{0} mth ago",other:"{0} mth ago"}}},day:{displayName:"day",relative:{0:"today",1:"tomorrow","-1":"yesterday"},relativeTime:{future:{one:"in {0} day",other:"in {0} days"},past:{one:"{0} day ago",other:"{0} days ago"}}},"day-short":{displayName:"day",relative:{0:"today",1:"tomorrow","-1":"yesterday"},relativeTime:{future:{one:"in {0} day",other:"in {0} days"},past:{one:"{0} day ago",other:"{0} days ago"}}},hour:{displayName:"hour",relative:{0:"this hour"},relativeTime:{future:{one:"in {0} hour",other:"in {0} hours"},past:{one:"{0} hour ago",other:"{0} hours ago"}}},"hour-short":{displayName:"hr",relative:{0:"this hour"},relativeTime:{future:{one:"in {0} hr",other:"in {0} hr"},past:{one:"{0} hr ago",other:"{0} hr ago"}}},minute:{displayName:"minute",relative:{0:"this minute"},relativeTime:{future:{one:"in {0} minute",other:"in {0} minutes"},past:{one:"{0} minute ago",other:"{0} minutes ago"}}},"minute-short":{displayName:"min",relative:{0:"this minute"},relativeTime:{future:{one:"in {0} min",other:"in {0} min"},past:{one:"{0} min ago",other:"{0} min ago"}}},second:{displayName:"second",relative:{0:"now"},relativeTime:{future:{one:"in {0} second",other:"in {0} seconds"},past:{one:"{0} second ago",other:"{0} seconds ago"}}},"second-short":{displayName:"sec",relative:{0:"now"},relativeTime:{future:{one:"in {0} sec",other:"in {0} sec"},past:{one:"{0} sec ago",other:"{0} sec ago"}}}}},{locale:"en-SH",parentLocale:"en-001"},{locale:"en-SI",parentLocale:"en-150"},{locale:"en-SL",parentLocale:"en-001"},{locale:"en-SS",parentLocale:"en-001"},{locale:"en-SX",parentLocale:"en-001"},{locale:"en-SZ",parentLocale:"en-001"},{locale:"en-Shaw",pluralRuleFunction:function(e,a){return"other"},fields:{year:{displayName:"Year",relative:{0:"this year",1:"next year","-1":"last year"},relativeTime:{future:{other:"+{0} y"},past:{other:"-{0} y"}}},"year-short":{displayName:"Year",relative:{0:"this year",1:"next year","-1":"last year"},relativeTime:{future:{other:"+{0} y"},past:{other:"-{0} y"}}},month:{displayName:"Month",relative:{0:"this month",1:"next month","-1":"last month"},relativeTime:{future:{other:"+{0} m"},past:{other:"-{0} m"}}},"month-short":{displayName:"Month",relative:{0:"this month",1:"next month","-1":"last month"},relativeTime:{future:{other:"+{0} m"},past:{other:"-{0} m"}}},day:{displayName:"Day",relative:{0:"today",1:"tomorrow","-1":"yesterday"},relativeTime:{future:{other:"+{0} d"},past:{other:"-{0} d"}}},"day-short":{displayName:"Day",relative:{0:"today",1:"tomorrow","-1":"yesterday"},relativeTime:{future:{other:"+{0} d"},past:{other:"-{0} d"}}},hour:{displayName:"Hour",relative:{0:"this hour"},relativeTime:{future:{other:"+{0} h"},past:{other:"-{0} h"}}},"hour-short":{displayName:"Hour",relative:{0:"this hour"},relativeTime:{future:{other:"+{0} h"},past:{other:"-{0} h"}}},minute:{displayName:"Minute",relative:{0:"this minute"},relativeTime:{future:{other:"+{0} min"},past:{other:"-{0} min"}}},"minute-short":{displayName:"Minute",relative:{0:"this minute"},relativeTime:{future:{other:"+{0} min"},past:{other:"-{0} min"}}},second:{displayName:"Second",relative:{0:"now"},relativeTime:{future:{other:"+{0} s"},past:{other:"-{0} s"}}},"second-short":{displayName:"Second",relative:{0:"now"},relativeTime:{future:{other:"+{0} s"},past:{other:"-{0} s"}}}}},{locale:"en-TC",parentLocale:"en-001"},{locale:"en-TK",parentLocale:"en-001"},{locale:"en-TO",parentLocale:"en-001"},{locale:"en-TT",parentLocale:"en-001"},{locale:"en-TV",parentLocale:"en-001"},{locale:"en-TZ",parentLocale:"en-001"},{locale:"en-UG",parentLocale:"en-001"},{locale:"en-UM",parentLocale:"en"},{locale:"en-US",parentLocale:"en"},{locale:"en-VC",parentLocale:"en-001"},{locale:"en-VG",parentLocale:"en-001"},{locale:"en-VI",parentLocale:"en"},{locale:"en-VU",parentLocale:"en-001"},{locale:"en-WS",parentLocale:"en-001"},{locale:"en-ZA",parentLocale:"en-001"},{locale:"en-ZM",parentLocale:"en-001"},{locale:"en-ZW",parentLocale:"en-001"}]});
 
 
 /***/ }),
-/* 971 */
+/* 975 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	!function(e,a){ true?module.exports=a():"function"==typeof define&&define.amd?define(a):(e.ReactIntlLocaleData=e.ReactIntlLocaleData||{},e.ReactIntlLocaleData.es=a())}(this,function(){"use strict";return[{locale:"es",pluralRuleFunction:function(e,a){return a?"other":1==e?"one":"other"},fields:{year:{displayName:"año",relative:{0:"este año",1:"el próximo año","-1":"el año pasado"},relativeTime:{future:{one:"dentro de {0} año",other:"dentro de {0} años"},past:{one:"hace {0} año",other:"hace {0} años"}}},"year-short":{displayName:"a",relative:{0:"este año",1:"el próximo año","-1":"el año pasado"},relativeTime:{future:{one:"dentro de {0} a",other:"dentro de {0} a"},past:{one:"hace {0} a",other:"hace {0} a"}}},month:{displayName:"mes",relative:{0:"este mes",1:"el próximo mes","-1":"el mes pasado"},relativeTime:{future:{one:"dentro de {0} mes",other:"dentro de {0} meses"},past:{one:"hace {0} mes",other:"hace {0} meses"}}},"month-short":{displayName:"m",relative:{0:"este mes",1:"el próximo mes","-1":"el mes pasado"},relativeTime:{future:{one:"dentro de {0} m",other:"dentro de {0} m"},past:{one:"hace {0} m",other:"hace {0} m"}}},day:{displayName:"día",relative:{0:"hoy",1:"mañana",2:"pasado mañana","-2":"anteayer","-1":"ayer"},relativeTime:{future:{one:"dentro de {0} día",other:"dentro de {0} días"},past:{one:"hace {0} día",other:"hace {0} días"}}},"day-short":{displayName:"d",relative:{0:"hoy",1:"mañana",2:"pasado mañana","-2":"anteayer","-1":"ayer"},relativeTime:{future:{one:"dentro de {0} día",other:"dentro de {0} días"},past:{one:"hace {0} día",other:"hace {0} días"}}},hour:{displayName:"hora",relative:{0:"esta hora"},relativeTime:{future:{one:"dentro de {0} hora",other:"dentro de {0} horas"},past:{one:"hace {0} hora",other:"hace {0} horas"}}},"hour-short":{displayName:"h",relative:{0:"esta hora"},relativeTime:{future:{one:"dentro de {0} h",other:"dentro de {0} h"},past:{one:"hace {0} h",other:"hace {0} h"}}},minute:{displayName:"minuto",relative:{0:"este minuto"},relativeTime:{future:{one:"dentro de {0} minuto",other:"dentro de {0} minutos"},past:{one:"hace {0} minuto",other:"hace {0} minutos"}}},"minute-short":{displayName:"min",relative:{0:"este minuto"},relativeTime:{future:{one:"dentro de {0} min",other:"dentro de {0} min"},past:{one:"hace {0} min",other:"hace {0} min"}}},second:{displayName:"segundo",relative:{0:"ahora"},relativeTime:{future:{one:"dentro de {0} segundo",other:"dentro de {0} segundos"},past:{one:"hace {0} segundo",other:"hace {0} segundos"}}},"second-short":{displayName:"s",relative:{0:"ahora"},relativeTime:{future:{one:"dentro de {0} s",other:"dentro de {0} s"},past:{one:"hace {0} s",other:"hace {0} s"}}}}},{locale:"es-419",parentLocale:"es"},{locale:"es-AR",parentLocale:"es-419",fields:{year:{displayName:"año",relative:{0:"este año",1:"el próximo año","-1":"el año pasado"},relativeTime:{future:{one:"dentro de {0} año",other:"dentro de {0} años"},past:{one:"hace {0} año",other:"hace {0} años"}}},"year-short":{displayName:"a",relative:{0:"este año",1:"el próximo año","-1":"el año pasado"},relativeTime:{future:{one:"dentro de {0} a",other:"dentro de {0} a"},past:{one:"hace {0} a",other:"hace {0} a"}}},month:{displayName:"mes",relative:{0:"este mes",1:"el próximo mes","-1":"el mes pasado"},relativeTime:{future:{one:"dentro de {0} mes",other:"dentro de {0} meses"},past:{one:"hace {0} mes",other:"hace {0} meses"}}},"month-short":{displayName:"m",relative:{0:"este mes",1:"el próximo mes","-1":"el mes pasado"},relativeTime:{future:{one:"dentro de {0} m",other:"dentro de {0} m"},past:{one:"hace {0} m",other:"hace {0} m"}}},day:{displayName:"día",relative:{0:"hoy",1:"mañana",2:"pasado mañana","-2":"anteayer","-1":"ayer"},relativeTime:{future:{one:"dentro de {0} día",other:"dentro de {0} días"},past:{one:"hace {0} día",other:"hace {0} días"}}},"day-short":{displayName:"d",relative:{0:"hoy",1:"mañana",2:"pasado mañana","-2":"anteayer","-1":"ayer"},relativeTime:{future:{one:"dentro de {0} días",other:"dentro de {0} días"},past:{one:"hace {0} días",other:"hace {0} días"}}},hour:{displayName:"hora",relative:{0:"esta hora"},relativeTime:{future:{one:"dentro de {0} hora",other:"dentro de {0} horas"},past:{one:"hace {0} hora",other:"hace {0} horas"}}},"hour-short":{displayName:"h",relative:{0:"esta hora"},relativeTime:{future:{one:"dentro de {0} h",other:"dentro de {0} h"},past:{one:"hace {0} h",other:"hace {0} h"}}},minute:{displayName:"minuto",relative:{0:"este minuto"},relativeTime:{future:{one:"dentro de {0} minuto",other:"dentro de {0} minutos"},past:{one:"hace {0} minuto",other:"hace {0} minutos"}}},"minute-short":{displayName:"min",relative:{0:"este minuto"},relativeTime:{future:{one:"dentro de {0} min",other:"dentro de {0} min"},past:{one:"hace {0} min",other:"hace {0} min"}}},second:{displayName:"segundo",relative:{0:"ahora"},relativeTime:{future:{one:"dentro de {0} segundo",other:"dentro de {0} segundos"},past:{one:"hace {0} segundo",other:"hace {0} segundos"}}},"second-short":{displayName:"seg.",relative:{0:"ahora"},relativeTime:{future:{one:"dentro de {0} seg.",other:"dentro de {0} seg."},past:{one:"hace {0} seg.",other:"hace {0} seg."}}}}},{locale:"es-BO",parentLocale:"es-419"},{locale:"es-BR",parentLocale:"es-419"},{locale:"es-BZ",parentLocale:"es-419"},{locale:"es-CL",parentLocale:"es-419"},{locale:"es-CO",parentLocale:"es-419"},{locale:"es-CR",parentLocale:"es-419"},{locale:"es-CU",parentLocale:"es-419"},{locale:"es-DO",parentLocale:"es-419",fields:{year:{displayName:"Año",relative:{0:"este año",1:"el próximo año","-1":"el año pasado"},relativeTime:{future:{one:"dentro de {0} año",other:"dentro de {0} años"},past:{one:"hace {0} año",other:"hace {0} años"}}},"year-short":{displayName:"a",relative:{0:"este año",1:"el próximo año","-1":"el año pasado"},relativeTime:{future:{one:"dentro de {0} a",other:"dentro de {0} a"},past:{one:"hace {0} a",other:"hace {0} a"}}},month:{displayName:"Mes",relative:{0:"este mes",1:"el próximo mes","-1":"el mes pasado"},relativeTime:{future:{one:"dentro de {0} mes",other:"dentro de {0} meses"},past:{one:"hace {0} mes",other:"hace {0} meses"}}},"month-short":{displayName:"m",relative:{0:"este mes",1:"el próximo mes","-1":"el mes pasado"},relativeTime:{future:{one:"dentro de {0} m",other:"dentro de {0} m"},past:{one:"hace {0} m",other:"hace {0} m"}}},day:{displayName:"Día",relative:{0:"hoy",1:"mañana",2:"pasado mañana","-2":"anteayer","-1":"ayer"},relativeTime:{future:{one:"dentro de {0} día",other:"dentro de {0} días"},past:{one:"hace {0} día",other:"hace {0} días"}}},"day-short":{displayName:"d",relative:{0:"hoy",1:"mañana",2:"pasado mañana","-2":"anteayer","-1":"ayer"},relativeTime:{future:{one:"dentro de {0} día",other:"dentro de {0} días"},past:{one:"hace {0} día",other:"hace {0} días"}}},hour:{displayName:"hora",relative:{0:"esta hora"},relativeTime:{future:{one:"dentro de {0} hora",other:"dentro de {0} horas"},past:{one:"hace {0} hora",other:"hace {0} horas"}}},"hour-short":{displayName:"h",relative:{0:"esta hora"},relativeTime:{future:{one:"dentro de {0} h",other:"dentro de {0} h"},past:{one:"hace {0} h",other:"hace {0} h"}}},minute:{displayName:"Minuto",relative:{0:"este minuto"},relativeTime:{future:{one:"dentro de {0} minuto",other:"dentro de {0} minutos"},past:{one:"hace {0} minuto",other:"hace {0} minutos"}}},"minute-short":{displayName:"min",relative:{0:"este minuto"},relativeTime:{future:{one:"dentro de {0} min",other:"dentro de {0} min"},past:{one:"hace {0} min",other:"hace {0} min"}}},second:{displayName:"Segundo",relative:{0:"ahora"},relativeTime:{future:{one:"dentro de {0} segundo",other:"dentro de {0} segundos"},past:{one:"hace {0} segundo",other:"hace {0} segundos"}}},"second-short":{displayName:"s",relative:{0:"ahora"},relativeTime:{future:{one:"dentro de {0} s",other:"dentro de {0} s"},past:{one:"hace {0} s",other:"hace {0} s"}}}}},{locale:"es-EA",parentLocale:"es"},{locale:"es-EC",parentLocale:"es-419"},{locale:"es-GQ",parentLocale:"es"},{locale:"es-GT",parentLocale:"es-419"},{locale:"es-HN",parentLocale:"es-419"},{locale:"es-IC",parentLocale:"es"},{locale:"es-MX",parentLocale:"es-419",fields:{year:{displayName:"año",relative:{0:"este año",1:"el año próximo","-1":"el año pasado"},relativeTime:{future:{one:"dentro de {0} año",other:"dentro de {0} años"},past:{one:"hace {0} año",other:"hace {0} años"}}},"year-short":{displayName:"a",relative:{0:"este año",1:"el próximo año","-1":"el año pasado"},relativeTime:{future:{one:"en {0} a",other:"en {0} a"},past:{one:"hace {0} a",other:"hace {0} a"}}},month:{displayName:"mes",relative:{0:"este mes",1:"el mes próximo","-1":"el mes pasado"},relativeTime:{future:{one:"en {0} mes",other:"en {0} meses"},past:{one:"hace {0} mes",other:"hace {0} meses"}}},"month-short":{displayName:"m",relative:{0:"este mes",1:"el próximo mes","-1":"el mes pasado"},relativeTime:{future:{one:"en {0} m",other:"en {0} m"},past:{one:"hace {0} m",other:"hace {0} m"}}},day:{displayName:"día",relative:{0:"hoy",1:"mañana",2:"pasado mañana","-2":"anteayer","-1":"ayer"},relativeTime:{future:{one:"dentro de {0} día",other:"dentro de {0} días"},past:{one:"hace {0} día",other:"hace {0} días"}}},"day-short":{displayName:"d",relative:{0:"hoy",1:"mañana",2:"pasado mañana","-2":"anteayer","-1":"ayer"},relativeTime:{future:{one:"en {0} día",other:"en {0} días"},past:{one:"hace {0} día",other:"hace {0} días"}}},hour:{displayName:"hora",relative:{0:"esta hora"},relativeTime:{future:{one:"dentro de {0} hora",other:"dentro de {0} horas"},past:{one:"hace {0} hora",other:"hace {0} horas"}}},"hour-short":{displayName:"h",relative:{0:"esta hora"},relativeTime:{future:{one:"en {0} h",other:"en {0} n"},past:{one:"hace {0} h",other:"hace {0} h"}}},minute:{displayName:"minuto",relative:{0:"este minuto"},relativeTime:{future:{one:"dentro de {0} minuto",other:"dentro de {0} minutos"},past:{one:"hace {0} minuto",other:"hace {0} minutos"}}},"minute-short":{displayName:"min",relative:{0:"este minuto"},relativeTime:{future:{one:"en {0} min",other:"en {0} min"},past:{one:"hace {0} min",other:"hace {0} min"}}},second:{displayName:"segundo",relative:{0:"ahora"},relativeTime:{future:{one:"dentro de {0} segundo",other:"dentro de {0} segundos"},past:{one:"hace {0} segundo",other:"hace {0} segundos"}}},"second-short":{displayName:"s",relative:{0:"ahora"},relativeTime:{future:{one:"en {0} s",other:"en {0} s"},past:{one:"hace {0} s",other:"hace {0} s"}}}}},{locale:"es-NI",parentLocale:"es-419"},{locale:"es-PA",parentLocale:"es-419"},{locale:"es-PE",parentLocale:"es-419"},{locale:"es-PH",parentLocale:"es"},{locale:"es-PR",parentLocale:"es-419"},{locale:"es-PY",parentLocale:"es-419",fields:{year:{displayName:"año",relative:{0:"este año",1:"el próximo año","-1":"el año pasado"},relativeTime:{future:{one:"dentro de {0} año",other:"dentro de {0} años"},past:{one:"hace {0} año",other:"hace {0} años"}}},"year-short":{displayName:"a",relative:{0:"este año",1:"el próximo año","-1":"el año pasado"},relativeTime:{future:{one:"dentro de {0} a",other:"dentro de {0} a"},past:{one:"hace {0} a",other:"hace {0} a"}}},month:{displayName:"mes",relative:{0:"este mes",1:"el próximo mes","-1":"el mes pasado"},relativeTime:{future:{one:"dentro de {0} mes",other:"dentro de {0} meses"},past:{one:"hace {0} mes",other:"hace {0} meses"}}},"month-short":{displayName:"m",relative:{0:"este mes",1:"el próximo mes","-1":"el mes pasado"},relativeTime:{future:{one:"dentro de {0} m",other:"dentro de {0} m"},past:{one:"hace {0} m",other:"hace {0} m"}}},day:{displayName:"día",relative:{0:"hoy",1:"mañana",2:"pasado mañana","-2":"anteayer","-1":"ayer"},relativeTime:{future:{one:"dentro de {0} día",other:"dentro de {0} días"},past:{one:"hace {0} día",other:"hace {0} días"}}},"day-short":{displayName:"d",relative:{0:"hoy",1:"mañana",2:"pasado mañana","-2":"anteayer","-1":"ayer"},relativeTime:{future:{one:"dentro de {0} día",other:"dentro de {0} días"},past:{one:"hace {0} día",other:"hace {0} días"}}},hour:{displayName:"hora",relative:{0:"esta hora"},relativeTime:{future:{one:"dentro de {0} hora",other:"dentro de {0} horas"},past:{one:"hace {0} hora",other:"hace {0} horas"}}},"hour-short":{displayName:"h",relative:{0:"esta hora"},relativeTime:{future:{one:"dentro de {0} h",other:"dentro de {0} h"},past:{one:"hace {0} h",other:"hace {0} h"}}},minute:{displayName:"minuto",relative:{0:"este minuto"},relativeTime:{future:{one:"dentro de {0} minuto",other:"dentro de {0} minutos"},past:{one:"hace {0} minuto",other:"hace {0} minutos"}}},"minute-short":{displayName:"min",relative:{0:"este minuto"},relativeTime:{future:{one:"dentro de {0} min",other:"dentro de {0} min"},past:{one:"hace {0} min",other:"hace {0} min"}}},second:{displayName:"segundo",relative:{0:"ahora"},relativeTime:{future:{one:"dentro de {0} segundo",other:"dentro de {0} segundos"},past:{one:"hace {0} segundo",other:"hace {0} segundos"}}},"second-short":{displayName:"seg.",relative:{0:"ahora"},relativeTime:{future:{one:"dentro de {0} seg.",other:"dentro de {0} seg."},past:{one:"hace {0} seg.",other:"hace {0} seg."}}}}},{locale:"es-SV",parentLocale:"es-419",fields:{year:{displayName:"año",relative:{0:"este año",1:"el próximo año","-1":"el año pasado"},relativeTime:{future:{one:"dentro de {0} año",other:"dentro de {0} años"},past:{one:"hace {0} año",other:"hace {0} años"}}},"year-short":{displayName:"a",relative:{0:"este año",1:"el próximo año","-1":"el año pasado"},relativeTime:{future:{one:"dentro de {0} a",other:"dentro de {0} a"},past:{one:"hace {0} a",other:"hace {0} a"}}},month:{displayName:"mes",relative:{0:"este mes",1:"el próximo mes","-1":"el mes pasado"},relativeTime:{future:{one:"dentro de {0} mes",other:"dentro de {0} meses"},past:{one:"hace {0} mes",other:"hace {0} meses"}}},"month-short":{displayName:"m",relative:{0:"este mes",1:"el próximo mes","-1":"el mes pasado"},relativeTime:{future:{one:"dentro de {0} m",other:"dentro de {0} m"},past:{one:"hace {0} m",other:"hace {0} m"}}},day:{displayName:"día",relative:{0:"hoy",1:"mañana",2:"pasado mañana","-2":"antier","-1":"ayer"},relativeTime:{future:{one:"dentro de {0} día",other:"dentro de {0} días"},past:{one:"hace {0} día",other:"hace {0} días"}}},"day-short":{displayName:"d",relative:{0:"hoy",1:"mañana",2:"pasado mañana","-2":"anteayer","-1":"ayer"},relativeTime:{future:{one:"dentro de {0} día",other:"dentro de {0} días"},past:{one:"hace {0} día",other:"hace {0} días"}}},hour:{displayName:"hora",relative:{0:"esta hora"},relativeTime:{future:{one:"dentro de {0} hora",other:"dentro de {0} horas"},past:{one:"hace {0} hora",other:"hace {0} horas"}}},"hour-short":{displayName:"h",relative:{0:"esta hora"},relativeTime:{future:{one:"dentro de {0} h",other:"dentro de {0} h"},past:{one:"hace {0} h",other:"hace {0} h"}}},minute:{displayName:"minuto",relative:{0:"este minuto"},relativeTime:{future:{one:"dentro de {0} minuto",other:"dentro de {0} minutos"},past:{one:"hace {0} minuto",other:"hace {0} minutos"}}},"minute-short":{displayName:"min",relative:{0:"este minuto"},relativeTime:{future:{one:"dentro de {0} min",other:"dentro de {0} min"},past:{one:"hace {0} min",other:"hace {0} min"}}},second:{displayName:"segundo",relative:{0:"ahora"},relativeTime:{future:{one:"dentro de {0} segundo",other:"dentro de {0} segundos"},past:{one:"hace {0} segundo",other:"hace {0} segundos"}}},"second-short":{displayName:"s",relative:{0:"ahora"},relativeTime:{future:{one:"dentro de {0} s",other:"dentro de {0} s"},past:{one:"hace {0} s",other:"hace {0} s"}}}}},{locale:"es-US",parentLocale:"es-419",fields:{year:{displayName:"año",relative:{0:"este año",1:"el año próximo","-1":"el año pasado"},relativeTime:{future:{one:"dentro de {0} año",other:"dentro de {0} años"},past:{one:"hace {0} año",other:"hace {0} años"}}},"year-short":{displayName:"a",relative:{0:"este año",1:"el próximo año","-1":"el año pasado"},relativeTime:{future:{one:"dentro de {0} a",other:"dentro de {0} a"},past:{one:"hace {0} a",other:"hace {0} a"}}},month:{displayName:"mes",relative:{0:"este mes",1:"el mes próximo","-1":"el mes pasado"},relativeTime:{future:{one:"dentro de {0} mes",other:"dentro de {0} meses"},past:{one:"hace {0} mes",other:"hace {0} meses"}}},"month-short":{displayName:"m",relative:{0:"este mes",1:"el próximo mes","-1":"el mes pasado"},relativeTime:{future:{one:"dentro de {0} m",other:"dentro de {0} m"},past:{one:"hace {0} m",other:"hace {0} m"}}},day:{displayName:"día",relative:{0:"hoy",1:"mañana",2:"pasado mañana","-2":"anteayer","-1":"ayer"},relativeTime:{future:{one:"dentro de {0} día",other:"dentro de {0} días"},past:{one:"hace {0} día",other:"hace {0} días"}}},"day-short":{displayName:"d",relative:{0:"hoy",1:"mañana",2:"pasado mañana","-2":"anteayer","-1":"ayer"},relativeTime:{future:{one:"dentro de {0} día",other:"dentro de {0} días"},past:{one:"hace {0} día",other:"hace {0} días"}}},hour:{displayName:"hora",relative:{0:"esta hora"},relativeTime:{future:{one:"dentro de {0} hora",other:"dentro de {0} horas"},past:{one:"hace {0} hora",other:"hace {0} horas"}}},"hour-short":{displayName:"h",relative:{0:"esta hora"},relativeTime:{future:{one:"dentro de {0} h",other:"dentro de {0} h"},past:{one:"hace {0} h",other:"hace {0} h"}}},minute:{displayName:"minuto",relative:{0:"este minuto"},relativeTime:{future:{one:"dentro de {0} minuto",other:"dentro de {0} minutos"},past:{one:"hace {0} minuto",other:"hace {0} minutos"}}},"minute-short":{displayName:"min",relative:{0:"este minuto"},relativeTime:{future:{one:"dentro de {0} min",other:"dentro de {0} min"},past:{one:"hace {0} min",other:"hace {0} min"}}},second:{displayName:"segundo",relative:{0:"ahora"},relativeTime:{future:{one:"dentro de {0} segundo",other:"dentro de {0} segundos"},past:{one:"hace {0} segundo",other:"hace {0} segundos"}}},"second-short":{displayName:"s",relative:{0:"ahora"},relativeTime:{future:{one:"dentro de {0} s",other:"dentro de {0} s"},past:{one:"hace {0} s",other:"hace {0} s"}}}}},{locale:"es-UY",parentLocale:"es-419"},{locale:"es-VE",parentLocale:"es-419"}]});
 
 
 /***/ }),
-/* 972 */
+/* 976 */
 /***/ (function(module, exports) {
 
 	module.exports = {"home.input":"Introduce apodo","home.btn1":"Jugar ahora!","home.btn2":"Buscar partida","home.btn3":"Crear partida","home.btn4":"Configuracion"}
 
 /***/ }),
-/* 973 */
+/* 977 */
 /***/ (function(module, exports) {
 
-	module.exports = {"home.input":"Introduce nickname","home.btn1":"Play now!","home.btn2":"Find Game","home.btn3":"Create game","home.btn4":"Settings"}
+	module.exports = {"home.input":"Introduce nickname","home.btn1":"Play now!","home.btn2":"Find Game","home.btn3":"Create game","home.btn4":"How to play","home.btn5":"Settings","general.loading":"Loading game"}
 
 /***/ })
 /******/ ]);

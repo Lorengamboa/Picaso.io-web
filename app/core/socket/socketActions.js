@@ -22,3 +22,20 @@ export function setConnection(result) {
   };
 }
 
+/**
+ * 
+ */
+export function disconnectGameRoom() {
+  return {
+    type: ACTIONS.DISCONNECT_GAME_ROOM,
+  };
+}
+
+/**
+ * 
+ */
+export function connectionError(err) {
+  return {
+    type: ACTIONS.CONNECTION_ERROR,
+  };
+}

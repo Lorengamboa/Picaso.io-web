@@ -32,7 +32,7 @@ body {
 }
 
 .header .logo { 
-  width: 170px;
+  width: 370px;
 }
 
 @media screen and (max-width: 500px) {
@@ -44,7 +44,7 @@ body {
 
 .home-menu {
   width: 60%;
-  margin: 5rem auto;
+  margin: 0 auto;
 }
 
 .home-menu input {

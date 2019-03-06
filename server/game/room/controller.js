@@ -1,8 +1,9 @@
 "use strict";
 
 const Room = require("./Room");
-const attackEvents = require("./observer");
+const attachEvents = require("./observer");
 const { createRandomString } = require("../../utils");
+const { CreateRoomError } = require("./error");
 
 const roomController = {
   RoomCreator: class RoomCreator {
@@ -13,20 +14,22 @@ const roomController = {
       try {
         const roomName = createRandomString();
         const game = new Room(roomName, this.io);
-        attackEvents(game);
+        attachEvents(game);
+        
         return game;
       } catch (err) {
-        return err;
+          throw new CreateRoomError(err);
       }
     }
     createPrivateGame(gameInfo) {
       try {
         const roomName = gameInfo.roomName;
         const game = new Room(roomName, this.io, "private");
-
+        attachEvents(game);
+        
         return game;
       } catch (err) {
-        return err;
+          throw new CreateRoomError(err);
       }
     }
   },

@@ -8,9 +8,13 @@ import {
   updateTimer,
   updateGameState,
   fetchPlayersDraw,
-  displayCurrentWord,
-  disconnectGameRoom,
+  displayCurrentWord
 } from "../core/game/gameActions";
+
+import {
+  disconnectGameRoom,
+  connectionError
+} from "../core/socket/socketActions";
 
 import { setConnection } from "../core/socket/socketActions";
 
@@ -26,7 +30,9 @@ const SOCKET_EVENTS = {
     UPDATE_GAME_STATE: ["updateGameState", updateGameState],
     DISPLAY_PLAYERS_DRAW: ["playerDraws", fetchPlayersDraw],
     DISPLAY_CURRENT_WORD: ["currentWord", displayCurrentWord],
-    CONNECTION_RESULT: ["connectionResult", setConnection]
+    CONNECTION_RESULT: ["connectionResult", setConnection],
+    CONNECTION_ERROR: ["connect_error", connectionError],
+    ERROR: ["error", connectionError]
   },
   EMITTER: {
     PLAYER_JOIN_RANDOM_GAMEROOM: "joinRandomRoom",

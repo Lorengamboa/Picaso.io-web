@@ -7,9 +7,10 @@ import * as Sentry from "@sentry/browser";
 
 import { setUsername } from '../../core/player/playerActions';
 import { openPlayerSocketConnection } from "../../core/socket/socketActions";
-import { InputText, PrimaryButton, Navbar, Footer } from "../../components";
 
-const SAMPLE_DRAWS_ENDPOINT = "/api/sample/draws";
+import links from './footer_url';
+import { InputText, Navbar, Footer } from "../../components";
+import MenuButton from "./MenuButton";
 
 Sentry.init({
   dsn: "https://0bf6ab16edaf42b687dba1a4cdb01548@sentry.io/1406806"
@@ -24,14 +25,6 @@ class HomePage extends Component {
 
     this.state = {
       error: null,
-      title: "Home",
-      placeholder: "Introduce a nickname",
-      username: this.props.username,
-      buttonTxt: "Play now!",
-      privateTxt: "Create Private room",
-      searchTxt: "Find game",
-      samples: [],
-      loadingSamples: true
     };
 
     // Events listeners
@@ -130,48 +123,17 @@ class HomePage extends Component {
                   username={this.state.username}
                   onKeyPress={this.onSubmit}
                 />
-              </Grid.Column>
-              <Grid.Column mobile={16} tablet={16} computer={16}>
-                <PrimaryButton
-                  color="red"
-                  className="btn-roundy"
-                  value="home.btn1"
-                  onClick={this.onPlayButtonClick}
-                />
-              </Grid.Column>
-
-              <Grid.Column mobile={16} tablet={16} computer={16}>
-                <PrimaryButton
-                  color="green"
-                  className="btn-roundy"
-                  value="home.btn2"
-                  onClick={this.onSearchButtonClick}
-                />
-                <PrimaryButton
-                  color="blue"
-                  className="btn-roundy"
-                  value="home.btn3"
-                  onClick={this.onCreateButtonClick}
-                />
-                <PrimaryButton
-                  color="grey"
-                  className="btn-roundy"
-                  value="home.btn4"
-                  onClick={this.onSettingsButtonClick}
-                />
+                <MenuButton actions={[this.onPlayButtonClick, 
+                            this.onSearchButtonClick, 
+                            this.onCreateButtonClick, 
+                            this.onCreateButtonClick, 
+                            this.onSettingsButtonClick]} />
               </Grid.Column>
             </Grid.Row>
           </Grid>
         </div>
         <div className="center">
-          <Footer
-            links={[
-              { action: "mailto", value: "picas.iohelp@gmail.com" },
-              { value: "policy", action: "link", url: "/policy" },
-              { value: "How to play", action: "link", url: "/howtoplay" },
-              { value: "Join our Discord community", action: "link", url: "https://discord.gg/NuNGe4" },
-            ]}
-          />
+          <Footer links={links} />
         </div>
       </div>
     );

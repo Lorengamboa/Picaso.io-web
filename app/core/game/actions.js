@@ -15,5 +15,5 @@ export const UPDATE_GAME_STATE = 'updateGameState';
 export const PLAYER_VOTE_DRAW = 'playerVoteDraw';
 export const DISPLAY_PLAYERS_DRAW = 'displayPlayersDraw';
 export const DISPLAY_CURRENT_WORD = 'displayCurrentWord';
-export const DISCONNECT_GAME_ROOM = 'disconnectGameRoom';
 export const TOGGLE_EXPAND = 'toggleExpand';
+export const HIDE_MODAL = 'hideModal';

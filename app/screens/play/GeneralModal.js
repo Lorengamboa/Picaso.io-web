@@ -4,19 +4,18 @@ import { Modal, Header, Icon, Button } from "semantic-ui-react";
 const GeneralModal = props => {
   return (
     <Modal basic open={props.visibility}>
-      <Header icon="archive" content="Archive Old Messages" />
+      <Header icon="server" content={props.title} />
       <Modal.Content>
         <p>
-          Your inbox is getting full, would you like us to enable automatic
-          archiving of old messages?
+          {props.content}
         </p>
       </Modal.Content>
       <Modal.Actions>
-        <Button basic color="red" inverted>
-          <Icon name="remove" /> No
+        <Button basic color="green" inverted>
+          <Icon name="remove" /> {props.btn1}
         </Button>
-        <Button color="green" inverted>
-          <Icon name="checkmark" /> Yes
+        <Button color="red" inverted onClick={props.action2}>
+          <Icon name="checkmark" /> {props.btn2}
         </Button>
       </Modal.Actions>
     </Modal>

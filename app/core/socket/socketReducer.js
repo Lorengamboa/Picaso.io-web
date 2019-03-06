@@ -14,6 +14,17 @@ export default function playerReducer(state = initialState.socket, action) {
         loading: false,
         connection: action.payload
       });
+    case ACTIONS.DISCONNECT_GAME_ROOM:
+      return Object.assign({}, state, {
+        loading: false,
+        connection: null
+      });
+    case ACTIONS.CONNECTION_ERROR:
+      return Object.assign({}, state, {
+        loading: false,
+        connection: null
+      });
+
     default:
       return state;
   }

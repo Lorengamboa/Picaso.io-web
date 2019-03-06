@@ -1,59 +1,65 @@
 "use strict";
 
-import * as ACTIONS from "./actions";
+import * as GAME_ACTIONS from "./actions";
+import * as SOCKET_ACTIONS from "../socket/actions";
+
 import initialState from "../initialState";
 
 export default function gameReducer(state = initialState.game, action) {
   switch (action.type) {
-    case ACTIONS.RETRIEVE_GAME_INFO:
+    case GAME_ACTIONS.RETRIEVE_GAME_INFO:
       return Object.assign({}, state, {
         gameInfo: action.payload
       });
-    case ACTIONS.TOGGLE_EXPAND:
+    case GAME_ACTIONS.TOGGLE_EXPAND:
       return Object.assign({}, state, {
         fullscreen: !state.fullscreen
-      });    
-    case ACTIONS.CHANGE_COLOR_PICKED:
+      });
+    case GAME_ACTIONS.CHANGE_COLOR_PICKED:
       return Object.assign({}, state, {
         colorPicked: action.payload
       });
-    case ACTIONS.SELECT_TOOL_PICKED:
+    case GAME_ACTIONS.SELECT_TOOL_PICKED:
       return Object.assign({}, state, {
         toolPicked: action.payload
       });
-    case ACTIONS.SELECT_PEN_WIDTH:
+    case GAME_ACTIONS.SELECT_PEN_WIDTH:
       return Object.assign({}, state, {
         penWidth: action.payload
       });
-    case ACTIONS.UPDATE_USERLIST:
+    case GAME_ACTIONS.UPDATE_USERLIST:
       return Object.assign({}, state, {
         playerList: action.payload
       });
-    case ACTIONS.ADD_NEW_CHAT_MESSAGE:
+    case GAME_ACTIONS.ADD_NEW_CHAT_MESSAGE:
       return Object.assign({}, state, {
         messages: [...state.messages, action.payload]
       });
-    case ACTIONS.UPDATE_CANVAS:
+    case GAME_ACTIONS.UPDATE_CANVAS:
       return Object.assign({}, state, {
         lastDraw: action.payload
       });
-    case ACTIONS.UPDATE_TIMER:
+    case GAME_ACTIONS.UPDATE_TIMER:
       return Object.assign({}, state, {
         countDown: action.payload
       });
-    case ACTIONS.UPDATE_GAME_STATE:
+    case GAME_ACTIONS.UPDATE_GAME_STATE:
       return Object.assign({}, state, {
         gamePlay: action.payload
       });
-    case ACTIONS.DISPLAY_PLAYERS_DRAW:
+    case GAME_ACTIONS.DISPLAY_PLAYERS_DRAW:
       return Object.assign({}, state, {
         playersDraw: action.payload
       });
-    case ACTIONS.DISPLAY_CURRENT_WORD:
+    case GAME_ACTIONS.DISPLAY_CURRENT_WORD:
       return Object.assign({}, state, {
         currentWord: action.payload
       });
-    case ACTIONS.DISCONNECT_GAME_ROOM:
+    case GAME_ACTIONS.HIDE_MODAL:
+      return Object.assign({}, state, {
+        modal: action.payload
+      });
+    case SOCKET_ACTIONS.DISCONNECT_GAME_ROOM:
       return Object.assign({}, state, {
         modal: true
       });
