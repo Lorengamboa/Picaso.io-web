@@ -2,13 +2,16 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Grid, Loader, Dimmer } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import * as Sentry from "@sentry/browser";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import { setUsername } from '../../core/player/playerActions';
+import GameLoader from "./GameLoader";
+import { setUsername } from "../../core/player/playerActions";
 import { openPlayerSocketConnection } from "../../core/socket/socketActions";
 
-import links from './footer_url';
+import links from "./footer_url";
 import { InputText, Navbar, Footer } from "../../components";
 import MenuButton from "./MenuButton";
 
@@ -24,7 +27,8 @@ class HomePage extends Component {
     super(props);
 
     this.state = {
-      error: null,
+      username: "",
+      error: null
     };
 
     // Events listeners
@@ -51,8 +55,19 @@ class HomePage extends Component {
     });
   }
 
+  /**
+   * 
+   * @param {*} props 
+   */
   componentWillReceiveProps(props) {
-    if (props.connection) return this.props.history.push("/play");
+    if (props.connection) this.props.history.push("/play");
+
+    if (props.snackbar !== this.props.snackbar) {
+      if (props.snackbar.level === "error")
+        toast.error(props.snackbar.message, {
+          position: toast.POSITION.TOP_LEFT
+        });
+    }
   }
 
   /**
@@ -108,9 +123,7 @@ class HomePage extends Component {
   render() {
     return (
       <div id="home-site">
-        <Dimmer active={this.props.loading}>
-          <Loader indeterminate>Loading game</Loader>
-        </Dimmer>
+        <GameLoader loading={this.props.loading} content="Loading game" />
         <Navbar className="center" />
         <div className="home-menu">
           <Grid>
@@ -123,11 +136,15 @@ class HomePage extends Component {
                   username={this.state.username}
                   onKeyPress={this.onSubmit}
                 />
-                <MenuButton actions={[this.onPlayButtonClick, 
-                            this.onSearchButtonClick, 
-                            this.onCreateButtonClick, 
-                            this.onCreateButtonClick, 
-                            this.onSettingsButtonClick]} />
+                <MenuButton
+                  actions={[
+                    this.onPlayButtonClick,
+                    this.onSearchButtonClick,
+                    this.onCreateButtonClick,
+                    this.onCreateButtonClick,
+                    this.onSettingsButtonClick
+                  ]}
+                />
               </Grid.Column>
             </Grid.Row>
           </Grid>
@@ -135,6 +152,8 @@ class HomePage extends Component {
         <div className="center">
           <Footer links={links} />
         </div>
+
+        <ToastContainer />
       </div>
     );
   }
@@ -145,7 +164,12 @@ class HomePage extends Component {
  * @param {store}
  */
 function mapStateToProps(state) {
-  return { username: state.playerReducer.username, loading: state.socketReducer.loading, connection: state.socketReducer.connection };
+  return {
+    username: state.playerReducer.username,
+    loading: state.socketReducer.loading,
+    connection: state.socketReducer.connection,
+    snackbar: state.generalReducer
+  };
 }
 
 /**

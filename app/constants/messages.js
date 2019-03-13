@@ -1,1 +1,0 @@
-const MODAL_DISCONNECTED = "You lost connection!"

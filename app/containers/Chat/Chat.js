@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Message, InfoMessage } from "../../components";
 import { playerSendMessage } from '../../core/game/gameActions';
+import { displaySnackBar } from '../../core/general/generalActions';
 import chatListStyles from "./styles";
 
 
@@ -62,8 +63,14 @@ export class Chat extends Component {
     // if enter key is pressed
     if (e.key === "Enter") {
       // the msg is not blank at all
-      if (!/^\s*$/.test(this.state.text)) this.props.playerSendMessage(this.state.text);
-
+      if (/^\s*$/.test(this.state.text)) {
+         this.props.displaySnackBar(50)
+      }
+      else if(this.state.text.length > 60) {
+        this.props.displaySnackBar(40)
+      }
+      else this.props.playerSendMessage(this.state.text);
+      
       this.setState({
         text: "",
       });
@@ -112,6 +119,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     playerSendMessage: (message) => {
       dispatch(playerSendMessage(message));
+    },
+    displaySnackBar: (msg) => {
+      dispatch(displaySnackBar(msg));
     }
   };
 };

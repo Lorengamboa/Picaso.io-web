@@ -15,7 +15,7 @@ const MenuButton = ({actions}) => {
         value="home.btn1"
         onClick={actions[0]}
       />
-      <PrimaryButton
+      {/* <PrimaryButton
         color="green"
         className="btn-roundy"
         value="home.btn2"
@@ -38,7 +38,7 @@ const MenuButton = ({actions}) => {
         className="btn-roundy"
         value="home.btn5"
         onClick={actions[4]}
-      />
+      /> */}
     </div>
   );
 };

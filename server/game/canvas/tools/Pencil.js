@@ -4,16 +4,16 @@ const colors = require("../colors");
 
 const Pencil = {
   classic: (data, ctx) => {
-    const { coordinates, colorPicked } = data;
+    const { coordinates, colorPicked, penWidth } = data;
     if (!coordinates || !functionvalidateColor(colorPicked)) return;
 
-    const { currentX, currentY, prevX, prevY } = coordinates;
-    
+    let { currentX, currentY, prevX, prevY } = coordinates;
+
     ctx.beginPath();
     ctx.moveTo(prevX, prevY);
     ctx.lineTo(currentX, currentY);
     ctx.strokeStyle = colorPicked;
-    ctx.lineWidth = 2;
+    ctx.lineWidth = penWidth;
 
     ctx.stroke();
     ctx.closePath();

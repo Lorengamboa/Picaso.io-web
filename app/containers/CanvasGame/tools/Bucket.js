@@ -17,8 +17,7 @@ const Bucket = (data, canvas) => {
   prevX = scalePositionX(prevX, canvas.width);
   prevY = scalePositionHeight(prevY, canvas.height);
 
-  ctx.fillStyle = colorPicked;
-  ctx.floodFill(prevX, prevY, 0);
+  ctx.floodFill(prevX, prevY, colorPicked);
 };
 
 export default Bucket;

@@ -1,6 +1,5 @@
-.vscode/
-node_modules/	
 .vscode
 notas.txt
 picasso-dev.pem
 logs/
+node_modules/

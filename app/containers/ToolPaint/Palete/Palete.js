@@ -41,7 +41,7 @@ export class Palete extends Component {
   }
 
   render() {
-    return <ul className='colors'>{this._drawColors()}</ul>;
+    return <div className='colors center'>{this._drawColors()}</div>;
   }
 }
 

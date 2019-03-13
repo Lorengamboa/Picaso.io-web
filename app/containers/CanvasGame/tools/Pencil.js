@@ -5,7 +5,7 @@ import { scalePositionHeight, scalePositionX } from '../../../utils';
 const Pencil = {
   classic: (data, canvas) => {
     const ctx = canvas.getContext("2d");
-    const { coordinates, colorPicked } = data;
+    const { coordinates, colorPicked, penWidth } = data;
     if (!coordinates) return;
 
     let { currentX, currentY, prevX, prevY } = coordinates;
@@ -22,7 +22,7 @@ const Pencil = {
     ctx.moveTo(prevX, prevY);
     ctx.lineTo(currentX, currentY);
     ctx.strokeStyle = colorPicked;
-    ctx.lineWidth = 2;
+    ctx.lineWidth = penWidth;
 
     ctx.stroke();
     ctx.closePath();

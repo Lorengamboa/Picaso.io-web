@@ -11,6 +11,7 @@ module.exports.SOCKET_EVENTS = {
   PLAYER_SEND_MESSAGE: 'sendMessage',
   PLAYER_DRAWING: 'drawing',
   PLAYER_VOTES_DRAW: 'playerVotesDraw',
+  DRINK_VODKA: 'drinkVodka',
   DISCONNECT: 'disconnect',
   UPDATE_CHAT_PLAYER_MESSAGE: 'playerMessage',
   UPDATE_CHAT_INFORM_MESSAGE: 'generalMessage',
@@ -20,6 +21,7 @@ module.exports.SOCKET_EVENTS = {
   UPDATE_TIMER: 'updateTimer',
   UPDATE_GAME_STATE: 'updateGameState',
   DISPLAY_ALL_DRAWS: 'playerDraws',
+  DISPLAY_WINNERS: 'displayWinners',
   CURRENT_WORD: 'currentWord',
   AVAILABLE_GAMES: 'availableGames',
 }

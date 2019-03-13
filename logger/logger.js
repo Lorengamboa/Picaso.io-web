@@ -7,7 +7,7 @@ const format = winston.format.combine(
   winston.format.timestamp({
     format: "YYYY-MM-DD HH:mm:ss"
   }),
-  winston.format.json()
+  winston.format.simple()
 );
 
 const transportFormat = winston.format.printf(info => {

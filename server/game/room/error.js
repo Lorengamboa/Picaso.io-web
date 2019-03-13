@@ -2,12 +2,7 @@
 class RoomError extends Error {
     constructor(message) {
       super(message);
-     // Ensure the name of this error is the same as the class name
       this.name = this.constructor.name;
-     // This clips the constructor invocation from the stack trace.
-     // It's not absolutely essential, but it does make the stack trace a little nicer.
-     //  @see Node.js reference (bottom)
-      Error.captureStackTrace(this, this.constructor);
     }
   }
   
@@ -35,8 +30,23 @@ class RoomError extends Error {
     }
   }
 
+  class PlayerJoinRoomError extends RoomError {
+    constructor(msg, code) {
+      super(msg);
+      this.code = code;
+    }
+  }
+
+  const error_codes = {
+    FULL: 0,
+    NOT_EXIST: 1,
+    BANNED: 2
+}
+
   module.exports = {
     RoomNotFoundError,
     InternalError,  
-    CreateRoomError
+    CreateRoomError,
+    PlayerJoinRoomError,
+    error_codes
   };

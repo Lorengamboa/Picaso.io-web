@@ -6,6 +6,7 @@
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "@sentry/browser": "^4.6.4",
+    "@sentry/node": "4.6.4",
     "adblockdetect": "^0.0.1",
     "aws-sdk": "^2.384.0",
     "axios": "^0.16.2",
@@ -21,6 +22,7 @@
     "i18next": "^15.0.4",
     "i18next-browser-languagedetector": "^3.0.1",
     "i18next-xhr-backend": "^2.0.1",
+    "joi": "^14.3.1",
     "lodash": "^4.17.10",
     "mongoose": "^5.4.7",
     "react": "^16.4.1",
@@ -36,13 +38,15 @@
     "react-swing": "^2.0.0",
     "react-swipe-card": "^0.1.4",
     "react-tinderable": "^0.1.8",
+    "react-toastify": "^4.5.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.3.0",
     "semantic-ui-react": "^0.84.0",
     "socket.io": "^2.1.1",
     "socket.io-client": "^2.1.1",
     "uuid": "^3.3.2",
-    "winston-daily-rotate-file": "^3.6.0"
+    "winston-daily-rotate-file": "^3.6.0",
+    "winston-logstash": "^0.4.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

@@ -15,6 +15,7 @@ class Player {
     this.name = name;
     this.gameroom = null;
     this.color = null;
+    this.drunk = false;
     this.avatar = rndValueArray(GAME_AVATARS);
 
     applyListeners.call(this);

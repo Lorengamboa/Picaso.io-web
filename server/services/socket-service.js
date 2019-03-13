@@ -11,7 +11,7 @@ const message = require("../constants/log-msg");
 module.exports = {
   init: io => {
     this.io = io;
-    let game_ctrl = gameManager(this.io);
+    let game_ctrl = new gameManager(this.io);
 
     this.io.on(SOCKET_EVENTS.CONNECT, socket => {
       let player;

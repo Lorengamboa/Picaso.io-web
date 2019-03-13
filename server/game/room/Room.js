@@ -4,15 +4,15 @@ const _ = require("lodash");
 
 const Socket = require("../Socket");
 const Chat = require("../chat");
-const Voter = require("./utils/Voter");
-const events = require("./events");
+const Voter = require("./classes/Voter");
+const events = require("./pubsub/events");
 const { requestRandomWord, persistDraw } = require("./services");
-const GameFactory = require("./GameFactory");
+const CanvasFactory = require("./CanvasFactory");
 const { SOCKET_EVENTS } = require("../../constants/socket-events");
-const CHAT_CONF = require("../config/chat_conf");
 const { GAME_STATE } = require("../config/constants");
-const { getRandomColor, isBlank } = require("../../utils");
-const Timer = require("./utils/Timer");
+const { PlayerJoinRoomError, error_codes } = require("./error");
+const { getRandomColor } = require("../../utils");
+const Timer = require("./classes/Timer");
 
 const GAME_CONFIG = require("../config/room");
 
@@ -87,23 +87,31 @@ class Room extends Socket {
    */
   requestJoin(player) {
     const userColor = getRandomColor();
+
     return new Promise((resolve, reject) => {
-      if (this.players.length == process.env.MAX_PLAYERS_PER_ROOM)
-        return reject("5 PLAYER MAX PER ROOM");
+      try {
+        if (this.players.length >= GAME_CONFIG.MAX_PLAYERS_PER_ROOM)
+          return reject(
+            new PlayerJoinRoomError("Room is full", error_codes.FULL)
+          );
 
-      player.socket.join(this.name);
-      player.color = userColor;
+        player.socket.join(this.name);
+        player.color = userColor;
 
-      this.players.push(player);
-      this.draws.push(GameFactory(player.id));
-      this.voters.addPlayer(player.id);
+        this.players.push(player);
+        this.draws.push(CanvasFactory(player.id));
+        this.voters.addPlayer(player.id);
 
-      this.updatePlayerJoined(player.name);
-      this.manageFlow();
-      player.socket.emit(SOCKET_EVENTS.RETRIEVE_GAME_INFO, {
-        roomTag: this.name
-      });
-      resolve();
+        this.updatePlayerJoined(player.name);
+        this.manageFlow();
+
+        player.socket.emit(SOCKET_EVENTS.RETRIEVE_GAME_INFO, {
+          roomTag: this.name
+        });
+        resolve();
+      } catch (err) {
+        reject(err);
+      }
     });
   }
 
@@ -128,40 +136,52 @@ class Room extends Socket {
    * Updates all the room's players canvas
    * @param {Array} data
    */
-  updateCanvas(socket, drawingInfo) {
-    const { id } = socket;
+  updateCanvas(player, drawingInfo) {
+    const { socket, id } = player;
     var canvas = _.find(this.draws, { id }).canvas;
 
     if (socket && this.status === GAME_STATE.PLAYING) {
+      // VODKA HHAHAHAH GLUGH GLUGH!
+      // if (player.drunk && drawingInfo.toolPicked === "pencil") {
+      //   drawingInfo.coordinates.prevX += Math.floor(Math.random() * 15);
+      // }
       canvas.draw(drawingInfo);
-      return socket.emit(SOCKET_EVENTS.UPDATE_CANVAS, drawingInfo);
+      // return socket.emit(SOCKET_EVENTS.UPDATE_CANVAS, drawingInfo);
     }
-
-    this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_CANVAS, drawingInfo);
+    else socket.broadcast.to(this.name).emit(SOCKET_EVENTS.UPDATE_CANVAS, drawingInfo);
   }
 
   /**
    * Updates client game state
    */
   updateGameState() {
+    this.newCurrentWord = requestRandomWord();
     this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_GAME_STATE, this.status);
+    if (this.status === GAME_STATE.PLAYING) {
+      this.io
+        .to(this.name)
+        .emit(SOCKET_EVENTS.CURRENT_WORD, this.newCurrentWord);
+      this.chatRoom.informGeneralActivity(
+        `Word to draw: ${this.newCurrentWord}`,
+        "purple"
+      );
+    }
   }
 
   /**
    * Clears player's canvas
    */
-  clearPlayerCanvas(socket) {
-    this.updateCanvas(socket, { toolPicked: "bin" });
+  clearPlayerCanvas(player) {
+    this.updateCanvas(player, { toolPicked: "bin" });
   }
 
   /**
    * Updates all the room's players their userlist
    */
   updateChatlist() {
-
     let playerList = this.players.map(player => {
       const points = this.voters.draws[player.id].points;
-      return player.points = points;
+      return (player.points = points);
     });
 
     playerList = _.map(
@@ -209,10 +229,11 @@ class Room extends Socket {
    * @param {String} username
    * @param {String} msg
    */
-  playerSendsMessage(id, msg) {
-    if (isBlank(msg) || msg.length > CHAT_CONF.MAX_MESSAGE_LENGTH || !id)
-      return;
-
+  playerSendsMessage(socket, msg) {
+    const id = socket.id;
+    // if (msg.length > CHAT_CONF.MAX_MESSAGE_LENGTH) return socket.emit("costum_error", 40);
+    // else if (isBlank(msg)) return socket.emit("costum_error", 50)
+    // else if(!id) return socket.emit("costum_error", 1000);
     const player = _.find(this.players, { id });
     const filterPlayer = {
       name: player.name,
@@ -244,8 +265,9 @@ class Room extends Socket {
   /* 1. Start                                                                      */
   /* 2. Play                                                                       */
   /* 3. Pause                                                                      */
-  /* 4. Vote                                                                       */
-  /* 5. Finish                                                                     */
+  /* 4. Presentante                                                                */
+  /* 5. Vote                                                                       */
+  /* 6. Finish                                                                     */
   /*********************************************************************************/
 
   /**
@@ -260,8 +282,7 @@ class Room extends Socket {
    */
   play() {
     if (this.round === GAME_CONFIG.NUMBER_OF_ROUNDS) return this.finish();
-
-    this.io.to(this.name).emit(SOCKET_EVENTS.CURRENT_WORD, this.currentWord);
+    this.voters.resetCache();
     this.emit(events.PLAYING);
     this.addRound();
     this.updateChatlist();
@@ -275,6 +296,24 @@ class Room extends Socket {
   }
 
   /**
+   *
+   */
+  presentate() {
+    let winnerList = this.players.map(player => {
+      const points = this.voters.cache[player.id].points;
+      return (player.points = points);
+    });
+
+    winnerList = _.map(
+      this.players,
+      _.partialRight(_.pick, ["name", "color", "avatar", "points"])
+    );
+    
+    this.io.to(this.name).emit(SOCKET_EVENTS.DISPLAY_WINNERS, winnerList);
+    this.emit(events.PRESENTATE);
+  }
+
+  /**
    * GAME STATE: VOTE
    */
   vote() {
@@ -284,6 +323,7 @@ class Room extends Socket {
         const imageData = draw.canvas.getImageData();
         const idDraw = draw.id;
 
+        draw.canvas.cleanCanvas();
         persistDraw(imageData);
 
         return { id: idDraw, imageData };
@@ -291,7 +331,7 @@ class Room extends Socket {
 
     // this.voter = new Voter(idDraws);
     this.io.to(this.name).emit(SOCKET_EVENTS.DISPLAY_ALL_DRAWS, drawsBase64);
-    this.emit("vote");
+    this.emit(events.VOTING);
   }
 
   /**

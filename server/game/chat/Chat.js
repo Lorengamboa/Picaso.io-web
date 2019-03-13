@@ -38,7 +38,7 @@ class Chat extends Socket{
      * @param {*} data 
      * @param {*} color 
      */
-    informPlayerActivity(data, color) {
+    informGeneralActivity(data, color) {
         this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_CHAT_INFORM_MESSAGE, {
             type:'general', data, color
         });
@@ -49,7 +49,7 @@ class Chat extends Socket{
      * @param {String} username 
      */
     informPlayerJoined(username) {
-        this.informPlayerActivity(`${username} has joined`, '#28de46')
+        this.informGeneralActivity(`${username} has joined`, '#28de46')
     }
 
     /**
@@ -57,7 +57,7 @@ class Chat extends Socket{
      * @param {String} username 
      */
     informPlayerLeft(username) {
-        this.informPlayerActivity(`${username} has left`, 'red')
+        this.informGeneralActivity(`${username} has left`, 'red')
     }
 }
 

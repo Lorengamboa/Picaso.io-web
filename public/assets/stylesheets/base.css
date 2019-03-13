@@ -14,7 +14,8 @@ body {
 }
 
 .center {
-  text-align: center;
+	text-align: center;
+	width: inherit;
 }
 
 .center-div
@@ -102,6 +103,10 @@ body {
   padding:0 2%;
 }
 
+#play-site .header .logo { 
+  width: 150px;
+}
+
 #home-site {
   height: 100%;
 }
@@ -178,21 +183,61 @@ body {
   margin-bottom: 0;
 }
 
-.toolpaint {
-  text-align: center;
-  padding-top: 20px;
+.icon-tool {
+	width: 40px;
+}
+.icon-tools {
+	padding: 1vh;
+}
+
+.icon-tools > li {
+	list-style: none;
+	display: inline-block;
+}
+
+.icon-tools > li > img{
+	width: 3vh;
+	list-style: none;
 }
 
 .colors > li {
   list-style: none;
-  border-radius: 2%;
-  width: 15px;
-  height: 15px;
-  display: inline-block;
-  margin: 0 10px;
-  cursor: pointer;
-  transition-duration: 0.2s;
-  transition: 0.1s;
+	width: 5vh;
+	height: 5vh;
+	float: left;
+  line-height: 1;
+  vertical-align: middle;
+  white-space: nowrap;
+	margin: .5em;
+}
+
+
+.colors > li.active-color {
+  width: 5vh;
+  height: 5vh;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+  border-bottom: 20px solid rgba(0, 0, 0, 0.15);
+}
+
+@media screen and (max-width: 993px) {
+  .colors > li {
+		display: inline-block;
+		width: 1.5vh;
+		height: 1.5vh;
+ }
+
+ .colors > li.active-color {
+	list-style: none;
+	width: 5vh;
+	height: 5vh;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+	border-bottom: 20px solid rgba(0, 0, 0, 0.15);
+	border: 0;
+}
+
+.icon-tools > li {
+	display: inline-block;
+	}
 }
 
 .colors > li:hover {
@@ -200,12 +245,6 @@ body {
   transform: scale(1.2);
 }
 
-.colors > li.active-color {
-  width: 20px;
-  height: 20px;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
-  border-bottom: 20px solid rgba(0, 0, 0, 0.15);
-}
 
 canvas {
   width: 100%;
@@ -228,17 +267,14 @@ canvas {
 
 .timer {
   position: absolute;
-  top: -10px;
-  left:15px;
+	top: 12px;
+	left: 19px;
 }
 
 .timer .a {
   font-size: 5px;
 }
 
-.icon-tool {
-  width: 35px;
-}
 
 /*****************************************************************/
 
@@ -289,10 +325,6 @@ canvas {
 .controls {
 	text-align: center;
 	margin: 3em 0 0 0;
-	h3{
-    font-weight: 100;
-    letter-spacing: 1px;
-  }
 }
 
 .button {

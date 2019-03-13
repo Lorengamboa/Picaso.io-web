@@ -1,4 +1,4 @@
-import S from "../../constants/socket";
+import { SOCKET_EVENTS } from "../../constants/socket";
 
 /**
  * Helper function to make socket.on bind calls
@@ -19,9 +19,9 @@ const socketOn = (event, action, socket, store) => {
  * @param {*} store
  */
 const receiver = (socket, store) => {
-  const messages = Object.keys(S.RECEIVER);
+  const messages = Object.keys(SOCKET_EVENTS.RECEIVER);
   messages.forEach(function name(item) {
-    socketOn(S.RECEIVER[item][0], S.RECEIVER[item][1], socket, store);
+    socketOn(SOCKET_EVENTS.RECEIVER[item][0], SOCKET_EVENTS.RECEIVER[item][1], socket, store);
   });
 };
 

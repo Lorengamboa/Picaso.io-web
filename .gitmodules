@@ -1,0 +1,3 @@
+[submodule "services/Picas.io-bot"]
+	path = services/Picas.io-bot
+	url = https://github.com/Lorengamboa/Picas.io-bot.git

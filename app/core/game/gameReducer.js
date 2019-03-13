@@ -11,6 +11,14 @@ export default function gameReducer(state = initialState.game, action) {
       return Object.assign({}, state, {
         gameInfo: action.payload
       });
+    case GAME_ACTIONS.PLAYER_DRAW_CANVAS:
+      return Object.assign({}, state, {
+        playerDraw: action.payload
+      });
+      case GAME_ACTIONS.PLAYER_CLEAR_CANVAS:
+      return Object.assign({}, state, {
+        playerDraw: action.payload
+      });   
     case GAME_ACTIONS.TOGGLE_EXPAND:
       return Object.assign({}, state, {
         fullscreen: !state.fullscreen
@@ -23,7 +31,7 @@ export default function gameReducer(state = initialState.game, action) {
       return Object.assign({}, state, {
         toolPicked: action.payload
       });
-    case GAME_ACTIONS.SELECT_PEN_WIDTH:
+    case GAME_ACTIONS.SELECT_PEN_SIZE:
       return Object.assign({}, state, {
         penWidth: action.payload
       });
@@ -55,6 +63,10 @@ export default function gameReducer(state = initialState.game, action) {
       return Object.assign({}, state, {
         currentWord: action.payload
       });
+      case GAME_ACTIONS.DISPLAY_WINNER_LIST:
+      return Object.assign({}, state, {
+        podium: action.payload
+      });
     case GAME_ACTIONS.HIDE_MODAL:
       return Object.assign({}, state, {
         modal: action.payload
@@ -63,6 +75,11 @@ export default function gameReducer(state = initialState.game, action) {
       return Object.assign({}, state, {
         modal: true
       });
+    case SOCKET_ACTIONS.SET_CONNECTION:
+      return Object.assign({}, state, {
+        modal: !action.payload
+      });
+
     default:
       return state;
   }

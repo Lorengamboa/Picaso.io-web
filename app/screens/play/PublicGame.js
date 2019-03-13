@@ -2,8 +2,11 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Grid } from "semantic-ui-react";
+import { Grid, Button, Card, Image } from "semantic-ui-react";
 import { Howl } from "howler";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Reactcardstack from "../../containers/react-cards-stack/src";
 
 import GeneralModal from "./GeneralModal";
@@ -12,9 +15,14 @@ import Chat from "../../containers/Chat";
 import PlayerList from "../../containers/PlayerList";
 import ToolPaint from "../../containers/ToolPaint";
 
-import { Navbar, Timer, Advertisement } from "../../components";
+import { Navbar, Timer, Advertisement, Presentator } from "../../components";
 
-import { playerDrawCanvas, voteDraw, hideModal } from "../../core/game/gameActions";
+import {
+  playerDrawCanvas,
+  voteDraw,
+  hideModal
+} from "../../core/game/gameActions";
+import { pencilDrinks } from "../../core/player/playerActions";
 import { is_touch_device } from "../../utils";
 
 /**
@@ -48,6 +56,8 @@ class PublicGame extends Component {
   }
 
   init() {
+    if (!this.props.connection) return this.props.history.push("/");
+
     var sound = new Howl({
       src: ["/assets/music/entrance.mp3"]
     });
@@ -55,11 +65,11 @@ class PublicGame extends Component {
   }
 
   /**
-   * 
+   *
    */
   componentDidMount() {
     const mycanvas = document.getElementById("mycanvas");
-    if(!mycanvas) return;
+    if (!mycanvas) return;
     this.setState({
       canvas: {
         width: mycanvas.scrollWidth,
@@ -69,7 +79,20 @@ class PublicGame extends Component {
   }
 
   /**
-   * 
+   *
+   * @param {*} props
+   */
+  componentWillReceiveProps(props) {
+    if (props.snackbar !== this.props.snackbar) {
+      if (props.snackbar.level === "error")
+        toast.error(props.snackbar.message, {
+          position: toast.POSITION.TOP_LEFT
+        });
+    }
+  }
+
+  /**
+   *
    */
   goHome() {
     this.props.history.push("/");
@@ -118,7 +141,8 @@ class PublicGame extends Component {
     this.props.playerDrawCanvas({
       coordinates,
       colorPicked: this.props.colorPicked,
-      toolPicked: this.props.toolPicked
+      toolPicked: this.props.toolPicked,
+      penWidth: this.props.penWidth
     });
   }
 
@@ -199,17 +223,44 @@ class PublicGame extends Component {
     );
   }
 
+  /**
+   *
+   */
+  renderPodium() {
+    return this.props.podium.map(({ name, avatar, points }) => (
+      <Card>
+        <Card.Content>
+          <Image
+            floated="right"
+            size="mini"
+            src={"/assets/img/avatars/" + avatar + ".png"}
+          />
+          <Card.Header>{name}</Card.Header>
+          <Card.Meta>Friends of Elliot</Card.Meta>
+          <Card.Description>
+            <strong>{points}</strong>
+          </Card.Description>
+        </Card.Content>
+      </Card>
+    ));
+  }
+
   render() {
     const roomUrl =
       "http://www.localhost:8080/game/" + this.props.gameInfo.roomTag;
     return (
       <div id="play-site">
         <Navbar />
+        <Presentator display="false" content="STARTING" />
         <Grid>
           <PlayerList />
           <Grid.Row>
             {/* {roomUrl} */}
-            {this.props.currentWord}
+            <div className="center">
+              <h1 style={{ fontFamily: "ZCOOL QingKe HuangYou" }}>
+                {this.props.currentWord}
+              </h1>
+            </div>
           </Grid.Row>
           <Grid.Row>
             {/*Left column*/}
@@ -221,13 +272,24 @@ class PublicGame extends Component {
               {this.props.gamePlay === "voting" && (
                 <div className="row">{this.renderPlayerDraws()}</div>
               )}
+              {this.props.gamePlay === "presentating" && (
+                <div>
+                  <Timer className="timer" time={this.props.countDown} />
+                  <Card.Group>{this.renderPodium()}</Card.Group>
+                </div>
+              )}
               {this.props.gamePlay === "waitting" && (
                 <CanvasGame
                   onMouseMove={this.handleDisplayMouseMove}
                   onMouseDown={this.handleDisplayMouseDown}
                 />
               )}
-              {this.props.gamePlay === "starting" && <Advertisement blockimg="/assets/img/pencil-drunk.png" /> }
+              {this.props.gamePlay === "starting" && (
+                <Advertisement
+                  blocking="/assets/img/pencil-drunk.png"
+                  punishment={this.props.pencilDrinks}
+                />
+              )}
               {this.props.gamePlay === "playing" && (
                 <div>
                   <Timer className="timer" time={this.props.countDown} />
@@ -249,13 +311,15 @@ class PublicGame extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <GeneralModal 
-            visibility={this.props.modal} 
-            title="Connection error" 
-            content="You have lost the connection with the actual room, would u like to try reconnect?" 
-            btn1="Yes" 
-            btn2="No" 
-            action2={this.goHome} />
+        <ToastContainer />
+        <GeneralModal
+          visibility={this.props.modal}
+          title="Connection error"
+          content="You have lost the connection with the actual room, would u like to try reconnect?"
+          btn1="Yes"
+          btn2="No"
+          action2={this.goHome}
+        />
       </div>
     );
   }
@@ -265,7 +329,12 @@ class PublicGame extends Component {
  * The component will subscribe to Redux store updates.
  * @param {store}
  */
-function mapStateToProps({ playerReducer, gameReducer, socketReducer }) {
+function mapStateToProps({
+  playerReducer,
+  gameReducer,
+  socketReducer,
+  generalReducer
+}) {
   const { username } = playerReducer;
   const { connection } = socketReducer;
   const {
@@ -276,7 +345,9 @@ function mapStateToProps({ playerReducer, gameReducer, socketReducer }) {
     playersDraw,
     currentWord,
     gameInfo,
-    modal
+    modal,
+    penWidth,
+    podium
   } = gameReducer;
 
   return {
@@ -289,7 +360,10 @@ function mapStateToProps({ playerReducer, gameReducer, socketReducer }) {
     playersDraw,
     currentWord,
     gameInfo,
-    modal
+    modal,
+    penWidth,
+    podium,
+    snackbar: generalReducer
   };
 }
 
@@ -307,6 +381,9 @@ const mapDispatchToProps = dispatch => {
     },
     hideModal: () => {
       dispatch(hideModal());
+    },
+    pencilDrinks: () => {
+      dispatch(pencilDrinks());
     }
   };
 };

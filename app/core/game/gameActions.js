@@ -24,6 +24,18 @@ export function updateCanvas(data) {
  * 
  * @param {*} data 
  */
+export function displayWinners(winnerList) {
+  return {
+    type: ACTIONS.DISPLAY_WINNER_LIST,
+    payload: winnerList,
+  };
+}
+
+
+/**
+ * 
+ * @param {*} data 
+ */
 export function updateTimer(data) {
   return {
     type: ACTIONS.UPDATE_TIMER,
@@ -89,10 +101,10 @@ export function selectTool(tool) {
  * Selects a pen width from a width range
  * @param {Number} data
  */
-export function setPenWidth(width) {
+export function setPenSize(size) {
   return {
-    type: ACTIONS.SELECT_PEN_WIDTH,
-    payload: width,
+    type: ACTIONS.SELECT_PEN_SIZE,
+    payload: size,
   };
 }
 
@@ -147,6 +159,7 @@ export function playerDrawCanvas(data) {
 export function clearCanvas() {
   return {
     type: ACTIONS.PLAYER_CLEAR_CANVAS,
+    payload: { toolPicked: "bin" }
   };
 }
 

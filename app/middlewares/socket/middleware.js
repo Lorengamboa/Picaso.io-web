@@ -1,12 +1,11 @@
 "use strict";
 
 import SocketManagerFactory from "./SocketManagerFactory";
-import {
-  SOCKET_CONNECTION,
-} from "../../core/socket/actions";
+import { SOCKET_CONNECTION } from "../../core/socket/actions";
 import {
   CREATE_ROOM,
   CONNECT_PRIVATE_ROOM,
+  MAKE_DRUNK
 } from "../../core/player/actions";
 import {
   PLAYER_SEND_MESSAGE,
@@ -41,13 +40,19 @@ const SocketMiddleware = url => store => {
         break;
       case PLAYER_DRAW_CANVAS:
         sm.drawCanvas(action.payload);
+        next(action);
         break;
       case PLAYER_CLEAR_CANVAS:
         sm.clearCanvas();
+        next(action);
         break;
       case PLAYER_VOTE_DRAW:
         sm.voteDraw(action.payload);
         break;
+      case MAKE_DRUNK:
+        sm.drinkVodka(action.payload);
+        break;
+
       default:
         next(action);
     }

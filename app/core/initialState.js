@@ -14,19 +14,27 @@ const initialState = {
     countDown: undefined,
     gamePlay: "waitting",
     playersDraw: [],
-    currentWord: "Waitting round to start",
+    playerDraw: [],
+    podium: [],
+    currentWord: "Need atleast 3 players to start game",
     modal: false,
     fullscreen: false
   },
   player: {
     username: "",
     connection: null,
+    drunk: false,
     loading: false,
     sound: true
   },
   socket: {
     connection: null,
     loading: false,
+  },
+  general: {
+    level: null,
+    message: "",
+    timestamp: null
   }
 };
 

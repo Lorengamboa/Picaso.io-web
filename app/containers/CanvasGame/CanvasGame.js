@@ -87,18 +87,30 @@ class Canvas extends Component {
     window.removeEventListener("resize", this.redraw.bind(this));
   }
 
-  componentDidUpdate() {
-    if (!this.props.lastDraw) return;
+  componentDidUpdate(prevProps) {
+    if (prevProps.lastDraw !== this.props.lastDraw) {
+      const canvas = this.refs.canvas;
+      const ctx = canvas.getContext("2d");
+  
+      const tool = this.props.lastDraw.toolPicked;
+  
+      if (tool === "pencil") PencilTool.classic(this.props.lastDraw, canvas);
+      else if (tool === "eraser") EraserTool(this.props.lastDraw, ctx);
+      else if (tool === "bucket") Bucket(this.props.lastDraw, canvas);
+      else if (tool === "bin") BinRecycler(canvas);
+    }
 
-    const canvas = this.refs.canvas;
-    const ctx = canvas.getContext("2d");
-
-    const tool = this.props.lastDraw.toolPicked;
-
-    if (tool === "pencil") PencilTool.classic(this.props.lastDraw, canvas);
-    else if (tool === "eraser") EraserTool(this.props.lastDraw, ctx);
-    else if (tool === "bucket") Bucket(this.props.lastDraw, canvas);
-    else if (tool === "bin") BinRecycler(canvas);
+    if (prevProps.playerDraw !== this.props.playerDraw) {
+      const canvas = this.refs.canvas;
+      const ctx = canvas.getContext("2d");
+  
+      const tool = this.props.playerDraw.toolPicked;
+  
+      if (tool === "pencil") PencilTool.classic(this.props.playerDraw, canvas);
+      else if (tool === "eraser") EraserTool(this.props.playerDraw, ctx);
+      else if (tool === "bucket") Bucket(this.props.playerDraw, canvas);
+      else if (tool === "bin") BinRecycler(canvas);
+    }
   }
 
   render() {
@@ -123,9 +135,9 @@ class Canvas extends Component {
  * @param {store}
  */
 function mapStateToProps(store) {
-  const { lastDraw, fullscreen } = store.gameReducer;
+  const { lastDraw, fullscreen, playerDraw } = store.gameReducer;
 
-  return { lastDraw, fullscreen };
+  return { lastDraw, playerDraw, fullscreen };
 }
 
 export default connect(

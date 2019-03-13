@@ -1,6 +1,5 @@
 'use strict';
 
-const User = require("./core/User");
 const routes = require('./config/routes');
 const { API_DICTIONARY_v1 } = require('./API');
 
@@ -28,14 +27,6 @@ module.exports = function (app, gm_ctrl) {
   app.get(routes.LOGIN, function (request, response) {
     response.sendFile("public/login/source/index.html");
   });
-  // Profile site
-  app.get(routes.PROFILE, User.getProfile);
-  // Login
-  app.post(routes.LOGIN, User.register);
-  // Register new user
-  app.post(routes.REGISTER, User.register);
-  // Logout 
-  app.get(routes.LOGOUT, User.logout);
   // HOME Site
   app.get(routes.WEB_APP, function (request, response) {
     response.sendFile("public/index.html", { "root": '.' });

@@ -34,3 +34,13 @@ export function joinPrivateGame(id) {
     payload: id
   };
 }
+
+/**
+ * 
+ */
+export function pencilDrinks() {
+  return {
+    type: ACTIONS.MAKE_DRUNK,
+    payload: true
+  };
+}
