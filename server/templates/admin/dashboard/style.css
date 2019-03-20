@@ -1,0 +1,9 @@
+/* style.css */
+body, html {
+    width: 100%;
+}
+
+.brand-logo img{
+    width: 120px;
+}
+

@@ -3,8 +3,8 @@
 const Canvas = require("canvas");
 const _ = require("lodash");
 
-const floodFill = require("./floodFill");
-const { PencilTool, EraserTool, BinRecycler, Bucket } = require("./tools");
+const floodFill = require("../../../Shared/floodFill");
+const { PencilTool, EraserTool, BinRecycler, Bucket } = require("../../../shared/tools");
 
 const CANVAS_CONFIG = require("../config/canvas");
 

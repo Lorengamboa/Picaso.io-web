@@ -3,7 +3,7 @@
 const Room = require("./Room");
 const attachEvents = require("./pubsub/observer");
 const { createRandomString } = require("../../utils");
-const { CreateRoomError } = require("./error");
+const { CreateRoomError } = require("./error/GenericRoomErrors");
 
 const roomController = {
   RoomCreator: class RoomCreator {

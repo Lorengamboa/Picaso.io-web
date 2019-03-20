@@ -2,13 +2,12 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Grid, Button, Card, Image } from "semantic-ui-react";
+import { Grid, Card, Image } from "semantic-ui-react";
 import { Howl } from "howler";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import "!style-loader!css-loader!react-toastify/dist/ReactToastify.css"
 
 import Reactcardstack from "../../containers/react-cards-stack/src";
-
 import GeneralModal from "./GeneralModal";
 import CanvasGame from "../../containers/CanvasGame";
 import Chat from "../../containers/Chat";
@@ -23,7 +22,7 @@ import {
   hideModal
 } from "../../core/game/gameActions";
 import { pencilDrinks } from "../../core/player/playerActions";
-import { is_touch_device } from "../../utils";
+import { is_touch_device, scalePositionHeight, scalePositionX } from "../../utils";
 
 /**
  * @class PublicGame
@@ -84,10 +83,16 @@ class PublicGame extends Component {
    */
   componentWillReceiveProps(props) {
     if (props.snackbar !== this.props.snackbar) {
-      if (props.snackbar.level === "error")
+      if (props.snackbar.level === "error") {
         toast.error(props.snackbar.message, {
           position: toast.POSITION.TOP_LEFT
         });
+      }
+      else if(props.snackbar.level === "default") {
+        toast.info(`✏️ You won ${props.snackbar.message} points this round`, {
+          position: toast.POSITION.TOP_LEFT
+        });
+      }
     }
   }
 
@@ -124,7 +129,7 @@ class PublicGame extends Component {
     const coordinates = is_touch_device() ? e.touches[0] : e;
     const mycanvas = document.getElementById("mycanvas");
     const { top, left } = mycanvas.getBoundingClientRect();
-
+    
     this.setState({
       currentPosition: Object.assign({}, this.state.currentPosition, {
         prevX: (coordinates.clientX - left) * (600 / mycanvas.width),
@@ -138,8 +143,17 @@ class PublicGame extends Component {
    * @param {*} coordinates
    */
   drawCoordinates(coordinates) {
+    const mycanvas = document.getElementById("mycanvas");
+
+    const scaledCoordinates = {
+      currentX: scalePositionX(coordinates.currentX, mycanvas.width),
+      currentY: scalePositionHeight(coordinates.currentY, mycanvas.height),
+      prevX: scalePositionX(coordinates.prevX, mycanvas.width),
+      prevY: scalePositionHeight(coordinates.prevY, mycanvas.height),
+    };
+    
     this.props.playerDrawCanvas({
-      coordinates,
+      coordinates: scaledCoordinates,
       colorPicked: this.props.colorPicked,
       toolPicked: this.props.toolPicked,
       penWidth: this.props.penWidth
@@ -253,11 +267,11 @@ class PublicGame extends Component {
         <Navbar />
         <Presentator display="false" content="STARTING" />
         <Grid>
-          <PlayerList />
+          <PlayerList color="white" />
           <Grid.Row>
             {/* {roomUrl} */}
             <div className="center">
-              <h1 style={{ fontFamily: "ZCOOL QingKe HuangYou" }}>
+              <h1 style={{ fontFamily: "ZCOOL QingKe HuangYou", color: "#ec4390", backgroundColor: "white" }}>
                 {this.props.currentWord}
               </h1>
             </div>

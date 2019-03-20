@@ -28,8 +28,8 @@ class ToolPaint extends Component {
    * @param {NodeElement} element
    */
   _onPaleteClick(element) {
-    document.getElementById("mycanvas").style.cursor =
-      "url('/assets/img/tools/pencil.svg') 5 40, auto";
+    // document.getElementById("mycanvas").style.cursor =
+    //   "url('/assets/img/tools/pen.svg') 5 40, auto";
     document
       .querySelector(`[data-color='${this.props.colorPicked}']`)
       .classList.remove("active-color");

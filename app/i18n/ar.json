@@ -1,0 +1,20 @@
+{
+    "home.input": "Introduce nickname",
+    "home.btn1": "Play now!",
+    "home.btn2": "Find Game",
+    "home.btn3": "Create game",
+    "home.btn4": "How to play",
+    "home.btn5": "Settings",
+    "general.loading": "Loading game",
+    "footer.policy": "Policy",
+    "footer.howtoplay": "How to play",
+    "footer.discord": "Discord",
+    "how2play.title1": "------كيفيه اللعب------",
+    "how2play.content1":"هذه لعبه بسيطه , تحتاج الي 3 اشخاص او اكثر لتلعبها , جميعهم يحصلون علي نفس الكلمه التي يتم اختيارها عشوائيا ويجب علي كل لاعب ان يرسم ما تعنيه الكلمه, كل لاعب يمتلك 60 ثانيه لينهي الرسمه وبعد ذلك يقوم كل لاعب بالتصويت اذا اعجبته الرسمه او لا , تحصل علي نقطتين مقابل كل تصويت اجابي . بعد عشر جولات تنتهي اللعبه ويفوز الحاصل علي اكبر عدد من النقاط",
+    "how2play.title2": "------ الادوات ------",
+    "how2play.content2": "\nحاليا\n-يمكنك الدردشه\n-تغير لون وحجم فرشه الرسم\n-مسح الرسمه لتبدأ من جديد \n-التقات صوره للرسمه",
+    "how2play.title3": "-------عن اللعبه------",
+    "how2play.content3":"https://discord.gg/TkfSty6 \nيوجد  ديسكورد للعبه و الذي يمكنك فيه الحديث مع الناس , اقتراح افكار جديده , يمكنك اضافه كليمات للعبه",
+    "how2play.greetings": "اتمني لكم وقتا سعيدا"
+  }
+  

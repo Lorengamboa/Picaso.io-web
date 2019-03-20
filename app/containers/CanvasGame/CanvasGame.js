@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { PencilTool, EraserTool, BinRecycler, Bucket } from "./tools";
+import { PencilTool, EraserTool, BinRecycler, Bucket } from "Shared/tools";
 
 /**
  * @class Canvas 🎨
@@ -94,9 +94,9 @@ class Canvas extends Component {
   
       const tool = this.props.lastDraw.toolPicked;
   
-      if (tool === "pencil") PencilTool.classic(this.props.lastDraw, canvas);
+      if (tool === "pencil") PencilTool.classic(this.props.lastDraw, ctx);
       else if (tool === "eraser") EraserTool(this.props.lastDraw, ctx);
-      else if (tool === "bucket") Bucket(this.props.lastDraw, canvas);
+      else if (tool === "bucket") Bucket(this.props.lastDraw, ctx);
       else if (tool === "bin") BinRecycler(canvas);
     }
 
@@ -106,9 +106,9 @@ class Canvas extends Component {
   
       const tool = this.props.playerDraw.toolPicked;
   
-      if (tool === "pencil") PencilTool.classic(this.props.playerDraw, canvas);
+      if (tool === "pencil") PencilTool.classic(this.props.playerDraw, ctx);
       else if (tool === "eraser") EraserTool(this.props.playerDraw, ctx);
-      else if (tool === "bucket") Bucket(this.props.playerDraw, canvas);
+      else if (tool === "bucket") Bucket(this.props.playerDraw, ctx);
       else if (tool === "bin") BinRecycler(canvas);
     }
   }

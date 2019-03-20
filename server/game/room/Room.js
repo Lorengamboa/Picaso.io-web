@@ -10,7 +10,8 @@ const { requestRandomWord, persistDraw } = require("./services");
 const CanvasFactory = require("./CanvasFactory");
 const { SOCKET_EVENTS } = require("../../constants/socket-events");
 const { GAME_STATE } = require("../config/constants");
-const { PlayerJoinRoomError, error_codes } = require("./error");
+const { PlayerJoinRoomError } = require("./error/GenericRoomErrors");
+const error_codes = require("./error/codes");
 const { getRandomColor } = require("../../utils");
 const Timer = require("./classes/Timer");
 
@@ -186,7 +187,7 @@ class Room extends Socket {
 
     playerList = _.map(
       this.players,
-      _.partialRight(_.pick, ["name", "color", "avatar", "points"])
+      _.partialRight(_.pick, ["name", "color", "avatar", "points", "device"])
     );
 
     this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_USER_LIST, playerList);
@@ -301,6 +302,7 @@ class Room extends Socket {
   presentate() {
     let winnerList = this.players.map(player => {
       const points = this.voters.cache[player.id].points;
+      player.socket.emit(SOCKET_EVENTS.NOTIFY_MESSAGE, points);
       return (player.points = points);
     });
 

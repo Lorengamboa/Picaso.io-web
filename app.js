@@ -12,8 +12,9 @@ const socketManager = require("./server/services/socket-service");
 
 const app = express();
 
+app.set('views', path.join(__dirname, 'server/templates'));
+app.set('view engine', 'pug');
 // app use
-app.use(express.static(path.join(__dirname, "public")));
 //use sessions for tracking logins
 // app.use(
 //   session({
@@ -29,6 +30,8 @@ app.use(express.static(path.join(__dirname, "public")));
 // parse incoming requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, "public")));
+
 
 // // catch 404 and forward to error handler
 // app.use(function(req, res, next) {

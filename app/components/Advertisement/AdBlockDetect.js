@@ -17,7 +17,6 @@ class AdBlockDetect extends Component {
      * 
      */
     componentDidUpdate() {
-        console.log(this.state.detected);
         if(this.state.detected) this.props.punishment();
     }
 

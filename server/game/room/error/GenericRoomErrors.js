@@ -1,5 +1,5 @@
 
-
+const RoomError = require("./RoomError");
 class RoomNotFoundError extends RoomError {
   constructor(resource, query) {
     super(`Resource ${resource} was not found.`);

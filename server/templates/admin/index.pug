@@ -1,0 +1,20 @@
+doctype html
+html(lang='en')
+  head
+    title Login
+    style
+      include ../css/materialize.min.css
+      include style.css
+      - var img = 'assets/img/eyes.png';
+  body
+    div.curve
+      div.container
+        div.center-align
+          .row
+            .col.s12.m7.offset-m2.valign-wrapper
+              form
+                .card-panel
+                  img(src=img, alt="eyes")
+                  input.center(placeholder='username', type='text')
+                  input.center(placeholder='password', type='password')
+                  button.btn.btn-large.waves-effect.pink Log in

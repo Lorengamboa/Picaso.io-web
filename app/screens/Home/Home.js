@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { Grid } from "semantic-ui-react";
 import * as Sentry from "@sentry/browser";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import "!style-loader!css-loader!react-toastify/dist/ReactToastify.css"
 
 import GameLoader from "./GameLoader";
 import { setUsername } from "../../core/player/playerActions";

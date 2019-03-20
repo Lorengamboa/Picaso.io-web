@@ -1,7 +1,7 @@
 "use strict";
 const _ = require("lodash");
 
-const { PlayerJoinRoomError } = require("../game/room/error");
+const { PlayerJoinRoomError } = require("../game/room/error/GenericRoomErrors");
 const { RoomCreator, isRoomEmpty, deleteRoom } = require("./room/interface");
 const Player = require("./Player");
 const { rndValueArray, valiteNickname } = require("../utils");

@@ -24,6 +24,12 @@ export default function gameReducer(state = initialState.general, action) {
         message: action.payload,
         timestamp: new Date()
       });
+    case GENERAL_ACTION.NOTIFY_MESSAGE:
+      return Object.assign({}, state, {
+        level: "default",
+        message: action.payload,
+        timestamp: new Date()
+      });
     default:
       return state;
   }

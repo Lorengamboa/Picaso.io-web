@@ -1,11 +1,11 @@
-"use strict";
+const { color_to_rgba } = require("../../../utils");
 
 const Bucket = (data, graphics) => {
-    const { coordinates, colorPicked } = data;
-    const { currentX, currentY } = coordinates;
+  const { coordinates, colorPicked } = data;
+  const { currentX, currentY } = coordinates;
 
-    graphics.fillStyle = colorPicked;
-    graphics.floodFill(currentX, currentY, 0);
+  const color = color_to_rgba(colorPicked);
+  graphics.floodFill(Math.floor(currentX), Math.floor(currentY), color);
 };
 
 module.exports = Bucket;

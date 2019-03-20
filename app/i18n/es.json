@@ -1,7 +1,13 @@
 {
-    "home.input": "Introduce apodo",
-    "home.btn1": "Jugar ahora!",
-    "home.btn2": "Buscar partida",
-    "home.btn3": "Crear partida",
-    "home.btn4": "Configuracion"
+  "home.input": "Introduce apodo",
+  "home.btn1": "Jugar ahora!",
+  "home.btn2": "Buscar partida",
+  "home.btn3": "Crear partida",
+  "home.btn4": "Configuracion",
+  "home.btn5": "Confuración",
+  "general.loading": "Loading game",
+  "footer.contact": "Contact con nosotros",
+  "footer.policy": "Reglas",
+  "footer.howtoplay": "Como jugar",
+  "footer.discord": "Discord"
 }

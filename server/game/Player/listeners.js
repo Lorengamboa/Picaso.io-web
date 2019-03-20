@@ -1,6 +1,8 @@
 const Joi = require('joi');
 const { SOCKET_EVENTS } = require("../../constants/socket-events");
 const socketSchema = require("./schemas/message");
+const drawSchema = require("./schemas/draw");
+
 
 /**
  * Player action events
@@ -9,6 +11,8 @@ function attachListeners() {
   // Player is drawing now
   this.socket.on(SOCKET_EVENTS.PLAYER_DRAWING, drawingInfo => {
     setImmediate(() => {
+      const result = Joi.validate(drawingInfo, drawSchema);
+      if(result.error !== null) return;
       this.gameroom.updateCanvas(this, drawingInfo);
     });
   });

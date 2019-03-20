@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
+import html2canvas from "html2canvas";
 import {
   selectTool,
   clearCanvas,
@@ -23,6 +23,7 @@ export class ToolList extends Component {
     this._onEraserClick = this._onEraserClick.bind(this);
     this._onBinClick = this._onBinClick.bind(this);
     this._onBucketClick = this._onBucketClick.bind(this);
+    this._onCameraClick = this._onCameraClick.bind(this);
   }
 
   _toggleExpand() {
@@ -54,6 +55,20 @@ export class ToolList extends Component {
       "url('/assets/img/tools/bucket.png') 0 30, auto";
     this.props.selectTool("bucket");
   }
+
+  /**
+   *
+   */
+  _onCameraClick(e) {
+    html2canvas(document.querySelector("#mycanvas")).then(canvas => {
+      var image = canvas.toDataURL("image/jpg");
+      let a = document.createElement('a');
+      a.href = image;
+      a.download = '';
+      a.click();
+    });
+  }
+
   /**
    * Renders the list of colors on the palette
    */
@@ -81,13 +96,20 @@ export class ToolList extends Component {
             src="/assets/img/tools/bin.svg"
           />
         </li>
-        {/* <li>
+        <li>
+          <Tool
+            type="bin"
+            onClick={this._onCameraClick}
+            src="/assets/img/tools/camera.svg"
+          />
+        </li>
+        <li>
           <Tool
             type="bucket"
             onClick={this._onBucketClick}
             src="/assets/img/tools/water-glass.svg"
           />
-        </li> */}
+        </li>
       </div>
     );
   }

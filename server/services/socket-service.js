@@ -15,7 +15,7 @@ module.exports = {
 
     this.io.on(SOCKET_EVENTS.CONNECT, socket => {
       let player;
-
+      
       // Player joins random game room
       socket.on(SOCKET_EVENTS.PLAYER_JOIN_RANDOM_GAMEROOM, username => {
         game_ctrl
@@ -23,7 +23,9 @@ module.exports = {
           .then(nplayer => {
             player = nplayer;
             socket.emit(SOCKET_EVENTS.CONNECTION_RESULT, true);
-            logger.sockets.info(message.LOG_SOCKET_SUCCESSFULL_CONNECTION + player);
+            logger.sockets.info(
+              message.LOG_SOCKET_SUCCESSFULL_CONNECTION + player
+            );
           })
           .catch(err => {
             socket.disconnect();
@@ -41,7 +43,9 @@ module.exports = {
             .then(nplayer => {
               player = nplayer;
               socket.emit(SOCKET_EVENTS.CONNECTION_RESULT, true);
-              logger.sockets.info(message.LOG_SOCKET_SUCCESSFULL_CONNECTION + player);
+              logger.sockets.info(
+                message.LOG_SOCKET_SUCCESSFULL_CONNECTION + player
+              );
             })
             .catch(err => {
               socket.emit(SOCKET_EVENTS.CONNECTION_RESULT, false);
@@ -72,7 +76,9 @@ module.exports = {
           .playerCreatesGame(settings, socket)
           .then(nplayer => {
             player = nplayer;
-            logger.sockets.info(message.LOG_PLAYER_CREATES_ROOM_SUCCESS + player);
+            logger.sockets.info(
+              message.LOG_PLAYER_CREATES_ROOM_SUCCESS + player
+            );
           })
           .catch(err => {
             socket.disconnect();

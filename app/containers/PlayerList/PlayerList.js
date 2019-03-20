@@ -3,6 +3,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Image, List } from 'semantic-ui-react'
+import style from './styles';
 
 /**
  * @class UserList
@@ -18,10 +19,10 @@ class PlayerList extends Component {
    */
   drawPlayerList() {
     return this.props.playerList.map((player, key) => (
-      <List.Item key={key}>
+      <List.Item key={key} style={style.player}>
         <Image avatar src={'/assets/img/avatars/'+ player.avatar + '.png'} />
         <List.Content>
-          <List.Header>{player.name}</List.Header>
+          <List.Header>{player.device === "mobile" && "📱" }{player.name}</List.Header>
           {player.points} points
         </List.Content>
       </List.Item>
@@ -30,7 +31,7 @@ class PlayerList extends Component {
   //
   render() {
     return (
-      <List horizontal ordered size="big">
+      <List horizontal size="big" style={style.block}>
         {this.drawPlayerList()}
       </List>
     );

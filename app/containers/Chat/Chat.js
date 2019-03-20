@@ -7,7 +7,6 @@ import { playerSendMessage } from '../../core/game/gameActions';
 import { displaySnackBar } from '../../core/general/generalActions';
 import chatListStyles from "./styles";
 
-
 /**
  * @class Chart
  * @desc

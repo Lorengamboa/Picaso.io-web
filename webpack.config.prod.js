@@ -2,7 +2,6 @@
 
 const path = require('path');
 const webpack = require('webpack');
-var UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
 
 module.exports = {
   entry: './app/index.js',
@@ -11,24 +10,25 @@ module.exports = {
     filename: 'bundle.min.js' 
   },
   module: {
-    loaders: [
+    rules: [
       { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
       { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ },
       {
-        test: /\.json$/,
-        loader: 'json-loader'
-      },
-      {
         test: /\.css$/,
-        loader: 'style-loader',
+        loader: "style!css!-loader",
         include: /node_modules/
       }
     ]
+  },
+  resolve: {
+    alias: {
+      Shared: path.resolve(__dirname, "shared/"),
+    }
   },
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
       compress: false
     })
-  ] ,
+  ],
   watch: false
 }

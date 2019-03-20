@@ -6,6 +6,9 @@ const styles = {
     position: "absolute",
     bottom: "0",
     marginTop: "10px"
+  },
+  link: {
+    marginRight: "50px"
   }
 };
 

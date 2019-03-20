@@ -1,9 +1,23 @@
-{
+  {
     "home.input": "Introduce nickname",
     "home.btn1": "Play now!",
     "home.btn2": "Find Game",
     "home.btn3": "Create game",
     "home.btn4": "How to play",
     "home.btn5": "Settings",
-    "general.loading": "Loading game"
-}
+    "general.loading": "Loading game",
+    "footer.policy": "Policy",
+    "footer.howtoplay": "How to play",
+    "footer.discord": "Discord",
+    "how2play.title1": "-------How to play-------",
+    "how2play.content1":
+      "The game is pretty simple, you need a minimum of 3 people and you all get the same word which gets randomly chosen and everyone is supposed to draw the word. Everyone has 60 seconds to draw the word and after the 60 seconds everyone gets to vote if you like the drawing or not with every upvote you get 2 points. After 10 rounds i twill finish and the one with the most points wins.",
+    "how2play.title2": "-------Mechanics-------",
+    "how2play.content2":
+      "For now you can chat, pick your color change the brush size, delete your drawing to start of from scratch and take screenshots from your drawings. Keep in mind the game is still under development and needs alot of work, the game will be updated frequently and we will add many more mechanics tot he game.",
+    "how2play.title3": "-------About-------",
+    "how2play.content3":
+      "We have a discord server on https://discord.gg/TkfSty6 where you can chat with people, add suggestions for future mechanics or other stuff and add new words tot he list.",
+    "how2play.greetings":
+      "Thanks for playing Picas.io, we hope you will have a wonderfull time!"
+  }

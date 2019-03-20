@@ -1,30 +1,30 @@
-'use strict';
+"use strict";
 
-const path = require('path');
+const path = require("path");
 const webpack = require('webpack');
-var UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
 
 module.exports = {
-  entry: './app/index.js',
+  entry: "./app/index.js",
   output: {
     path: path.resolve(__dirname, "public"),
-    filename: 'bundle.js'
+    filename: "bundle.js"
   },
   module: {
-    loaders: [
-      { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
-      { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ },
-      {
-        test: /\.json$/,
-        loader: 'json-loader'
-      },
+    rules: [
+      { test: /\.js$/, loader: "babel-loader", exclude: /node_modules/ },
+      { test: /\.jsx?$/, loader: "babel-loader", exclude: /node_modules/ },
       {
         test: /\.css$/,
-        loader:'style!css!',
+        loader: "style!css!-loader",
         include: /node_modules/
       }
     ]
   },
+  resolve: {
+    alias: {
+      Shared: path.resolve(__dirname, "shared/"),
+    }
+  },
   plugins: [],
   watch: true
-}
+};

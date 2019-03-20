@@ -10,3 +10,10 @@ export function displaySnackBar(data) {
     payload: message
   };
 }
+
+export function notifyMessage(data) {
+  return {
+    type: ACTIONS.NOTIFY_MESSAGE,
+    payload: data
+  };
+}

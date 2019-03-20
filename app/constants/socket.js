@@ -18,7 +18,7 @@ import {
   setConnection
 } from "../core/socket/socketActions";
 
-import { displaySnackBar } from "../core/general/generalActions";
+import { displaySnackBar, notifyMessage } from "../core/general/generalActions";
 
 const SOCKET_EVENTS = {
   RECEIVER: {
@@ -36,6 +36,7 @@ const SOCKET_EVENTS = {
     CONNECTION_RESULT: ["connectionResult", setConnection],
     CONNECTION_ERROR: ["connect_error", connectionError],
     ERROR: ["error", connectionError],
+    NOTIFY_MESSAGE: ["notifyMessage", notifyMessage],
     COSTUM: ["costum_error", displaySnackBar]
   },
   EMITTER: {
