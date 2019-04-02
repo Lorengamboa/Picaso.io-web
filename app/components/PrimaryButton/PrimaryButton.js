@@ -1,21 +1,16 @@
-'use strict';
+"use strict";
 
-import React from 'react';
-import { Button } from 'semantic-ui-react';
-import { FormattedMessage } from 'react-intl';
+import React from "react";
+import styles from "./styles";
+import { FormattedMessage } from "react-intl";
 
 const PrimaryButton = props => {
-    const intlValue = <FormattedMessage id={props.value} />;
-    return (
-        <Button 
-            className={props.className}
-            color={props.color}
-            onClick={props.onClick}
-            content={intlValue}
-            size='massive'
-            fluid
-        />
-    )
-}
+  const intlValue = <FormattedMessage id={props.value} />;
+  return (
+    <button style={styles.button(props.color)} onClick={props.onClick}>
+      {intlValue}
+    </button>
+  );
+};
 
 export default PrimaryButton;

@@ -7,7 +7,7 @@ const getAllDraws = (req, res) => {
   request("http://localhost:5001/api/draws/list", function(error, response, body) {
     if (error) res.render(err);
     const imagelist = JSON.parse(body);
-    res.render("draws/index", { title: "Express", imagelist });
+    res.render("admin/dashboard/draws", { title: "Express", imagelist });
   });
 };
 

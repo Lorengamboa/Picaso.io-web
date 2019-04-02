@@ -2,10 +2,9 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Grid } from "semantic-ui-react";
 import * as Sentry from "@sentry/browser";
 import { ToastContainer, toast } from "react-toastify";
-import "!style-loader!css-loader!react-toastify/dist/ReactToastify.css"
+import "!style-loader!css-loader!react-toastify/dist/ReactToastify.css";
 
 import GameLoader from "./GameLoader";
 import { setUsername } from "../../core/player/playerActions";
@@ -36,7 +35,7 @@ class HomePage extends Component {
     this.onPlayButtonClick = this.onPlayButtonClick.bind(this);
     this.onSearchButtonClick = this.onSearchButtonClick.bind(this);
     this.onCreateButtonClick = this.onCreateButtonClick.bind(this);
-    this.onSettingsButtonClick = this.onSettingsButtonClick.bind(this);
+    this.onHow2PlayButtonClick = this.onHow2PlayButtonClick.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -56,8 +55,8 @@ class HomePage extends Component {
   }
 
   /**
-   * 
-   * @param {*} props 
+   *
+   * @param {*} props
    */
   componentWillReceiveProps(props) {
     if (props.connection) this.props.history.push("/play");
@@ -107,8 +106,8 @@ class HomePage extends Component {
   /**
    * Set your config games!
    */
-  onSettingsButtonClick() {
-    this.props.history.push("/settings");
+  onHow2PlayButtonClick() {
+    this.props.history.push("/howtoplay");
   }
 
   /**
@@ -122,37 +121,36 @@ class HomePage extends Component {
 
   render() {
     return (
-      <div id="home-site">
-        <GameLoader loading={this.props.loading} content="Loading game" />
-        <Navbar className="center" />
-        <div className="home-menu">
-          <Grid>
-            <Grid.Row>
-              <Grid.Column mobile={16} tablet={16} computer={16}>
-                <InputText
-                  className="input"
-                  placeholder="home.input"
-                  onInputChange={this.onInputChange}
-                  username={this.state.username}
-                  onKeyPress={this.onSubmit}
-                />
-                <MenuButton
-                  actions={[
-                    this.onPlayButtonClick,
-                    this.onSearchButtonClick,
-                    this.onCreateButtonClick,
-                    this.onCreateButtonClick,
-                    this.onSettingsButtonClick
-                  ]}
-                />
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
+      <div>
+          <GameLoader loading={this.props.loading} content="Loading game" />
+          <Navbar className="center" />
+      <div className="container">
+      <div className="row">
+      <div className="col-xl-10 col-centered">
+          <div className="home-menu">
+            <InputText
+              className="input"
+              placeholder="home.input"
+              onInputChange={this.onInputChange}
+              username={this.state.username}
+              onKeyPress={this.onSubmit}
+            />
+            <MenuButton
+              actions={[
+                this.onPlayButtonClick,
+                this.onSearchButtonClick,
+                this.onCreateButtonClick,
+                this.onHow2PlayButtonClick
+              ]}
+            />
+          </div>
+          </div>
+
+          </div>
         </div>
-        <div className="center">
+        <div className="footer">
           <Footer links={links} />
         </div>
-
         <ToastContainer />
       </div>
     );

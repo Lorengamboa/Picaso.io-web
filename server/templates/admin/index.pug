@@ -12,9 +12,9 @@ html(lang='en')
         div.center-align
           .row
             .col.s12.m7.offset-m2.valign-wrapper
-              form
+              form(method="post")
                 .card-panel
                   img(src=img, alt="eyes")
-                  input.center(placeholder='username', type='text')
-                  input.center(placeholder='password', type='password')
+                  input.center(name='username' placeholder='username', type='text')
+                  input.center(name='password' placeholder='password', type='password')
                   button.btn.btn-large.waves-effect.pink Log in

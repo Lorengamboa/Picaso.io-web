@@ -10,9 +10,11 @@ import { Loader, Dimmer } from "semantic-ui-react";
  */
 const GameLoader = (props) => {
   return (
-    <Dimmer active={props.loading}>
-        <Loader indeterminate>{props.content}</Loader>
-    </Dimmer>
+    props.loading ?
+      (<Dimmer active={props.loading}>
+          <Loader indeterminate>{props.content}</Loader>
+      </Dimmer>)
+      : null
   );
 };
 

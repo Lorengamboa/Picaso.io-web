@@ -2,13 +2,36 @@ doctype html
 html
   head
     style
+      include ../../css/materialize.min.css
       include style.css
-      include materialize.min.css
 body
   nav
     .nav-wrapper.black
-      a.brand-logo(href='/assets/img/logo.png') 
+      a.brand-logo(href='/') 
         img(src="/assets/img/logo.png", alt="")
       a.sidenav-trigger(href='/', data-target='mobile-demo')
-
-
+  div.container
+    div.center-align
+      .row
+        .col.s12.m6
+          .card
+            .card-image
+              img(src='assets/img/logs.png')
+            .card-content
+              a.brand-logo(href='/logpanel') 
+               button.btn.btn-large.waves-effect.red Enter Log archives
+        .col.s12.m6
+          .card
+            .card-image
+              img(src='assets/img/portrait-draw.png')
+            .card-content
+              a.brand-logo(href='/drawings') 
+               button.btn.btn-large.waves-effect.yellow Enter draw gallery
+      .row
+        .col.s12.m6
+          .card
+            .card-image
+              img(src='assets/img/controller.png')
+            .card-content
+              a.brand-logo(href='/gamepanel') 
+               button.btn.btn-large.waves-effect.green Manage game rooms

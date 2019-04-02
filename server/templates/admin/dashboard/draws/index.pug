@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    style
+      include ../../../css/materialize.min.css
+      include style.css
+body
+  nav
+    .nav-wrapper.black
+      a.brand-logo(href='/assets/img/logo.png') 
+        img(src="/assets/img/logo.png", alt="")
+      a.sidenav-trigger(href='/', data-target='mobile-demo')
+
+    div#gallery
+          each image in imagelist
+            img.draw(src=`https://s3.amazonaws.com/picasso.io-dev/${image.Key}`)
+
+

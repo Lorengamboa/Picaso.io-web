@@ -7,3 +7,6 @@ body, html {
     width: 120px;
 }
 
+.card button{
+    width: 100%;
+}

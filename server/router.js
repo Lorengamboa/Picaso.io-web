@@ -1,13 +1,17 @@
 "use strict";
 
 const drawController = require("./draws/controller");
+const loggerController = require("./logger/controller");
 const routes = require("./config/routes");
+const { sessionChecker, isLoggedIn } = require("./middlewares/sessions");
 const { API_DICTIONARY_v1, API_DRAWS_v1 } = require("./API");
+const db = require("./pg-pool");
 
 module.exports = function(app, gm_ctrl) {
-  /**********************************************************************/
-  /*                    PICASO.IO APIS                                  */
-  /**********************************************************************/
+  
+  // =========================================================================
+  // ===============         GLOBAL APIS       ===============================
+  // =========================================================================
 
   app.use(routes.API_DICTIONARY, API_DICTIONARY_v1);
 
@@ -17,24 +21,62 @@ module.exports = function(app, gm_ctrl) {
     res.json(gm_ctrl.getPublicGames());
   });
 
-  /**********************************************************************/
-  /*                  PICASO.IO SITE ENDPOINTS                          */
-  /**********************************************************************/
+  // =========================================================================
+  // ====================        ADMIN         ===============================
+  // =========================================================================
 
-  // Manage Image Site
-  app.get(routes.DRAWS, drawController.getAllDraws);
+  /**
+   * ADMIN INDEX
+   */
+  app
+    .route(routes.ADMIN)
+    .get(sessionChecker, function(request, response) {
+      response.render("admin");
+    })
+    .post((req, res) => {
+      var username = req.body.username,
+        password = req.body.password;
 
-  // Admin Site
-  app.get(routes.ADMIN, function(request, response) {
-    response.render("admin/index");
+      let params = [username, password];
+      db.query(
+        `SELECT * FROM account WHERE username = $1 AND password = $2`,
+        params,
+        (err, result) => {
+          if (err || !result.rows.length) return res.render("admin");
+
+          req.session.user = result.rows[0].username;
+          res.redirect("dashboard");
+        }
+      );
+    });
+
+  /**
+   * DASHBOARD
+   */
+  app.get(routes.DASHBOARD, isLoggedIn, (req, res) => {
+    if (req.session.user && req.cookies.user_sid) {
+      res.render("admin/dashboard");
+    } else {
+      res.redirect("/admin");
+    }
   });
 
-  // // Login Site
-  // app.get(routes.LOGIN, function(request, response) {
-  //   response.sendFile("public/login/source/index.html");
-  // });
+  /**
+   * DRAWPANEL
+   */
+  app.route(routes.DRAWS).get(isLoggedIn, drawController.getAllDraws);
 
-  // HOME Site
+  /**
+   * LOGPANEL
+   */
+  app.route(routes.LOGPANEL).get(isLoggedIn, loggerController.listAllLogs);
+  app
+    .route(routes.LOGPANEL_FILE)
+    .get(isLoggedIn, loggerController.retrieveLogfile);
+
+  // =========================================================================
+  // ====================     APPLICATION      ===============================
+  // =========================================================================
   app.get(routes.WEB_APP, function(request, response) {
     response.sendFile("public/index.html", { root: "." });
   });

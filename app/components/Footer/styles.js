@@ -1,14 +1,15 @@
 "use strict";
 
 const styles = {
-  container: {
+  sticky: {
     width: "100%",
     position: "absolute",
     bottom: "0",
-    marginTop: "10px"
+    marginBottom: "10px",
+    textAlign: "center"
   },
   link: {
-    marginRight: "50px"
+    marginRight: "2em"
   }
 };
 

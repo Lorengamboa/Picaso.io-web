@@ -1,37 +1,37 @@
-'use strict';
+"use strict";
 
 const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
-const MongoStore = require("connect-mongo")(session);
+const cookieParser = require("cookie-parser");
 
-// const database = require("./services/mongo");
 const logger = require("./logger");
 const socketManager = require("./server/services/socket-service");
 
 const app = express();
 
-app.set('views', path.join(__dirname, 'server/templates'));
-app.set('view engine', 'pug');
-// app use
-//use sessions for tracking logins
-// app.use(
-//   session({
-//     secret: "work hard",
-//     resave: true,
-//     saveUninitialized: false,
-//     store: new MongoStore({
-//       mongooseConnection: database
-//     })
-//   })
-// );
+app.set("views", path.join(__dirname, "server/templates"));
+app.set("view engine", "pug");
 
-// parse incoming requests
+// initialize cookie-parser to allow us access the cookies stored in the browser.
+app.use(cookieParser());
+// initialize express-session to allow us track the logged-in user across sessions.
+app.use(
+  session({
+    key: "user_sid",
+    secret: "somerandonstuffs",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      expires: 600000
+    }
+  })
+);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
-
 
 // // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
