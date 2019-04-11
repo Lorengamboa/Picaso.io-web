@@ -14,7 +14,6 @@ import Chat from "../../containers/Chat";
 import PlayerList from "../../containers/PlayerList";
 import ToolPaint from "../../containers/ToolPaint";
 import Tools from "../../containers/ToolPaint/ToolList";
-import Pencils from "../../containers/ToolPaint/PencilSize";
 
 
 import { Navbar, Timer, Advertisement, Presentator } from "../../components";

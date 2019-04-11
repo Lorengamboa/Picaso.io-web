@@ -15,6 +15,7 @@ const Pencil = {
     ctx.lineTo(currentX, currentY);
     ctx.strokeStyle = colorPicked;
     ctx.lineWidth = penWidth;
+    ctx.lineJoin = ctx.lineCap = 'round';
 
     ctx.stroke();
     ctx.closePath();

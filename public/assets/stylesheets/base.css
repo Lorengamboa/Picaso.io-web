@@ -8,13 +8,14 @@ body
 html {
 	height: 100%; width: 100%;
 	background: url("../../assets/img/background.png") center fixed;
-	background-color: rgba(251, 227, 247, 0.7);
   background-size: 400px;
 }
 
 body {
-	background: none;
+	background-color: rgba(0, 253, 255, 0.78);
+	height: 100%;
 }
+
 .center {
 	text-align: center;
 	width: inherit;
@@ -282,12 +283,12 @@ canvas {
 
 .timer {
   position: absolute;
-	top: 59px;	
-	left: 19px;
+	top: 80px;	
+	left: 25px;
 }
 
 .timer .a {
-  font-size: 5px;
+  font-size: 10px;
 }
 
 

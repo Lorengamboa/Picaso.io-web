@@ -19,7 +19,7 @@ const chatListStyles = {
         boxShadow: "0 2px 3px 0 rgba(0,0,0,0.2)",
         backgroundColor: "white",
         borderRadius: "4px",
-        height: "45vh",
+        height: "65vh",
         padding: "10px",
         fontSize: "14px",
         boxSizing: "border-box",
