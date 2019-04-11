@@ -28,7 +28,6 @@ export class PencilSize extends Component {
         <span size="1" onClick={this._setPencilSize} style={styles.dot(1)} />
         <span size="4" onClick={this._setPencilSize} style={styles.dot(1.5)} />
         <span size="5" onClick={this._setPencilSize} style={styles.dot(2)} />
-        <span size="8" onClick={this._setPencilSize} style={styles.dot(3)} />
       </div>
     );
   }

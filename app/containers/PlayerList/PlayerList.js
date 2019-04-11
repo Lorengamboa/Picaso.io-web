@@ -2,7 +2,6 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Image, List } from 'semantic-ui-react'
 import style from './styles';
 
 /**
@@ -19,21 +18,21 @@ class PlayerList extends Component {
    */
   drawPlayerList() {
     return this.props.playerList.map((player, key) => (
-      <List.Item key={key} style={style.player}>
-        <Image avatar src={'/assets/img/avatars/'+ player.avatar + '.png'} />
-        <List.Content>
-          <List.Header>{player.device === "mobile" && "📱" }{player.name}</List.Header>
-          {player.points} points
-        </List.Content>
-      </List.Item>
+      <div key={key} style={style.player(player.color)}>
+        <img style={style.image} src={'/assets/img/avatars/'+ player.avatar + '.png'} />
+        <div style={style.content}>
+          {player.device === "mobile" && "📱" }{player.name}
+          <span style={style.span}>{player.points} points</span>
+        </div>
+      </div>
     ));
   }
   //
   render() {
     return (
-      <List horizontal size="big" style={style.block}>
+      <div>
         {this.drawPlayerList()}
-      </List>
+      </div>
     );
   }
 }

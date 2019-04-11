@@ -5,7 +5,7 @@ import React from 'react';
 const Timer = props => {
     const { time, className } = props;
     return (
-        <a className={className} style={{fontSize: "3em"}}>{time}</a>
+        <a className={className} style={{fontSize: "1em"}}>{time}</a>
     )
 }
 

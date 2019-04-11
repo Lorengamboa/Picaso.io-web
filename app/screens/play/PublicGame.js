@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { Grid, Card, Image } from "semantic-ui-react";
 import { Howl } from "howler";
 import { ToastContainer, toast } from "react-toastify";
-import "!style-loader!css-loader!react-toastify/dist/ReactToastify.css"
+import "!style-loader!css-loader!react-toastify/dist/ReactToastify.css";
 
 import Reactcardstack from "../../containers/react-cards-stack/src";
 import GeneralModal from "./GeneralModal";
@@ -13,6 +13,9 @@ import CanvasGame from "../../containers/CanvasGame";
 import Chat from "../../containers/Chat";
 import PlayerList from "../../containers/PlayerList";
 import ToolPaint from "../../containers/ToolPaint";
+import Tools from "../../containers/ToolPaint/ToolList";
+import Pencils from "../../containers/ToolPaint/PencilSize";
+
 
 import { Navbar, Timer, Advertisement, Presentator } from "../../components";
 
@@ -22,7 +25,11 @@ import {
   hideModal
 } from "../../core/game/gameActions";
 import { pencilDrinks } from "../../core/player/playerActions";
-import { is_touch_device, scalePositionHeight, scalePositionX } from "../../utils";
+import {
+  is_touch_device,
+  scalePositionHeight,
+  scalePositionX
+} from "../../utils";
 
 /**
  * @class PublicGame
@@ -87,8 +94,7 @@ class PublicGame extends Component {
         toast.error(props.snackbar.message, {
           position: toast.POSITION.TOP_LEFT
         });
-      }
-      else if(props.snackbar.level === "default") {
+      } else if (props.snackbar.level === "default") {
         toast.info(`✏️ You won ${props.snackbar.message} points this round`, {
           position: toast.POSITION.TOP_LEFT
         });
@@ -129,7 +135,7 @@ class PublicGame extends Component {
     const coordinates = is_touch_device() ? e.touches[0] : e;
     const mycanvas = document.getElementById("mycanvas");
     const { top, left } = mycanvas.getBoundingClientRect();
-    
+
     this.setState({
       currentPosition: Object.assign({}, this.state.currentPosition, {
         prevX: (coordinates.clientX - left) * (600 / mycanvas.width),
@@ -149,9 +155,9 @@ class PublicGame extends Component {
       currentX: scalePositionX(coordinates.currentX, mycanvas.width),
       currentY: scalePositionHeight(coordinates.currentY, mycanvas.height),
       prevX: scalePositionX(coordinates.prevX, mycanvas.width),
-      prevY: scalePositionHeight(coordinates.prevY, mycanvas.height),
+      prevY: scalePositionHeight(coordinates.prevY, mycanvas.height)
     };
-    
+
     this.props.playerDrawCanvas({
       coordinates: scaledCoordinates,
       colorPicked: this.props.colorPicked,
@@ -266,65 +272,54 @@ class PublicGame extends Component {
       <div id="play-site">
         <Navbar />
         <Presentator display="false" content="STARTING" />
-        <Grid>
+        <div className="row">
+        <div className="col-lg-2 col-md-2">
           <PlayerList color="white" />
-          <Grid.Row>
-            {/* {roomUrl} */}
-            <div className="center">
-              <h1 style={{ fontFamily: "ZCOOL QingKe HuangYou", color: "#ec4390", backgroundColor: "white" }}>
-                {this.props.currentWord}
-              </h1>
-            </div>
-          </Grid.Row>
-          <Grid.Row>
-            {/*Left column*/}
-            <Grid.Column mobile={16} tablet={10} computer={2}>
-              <ToolPaint />
-            </Grid.Column>
-            {/* Middle column */}
-            <Grid.Column mobile={16} tablet={10} computer={10}>
-              {this.props.gamePlay === "voting" && (
-                <div className="row">{this.renderPlayerDraws()}</div>
-              )}
-              {this.props.gamePlay === "presentating" && (
-                <div>
-                  <Timer className="timer" time={this.props.countDown} />
-                  <Card.Group>{this.renderPodium()}</Card.Group>
-                </div>
-              )}
-              {this.props.gamePlay === "waitting" && (
+        </div>
+          <div className="col-lg-6 col-md-6">
+            <div style={{backgroundColor: "white", border: "solid 1px black", fontFamily: "'Press Start 2P', cursive", textAlign: "center"}}>{this.props.currentWord}</div>
+            <Tools />
+            {this.props.gamePlay === "voting" && (
+              <div className="row">{this.renderPlayerDraws()}</div>
+            )}
+            {this.props.gamePlay === "presentating" && (
+              <div>
+                <Timer className="timer" time={this.props.countDown} />
+                {this.renderPodium()}
+              </div>
+            )}
+            {this.props.gamePlay === "waitting" && (
+              <CanvasGame
+                onMouseMove={this.handleDisplayMouseMove}
+                onMouseDown={this.handleDisplayMouseDown}
+              />
+            )}
+            {this.props.gamePlay === "starting" && (
+              <Advertisement
+                blocking="/assets/img/pencil-drunk.png"
+                punishment={this.props.pencilDrinks}
+              />
+            )}
+            {this.props.gamePlay === "playing" && (
+              <div>
+                <Timer className="timer" time={this.props.countDown} />
                 <CanvasGame
                   onMouseMove={this.handleDisplayMouseMove}
                   onMouseDown={this.handleDisplayMouseDown}
                 />
-              )}
-              {this.props.gamePlay === "starting" && (
-                <Advertisement
-                  blocking="/assets/img/pencil-drunk.png"
-                  punishment={this.props.pencilDrinks}
-                />
-              )}
-              {this.props.gamePlay === "playing" && (
-                <div>
-                  <Timer className="timer" time={this.props.countDown} />
-                  <CanvasGame
-                    onMouseMove={this.handleDisplayMouseMove}
-                    onMouseDown={this.handleDisplayMouseDown}
-                  />
-                </div>
-              )}
-              {this.props.gamePlay === "finished" && (
-                <div>
-                  <h1>finished</h1>
-                </div>
-              )}
-            </Grid.Column>
-            {/* Right column */}
-            <Grid.Column mobile={4} tablet={4} computer={4}>
-              <Chat />
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+              </div>
+            )}
+            {this.props.gamePlay === "finished" && (
+              <div>
+                <h1>finished</h1>
+              </div>
+            )}
+                <ToolPaint />
+             </div>
+          <div className="col-lg-3 col-md-3">
+          <Chat />
+        </div>
+        </div>
         <ToastContainer />
         <GeneralModal
           visibility={this.props.modal}

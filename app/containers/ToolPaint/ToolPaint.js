@@ -43,9 +43,9 @@ class ToolPaint extends Component {
   render() {
     return (
       <div className="toolpaint">
-         <PencilSize />
+         {/* <PencilSize /> */}
          <Palete onClick={this._onPaleteClick} />
-         <ToolList />
+         {/* <ToolList /> */}
       </div>
     );
   }

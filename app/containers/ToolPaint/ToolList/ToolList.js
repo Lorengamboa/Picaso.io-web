@@ -8,6 +8,7 @@ import {
   clearCanvas,
   toggleExpand
 } from "../../../core/game/gameActions";
+import Pencils from '../PencilSize';
 import Tool from "./Tool";
 
 /**
@@ -74,7 +75,7 @@ export class ToolList extends Component {
    */
   _displayTools() {
     return (
-      <div className="icon-tools center">
+      <div className="icon-tools"> 
         {/* <li>
           <Tool
             type="expand"
@@ -110,6 +111,7 @@ export class ToolList extends Component {
             src="/assets/img/tools/water-glass.svg"
           />
         </li>
+        <Pencils />
       </div>
     );
   }

@@ -20,10 +20,10 @@ const Footer = props => {
           <a
             style={styles.link}
             key={id}
-            href={`mailto:${el.value}?Subject=Hello%20again`}
+            href={`mailto:${el.url}?Subject=Hello%20again`}
             target="_top"
           >
-            Contact Us
+            {el.value}
           </a>
         );
     });

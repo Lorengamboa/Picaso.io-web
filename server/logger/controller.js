@@ -11,7 +11,6 @@ const LOG_DIR = "logs";
 const listAllLogs = (req, res) => {
   fs.readdir(LOG_DIR, (err, list) => {
     var logList = list.filter(extension);
-    console.log(logList);
     res.render("admin/dashboard/logs", { list: logList });
   });
 };

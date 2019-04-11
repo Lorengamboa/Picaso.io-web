@@ -2,8 +2,9 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import colors from "Shared/colors";
 import { setColorPicked } from '../../../core/game/gameActions';
-import { colors } from './colors';
+import styles from './styles';
 
 /**
  * @class Palete
@@ -24,13 +25,14 @@ export class Palete extends Component {
    * Renders the list of colors on the palette
    */
   _drawColors() {
+    const colorWidth = 100 / colors.length;
     return colors.map((color, key) => {
       return (
         <li
           key={key}
           data-color={color}
           onClick={this.props.onClick}
-          style={{ backgroundColor: color }}
+          style={styles.color(color, colorWidth)}
         />
       );
     }, this);
@@ -41,7 +43,7 @@ export class Palete extends Component {
   }
 
   render() {
-    return <div className='colors center'>{this._drawColors()}</div>;
+    return <div>{this._drawColors()}</div>;
   }
 }
 

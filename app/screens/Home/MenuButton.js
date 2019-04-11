@@ -38,8 +38,8 @@ const MenuButton = ({actions}) => {
         color="grey"
         className="btn-roundy"
         value="home.btn5"
-        onClick={actions[4]} */}
-      />
+        onClick={actions[4]}
+      /> */}
     </div>
   );
 };

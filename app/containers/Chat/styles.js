@@ -13,12 +13,13 @@ const chatListStyles = {
         minHeight: "0"
     },
     messagesBlock: {
+        width: "100%",
         display: "block",
         marginBottom: "8px",
         boxShadow: "0 2px 3px 0 rgba(0,0,0,0.2)",
         backgroundColor: "white",
         borderRadius: "4px",
-        height: "65vh",
+        height: "45vh",
         padding: "10px",
         fontSize: "14px",
         boxSizing: "border-box",

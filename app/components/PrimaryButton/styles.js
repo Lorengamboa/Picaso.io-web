@@ -13,11 +13,7 @@ const styles = {
           fontSize: "1.5em",
           color: "white",
           transition: "0.3s ease-in-out",
-          "&:hover": {
-            background: "#039BE5",
-            color: "#fff",
-            cursor: "pointer"
-          }
+          backgroundImage: `linear-gradient(to right, ${color+100} 0%, ${color+200} 51%, ${color+300} 100%)`
         }
     }
 };
