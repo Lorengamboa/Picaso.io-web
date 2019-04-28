@@ -12,7 +12,7 @@ html {
 }
 
 body {
-	background-color: rgba(0, 253, 255, 0.78);
+	background-color: rgba(0,0,0,.54);
 	height: 100%;
 }
 
@@ -105,8 +105,17 @@ body {
 }
 
 .create-menu {
-  width: 50%;
-  margin: 70px auto;
+	width: 70%;
+	margin: 0 auto;
+}
+
+.create-menu input {
+	width: 100%;
+	margin: .5rem 0;
+}
+.create-menu select {
+	width: 100%;
+	margin: .5rem 0;
 }
 
 #play-site {
@@ -156,27 +165,6 @@ body {
   margin-bottom: 10px;
 }
 
-/* CHATLIST */
-.chatlist {
-  list-style-type: none;
-  display: block;
-}
-
-.chatlist li {
-  position: relative;
-  display: block;
-  width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-}
-
-.chatlist li .content {
-  display: inline-block;
-  margin-left: 6px;
-  vertical-align: top;
-  line-height: 1;
-}
-
 .txtfield {
   width: 20em;
   margin: auto;
@@ -195,17 +183,16 @@ body {
 	transform: translateX(-50%) translateY(-50%);
 }
 
-/* Tools */
-.chatlist li .content p {
-  margin-bottom: 0;
-}
-
 .toolpaint {
 	position: relative;
 	width: 100%;
 	display: inline-block;
 	background-color: white;
 	border: solid 1px black;
+}
+
+.icon-tool {
+	width: 3rem;
 }
 
 .icon-tools {
@@ -222,11 +209,6 @@ body {
 	line-height: 1;
 	vertical-align: middle;
 	white-space: nowrap;
-}
-
-.icon-tools > li > img {
-	width: 20px;
-	height: 5vh;
 }
 
 .colors > li.active-color {
@@ -255,6 +237,18 @@ body {
 .icon-tools > li {
 	display: inline-block;
 	}
+
+	.mobileoptions {
+		display: block !important;
+	}
+
+	#desktop-playerlist {
+		display: none;
+	}
+
+	#desktop-chat {
+		display: none;
+	}
 }
 
 .colors > li:hover {
@@ -266,11 +260,10 @@ body {
 canvas {
   width: 100%;
   height: auto;
-  border-radius: 1%;
   touch-action: none;
   display: block;
   background: #fff;
-  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAQAAABKxSfDAAAAEElEQVR42mNk+MIAB4yUcgD6IwW/TAYvUQAAAABJRU5ErkJggg==) 30 30, auto;
+  cursor: url("assets/img/tools/pen.svg") 30 30, auto;
 }
 
 .fullscreen {
@@ -283,8 +276,8 @@ canvas {
 
 .timer {
   position: absolute;
-	top: 80px;	
-	left: 25px;
+	top: 0;
+	left: 24px;
 }
 
 .timer .a {

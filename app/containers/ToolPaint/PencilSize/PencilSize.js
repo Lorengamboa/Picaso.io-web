@@ -24,16 +24,16 @@ export class PencilSize extends Component {
    */
   _displaySizes() {
     return (
-      <div>
+      <section>
         <span size="1" onClick={this._setPencilSize} style={styles.dot(1)} />
         <span size="4" onClick={this._setPencilSize} style={styles.dot(1.5)} />
         <span size="5" onClick={this._setPencilSize} style={styles.dot(2)} />
-      </div>
+      </section>
     );
   }
 
   render() {
-    return <div>{this._displaySizes()}</div>;
+    return <div style={styles.block}>{this._displaySizes()}</div>;
   }
 }
 

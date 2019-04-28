@@ -15,10 +15,10 @@ export default function gameReducer(state = initialState.game, action) {
       return Object.assign({}, state, {
         playerDraw: action.payload
       });
-      case GAME_ACTIONS.PLAYER_CLEAR_CANVAS:
+    case GAME_ACTIONS.PLAYER_CLEAR_CANVAS:
       return Object.assign({}, state, {
         playerDraw: action.payload
-      });   
+      });
     case GAME_ACTIONS.TOGGLE_EXPAND:
       return Object.assign({}, state, {
         fullscreen: !state.fullscreen
@@ -51,6 +51,10 @@ export default function gameReducer(state = initialState.game, action) {
       return Object.assign({}, state, {
         countDown: action.payload
       });
+    case GAME_ACTIONS.UPDATE_ROUND_COUNTER:
+      return Object.assign({}, state, {
+        round: action.payload
+      });
     case GAME_ACTIONS.UPDATE_GAME_STATE:
       return Object.assign({}, state, {
         gamePlay: action.payload
@@ -63,7 +67,7 @@ export default function gameReducer(state = initialState.game, action) {
       return Object.assign({}, state, {
         currentWord: action.payload
       });
-      case GAME_ACTIONS.DISPLAY_WINNER_LIST:
+    case GAME_ACTIONS.DISPLAY_WINNER_LIST:
       return Object.assign({}, state, {
         podium: action.payload
       });

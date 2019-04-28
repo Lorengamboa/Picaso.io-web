@@ -19,12 +19,12 @@ class HowToPlay extends Component {
         <Navbar className="center" />
         <div className="container" style={styles.container}>
           <h2 className="text-danger" style={styles.h1}><FormattedMessage id="how2play.title1" /></h2>
-          <p><FormattedMessage id="how2play.content1" /></p>
+          <p style={styles.p}><FormattedMessage id="how2play.content1" /></p>
           <h2 className="text-warning" style={styles.h1}><FormattedMessage id="how2play.title2" /></h2>
-          <p><FormattedMessage id="how2play.content2" /></p>
+          <p style={styles.p}><FormattedMessage id="how2play.content2" /></p>
           <h2 className="text-primary" style={styles.h1}><FormattedMessage id="how2play.title3" /></h2>
-          <p><FormattedMessage id="how2play.content3" /></p>
-          <p><FormattedMessage id="how2play.greetings" /></p>
+          <p style={styles.p}><FormattedMessage id="how2play.content3" /></p>
+          <p style={styles.p}><FormattedMessage id="how2play.greetings" /></p>
         </div>
       </div>
     );

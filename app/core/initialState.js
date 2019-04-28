@@ -5,9 +5,10 @@ const initialState = {
     gameInfo: {
       roomTag: ""
     },
+    round: 0,
     toolPicked: "pencil",
     colorPicked: "#000",
-    penWidth: "1px",
+    penWidth: "5",
     playerList: [],
     messages: [],
     lastDraw: null,
@@ -16,7 +17,7 @@ const initialState = {
     playersDraw: [],
     playerDraw: [],
     podium: [],
-    currentWord: "Need atleast 3 players to start game",
+    currentWord: "Need's 3 players",
     modal: false,
     fullscreen: false
   },

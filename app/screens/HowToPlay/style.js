@@ -7,6 +7,9 @@ const chatListStyles = {
     h1: {
         textAlign: 'center',
         margin: "1rem 0",
+    },
+    p: {
+        color: "white"
     }
 };
 

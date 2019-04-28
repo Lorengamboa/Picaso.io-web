@@ -40,10 +40,6 @@
 .controls {
 	text-align: center;
 	margin: 3em 0 0 0;
-	h3{
-    font-weight: 100;
-    letter-spacing: 1px;
-  }
 }
 
 .button {

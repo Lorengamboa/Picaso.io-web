@@ -2,6 +2,7 @@
 
 import PrimaryButton from "./PrimaryButton";
 import InputText from "./InputText";
+import InputSelect from "./InputSelect";
 import Message from "./Message";
 import InfoMessage from "./InfoMessage";
 import Advertisement from "./Advertisement";
@@ -10,10 +11,14 @@ import Footer from "./Footer";
 import DrawThumbnail from "./DrawThumbnail";
 import Timer from "./Timer";
 import Presentator from "./Presentator";
+import CircleButton from "./CircleButton";
+import Modal from "./Modal";
+import CheckBox from "./CheckBox";
 
 export {
   PrimaryButton,
   InputText,
+  InputSelect,
   Message,
   InfoMessage,
   Advertisement,
@@ -21,5 +26,8 @@ export {
   DrawThumbnail,
   Timer,
   Footer,
-  Presentator
+  Presentator,
+  CircleButton,
+  Modal,
+  CheckBox
 };

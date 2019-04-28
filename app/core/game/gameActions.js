@@ -47,6 +47,17 @@ export function updateTimer(data) {
  * 
  * @param {*} data 
  */
+export function updateRoundCounter(data) {
+  return {
+    type: ACTIONS.UPDATE_ROUND_COUNTER,
+    payload: data
+  }
+}
+
+/**
+ * 
+ * @param {*} data 
+ */
 export function updateGameState(data) {
   return {
     type: ACTIONS.UPDATE_GAME_STATE,

@@ -4,13 +4,12 @@ const chatListStyles = {
     container: {
         width: "100%",
         height: "100%",
-        marginLeft: "10px"
     },
     inputMessage: {
         display: "block",
         width: "inherit",
         resize: "none",
-        minHeight: "0"
+        minHeight: "0",
     },
     messagesBlock: {
         width: "100%",

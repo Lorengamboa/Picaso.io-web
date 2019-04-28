@@ -8,7 +8,7 @@ import {
   clearCanvas,
   toggleExpand
 } from "../../../core/game/gameActions";
-import Pencils from '../PencilSize';
+import Pencils from "../PencilSize";
 import Tool from "./Tool";
 
 /**
@@ -63,9 +63,9 @@ export class ToolList extends Component {
   _onCameraClick(e) {
     html2canvas(document.querySelector("#mycanvas")).then(canvas => {
       var image = canvas.toDataURL("image/jpg");
-      let a = document.createElement('a');
+      let a = document.createElement("a");
       a.href = image;
-      a.download = '';
+      a.download = "";
       a.click();
     });
   }
@@ -75,7 +75,7 @@ export class ToolList extends Component {
    */
   _displayTools() {
     return (
-      <div className="icon-tools"> 
+      <div className="icon-tools">
         {/* <li>
           <Tool
             type="expand"
@@ -90,27 +90,21 @@ export class ToolList extends Component {
             src="/assets/img/tools/eraser.png"
           />
         </li> */}
-        <li>
-          <Tool
-            type="bin"
-            onClick={this._onBinClick}
-            src="/assets/img/tools/bin.svg"
-          />
-        </li>
-        <li>
-          <Tool
-            type="bin"
-            onClick={this._onCameraClick}
-            src="/assets/img/tools/camera.svg"
-          />
-        </li>
-        <li>
-          <Tool
-            type="bucket"
-            onClick={this._onBucketClick}
-            src="/assets/img/tools/water-glass.svg"
-          />
-        </li>
+        <Tool
+          type="bin"
+          onClick={this._onBinClick}
+          src="/assets/img/tools/bin.png"
+        />
+        <Tool
+          type="bucket"
+          onClick={this._onBucketClick}
+          src="/assets/img/tools/bucket.png"
+        />
+        <Tool
+          type="bin"
+          onClick={this._onCameraClick}
+          src="/assets/img/tools/camera.png"
+        />
         <Pencils />
       </div>
     );

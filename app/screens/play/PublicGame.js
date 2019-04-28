@@ -2,20 +2,21 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Grid, Card, Image } from "semantic-ui-react";
+import { Card, Image } from "semantic-ui-react";
 import { Howl } from "howler";
 import { ToastContainer, toast } from "react-toastify";
 import "!style-loader!css-loader!react-toastify/dist/ReactToastify.css";
 
 import Reactcardstack from "../../containers/react-cards-stack/src";
-import GeneralModal from "./GeneralModal";
+import Modal from "../../components/Modal";
+import { ChatModal, DisconnectionModal, PlayerListModal } from "./modals";
 import CanvasGame from "../../containers/CanvasGame";
 import Chat from "../../containers/Chat";
 import PlayerList from "../../containers/PlayerList";
 import ToolPaint from "../../containers/ToolPaint";
 import Tools from "../../containers/ToolPaint/ToolList";
-
-
+import MobileOptions from "./MobileOptions";
+import GameHeader from "./GameHeader";
 import { Navbar, Timer, Advertisement, Presentator } from "../../components";
 
 import {
@@ -39,6 +40,8 @@ class PublicGame extends Component {
     super(props);
     this.state = {
       isPenDown: false,
+      chatModal: false,
+      userlistModal: false,
       currentPosition: {
         prevX: null,
         prevY: null
@@ -56,6 +59,8 @@ class PublicGame extends Component {
     this.setCurrentPosition = this.setCurrentPosition.bind(this);
     this.drawCoordinates = this.drawCoordinates.bind(this);
     this.goHome = this.goHome.bind(this);
+    this.toggleChatModal = this.toggleChatModal.bind(this);
+    this.togglePlayerListModal = this.togglePlayerListModal.bind(this);
 
     this.init();
   }
@@ -233,8 +238,8 @@ class PublicGame extends Component {
           ref={this.deckRef}
           images={this.props.playersDraw}
           onstackendfn={onstackendfn.bind(this)}
-          cancelIcon="/assets/img/tools/thumbs-down.svg"
-          acceptIcon="/assets/img/tools/thumbs-up.svg"
+          cancelIcon="/assets/img/sad.png"
+          acceptIcon="/assets/img/happy.png"
           accept={accept.bind(this)}
           reject={reject.bind(this)}
         />
@@ -264,6 +269,33 @@ class PublicGame extends Component {
     ));
   }
 
+  renderCanvasGame() {
+    return (
+      <CanvasGame
+        onMouseMove={this.handleDisplayMouseMove}
+        onMouseDown={this.handleDisplayMouseDown}
+      />
+    );
+  }
+
+  /**
+   * Opens chat modal
+   */
+  toggleChatModal() {
+    this.setState({
+      chatModal: !this.state.chatModal
+    });
+  }
+
+  /**
+   * Opens PlayerList modal
+   */
+  togglePlayerListModal() {
+    this.setState({
+      userlistModal: !this.state.userlistModal
+    });
+  }
+
   render() {
     const roomUrl =
       "http://www.localhost:8080/game/" + this.props.gameInfo.roomTag;
@@ -272,14 +304,17 @@ class PublicGame extends Component {
         <Navbar />
         <Presentator display="false" content="STARTING" />
         <div className="row">
-        <div className="col-lg-2 col-md-2">
-          <PlayerList color="white" />
-        </div>
+          <div id="desktop-playerlist" className="col-lg-2 col-md-2">
+            <PlayerList color="white" />
+          </div>
           <div className="col-lg-6 col-md-6">
-            <div style={{backgroundColor: "white", border: "solid 1px black", fontFamily: "'Press Start 2P', cursive", textAlign: "center"}}>{this.props.currentWord}</div>
+            <GameHeader
+              keyword={this.props.currentWord}
+              round={this.props.round}
+            />
             <Tools />
             {this.props.gamePlay === "voting" && (
-              <div className="row">{this.renderPlayerDraws()}</div>
+              <Modal show="true">{this.renderPlayerDraws()}</Modal>
             )}
             {this.props.gamePlay === "presentating" && (
               <div>
@@ -287,12 +322,7 @@ class PublicGame extends Component {
                 {this.renderPodium()}
               </div>
             )}
-            {this.props.gamePlay === "waitting" && (
-              <CanvasGame
-                onMouseMove={this.handleDisplayMouseMove}
-                onMouseDown={this.handleDisplayMouseDown}
-              />
-            )}
+            {this.props.gamePlay === "waitting" && this.renderCanvasGame()}
             {this.props.gamePlay === "starting" && (
               <Advertisement
                 blocking="/assets/img/pencil-drunk.png"
@@ -302,10 +332,7 @@ class PublicGame extends Component {
             {this.props.gamePlay === "playing" && (
               <div>
                 <Timer className="timer" time={this.props.countDown} />
-                <CanvasGame
-                  onMouseMove={this.handleDisplayMouseMove}
-                  onMouseDown={this.handleDisplayMouseDown}
-                />
+                {this.renderCanvasGame()}
               </div>
             )}
             {this.props.gamePlay === "finished" && (
@@ -313,21 +340,27 @@ class PublicGame extends Component {
                 <h1>finished</h1>
               </div>
             )}
-                <ToolPaint />
-             </div>
-          <div className="col-lg-3 col-md-3">
-          <Chat />
+            <ToolPaint />
+            <MobileOptions
+              actions={[this.toggleChatModal, this.togglePlayerListModal]}
+            />
+          </div>
+          <div id="desktop-chat" className="col-lg-3 col-md-3">
+            <Chat />
+          </div>
         </div>
-        </div>
-        <ToastContainer />
-        <GeneralModal
-          visibility={this.props.modal}
-          title="Connection error"
-          content="You have lost the connection with the actual room, would u like to try reconnect?"
-          btn1="Yes"
-          btn2="No"
-          action2={this.goHome}
+
+        <DisconnectionModal show={this.props.modal} />
+        <ChatModal
+          show={this.state.chatModal}
+          handleClose={this.toggleChatModal}
         />
+        <PlayerListModal
+          show={this.state.userlistModal}
+          handleClose={this.togglePlayerListModal}
+        />
+        <ToastContainer />
+        <div id="afscontainer1"></div>
       </div>
     );
   }
@@ -355,7 +388,8 @@ function mapStateToProps({
     gameInfo,
     modal,
     penWidth,
-    podium
+    podium,
+    round
   } = gameReducer;
 
   return {
@@ -364,6 +398,7 @@ function mapStateToProps({
     colorPicked,
     toolPicked,
     countDown,
+    round,
     gamePlay,
     playersDraw,
     currentWord,

@@ -2,39 +2,49 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Input, Select, Grid, Checkbox } from 'semantic-ui-react'
 
-import { createRoom } from "../../core/game/gameActions";
-import { PrimaryButton, Navbar } from "../../components";
+import {
+  InputText,
+  Navbar,
+  PrimaryButton,
+  CheckBox,
+  InputSelect
+} from "../../components";
+import { createRoom } from "../../core/player/playerActions";
 
 /**
- * CREATEPAGE COMPONENT VIEW
+ * @class CreatePage
+ * @description: create a new game room
  */
 class CreatePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       form: {
-        nickname: '',
-        roomName: '',
+        nickname: "",
+        roomName: "",
         numberOfRounds: 3,
         private: false,
         pass: null
-      }
+      },
+      themeList: ["general", "league of legends"],
+      roundList: [5, 8, 10]
     };
 
     //
     this.handleCreateRoom = this.handleCreateRoom.bind(this);
     this.handleNicknameChange = this.handleNicknameChange.bind(this);
     this.handleRoomNameChange = this.handleRoomNameChange.bind(this);
-    this.handleNumberOfRoundsChange = this.handleNumberOfRoundsChange.bind(this);
+    this.handleNumberOfRoundsChange = this.handleNumberOfRoundsChange.bind(
+      this
+    );
     this.handlePrivateChange = this.handlePrivateChange.bind(this);
     this.handlePassChange = this.handlePassChange.bind(this);
   }
 
   /**
-   * 
-   * @param {*} e 
+   *
+   * @param {*} e
    */
   handleNicknameChange(e) {
     const newValue = e.target.value;
@@ -47,8 +57,8 @@ class CreatePage extends Component {
   }
 
   /**
-   * 
-   * @param {*} e 
+   *
+   * @param {*} e
    */
   handleRoomNameChange(e) {
     const newValue = e.target.value;
@@ -61,8 +71,8 @@ class CreatePage extends Component {
   }
 
   /**
-   * 
-   * @param {*} e 
+   *
+   * @param {*} e
    */
   handleNumberOfRoundsChange(e) {
     const newValue = e.target.value;
@@ -75,8 +85,8 @@ class CreatePage extends Component {
   }
 
   /**
-   * 
-   * @param {*} e 
+   *
+   * @param {*} e
    */
   handlePrivateChange(e) {
     this.setState(prevState => ({
@@ -88,8 +98,8 @@ class CreatePage extends Component {
   }
 
   /**
-   * 
-   * @param {*} e 
+   *
+   * @param {*} e
    */
   handlePassChange(e) {
     const newValue = e.target.value;
@@ -103,7 +113,7 @@ class CreatePage extends Component {
   }
 
   /**
-   * 
+   *
    */
   handleCreateRoom(e) {
     event.preventDefault();
@@ -115,72 +125,53 @@ class CreatePage extends Component {
 
   render() {
     return (
-      <div id="create-site">
+      <div>
         <Navbar />
-        <div className="create-menu">
-            <Grid>
-              <Grid.Row>
-                <Grid.Column>
-                  <Input name="nickname"
-                    fluid
-                    icon='user'
-                    iconPosition='left'
-                    placeholder='Introduce a nickname'
-                    defaultValue={this.state.form.nickname}
-                    onChange={this.handleNicknameChange}
-                  />
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
-                <Grid.Column>
-                  <Input name="room"
-                    fluid
-                    icon='users'
-                    iconPosition='left'
-                    placeholder='Room name...'
-                    defaultValue={this.state.form.roomName}
-                    onChange={this.handleRoomNameChange}
-                  />
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
-                <Grid.Column>
-                  <Select name="rounds"
-                    fluid
-                    placeholder='Select number of rounds'
-                    options={[{ key: '1', value: '1', text: '1' },{ key: '3', value: '3', text: '3' },{ key: '5', value: '5', text: '5' },{ key: '7', value: '7', text: '7' }]}
-                    onChange={this.handleNumberOfRoundsChange}
-                  />
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
-                <Grid.Column>
-                  <Checkbox name="private"
-                    label='Check to make it private'
-                    defaultValue={this.state.form.private}
-                    onChange={this.handlePrivateChange}
-                  />
-                  {'\u00A0'}{'\u00A0'}
-                  <Input name="password"
-                    size='mini'
-                    icon='lock'
-                    iconPosition='left'
-                    placeholder='Search users...'
-                    defaultValue={this.state.form.pass}
-                    onChange={this.handlePassChange}
-                  />
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
-                <Grid.Column>
-                  <PrimaryButton
-                    className="button-primary"
-                    value="create"
-                    onClick={this.handleCreateRoom}
-                  />
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
+        <div className="container">
+          <div className="row">
+            <div className="col-xl-12">
+              <div className="create-menu">
+                <InputText
+                  name="nickname"
+                  className="input"
+                  placeholder="Introduce a nickname"
+                  defaultValue={this.state.form.nickname}
+                  onChange={this.handleNicknameChange}
+                />
+                <br />
+                <InputText
+                  name="room"
+                  className="input"
+                  placeholder="Room name..."
+                  defaultValue={this.state.form.roomName}
+                  onChange={this.handleRoomNameChange}
+                />
+                <br />
+                <InputSelect list={this.state.themeList} placeholder="choose a theme" />
+                <InputSelect list={this.state.roundList} placeholder="number of rounds" />
+                <InputText
+                  type="password"
+                  name="password"
+                  className="input"
+                  placeholder="password"
+                  defaultValue={this.state.form.pass}
+                  onChange={this.handlePassChange}
+                />
+                <br />
+                <CheckBox
+                  name="private"
+                  label="private"
+                  value={this.state.form.private}
+                  onChange={this.handlePrivateChange}
+                />
+                <PrimaryButton
+                  color="blue"
+                  value="create"
+                  onClick={this.handleCreateRoom}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -189,22 +180,25 @@ class CreatePage extends Component {
 
 /**
  * The component will subscribe to Redux store updates.
-* @param {store}
-    */
+ * @param {store}
+ */
 function mapStateToProps(state) {
-  return { };
+  return {};
 }
 
 /**
- * 
- * @param {*} dispatch 
+ *
+ * @param {*} dispatch
  */
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    createRoom: (settings) => {
+    createRoom: settings => {
       dispatch(createRoom(settings));
-    },
+    }
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreatePage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreatePage);

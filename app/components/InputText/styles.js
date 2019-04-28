@@ -3,7 +3,8 @@ const styles = {
     input: {
           height: "3em",
           fontFamily: "'Press Start 2P', cursive",
-          textAlign: "center" 
+          textAlign: "center",
+          border: "solid 2px black"
     }
 };
 

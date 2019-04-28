@@ -1,20 +1,23 @@
 "use strict";
 
 import React from "react";
-import { Loader, Dimmer } from "semantic-ui-react";
+import Modal from "../../components/Modal";
 
-
+const styles = {
+  content: {
+    color: "white",
+    textAlign: "center"
+  }
+}
 /**
  * 
  * @param {*} props 
  */
 const GameLoader = (props) => {
   return (
-    props.loading ?
-      (<Dimmer active={props.loading}>
-          <Loader indeterminate>{props.content}</Loader>
-      </Dimmer>)
-      : null
+      (<Modal show={props.loading}>
+         <h2 style={styles.content}>{props.content}</h2>
+      </Modal>)
   );
 };
 

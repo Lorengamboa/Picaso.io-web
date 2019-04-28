@@ -1,6 +1,9 @@
 'use strict';
 
 const styles = {
+    block: {
+        display: "inline-block"
+    },
     dot: size => {
         return {
             height: `${size}vh`,

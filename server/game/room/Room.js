@@ -282,6 +282,7 @@ class Room extends Socket {
    * GAME STATE: PLAY
    */
   play() {
+    this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_ROUND_COUNTER, this.round);
     if (this.round === GAME_CONFIG.NUMBER_OF_ROUNDS) return this.finish();
     this.voters.resetCache();
     this.emit(events.PLAYING);

@@ -20,6 +20,7 @@ module.exports.SOCKET_EVENTS = {
   UPDATE_CANVAS: 'updateCanvas',
   UPDATE_TIMER: 'updateTimer',
   UPDATE_GAME_STATE: 'updateGameState',
+  UPDATE_ROUND_COUNTER: 'updateRoundCounter',
   DISPLAY_ALL_DRAWS: 'playerDraws',
   DISPLAY_WINNERS: 'displayWinners',
   CURRENT_WORD: 'currentWord',

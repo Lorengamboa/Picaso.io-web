@@ -7,7 +7,7 @@ import { FormattedMessage } from "react-intl";
 const PrimaryButton = props => {
   const intlValue = <FormattedMessage id={props.value} />;
   return (
-    <button style={styles.button(props.color)} onClick={props.onClick}>
+    <button style={{ ...styles.button(props.color),...props.style }} onClick={props.onClick}>
       {intlValue}
     </button>
   );

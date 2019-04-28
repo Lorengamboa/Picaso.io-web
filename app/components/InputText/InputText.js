@@ -10,11 +10,12 @@ import styles from './styles';
 const InputText = props => {
     const { placeholder, onInputChange, username, onKeyPress, intl } = props;
     const intlPlaceholder = intl.formatMessage({id: [placeholder]});
+    const type = props.type ? props.type : "text";
 
     return (
         <input 
             style={styles.input}
-            type="text"
+            type={type}
             placeholder={intlPlaceholder}
             onChange={onInputChange}
             onKeyPress={onKeyPress}
