@@ -360,7 +360,6 @@ class PublicGame extends Component {
           handleClose={this.togglePlayerListModal}
         />
         <ToastContainer />
-        <div id="afscontainer1"></div>
       </div>
     );
   }
