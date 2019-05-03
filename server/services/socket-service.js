@@ -15,7 +15,7 @@ module.exports = {
 
     this.io.on(SOCKET_EVENTS.CONNECT, socket => {
       let player;
-      
+
       // Player joins random game room
       socket.on(SOCKET_EVENTS.PLAYER_JOIN_RANDOM_GAMEROOM, username => {
         game_ctrl
@@ -37,9 +37,9 @@ module.exports = {
       // Player joins private game room
       socket.on(
         SOCKET_EVENTS.PLAYER_JOIN_PRIVATE_GAMEROOM,
-        (username, roomId) => {
+        (username, data) => {
           game_ctrl
-            .playerJoinGame(username, socket, roomId)
+            .playerJoinGame(username, socket, data)
             .then(nplayer => {
               player = nplayer;
               socket.emit(SOCKET_EVENTS.CONNECTION_RESULT, true);
@@ -54,6 +54,24 @@ module.exports = {
             });
         }
       );
+
+      // Player creates game room
+      socket.on(SOCKET_EVENTS.PLAYER_CREATES_GAME, settings => {
+        game_ctrl
+          .playerCreatesGame(settings, socket)
+          .then(nplayer => {
+            player = nplayer;
+            socket.emit(SOCKET_EVENTS.CONNECTION_RESULT, true);
+            logger.sockets.info(
+              message.LOG_PLAYER_CREATES_ROOM_SUCCESS + player
+            );
+          })
+          .catch(err => {
+            socket.emit(SOCKET_EVENTS.CONNECTION_RESULT, false);
+            socket.disconnect();
+            logger.sockets.error(message.LOG_PLAYER_CREATES_ROOM_FAIL + err);
+          });
+      });
 
       // Player disconnects from socket
       socket.on(SOCKET_EVENTS.DISCONNECT, () => {
@@ -70,21 +88,6 @@ module.exports = {
           });
       });
 
-      // Player creates game room
-      socket.on(SOCKET_EVENTS.PLAYER_CREATES_GAME, settings => {
-        game_ctrl
-          .playerCreatesGame(settings, socket)
-          .then(nplayer => {
-            player = nplayer;
-            logger.sockets.info(
-              message.LOG_PLAYER_CREATES_ROOM_SUCCESS + player
-            );
-          })
-          .catch(err => {
-            socket.disconnect();
-            logger.sockets.error(message.LOG_PLAYER_CREATES_ROOM_FAIL + err);
-          });
-      });
     });
 
     return game_ctrl;

@@ -9,10 +9,6 @@ export default function playerReducer(state = initialState.player, action) {
       return Object.assign({}, state, {
         username: action.payload
       });
-    case ACTIONS.CREATE_ROOM:
-      return Object.assign({}, state, {
-        connection: true
-      });
       case ACTIONS.MAKE_DRUNK:
       return Object.assign({}, state, {
         drunk: action.payload

@@ -26,20 +26,29 @@ class gameManager {
   init() {
     this.roomCreator = new RoomCreator(this.io);
   }
-  // All games available
 
   /**
-   *
+   * List all the public games
    */
   getPublicGames() {
-    if (this.games.public.length === 0) return;
-    const filteredRooms = this.games.public.map(game => {
-      const filteredRoom = {
-        name: game.name,
-        players: getPlayerNames(game.players)
-      };
-      return filteredRoom;
-    });
+    if (this.games.public === 0 && this.games.private === 0) return;
+
+    // filtered rooms
+    const publicRooms = filterRooms.call(this, "public");
+    const privateRooms = filterRooms.call(this, "private");
+    // all filtered rooms
+    const filteredRooms = [...publicRooms, ...privateRooms];
+
+    function filterRooms(type) {
+      return this.games[type].map(game => {
+        const filteredRoom = {
+          name: game.name,
+          players: getPlayerNames(game.players),
+          type: game.type
+        };
+        return filteredRoom;
+      });
+    }
 
     function getPlayerNames(players) {
       return players.map(player => {
@@ -50,13 +59,44 @@ class gameManager {
     return filteredRooms;
   }
 
+
+  /**
+   * 
+   * @param {*} roomName 
+   */
+  getRoomInfo(roomName) {
+
+    function findGame(type) {
+      let game = _.find(this.games[type],
+        { name: roomName }
+      );
+
+      if (!game) return;
+
+      const formatted = {
+        name: game.name,
+        type: game.type
+      };
+
+      return formatted;
+    }
+
+    let prv = findGame.call(this, "private");
+    let pbl = findGame.call(this, "public");
+
+    if(prv) return prv
+    else if(pbl) return pbl;
+
+    return null;
+  }
+
   /**
    * Players manually creates a room game
    * from our client interface
    */
   playerCreatesGame(gameInfo, socket) {
     let gameRoom;
-    if (gameInfo.private) {
+    if (gameInfo.privacy) {
       gameRoom = this.roomCreator.createPrivateGame(gameInfo);
       this.games.private.push(gameRoom);
     } else {
@@ -64,12 +104,12 @@ class gameManager {
       this.games.public.push(gameRoom);
     }
 
-    return this.playerJoinGame(
-      gameInfo.nickname,
-      socket,
-      gameRoom.name,
-      gameInfo.private
-    );
+    let data = {
+      roomId: gameRoom.name,
+      pass: gameInfo.pass
+    }
+
+    return this.playerJoinGame(gameInfo.nickname, socket, data);
   }
 
   /**
@@ -127,7 +167,10 @@ class gameManager {
    * @param {*} socket
    * @param {*} roomId
    */
-  playerJoinGame(username, socket, roomId, isRoomPrivate) {
+  playerJoinGame(username, socket, data) {
+    const { roomId, pass } = data;
+    
+    
     let usr = username;
     if (!usr) usr = rndValueArray(list_names);
 
@@ -136,15 +179,24 @@ class gameManager {
         if (!valiteNickname(usr)) return reject("Invalid username", usr);
         if (!socket) return reject("Missing socket object");
 
-        // if the room doesnt already exist, it will create one
-        // then it will proceed to find the room class object
-        const gameRoom = _.find(
-          isRoomPrivate ? this.games.private : this.games.public,
-          { name: roomId }
-        );
-        if (!gameRoom) return reject("game doesnt exist dude");
+        const roomInfo = this.getRoomInfo(roomId);
 
-        // player joins the private room created ...
+        // coudn't find game room
+        if (!roomInfo) {
+          socket.emit("costum_error", 60);
+          return reject("game doesnt exist dude");
+        }
+
+        // retrieve GameRoom Object
+        const gameRoom = _.find(this.games[roomInfo.type], { name: roomId });
+
+        // check if its private if so see if the password is valid
+        if(roomInfo.type === "private" && gameRoom.password !== pass) {
+          socket.emit("costum_error", 70);
+          return reject("Invalid game room password");
+        }
+
+        // player joins the game Room
         const player = new Player(usr, socket);
         player
           .joinGameRoom(gameRoom)
@@ -157,6 +209,7 @@ class gameManager {
 
         resolve(player);
       } catch (err) {
+        socket.emit("costum_error", 1000);
         reject(err);
       }
     });

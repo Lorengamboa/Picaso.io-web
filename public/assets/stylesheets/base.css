@@ -104,6 +104,16 @@ body {
   margin: 10px !important;
 }
 
+.link-menu {
+	width: 70%;
+	margin: 0 auto;
+}
+
+.link-menu  input {
+	width: 100%;
+	margin: .5rem 0;
+}
+
 .create-menu {
 	width: 70%;
 	margin: 0 auto;

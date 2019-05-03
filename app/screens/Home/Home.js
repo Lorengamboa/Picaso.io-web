@@ -27,7 +27,6 @@ class HomePage extends Component {
 
     this.state = {
       username: "",
-      error: null
     };
 
     // Events listeners
@@ -131,7 +130,7 @@ class HomePage extends Component {
             <InputText
               className="input"
               placeholder="home.input"
-              onInputChange={this.onInputChange}
+              onChange={this.onInputChange}
               username={this.state.username}
               onKeyPress={this.onSubmit}
             />

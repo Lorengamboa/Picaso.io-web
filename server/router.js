@@ -21,6 +21,12 @@ module.exports = function(app, gm_ctrl) {
     res.json(gm_ctrl.getPublicGames());
   });
 
+  app.use(routes.API_ROOMS_INFO, (req, res) => {
+    var roomName = req.body.roomname;
+
+    res.json(gm_ctrl.getRoomInfo(roomName));
+  });
+
   // =========================================================================
   // ====================        ADMIN         ===============================
   // =========================================================================
@@ -28,8 +34,7 @@ module.exports = function(app, gm_ctrl) {
   /**
    * ADMIN INDEX
    */
-  app
-    .route(routes.ADMIN)
+  app.route(routes.ADMIN)
     .get(sessionChecker, function(request, response) {
       response.render("admin");
     })
@@ -62,21 +67,26 @@ module.exports = function(app, gm_ctrl) {
   });
 
   /**
-   * DRAWPANEL
+   * DRAWPANEL DRAWS
    */
   app.route(routes.DRAWS).get(isLoggedIn, drawController.getAllDraws);
 
   /**
    * LOGPANEL
    */
-  app.route(routes.LOGPANEL).get(isLoggedIn, loggerController.listAllLogs);
-  app
-    .route(routes.LOGPANEL_FILE)
+  app.route(routes.LOGPANEL)
+    .get(isLoggedIn, loggerController.listAllLogs);
+
+  /**
+   * LOGPANEL FILE
+   */
+  app.route(routes.LOGPANEL_FILE)
     .get(isLoggedIn, loggerController.retrieveLogfile);
 
   // =========================================================================
   // ====================     APPLICATION      ===============================
   // =========================================================================
+
   app.get(routes.WEB_APP, function(request, response) {
     response.sendFile("public/index.html", { root: "." });
   });

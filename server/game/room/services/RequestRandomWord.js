@@ -5,7 +5,7 @@ var fs = require("fs");
 
 const { rndValueArray } = require("../../../utils");
 
-const PATH_FILE = "/../../../assets/words.json";
+const PATH_FILE = "/../../../assets/champions.json";
 
 /**
  * Request a random word from the nouns list

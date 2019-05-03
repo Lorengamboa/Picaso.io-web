@@ -56,13 +56,15 @@ const SOCKET_EVENTS = {
 };
 
 const SOCKET_ERRORS = {
-  1000: "Ooops something went wront",
+  1000: "Ooops something went wrong",
   0: "The room is full",
   10: "The room doesnt exist",
   20: "You are banned!",
   30: "Username introduced not valid",
   40: "Message way too long",
-  50: "Message cant be blank"
+  50: "Message cant be blank",
+  60: "The game room doesn't exist",
+  70: "Invalid password"
 };
 
 export { SOCKET_EVENTS, SOCKET_ERRORS };

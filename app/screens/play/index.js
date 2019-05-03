@@ -1,6 +1,6 @@
 'use strict';
 
 import PublicGame from './PublicGame';
-import PrivateGame from './PrivateGame';
+import LinkGame from './LinkGame';
 
-export { PublicGame, PrivateGame };
+export { PublicGame, LinkGame };

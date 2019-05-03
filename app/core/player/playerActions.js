@@ -14,7 +14,7 @@ export function setUsername(username) {
 }
 
 /**
- *
+ * Creates room
  * @param {*} settings
  */
 export function createRoom(settings) {
@@ -25,13 +25,15 @@ export function createRoom(settings) {
 }
 
 /**
- * Join private game
+ * Join game
  * @param {*} id
  */
-export function joinPrivateGame(id) {
+export function joinGame(roomId, pass) {
   return {
     type: ACTIONS.CONNECT_PRIVATE_ROOM,
-    payload: id
+    payload: {
+      roomId, pass
+    }
   };
 }
 

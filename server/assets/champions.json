@@ -1,6 +1,7 @@
 [
     {
-        "champions": [
+        "description": "List of lol players",
+        "nouns": [
             "Ahri",
             "Akali",
             "Alistar",

@@ -1,11 +1,16 @@
 "use strict";
 
 import * as ACTIONS from "./actions";
+import * as PLAYER_ACTIONS from "../player/actions";
 import initialState from "../initialState";
 
 export default function playerReducer(state = initialState.socket, action) {
   switch (action.type) {
     case ACTIONS.SOCKET_CONNECTION:
+      return Object.assign({}, state, {
+        loading: true
+      });
+    case PLAYER_ACTIONS.CREATE_ROOM:
       return Object.assign({}, state, {
         loading: true
       });

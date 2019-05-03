@@ -17,17 +17,19 @@ import {
 const SocketMiddleware = url => store => {
   let sm; // SocketManage
   return next => action => {
+    let { username } = store.getState().playerReducer;
+
     // When dispatching a redux action.
     switch (action.type) {
       case SOCKET_CONNECTION:
-        let { username } = store.getState().playerReducer;
         sm = SocketManagerFactory(url, store);
         sm.joinRandomRoom(username);
         next(action);
         break;
       case CONNECT_PRIVATE_ROOM:
+        console.log(username, action.payload)
         sm = SocketManagerFactory(url, store);
-        sm.joinPrivateRoom(username);
+        sm.joinPrivateRoom(username, action.payload);
         next(action);
         break;
       case CREATE_ROOM:

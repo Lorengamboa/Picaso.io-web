@@ -23,8 +23,8 @@ const roomController = {
     }
     createPrivateGame(gameInfo) {
       try {
-        const roomName = gameInfo.roomName;
-        const game = new Room(roomName, this.io, "private");
+        const { roomName, pass } = gameInfo;
+        const game = new Room(roomName, this.io, "private", pass);
         attachEvents(game);
         
         return game;

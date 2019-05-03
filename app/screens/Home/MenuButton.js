@@ -34,12 +34,6 @@ const MenuButton = ({actions}) => {
         value="home.btn4"
         onClick={actions[3]}
       />
-      {/* <PrimaryButton
-        color="grey"
-        className="btn-roundy"
-        value="home.btn5"
-        onClick={actions[4]}
-      /> */}
     </div>
   );
 };

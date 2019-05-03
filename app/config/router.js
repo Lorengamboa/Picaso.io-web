@@ -9,7 +9,7 @@ import {
   HomePage,
   PublicGame,
   CreatePage,
-  PrivateGame,
+  LinkGame,
   SearchPage,
   SettingsPage,
   HowToPlayPage,
@@ -39,10 +39,10 @@ export const router = (
       <Router>
         <Switch>
           <Route exact path={routes.HOME} component={HomePage} />
-          <Route exact path={routes.SEARCH} component={SearchPage} />
+          <Route path={routes.SEARCH} component={SearchPage} />
           <Route path={routes.PLAY} component={PublicGame} />
           <Route path={routes.CREATE} component={CreatePage} />
-          <Route path={routes.GAME} component={PrivateGame} />
+          <Route path={routes.GAME} component={LinkGame} />
           <Route path={routes.SETTINGS} component={SettingsPage} />
           <Route path={routes.POLICY} component={PolicyPage} />
           <Route path={routes.HOW_TO_PLAY} component={HowToPlayPage} />

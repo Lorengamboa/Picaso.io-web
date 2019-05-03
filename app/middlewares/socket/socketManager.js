@@ -24,8 +24,8 @@ class SocketManager {
   /**
    * Joins random room
    */
-  joinPrivateRoom(username, roomId) {
-    this.socket.emit(SOCKET_EVENTS.EMITTER.PLAYER_JOIN_PRIVATE_GAMEROOM, username, roomId)
+  joinPrivateRoom(username, data) {
+    this.socket.emit(SOCKET_EVENTS.EMITTER.PLAYER_JOIN_PRIVATE_GAMEROOM, username, data)
   }
 
   /**

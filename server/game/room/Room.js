@@ -22,9 +22,10 @@ const GAME_CONFIG = require("../config/room");
  * @desc Contains all the logic to make a game start
  */
 class Room extends Socket {
-  constructor(name, io, type) {
+  constructor(name, io, type, pass) {
     super(io, name);
     this.type = type || "public";
+    this.password = pass || null;
     this.players = [];
     this.draws = [];
     this.currentWord = null;

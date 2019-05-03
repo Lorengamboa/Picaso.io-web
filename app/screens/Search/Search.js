@@ -2,11 +2,10 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Icon, Menu, Table, Grid } from 'semantic-ui-react'
 import axios from 'axios';
 
-import { setUsername, openPlayerSocketConnection } from "../../core/player/playerActions";
 import { Navbar } from "../../components";
+import styles from "./styles";
 
 const ROOMS_AVAILABLE_ENDPOINT = "/api/rooms_available";
 
@@ -24,7 +23,7 @@ class SearchPage extends Component {
   }
 
   /**
-   * 
+   * Makes an http request to know the avaiable games (private & non-private ones)
    */
   componentWillMount() {
     axios.get(ROOMS_AVAILABLE_ENDPOINT)
@@ -64,65 +63,51 @@ class SearchPage extends Component {
   }
 
   /**
-   * 
+   * Renders all the avaiable games
    */
   renderTable() {
-    if (!this.state.rooms === 0) return;
+    if (this.state.rooms.length === 0) return (
+      <tr style={styles.tr}>
+       <th>There are not available games</th><th></th><th></th><th></th>
+      </tr>
+    );
 
     return this.state.rooms.map(room => {
       return (
-        <Table.Row>
-          <Table.Cell>{room.name}</Table.Cell>
-          <Table.Cell>{room.players.length}</Table.Cell>
-          <Table.Cell>
+        <tr style={styles.tr}>
+          <th>{room.type === "private" && "🔒"}</th>
+          <th>{room.name}</th>
+          <th>{room.players.length}</th>
+          <th>
             <a href={'/game/' + room.name}>
-                Enter
+              Enter
             </a>
-          </Table.Cell>
-        </Table.Row>);
+          </th>
+        </tr>);
     });
   }
-
+  
   render() {
     return (
-      <div id="find-site">
+      <div>
         <Navbar />
-        <Grid>
-          <Grid.Row>
-            <Grid.Column width={18}>
-              <Table celled className='find-content'>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>Room Name</Table.HeaderCell>
-                    <Table.HeaderCell>Number of Players</Table.HeaderCell>
-                    <Table.HeaderCell>Actions</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
+        <div className="container">
+          <div className="row">
+            <div className="col-xl-12">
+              <table className='find-content'>
+                <tbody>
+                  <tr style={styles.th}>
+                    <th>Type</th>
+                    <th>Room Name</th>
+                    <th>Number of Players</th>
+                    <th>Actions</th>
+                  </tr>
                   {this.renderTable()}
-                </Table.Body>
-                <Table.Footer>
-                  <Table.Row>
-                    <Table.HeaderCell colSpan='3'>
-                      <Menu floated='right' pagination>
-                        <Menu.Item as='a' icon>
-                          <Icon name='chevron left' />
-                        </Menu.Item>
-                        <Menu.Item as='a'>1</Menu.Item>
-                        <Menu.Item as='a'>2</Menu.Item>
-                        <Menu.Item as='a'>3</Menu.Item>
-                        <Menu.Item as='a'>4</Menu.Item>
-                        <Menu.Item as='a' icon>
-                          <Icon name='chevron right' />
-                        </Menu.Item>
-                      </Menu>
-                    </Table.HeaderCell>
-                  </Table.Row>
-                </Table.Footer>
-              </Table>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -133,21 +118,15 @@ class SearchPage extends Component {
  * @param {store}
  */
 function mapStateToProps(state) {
-  return { username: state.playerReducer.username };
+  return { };
 }
 
 /**
  * 
  * @param {*} dispatch 
  */
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = () => {
   return {
-    setUsername: (name) => {
-      dispatch(setUsername(name));
-    },
-    openPlayerSocketConnection: (data) => {
-      dispatch(openPlayerSocketConnection(data));
-    },
   };
 };
 

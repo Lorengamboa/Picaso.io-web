@@ -2,15 +2,16 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
+import { ToastContainer, toast } from "react-toastify";
 import {
   InputText,
   Navbar,
   PrimaryButton,
   CheckBox,
-  InputSelect
+  InputSelect,
 } from "../../components";
 import { createRoom } from "../../core/player/playerActions";
+import GameLoader from "./GameLoader";
 
 /**
  * @class CreatePage
@@ -23,23 +24,39 @@ class CreatePage extends Component {
       form: {
         nickname: "",
         roomName: "",
-        numberOfRounds: 3,
-        private: false,
-        pass: null
+        numberOfRounds: null,
+        theme: "",
+        privacy: false,
+        pass: ""
       },
       themeList: ["general", "league of legends"],
       roundList: [5, 8, 10]
     };
 
-    //
+    // attach events
     this.handleCreateRoom = this.handleCreateRoom.bind(this);
     this.handleNicknameChange = this.handleNicknameChange.bind(this);
     this.handleRoomNameChange = this.handleRoomNameChange.bind(this);
-    this.handleNumberOfRoundsChange = this.handleNumberOfRoundsChange.bind(
-      this
-    );
+    this.handleNumberOfRoundsChange = this.handleNumberOfRoundsChange.bind(this);
+    this.handleThemeChange = this.handleThemeChange.bind(this);
     this.handlePrivateChange = this.handlePrivateChange.bind(this);
     this.handlePassChange = this.handlePassChange.bind(this);
+  }
+
+
+  /**
+   *
+   * @param {*} props
+   */
+  componentWillReceiveProps(props) {
+    if (props.connection) this.props.history.push("/play");
+
+    if (props.snackbar !== this.props.snackbar) {
+      if (props.snackbar.level === "error")
+        toast.error(props.snackbar.message, {
+          position: toast.POSITION.TOP_LEFT
+        });
+    }
   }
 
   /**
@@ -88,11 +105,26 @@ class CreatePage extends Component {
    *
    * @param {*} e
    */
+  handleThemeChange(e) {
+    const newValue = e.target.value;
+    this.setState(prevState => ({
+      form: {
+        ...prevState.form,
+        theme: newValue
+      }
+    }));
+  }
+  
+  /**
+   *
+   * @param {*} e
+   */
   handlePrivateChange(e) {
     this.setState(prevState => ({
       form: {
         ...prevState.form,
-        private: !prevState.form.private
+        privacy: !prevState.form.privacy,
+        pass: null
       }
     }));
   }
@@ -119,8 +151,21 @@ class CreatePage extends Component {
     event.preventDefault();
 
     const settings = this.state.form;
+    const { nickname, numberOfRounds, theme, pass, privacy, roomName } = settings;
+
+    if(!nickname || !roomName || !numberOfRounds || !theme) {
+      return toast.error("fill the needed gaps", {
+        position: toast.POSITION.TOP_LEFT
+      });
+    };
+
+    if(privacy && !pass) {
+      return toast.error("Introduce a password", {
+        position: toast.POSITION.TOP_LEFT
+      });
+    }
+
     this.props.createRoom(settings);
-    this.props.history.push("/play");
   }
 
   render() {
@@ -134,7 +179,7 @@ class CreatePage extends Component {
                 <InputText
                   name="nickname"
                   className="input"
-                  placeholder="Introduce a nickname"
+                  placeholder="create.input1"
                   defaultValue={this.state.form.nickname}
                   onChange={this.handleNicknameChange}
                 />
@@ -142,37 +187,41 @@ class CreatePage extends Component {
                 <InputText
                   name="room"
                   className="input"
-                  placeholder="Room name..."
+                  placeholder="create.input2"
                   defaultValue={this.state.form.roomName}
                   onChange={this.handleRoomNameChange}
                 />
                 <br />
-                <InputSelect list={this.state.themeList} placeholder="choose a theme" />
-                <InputSelect list={this.state.roundList} placeholder="number of rounds" />
+                <InputSelect onChange={this.handleNumberOfRoundsChange} list={this.state.themeList} placeholder="create.select1" />
+                <InputSelect onChange={this.handleThemeChange} list={this.state.roundList} placeholder="create.select2" />
                 <InputText
                   type="password"
                   name="password"
                   className="input"
-                  placeholder="password"
+                  placeholder="create.input3"
+                  disabled={!this.state.form.privacy}
                   defaultValue={this.state.form.pass}
                   onChange={this.handlePassChange}
                 />
                 <br />
                 <CheckBox
                   name="private"
-                  label="private"
-                  value={this.state.form.private}
-                  onChange={this.handlePrivateChange}
+                  label="create.checkbox"
+                  value={this.state.form.privacy}
+                  onClick={this.handlePrivateChange}
                 />
                 <PrimaryButton
                   color="blue"
-                  value="create"
+                  value="create.button"
                   onClick={this.handleCreateRoom}
                 />
               </div>
             </div>
           </div>
         </div>
+
+        <ToastContainer />
+        <GameLoader loading={this.props.loading} content="Loading game" />
       </div>
     );
   }
@@ -183,7 +232,11 @@ class CreatePage extends Component {
  * @param {store}
  */
 function mapStateToProps(state) {
-  return {};
+  return {
+    loading: state.socketReducer.loading,
+    connection: state.socketReducer.connection,
+    snackbar: state.generalReducer
+  };
 }
 
 /**
