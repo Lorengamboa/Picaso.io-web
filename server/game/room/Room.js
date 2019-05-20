@@ -41,7 +41,7 @@ class Room extends Socket {
   }
 
   /**
-   * Init function
+   * @desc starting point
    */
   init() {
     this.currentWord = requestRandomWord();
@@ -51,7 +51,7 @@ class Room extends Socket {
   }
 
   /**
-   *
+   * @desc function controller that manages the game flow
    */
   manageFlow() {
     if (
@@ -73,18 +73,18 @@ class Room extends Socket {
   }
 
   /**
-   *
+   * @desc goes to the next game round
    */
   addRound() {
     this.round += 1;
   }
 
   /*********************************************************************************/
-  /*                        GAME GENERAL ACTIONS                                   */
+  /*                          GAME GENERAL ACTIONS                                  */
   /*********************************************************************************/
 
   /**
-   * Takes player requests and proccess either to accept or cancel it
+   * @desc Takes player requests and proccess either to accept or cancel it
    * @param {Object} player - Player class
    */
   requestJoin(player) {
@@ -110,6 +110,8 @@ class Room extends Socket {
         player.socket.emit(SOCKET_EVENTS.RETRIEVE_GAME_INFO, {
           roomTag: this.name
         });
+
+        player.setInactivityTimeout();
         resolve();
       } catch (err) {
         reject(err);
@@ -118,7 +120,7 @@ class Room extends Socket {
   }
 
   /**
-   * Players leaves room!
+   * @desc Players leaves room!
    * @param {*} player
    */
   requestLeave(player) {
@@ -135,26 +137,22 @@ class Room extends Socket {
   }
 
   /**
-   * Updates all the room's players canvas
+   * @desc Updates all the room's players canvas
    * @param {Array} data
    */
   updateCanvas(player, drawingInfo) {
     const { socket, id } = player;
-    var canvas = _.find(this.draws, { id }).canvas;
+    var playedDraw = _.find(this.draws, { id });
+    if(!playedDraw) return;
 
-    if (socket && this.status === GAME_STATE.PLAYING) {
-      // VODKA HHAHAHAH GLUGH GLUGH!
-      // if (player.drunk && drawingInfo.toolPicked === "pencil") {
-      //   drawingInfo.coordinates.prevX += Math.floor(Math.random() * 15);
-      // }
-      canvas.draw(drawingInfo);
-      // return socket.emit(SOCKET_EVENTS.UPDATE_CANVAS, drawingInfo);
-    }
+    var { canvas } = playedDraw;
+
+    if (socket && this.status === GAME_STATE.PLAYING) canvas.draw(drawingInfo);
     else socket.broadcast.to(this.name).emit(SOCKET_EVENTS.UPDATE_CANVAS, drawingInfo);
   }
 
   /**
-   * Updates client game state
+   * @desc Updates client game state
    */
   updateGameState() {
     this.newCurrentWord = requestRandomWord();
@@ -171,14 +169,14 @@ class Room extends Socket {
   }
 
   /**
-   * Clears player's canvas
+   * @desc Clears player's canvas
    */
   clearPlayerCanvas(player) {
     this.updateCanvas(player, { toolPicked: "bin" });
   }
 
   /**
-   * Updates all the room's players their userlist
+   * @desc Updates all the room's players their userlist
    */
   updateChatlist() {
     let playerList = this.players.map(player => {
@@ -195,7 +193,7 @@ class Room extends Socket {
   }
 
   /**
-   * Informs the chatlist that a new player joinned the room
+   * @desc Informs the chatlist that a new player joinned the room
    * @param {Number} id
    * @param {String} username
    */
@@ -205,7 +203,7 @@ class Room extends Socket {
   }
 
   /**
-   * Informs the chatlist that a new player left the room
+   * @desc Informs the chatlist that a new player left the room
    * @param {Number} id
    */
   informsPlayerLeft(id) {
@@ -247,7 +245,7 @@ class Room extends Socket {
   }
 
   /**
-   *
+   * @desc player makes a vote on other player's canvas draw
    * @param {*} id
    * @param {*} draw
    * @param {*} feedback
@@ -262,7 +260,7 @@ class Room extends Socket {
   }
 
   /*********************************************************************************/
-  /*                        GAME STATUS INTERFACE                                  */
+  /*                         GAME STATUS INTERFACE                                 */
   /*********************************************************************************/
   /* 1. Start                                                                      */
   /* 2. Play                                                                       */
@@ -273,14 +271,16 @@ class Room extends Socket {
   /*********************************************************************************/
 
   /**
-   * GAME STATE: START
+   * @state START
+   * @desc
    */
   start() {
     this.emit(events.STARTING);
   }
 
   /**
-   * GAME STATE: PLAY
+   * @state PLAY
+   * @desc
    */
   play() {
     this.io.to(this.name).emit(SOCKET_EVENTS.UPDATE_ROUND_COUNTER, this.round);
@@ -292,14 +292,16 @@ class Room extends Socket {
   }
 
   /**
-   * GAME STATE: PAUSE
+   * @state PAUSE
+   * @desc
    */
   pause() {
     this.emit(events.PAUSE);
   }
 
   /**
-   *
+   * @state DISPLAY_WINNERS
+   * @desc
    */
   presentate() {
     let winnerList = this.players.map(player => {
@@ -312,13 +314,14 @@ class Room extends Socket {
       this.players,
       _.partialRight(_.pick, ["name", "color", "avatar", "points"])
     );
-    
+
     this.io.to(this.name).emit(SOCKET_EVENTS.DISPLAY_WINNERS, winnerList);
     this.emit(events.PRESENTATE);
   }
 
   /**
-   * GAME STATE: VOTE
+   * @state VOTE
+   * @desc
    */
   vote() {
     const drawsBase64 = this.draws
@@ -339,7 +342,8 @@ class Room extends Socket {
   }
 
   /**
-   * GAME STATE: FINISH
+   * @state FINISH
+   * @desc
    */
   finish() {
     this.emit(events.FINISH);

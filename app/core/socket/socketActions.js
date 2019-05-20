@@ -39,3 +39,14 @@ export function connectionError(err) {
     type: ACTIONS.CONNECTION_ERROR,
   };
 }
+
+/**
+ * 
+ */
+export function inactivityPunishment() {
+  console.log("inactivityPunishment");
+  return {
+    type: ACTIONS.INACTIVITY_PUNISHMENT,
+  };
+}
+

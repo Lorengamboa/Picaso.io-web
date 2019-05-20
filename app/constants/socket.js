@@ -16,7 +16,8 @@ import {
 import {
   disconnectGameRoom,
   connectionError,
-  setConnection
+  setConnection,
+  inactivityPunishment
 } from "../core/socket/socketActions";
 
 import { displaySnackBar, notifyMessage } from "../core/general/generalActions";
@@ -24,6 +25,7 @@ import { displaySnackBar, notifyMessage } from "../core/general/generalActions";
 const SOCKET_EVENTS = {
   RECEIVER: {
     DISCONNECT: ["disconnect", disconnectGameRoom],
+    INACTIVITY: ["inactivity", inactivityPunishment],
     RETRIEVE_GAME_INFO: ["retrieveGameInfo", retrieveGameInfo],
     UPDATE_CHAT_PLAYER_MESSAGE: ["playerMessage", addMessageToChat],
     UPDATE_CHAT_INFORM_MESSAGE: ["generalMessage", addMessageToChat],

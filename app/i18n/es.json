@@ -4,6 +4,7 @@
   "home.btn2": "Buscar partida",
   "home.btn3": "Crear partida",
   "home.btn4": "Como jugar",
+  "play.invite": "Invitar",
   "create.input1": "username",
   "create.input2": "room name",
   "create.select1": "number of rounds",

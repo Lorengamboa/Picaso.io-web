@@ -43,6 +43,7 @@
     "react-redux-form": "^1.16.10",
     "react-router": "^2.0.0",
     "react-router-dom": "^4.3.1",
+    "react-share": "^2.4.0",
     "react-swing": "^2.0.0",
     "react-swipe-card": "^0.1.4",
     "react-tinderable": "^0.1.8",

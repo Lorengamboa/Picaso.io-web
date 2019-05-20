@@ -10,7 +10,7 @@ class AWSManager {
   }
 
   /**
-   *
+   * 
    */
   retrieve(cb) {
     this.bucket.listObjects(params, function(err, data) {

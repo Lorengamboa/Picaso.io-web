@@ -1,6 +1,7 @@
 "use strict";
 
 import PrimaryButton from "./PrimaryButton";
+import SecundaryButton from "./SecundaryButton";
 import InputText from "./InputText";
 import InputSelect from "./InputSelect";
 import Message from "./Message";
@@ -17,6 +18,7 @@ import CheckBox from "./CheckBox";
 
 export {
   PrimaryButton,
+  SecundaryButton,
   InputText,
   InputSelect,
   Message,

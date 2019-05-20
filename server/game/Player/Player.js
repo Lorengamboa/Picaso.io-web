@@ -20,7 +20,15 @@ class Player {
     this.color = null;
     this.drunk = false;
     this.avatar = rndValueArray(GAME_AVATARS);
+    this.inactivity = null;
+    this.setInactivityTimeout = () => {
+      clearTimeout(this.inactivity);
+      this.inactivity = setTimeout(() => {
+        this.socket.emit("inactivity");
+        this.leaveGameRoom();
+      }, 5 * 1000);
 
+    }
     applyListeners.call(this);
   }
 

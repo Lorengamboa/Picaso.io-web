@@ -23,11 +23,9 @@ const DisconnectionModal = props => {
     <Modal show={props.show}>
       <div style={styles.block}>
         <h3 style={styles.info}>
-          You are about to disconnect for innactivity, would u like to
-          reconnect?
+          You have disconnected form the game room!
         </h3>
-        <PrimaryButton style={styles.button} color="blue" value="reconnect" />
-        <PrimaryButton style={styles.button} color="red" value="exit" />
+        <PrimaryButton onClick={props.goHome} style={styles.button} color="red" value="exit" />
       </div>
     </Modal>
   );

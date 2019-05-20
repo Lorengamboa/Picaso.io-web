@@ -1,7 +1,3 @@
-//
-//
-//
-
 module.exports.LOG_SOCKET_SUCCESSFULL_CONNECTION = "👨 - ✅  Socket connection openned";
 module.exports.LOG_SOCKET_FAIL_CONNECTION = "👨 - ❌  Socket connection failed: ";
 module.exports.LOG_PLAYER_LEAVES_SUCCESS = "👨- ✅  Player leaves room";

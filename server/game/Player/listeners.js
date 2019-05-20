@@ -12,8 +12,11 @@ function attachListeners() {
   this.socket.on(SOCKET_EVENTS.PLAYER_DRAWING, drawingInfo => {
     setImmediate(() => {
       const result = Joi.validate(drawingInfo, drawSchema);
+
       if(result.error !== null) return;
+
       this.gameroom.updateCanvas(this, drawingInfo);
+      this.setInactivityTimeout();
     });
   });
   // Clears canvas

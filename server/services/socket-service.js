@@ -4,6 +4,7 @@ const logger = require("../../logger");
 const gameManager = require("../game/manager");
 const { SOCKET_EVENTS } = require("../constants/socket-events");
 const message = require("../constants/log-msg");
+
 /**
  * Starts the socket module
  * @param {Object} http
@@ -16,7 +17,10 @@ module.exports = {
     this.io.on(SOCKET_EVENTS.CONNECT, socket => {
       let player;
 
-      // Player joins random game room
+      /**
+       * @event PLAYER_JOIN_RANDOM_GAMEROOM
+       * @description player joins a public random game room 
+       */
       socket.on(SOCKET_EVENTS.PLAYER_JOIN_RANDOM_GAMEROOM, username => {
         game_ctrl
           .playerJoinRandomGame(username, socket)
@@ -34,9 +38,12 @@ module.exports = {
           });
       });
 
-      // Player joins private game room
+      /**
+       * @event PLAYER_JOIN_SELECTED_GAMEROOM
+       * @description player joins a chosen game room 
+       */
       socket.on(
-        SOCKET_EVENTS.PLAYER_JOIN_PRIVATE_GAMEROOM,
+        SOCKET_EVENTS.PLAYER_JOIN_SELECTED_GAMEROOM,
         (username, data) => {
           game_ctrl
             .playerJoinGame(username, socket, data)
@@ -55,7 +62,10 @@ module.exports = {
         }
       );
 
-      // Player creates game room
+      /**
+        * @event PLAYER_CREATES_GAME
+        * @description player creates a costum game room
+        */
       socket.on(SOCKET_EVENTS.PLAYER_CREATES_GAME, settings => {
         game_ctrl
           .playerCreatesGame(settings, socket)
@@ -73,7 +83,10 @@ module.exports = {
           });
       });
 
-      // Player disconnects from socket
+      /**
+        * @event SOCKET_EVENTS
+        * @description player disconnects
+        */
       socket.on(SOCKET_EVENTS.DISCONNECT, () => {
         if (!player) return;
         game_ctrl

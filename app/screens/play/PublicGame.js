@@ -9,7 +9,7 @@ import "!style-loader!css-loader!react-toastify/dist/ReactToastify.css";
 
 import Reactcardstack from "../../containers/react-cards-stack/src";
 import Modal from "../../components/Modal";
-import { ChatModal, DisconnectionModal, PlayerListModal } from "./modals";
+import { ChatModal, DisconnectionModal, PlayerListModal, ShareModal } from "./modals";
 import CanvasGame from "../../containers/CanvasGame";
 import Chat from "../../containers/Chat";
 import PlayerList from "../../containers/PlayerList";
@@ -17,7 +17,7 @@ import ToolPaint from "../../containers/ToolPaint";
 import Tools from "../../containers/ToolPaint/ToolList";
 import MobileOptions from "./MobileOptions";
 import GameHeader from "./GameHeader";
-import { Navbar, Timer, Advertisement, Presentator } from "../../components";
+import { Navbar, Timer, Advertisement, Presentator, SecundaryButton } from "../../components";
 
 import {
   playerDrawCanvas,
@@ -42,6 +42,7 @@ class PublicGame extends Component {
       isPenDown: false,
       chatModal: false,
       userlistModal: false,
+      shareModal: false,
       currentPosition: {
         prevX: null,
         prevY: null
@@ -61,6 +62,7 @@ class PublicGame extends Component {
     this.goHome = this.goHome.bind(this);
     this.toggleChatModal = this.toggleChatModal.bind(this);
     this.togglePlayerListModal = this.togglePlayerListModal.bind(this);
+    this.toggleShareModal = this.toggleShareModal.bind(this);
 
     this.init();
   }
@@ -296,9 +298,18 @@ class PublicGame extends Component {
     });
   }
 
+  /**
+   * Opens share modal
+   */
+  toggleShareModal() {
+    console.log("toogling share modal")
+    this.setState({
+      shareModal: !this.state.shareModal
+    });  
+  }
+
   render() {
-    const roomUrl =
-      "http://www.localhost:8080/game/" + this.props.gameInfo.roomTag;
+    const shareurl = window.location.host + "/game/" + this.props.gameInfo.roomTag;
     return (
       <div id="play-site">
         <Navbar />
@@ -342,14 +353,21 @@ class PublicGame extends Component {
             )}
             <ToolPaint />
             <MobileOptions
-              actions={[this.toggleChatModal, this.togglePlayerListModal]}
+              actions={[this.toggleChatModal, this.togglePlayerListModal, this.toggleShareModal]}
             />
           </div>
           <div id="desktop-chat" className="col-lg-3 col-md-3">
             <Chat />
+            <SecundaryButton
+              color="red"
+              className="btn-roundy"
+              value="play.invite"
+              onClick={this.toggleShareModal}
+            />
           </div>
         </div>
-
+        
+        <ShareModal url={shareurl} show={this.state.shareModal} handleClose={this.toggleShareModal} />
         <DisconnectionModal show={this.props.modal} />
         <ChatModal
           show={this.state.chatModal}

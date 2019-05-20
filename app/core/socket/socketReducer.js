@@ -29,7 +29,10 @@ export default function playerReducer(state = initialState.socket, action) {
         loading: false,
         connection: null
       });
-
+    case ACTIONS.INACTIVITY_PUNISHMENT:
+      return Object.assign({}, state, {
+        connection: false,
+      });
     default:
       return state;
   }
